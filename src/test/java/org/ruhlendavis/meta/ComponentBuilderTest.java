@@ -17,7 +17,7 @@ public class ComponentBuilderTest {
     }
 
     @Test
-    public void generateShouldConvertDatabaseReference() {
+    public void generateShouldSetId() {
         String databaseReference = RandomStringUtils.randomNumeric(5);
         String input = "#" + databaseReference + "\n" + RandomStringUtils.randomAlphanumeric(13) + "\n";
         assertEquals(Long.parseLong(databaseReference), builder.generateFromGlowData(input).getId(), 0);
