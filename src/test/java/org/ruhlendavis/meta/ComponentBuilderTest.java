@@ -25,7 +25,7 @@ public class ComponentBuilderTest {
     }
 
     private String generateInput(String flags) {
-        return "#" + databaseReference + "\n" + // (0) Database Reference
+        return "#" + databaseReference + "\n" +     // (0) Database Reference
                 name + "\n" +                       // (1) Item Name
                 "-1\n" +                            // (2) Location
                 "524\n" +                           // (3) Contents
