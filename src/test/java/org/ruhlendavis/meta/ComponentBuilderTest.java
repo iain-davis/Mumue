@@ -17,14 +17,68 @@ public class ComponentBuilderTest {
     private String name = RandomStringUtils.randomAlphanumeric(13);
     private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
     private Integer useCount = RandomUtils.nextInt(1, 400);
-    private String input;
 
-    @Before
-    public void beforeEach() {
-        input = generateInput("1 0");
+    @Test
+    public void generateShouldNeverReturnNull() {
+        assertNotNull(builder.generate(null));
+        assertNotNull(builder.generate(""));
     }
 
-    private String generateInput(String flags) {
+    @Test
+    public void generateShouldSetId() {
+        String input = generateInput("1 0", "");
+        assertEquals(Long.parseLong(databaseReference), builder.generate(input).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetName() {
+        String input = generateInput("1 0", "");
+        assertEquals(name, builder.generate(input).getName());
+    }
+
+    @Test
+    public void generateShouldSetCreatedTimeStamp() {
+        String input = generateInput("1 0", "");
+        assertEquals(1029616068, builder.generate(input).getCreated().getEpochSecond());
+    }
+
+    @Test
+    public void generateShouldSetLastUsedTimeStamp() {
+        String input = generateInput("1 0", "");
+        assertEquals(1412145773, builder.generate(input).getLastUsed().getEpochSecond());
+    }
+
+    @Test
+    public void generateShouldSetModifiedTimeStamp() {
+        String input = generateInput("1 0", "");
+        assertEquals(1411597664, builder.generate(input).getLastModified().getEpochSecond());
+    }
+
+    @Test
+    public void generateShouldSetUseCount() {
+        String input = generateInput("1 0", "");
+        assertEquals(useCount, builder.generate(input).getUseCount(), 0);
+    }
+
+    @Test
+    public void generateShouldSetDescription() {
+        String input = generateInput("1 0", "");
+        assertEquals(description, builder.generate(input).getDescription());
+    }
+
+    @Test
+    public void generateShouldCreateASpace() {
+        String input = generateInput("1 0", "");
+        assertTrue(builder.generate(input) instanceof Space);
+    }
+
+    @Test
+    public void generateShouldCreateAnArtifact() {
+        String input = generateInput("2 0", "");
+        assertTrue(builder.generate(input) instanceof Artifact);
+    }
+
+    private String generateInput(String flags, String coda) {
         return "#" + databaseReference + "\n" +     // (0) Database Reference
                 name + "\n" +                       // (1) Item Name
                 "-1\n" +                            // (2) Location
@@ -35,59 +89,10 @@ public class ComponentBuilderTest {
                 "1412145773\n" +                    // (7) LastUsed Timestamp
                 useCount.toString() + "\n" +        // (8) UseCount
                 "1411597664\n" +                    // (9) LastModified
-                "_/de:10:" + description + "\n";    // (?) Description
-    }
-
-    @Test
-    public void generateShouldNeverReturnNull() {
-        assertNotNull(builder.generate(null));
-        assertNotNull(builder.generate(""));
-    }
-
-    @Test
-    public void generateShouldSetId() {
-        assertEquals(Long.parseLong(databaseReference), builder.generate(input).getId(), 0);
-    }
-
-    @Test
-    public void generateShouldSetName() {
-        assertEquals(name, builder.generate(input).getName());
-    }
-
-    @Test
-    public void generateShouldSetCreatedTimeStamp() {
-        assertEquals(1029616068, builder.generate(input).getCreated().getEpochSecond());
-    }
-
-    @Test
-    public void generateShouldSetLastUsedTimeStamp() {
-        assertEquals(1412145773, builder.generate(input).getLastUsed().getEpochSecond());
-    }
-
-    @Test
-    public void generateShouldSetModifiedTimeStamp() {
-        assertEquals(1411597664, builder.generate(input).getLastModified().getEpochSecond());
-    }
-
-    @Test
-    public void generateShouldSetUseCount() {
-        assertEquals(useCount, builder.generate(input).getUseCount(), 0);
-    }
-
-    @Test
-    public void generateShouldSetDescription() {
-        assertEquals(description, builder.generate(input).getDescription());
-    }
-
-    @Test
-    public void generateShouldCreateASpace() {
-        String input = generateInput("1 0");
-        assertTrue(builder.generate(input) instanceof Space);
-    }
-
-    @Test
-    public void generateShouldCreateAnArtifact() {
-        String input = generateInput("2 0");
-        assertTrue(builder.generate(input) instanceof Artifact);
+                "*Props*\n" +                       // (10) Beginning of property list
+                "_/de:10:" + description + "\n" +   // (?) Description
+                "*End*\n" +                         // (?) End of property list
+                coda                                // Type specific coda
+                ;
     }
 }
