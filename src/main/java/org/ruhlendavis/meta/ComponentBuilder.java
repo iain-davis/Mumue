@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ComponentBuilder {
-    public Component generateFromGlowData(String data) {
+    public Component generate(String data) {
         if (StringUtils.isBlank(data)) {
             return new Component();
         }
@@ -18,6 +18,17 @@ public class ComponentBuilder {
         component.setName(lines.get(1));
         lines.remove(lines.get(0));
         lines.remove(lines.get(0));
+        for (String line : lines) {
+            if (line.startsWith("_/de")) {
+                component.setDescription(extractDescription(line));
+            }
+        }
         return component;
+    }
+
+    private String extractDescription(String line) {
+        int position = line.indexOf(":") + 1;
+        position = line.indexOf(":", position) + 1;
+        return line.substring(position);
     }
 }

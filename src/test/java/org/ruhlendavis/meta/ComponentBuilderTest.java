@@ -1,8 +1,8 @@
 package org.ruhlendavis.meta;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
-import org.ruhlendavis.meta.components.Component;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,22 +12,30 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldNeverReturnNull() {
-        assertNotNull(builder.generateFromGlowData(null));
-        assertNotNull(builder.generateFromGlowData(""));
+        assertNotNull(builder.generate(null));
+        assertNotNull(builder.generate(""));
     }
 
     @Test
     public void generateShouldSetId() {
         String databaseReference = RandomStringUtils.randomNumeric(5);
         String input = "#" + databaseReference + "\n" + RandomStringUtils.randomAlphanumeric(13) + "\n";
-        assertEquals(Long.parseLong(databaseReference), builder.generateFromGlowData(input).getId(), 0);
+        assertEquals(Long.parseLong(databaseReference), builder.generate(input).getId(), 0);
     }
 
     @Test
-    public void generateShouldSetComponentName() {
+    public void generateShouldSetName() {
         String componentName = RandomStringUtils.randomAlphanumeric(13);
         String input = "#" + RandomStringUtils.randomNumeric(5) + "\n" + componentName + "\n";
-        assertEquals(componentName, builder.generateFromGlowData(input).getName());
+        assertEquals(componentName, builder.generate(input).getName());
+    }
+
+    @Test
+    public void generateShouldSetDescription() {
+        String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10,50));
+        String input = "#" + RandomStringUtils.randomNumeric(5) + "\n" + RandomStringUtils.randomAlphanumeric(13) + "\n"
+                     + "_/de:10:" + description + "\n";
+        assertEquals(description, builder.generate(input).getDescription());
     }
 
     public void test() {
