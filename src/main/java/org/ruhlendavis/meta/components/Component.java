@@ -6,9 +6,9 @@ public class Component {
     private Long id = 0L;
     private String name = "";
     private String description = "";
-    private Instant createdTimeStamp = Instant.now();
-    private Instant usedTimeStamp = Instant.now();
-    private Instant modifiedTimeStamp = Instant.now();
+    private Instant created = Instant.now();
+    private Instant lastUsed = Instant.now();
+    private Instant lastModified = Instant.now();
     private long useCount = 0;
 
     public String getDescription() {
@@ -35,50 +35,28 @@ public class Component {
         this.name = name;
     }
 
-    public Instant getCreatedTimeStamp() {
-        return createdTimeStamp;
+    public Instant getCreated() {
+        return created;
     }
 
-    public void setCreatedTimeStamp(Instant createdTimeStamp) {
-        this.createdTimeStamp = createdTimeStamp;
+    public void setCreated(Instant created) {
+        this.created = created;
     }
 
-    public long getCreatedEpochSecond() {
-        return createdTimeStamp.getEpochSecond();
+    public Instant getLastUsed() {
+        return lastUsed;
     }
 
-    public void setCreatedTimeStamp(long createdTimeStamp) {
-        this.createdTimeStamp = Instant.ofEpochSecond(createdTimeStamp);
-    }
-    public Instant getUsedTimeStamp() {
-        return usedTimeStamp;
+    public void setLastUsed(Instant lastUsed) {
+        this.lastUsed = lastUsed;
     }
 
-    public void setUsedTimeStamp(Instant usedTimeStamp) {
-        this.usedTimeStamp = usedTimeStamp;
+    public Instant getLastModified() {
+        return lastModified;
     }
 
-    public long getUsedEpochSecond() {
-        return usedTimeStamp.getEpochSecond();
-    }
-
-    public void setUsedTimeStamp(long usedTimeStamp) {
-        this.usedTimeStamp = Instant.ofEpochSecond(usedTimeStamp);
-    }
-    public Instant getModifiedTimeStamp() {
-        return modifiedTimeStamp;
-    }
-
-    public void setModifiedTimeStamp(Instant modifiedTimeStamp) {
-        this.modifiedTimeStamp = modifiedTimeStamp;
-    }
-
-    public long getModifiedEpochSecond() {
-        return modifiedTimeStamp.getEpochSecond();
-    }
-
-    public void setModifiedTimeStamp(long modifiedTimeStamp) {
-        this.modifiedTimeStamp = Instant.ofEpochSecond(modifiedTimeStamp);
+    public void setLastModified(Instant lastModified) {
+        this.lastModified = lastModified;
     }
 
     public long getUseCount() {

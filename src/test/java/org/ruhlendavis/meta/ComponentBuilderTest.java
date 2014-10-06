@@ -4,9 +4,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.ruhlendavis.meta.components.Artifact;
+import org.ruhlendavis.meta.components.Space;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ComponentBuilderTest {
     private ComponentBuilder builder = new ComponentBuilder();
@@ -18,17 +21,21 @@ public class ComponentBuilderTest {
 
     @Before
     public void beforeEach() {
-        input = "#" + databaseReference + "\n" +
-            name + "\n" +
-            "-1\n" + // Location (2)
-            "524\n" + // Contents (3)
-            "-1\n" + // Next (4)
-            "320 0\n" + // Flags, F2Flags (5)
-            "1029616068\n" + // Created (6)
-            "1412145773\n" + // LastUsed (7)
-            useCount.toString() + "\n" + // UseCount (8)
-            "1411597664\n" + // LastModified (9)
-            "_/de:10:" + description + "\n";
+        input = generateInput("1 0");
+    }
+
+    private String generateInput(String flags) {
+        return "#" + databaseReference + "\n" + // (0) Database Reference
+            name + "\n" +                       // (1) Item Name
+            "-1\n" +                            // (2) Location
+            "524\n" +                           // (3) Contents
+            "-1\n" +                            // (4) Next
+            flags + "\n" +                      // (5) Flags F2Flags
+            "1029616068\n" +                    // (6) Created Timestamp
+            "1412145773\n" +                    // (7) LastUsed Timestamp
+            useCount.toString() + "\n" +        // (8) UseCount
+            "1411597664\n" +                    // (9) LastModified
+            "_/de:10:" + description + "\n";    // (?) Description
     }
 
     @Test
@@ -49,17 +56,17 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldSetCreatedTimeStamp() {
-        assertEquals(1029616068, builder.generate(input).getCreatedEpochSecond());
+        assertEquals(1029616068, builder.generate(input).getCreated().getEpochSecond());
     }
 
     @Test
     public void generateShouldSetLastUsedTimeStamp() {
-        assertEquals(1412145773, builder.generate(input).getUsedEpochSecond());
+        assertEquals(1412145773, builder.generate(input).getLastUsed().getEpochSecond());
     }
 
     @Test
     public void generateShouldSetModifiedTimeStamp() {
-        assertEquals(1411597664, builder.generate(input).getModifiedEpochSecond());
+        assertEquals(1411597664, builder.generate(input).getLastModified().getEpochSecond());
     }
 
     @Test
@@ -70,6 +77,18 @@ public class ComponentBuilderTest {
     @Test
     public void generateShouldSetDescription() {
         assertEquals(description, builder.generate(input).getDescription());
+    }
+
+    @Test
+    public void generateShouldCreateASpace() {
+        String input = generateInput("1 0");
+        assertTrue(builder.generate(input) instanceof Space);
+    }
+
+    @Test
+    public void generateShouldCreateAnArtifact() {
+        String input = generateInput("2 0");
+        assertTrue(builder.generate(input) instanceof Artifact);
     }
 
     public void test() {
