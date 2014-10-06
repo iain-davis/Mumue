@@ -2,13 +2,34 @@ package org.ruhlendavis.meta;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ComponentBuilderTest {
-    ComponentBuilder builder = new ComponentBuilder();
+    private ComponentBuilder builder = new ComponentBuilder();
+    private String databaseReference = RandomStringUtils.randomNumeric(5);
+    private String name = RandomStringUtils.randomAlphanumeric(13);
+    private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10,50));
+    private Integer useCount = RandomUtils.nextInt(1, 400);
+    private String input;
+
+    @Before
+    public void beforeEach() {
+        input = "#" + databaseReference + "\n" +
+            name + "\n" +
+            "-1\n" + // Location (2)
+            "524\n" + // Contents (3)
+            "-1\n" + // Next (4)
+            "320 0\n" + // Flags, F2Flags (5)
+            "1029616068\n" + // Created (6)
+            "1412145773\n" + // LastUsed (7)
+            useCount.toString() + "\n" + // UseCount (8)
+            "1411597664\n" + // LastModified (9)
+            "_/de:10:" + description + "\n";
+    }
 
     @Test
     public void generateShouldNeverReturnNull() {
@@ -18,23 +39,36 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldSetId() {
-        String databaseReference = RandomStringUtils.randomNumeric(5);
-        String input = "#" + databaseReference + "\n" + RandomStringUtils.randomAlphanumeric(13) + "\n";
         assertEquals(Long.parseLong(databaseReference), builder.generate(input).getId(), 0);
     }
 
     @Test
     public void generateShouldSetName() {
-        String componentName = RandomStringUtils.randomAlphanumeric(13);
-        String input = "#" + RandomStringUtils.randomNumeric(5) + "\n" + componentName + "\n";
-        assertEquals(componentName, builder.generate(input).getName());
+        assertEquals(name, builder.generate(input).getName());
+    }
+
+    @Test
+    public void generateShouldSetCreatedTimeStamp() {
+        assertEquals(1029616068, builder.generate(input).getCreatedEpochSecond());
+    }
+
+    @Test
+    public void generateShouldSetLastUsedTimeStamp() {
+        assertEquals(1412145773, builder.generate(input).getUsedEpochSecond());
+    }
+
+    @Test
+    public void generateShouldSetModifiedTimeStamp() {
+        assertEquals(1411597664, builder.generate(input).getModifiedEpochSecond());
+    }
+
+    @Test
+    public void generateShouldSetUseCount() {
+        assertEquals(useCount, builder.generate(input).getUseCount(), 0);
     }
 
     @Test
     public void generateShouldSetDescription() {
-        String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10,50));
-        String input = "#" + RandomStringUtils.randomNumeric(5) + "\n" + RandomStringUtils.randomAlphanumeric(13) + "\n"
-                     + "_/de:10:" + description + "\n";
         assertEquals(description, builder.generate(input).getDescription());
     }
 

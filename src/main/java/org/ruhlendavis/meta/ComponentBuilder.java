@@ -16,8 +16,10 @@ public class ComponentBuilder {
         List<String> lines = new ArrayList<>(Arrays.asList(data.split("\n")));
         component.setId(Long.parseLong(lines.get(0).substring(1)));
         component.setName(lines.get(1));
-        lines.remove(lines.get(0));
-        lines.remove(lines.get(0));
+        component.setCreatedTimeStamp(Long.parseLong(lines.get(6)));
+        component.setUsedTimeStamp(Long.parseLong(lines.get(7)));
+        component.setUseCount(Long.parseLong(lines.get(8)));
+        component.setModifiedTimeStamp(Long.parseLong(lines.get(9)));
         for (String line : lines) {
             if (line.startsWith("_/de")) {
                 component.setDescription(extractDescription(line));
