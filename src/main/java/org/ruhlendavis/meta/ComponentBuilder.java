@@ -12,8 +12,29 @@ public class ComponentBuilder {
         if (StringUtils.isBlank(data)) {
             return new Component();
         }
-        Component component = new Component();
         List<String> lines = new ArrayList<>(Arrays.asList(data.split("\n")));
+        Component component = new Component();
+
+//        Long l = Long.parseLong(lines.get(5).split(" ")[0]);
+//        BitSet flags = BitSet.valueOf(ByteBuffer.allocate(8).putLong(l).array());
+//        if (flags.get(0)) {
+//            component = new Space();
+//        } else if (flags.get(1)) {
+//            component = new Artifact();
+//        } else if (flags.get(2)) {
+//            // Exit
+//        } else if (flags.get(3)) {
+//            // Player
+//        } else if (flags.get(4)) {
+//            // Player
+//        } else if (flags.get(6) || flags.get(7)) {
+//            // Garbage
+//        }
+        generateComponentFields(lines, component);
+        return component;
+    }
+
+    private void generateComponentFields(List<String> lines, Component component) {
         component.setId(Long.parseLong(lines.get(0).substring(1)));
         component.setName(lines.get(1));
         component.setCreatedTimeStamp(Long.parseLong(lines.get(6)));
@@ -25,7 +46,6 @@ public class ComponentBuilder {
                 component.setDescription(extractDescription(line));
             }
         }
-        return component;
     }
 
     private String extractDescription(String line) {
