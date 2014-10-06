@@ -39,16 +39,16 @@ public class ComponentBuilderTest {
     }
 
     public void test() {
-        String example = "#0\n" +
-                "The President's Office\n" +
-                "-1\n" +
-                "524\n" +
-                "-1\n" +
-                "320 0\n" +
-                "1029616068\n" +
-                "1412145773\n" +
-                "356\n" +
-                "1411597664\n" +
+        String example = "#0\n" + // Database Reference
+                "The President's Office\n" + // Name
+                "-1\n" + // Location
+                "524\n" + // Contents
+                "-1\n" + // Next
+                "320 0\n" + // Flags, F2Flags
+                "1029616068\n" + // Created
+                "1412145773\n" + // LastUsed
+                "356\n" + // UseCount
+                "1411597664\n" + // LastModified
                 "*Props*\n" +
                 "@/alias/backtick:2:say (to $1) $-1\n" +
                 "@/badnames/*d*a*m*n*|*f*u*c*k*|*s*h*i*t*|*p*e*n*i*s*|*b*e*a*v*i*s*|*b*u*t*h*e*a*d*|*c*u*n*y*|*c*u*n*t*|ass*|*(*#*)*:10:.\n" +
