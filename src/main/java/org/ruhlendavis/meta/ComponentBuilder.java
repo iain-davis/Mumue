@@ -2,6 +2,7 @@ package org.ruhlendavis.meta;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.components.*;
+import org.ruhlendavis.meta.components.Character;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -15,24 +16,24 @@ public class ComponentBuilder {
             return new Component();
         }
         Component component = new Garbage();
-
-        BitSet flags = getFlags(lines.get(5).split(" ")[0]);
-        if (flags.get(0)) {
+        long type = Long.parseLong(lines.get(5).split(" ")[0]) & 0x7;
+        if (type == 0) {
             component = new Space();
             generateComponentFields(lines, component);
             ((Space) component).setDropTo(Long.parseLong(lines.get(lines.size() - 3)));
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
-        } else if (flags.get(1)) {
+        } else if (type == 1) {
             component = new Artifact();
             generateComponentFields(lines, component);
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
-        } else if (flags.get(2)) {
+        } else if (type == 2) {
             component = new Link();
             generateComponentFields(lines, component);
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
-//        } else if (flags.get(3)) {
-//            // Player
-//        } else if (flags.get(4)) {
+        } else if (type == 3) {
+            component = new Character();
+            generateComponentFields(lines, component);
+//        } else if (type == 4) {
 //            // Program
         }
 
@@ -64,9 +65,5 @@ public class ComponentBuilder {
         int position = line.indexOf(":") + 1;
         position = line.indexOf(":", position) + 1;
         return line.substring(position);
-    }
-    private BitSet getFlags(String s) {
-        Long l = Long.parseLong(s);
-        return BitSet.valueOf(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong(l).array());
     }
 }

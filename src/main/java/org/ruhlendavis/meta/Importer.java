@@ -21,12 +21,12 @@ public class Importer {
             ComponentBuilder builder = new ComponentBuilder();
             while (inputIterator.hasNext()) {
                 currentLine = inputIterator.nextLine();
-                if (currentLine.matches("^#\\d+$")) {
-                    if (!lines.isEmpty() && !lines.get(0).equals("***Foxen5 TinyMUCK DUMP Format***")) {
-                        Component component = builder.generate(lines);
-                        if (!(component instanceof Garbage)) {
-                            components.add(component);
-                        }
+                if (currentLine.matches("^#\\d+$") || "***END OF DUMP***".equals(currentLine)) {
+                    if ("***Foxen5 TinyMUCK DUMP Format***".equals(lines.get(0))) {
+                        lines = new ArrayList<String>();
+                    }
+                    if (!lines.isEmpty()) {
+                        processComponent(components, lines, builder);
                         lines = new ArrayList<String>();
                     }
                 }
@@ -38,6 +38,13 @@ public class Importer {
 
         for (Component c : components) {
             System.out.println(c.getName());
+        }
+    }
+
+    private void processComponent(List<Component> components, List<String> lines, ComponentBuilder builder) {
+        Component component = builder.generate(lines);
+        if (!(component instanceof Garbage)) {
+            components.add(component);
         }
     }
 }

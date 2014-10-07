@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.ruhlendavis.meta.components.Artifact;
 import org.ruhlendavis.meta.components.Link;
 import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.components.Character;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,31 +103,37 @@ public class ComponentBuilderTest {
         String exitReference = RandomStringUtils.randomNumeric(5);
 
         List<String> coda = new ArrayList<String>(Arrays.asList(dropToReference, exitReference));
-        List<String> input = generateInput("1 0", coda);
+        List<String> input = generateInput("0 0", coda);
         Space space = (Space)builder.generate(input);
         assertEquals(Long.parseLong(dropToReference), space.getDropTo(), 0);
     }
 
     @Test
     public void generateShouldCreateAnArtifact() {
-        List<String> input = generateInput("2 0");
+        List<String> input = generateInput("1 0");
         assertTrue(builder.generate(input) instanceof Artifact);
     }
 
     @Test
     public void generateShouldCreateALink() {
-        List<String> input = generateInput("4 0");
+        List<String> input = generateInput("2 0");
         assertTrue(builder.generate(input) instanceof Link);
+    }
+
+    @Test
+    public void generateShouldCreateACharacter() {
+        List<String> input = generateInput("3 0");
+        assertTrue(builder.generate(input) instanceof Character);
     }
 
     private List<String> generateInput() {
         List<String> coda = new ArrayList<String>(Arrays.asList("333", "444"));
-        return generateInput("1 0", RandomStringUtils.randomNumeric(5), coda);
+        return generateInput("0 0", RandomStringUtils.randomNumeric(5), coda);
     }
 
     private List<String> generateInputWithOwner(String owner) {
         List<String> coda = new ArrayList<String>(Arrays.asList("333", "444"));
-        return generateInput("1 0", owner, coda);
+        return generateInput("0 0", owner, coda);
     }
 
     private List<String> generateInput(String flags) {
