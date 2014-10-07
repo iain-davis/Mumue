@@ -3,6 +3,7 @@ package org.ruhlendavis.meta;
 import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.components.Artifact;
 import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.components.Link;
 import org.ruhlendavis.meta.components.Space;
 
 import java.nio.ByteBuffer;
@@ -14,33 +15,6 @@ import java.util.BitSet;
 import java.util.List;
 
 public class ComponentBuilder {
-    public Component generate(String data) {
-        if (StringUtils.isBlank(data)) {
-            return new Component();
-        }
-
-        Component component = new Component();
-        List<String> lines = new ArrayList<>(Arrays.asList(data.split("\n")));
-
-        BitSet flags = getFlags(lines.get(5).split(" ")[0]);
-        if (flags.get(0)) {
-            component = new Space();
-        } else if (flags.get(1)) {
-            component = new Artifact();
-        }
-//        } else if (flags.get(2)) {
-//            // Exit
-//        } else if (flags.get(3)) {
-//            // Player
-//        } else if (flags.get(4)) {
-//            // Player
-//        } else if (flags.get(6) || flags.get(7)) {
-//            // Garbage
-//        }
-        generateComponentFields(lines, component);
-        return component;
-    }
-
     private BitSet getFlags(String s) {
         Long l = Long.parseLong(s);
         return BitSet.valueOf(ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN).putLong(l).array());
@@ -53,12 +27,41 @@ public class ComponentBuilder {
         component.setLastUsed(Instant.ofEpochSecond(Long.parseLong(lines.get(7))));
         component.setUseCount(Long.parseLong(lines.get(8)));
         component.setLastModified(Instant.ofEpochSecond(Long.parseLong(lines.get(9))));
-        component.setOwnerId(Long.parseLong(lines.get(lines.size() - 1)));
         for (String line : lines) {
             if (line.startsWith("_/de")) {
                 component.setDescription(extractDescription(line));
             }
         }
+    }
+
+    public Component generate(String data) {
+        if (StringUtils.isBlank(data)) {
+            return new Component();
+        }
+
+        Component component = new Component();
+        List<String> lines = new ArrayList<>(Arrays.asList(data.split("\n")));
+
+        BitSet flags = getFlags(lines.get(5).split(" ")[0]);
+        if (flags.get(0)) {
+            component = new Space();
+            component.setOwnerId(Long.parseLong(lines.get(lines.size() - 1)));
+        } else if (flags.get(1)) {
+            component = new Artifact();
+            component.setOwnerId(Long.parseLong(lines.get(lines.size() - 1)));
+        } else if (flags.get(2)) {
+            component = new Link();
+            component.setOwnerId(Long.parseLong(lines.get(lines.size() - 1)));
+        }
+//        } else if (flags.get(3)) {
+//            // Player
+//        } else if (flags.get(4)) {
+//            // Player
+//        } else if (flags.get(6) || flags.get(7)) {
+//            // Garbage
+//        }
+        generateComponentFields(lines, component);
+        return component;
     }
 
     private String extractDescription(String line) {

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.ruhlendavis.meta.components.Artifact;
+import org.ruhlendavis.meta.components.Link;
 import org.ruhlendavis.meta.components.Space;
 
 import static org.junit.Assert.assertEquals;
@@ -68,21 +69,39 @@ public class ComponentBuilderTest {
     }
 
     @Test
-    public void generateShouldSetOwnerId() {
-        String input = generateInput("1 0", "");
-        assertEquals(Long.parseLong(ownerDatabaseReference), builder.generate(input).getOwnerId(), 0);
-    }
-
-    @Test
     public void generateShouldCreateASpace() {
         String input = generateInput("1 0", "");
         assertTrue(builder.generate(input) instanceof Space);
     }
 
     @Test
+    public void generateWithSpaceShouldSetOwnerId() {
+        String input = generateInput("1 0", "");
+        assertEquals(Long.parseLong(ownerDatabaseReference), builder.generate(input).getOwnerId(), 0);
+    }
+
+    @Test
     public void generateShouldCreateAnArtifact() {
         String input = generateInput("2 0", "");
         assertTrue(builder.generate(input) instanceof Artifact);
+    }
+
+    @Test
+    public void generateWithArtifactShouldSetOwnerId() {
+        String input = generateInput("2 0", "");
+        assertEquals(Long.parseLong(ownerDatabaseReference), builder.generate(input).getOwnerId(), 0);
+    }
+
+    @Test
+    public void generateShouldCreateALink() {
+        String input = generateInput("4 0", "");
+        assertTrue(builder.generate(input) instanceof Link);
+    }
+
+    @Test
+    public void generateWithLinkShouldSetOwnerId() {
+        String input = generateInput("4 0", "");
+        assertEquals(Long.parseLong(ownerDatabaseReference), builder.generate(input).getOwnerId(), 0);
     }
 
     private String generateInput(String flags, String coda) {
