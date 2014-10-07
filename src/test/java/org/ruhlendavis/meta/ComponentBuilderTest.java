@@ -28,56 +28,66 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldSetId() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(Long.parseLong(databaseReference), builder.generate(input).getId(), 0);
     }
 
     @Test
     public void generateShouldSetName() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(name, builder.generate(input).getName());
     }
 
     @Test
     public void generateShouldSetCreatedTimeStamp() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(1029616068, builder.generate(input).getCreated().getEpochSecond());
     }
 
     @Test
     public void generateShouldSetLastUsedTimeStamp() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(1412145773, builder.generate(input).getLastUsed().getEpochSecond());
     }
 
     @Test
     public void generateShouldSetModifiedTimeStamp() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(1411597664, builder.generate(input).getLastModified().getEpochSecond());
     }
 
     @Test
     public void generateShouldSetUseCount() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(useCount, builder.generate(input).getUseCount(), 0);
     }
 
     @Test
     public void generateShouldSetDescription() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(description, builder.generate(input).getDescription());
     }
 
     @Test
     public void generateShouldCreateASpace() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertTrue(builder.generate(input) instanceof Space);
     }
 
     @Test
     public void generateWithSpaceShouldSetOwnerId() {
-        String input = generateInput("1 0", "");
+        String input = generateInput("1 0", "333\n444\n");
         assertEquals(Long.parseLong(ownerDatabaseReference), builder.generate(input).getOwnerId(), 0);
+    }
+
+    @Test
+    public void generateWithSpaceShouldSetDropTo() {
+        String dropToReference = RandomStringUtils.randomNumeric(5);
+        String exitReference = RandomStringUtils.randomNumeric(5);
+
+        String input = generateInput("1 0", dropToReference + "\n" + exitReference + "\n");
+        Space space = (Space)builder.generate(input);
+        assertEquals(Long.parseLong(dropToReference), space.getDropTo(), 0);
     }
 
     @Test
@@ -118,7 +128,7 @@ public class ComponentBuilderTest {
                 "*Props*\n" +                       // (10) Beginning of property list
                 "_/de:10:" + description + "\n" +   // (?) Description
                 "*End*\n" +                         // (?) End of property list
-                coda + "\n" +                       // Type specific coda
+                coda +                              // Type specific coda
                 ownerDatabaseReference + "\n"
                 ;
     }

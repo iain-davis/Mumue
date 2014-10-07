@@ -45,6 +45,7 @@ public class ComponentBuilder {
         BitSet flags = getFlags(lines.get(5).split(" ")[0]);
         if (flags.get(0)) {
             component = new Space();
+            ((Space)component).setDropTo(Long.parseLong(lines.get(lines.size() - 3)));
             component.setOwnerId(Long.parseLong(lines.get(lines.size() - 1)));
         } else if (flags.get(1)) {
             component = new Artifact();
