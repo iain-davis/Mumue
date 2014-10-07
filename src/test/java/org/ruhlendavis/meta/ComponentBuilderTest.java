@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class ComponentBuilderTest {
     private ComponentBuilder builder = new ComponentBuilder();
     private String databaseReference = RandomStringUtils.randomNumeric(5);
+    private String ownerDatabaseReference = RandomStringUtils.randomNumeric(5);
     private String name = RandomStringUtils.randomAlphanumeric(13);
     private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
     private Integer useCount = RandomUtils.nextInt(1, 400);
@@ -67,6 +68,12 @@ public class ComponentBuilderTest {
     }
 
     @Test
+    public void generateShouldSetOwnerId() {
+        String input = generateInput("1 0", "");
+        assertEquals(Long.parseLong(ownerDatabaseReference), builder.generate(input).getOwnerId(), 0);
+    }
+
+    @Test
     public void generateShouldCreateASpace() {
         String input = generateInput("1 0", "");
         assertTrue(builder.generate(input) instanceof Space);
@@ -92,7 +99,8 @@ public class ComponentBuilderTest {
                 "*Props*\n" +                       // (10) Beginning of property list
                 "_/de:10:" + description + "\n" +   // (?) Description
                 "*End*\n" +                         // (?) End of property list
-                coda                                // Type specific coda
+                coda + "\n" +                       // Type specific coda
+                ownerDatabaseReference + "\n"
                 ;
     }
 }

@@ -53,6 +53,7 @@ public class ComponentBuilder {
         component.setLastUsed(Instant.ofEpochSecond(Long.parseLong(lines.get(7))));
         component.setUseCount(Long.parseLong(lines.get(8)));
         component.setLastModified(Instant.ofEpochSecond(Long.parseLong(lines.get(9))));
+        component.setOwnerId(Long.parseLong(lines.get(lines.size() - 1)));
         for (String line : lines) {
             if (line.startsWith("_/de")) {
                 component.setDescription(extractDescription(line));

@@ -4,6 +4,7 @@ import java.time.Instant;
 
 public class Component {
     private Long id = 0L;
+    private Long ownerId = 0L;
     private String name = "";
     private String description = "";
     private Instant created = Instant.now();
@@ -65,5 +66,13 @@ public class Component {
 
     public void setUseCount(long useCount) {
         this.useCount = useCount;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }
