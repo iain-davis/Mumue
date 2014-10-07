@@ -1,10 +1,7 @@
 package org.ruhlendavis.meta;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ruhlendavis.meta.components.Artifact;
-import org.ruhlendavis.meta.components.Component;
-import org.ruhlendavis.meta.components.Link;
-import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.components.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,28 +14,28 @@ public class ComponentBuilder {
         if (lines.isEmpty()) {
             return new Component();
         }
-        Component component = new Component();
+        Component component = new Garbage();
 
         BitSet flags = getFlags(lines.get(5).split(" ")[0]);
         if (flags.get(0)) {
             component = new Space();
-            ((Space)component).setDropTo(Long.parseLong(lines.get(lines.size() - 3)));
+            generateComponentFields(lines, component);
+            ((Space) component).setDropTo(Long.parseLong(lines.get(lines.size() - 3)));
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (flags.get(1)) {
             component = new Artifact();
+            generateComponentFields(lines, component);
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (flags.get(2)) {
             component = new Link();
+            generateComponentFields(lines, component);
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
-        }
 //        } else if (flags.get(3)) {
 //            // Player
 //        } else if (flags.get(4)) {
 //            // Program
-//        } else if (flags.get(6) || flags.get(7)) {
-//            // Garbage
-//        }
-        generateComponentFields(lines, component);
+        }
+
         return component;
     }
 
