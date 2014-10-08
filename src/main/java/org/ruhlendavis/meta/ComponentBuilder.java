@@ -19,23 +19,20 @@ public class ComponentBuilder {
         long type = Long.parseLong(lines.get(5).split(" ")[0]) & 0x7;
         if (type == 0) {
             component = new Space();
-            generateComponentFields(lines, component);
             ((Space) component).setDropTo(Long.parseLong(lines.get(lines.size() - 3)));
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (type == 1) {
             component = new Artifact();
-            generateComponentFields(lines, component);
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (type == 2) {
             component = new Link();
-            generateComponentFields(lines, component);
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (type == 3) {
             component = new Character();
-            generateComponentFields(lines, component);
 //        } else if (type == 4) {
 //            // Program
         }
+        generateComponentFields(lines, component);
 
         return component;
     }
