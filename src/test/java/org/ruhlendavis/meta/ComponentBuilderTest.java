@@ -2,32 +2,29 @@ package org.ruhlendavis.meta;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.ruhlendavis.meta.components.Artifact;
+import org.ruhlendavis.meta.components.Character;
 import org.ruhlendavis.meta.components.Link;
 import org.ruhlendavis.meta.components.Space;
-import org.ruhlendavis.meta.components.Character;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ComponentBuilderTest {
     private ComponentBuilder builder = new ComponentBuilder();
     private String databaseReference = RandomStringUtils.randomNumeric(5);
-    private String ownerId = RandomStringUtils.randomNumeric(5);
+    private Long ownerId = RandomUtils.nextLong(0, 100000);
     private String name = RandomStringUtils.randomAlphanumeric(13);
     private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
     private Integer useCount = RandomUtils.nextInt(1, 400);
 
     @Test
     public void generateShouldNeverReturnNull() {
-        assertNotNull(builder.generate(new ArrayList<String>()));
+        assertNotNull(builder.generate(new ArrayList<>()));
     }
 
     @Test
@@ -74,15 +71,15 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldSetOwnerId() {
-        List<String> input = generateInputWithOwner(ownerId);
-        assertEquals(Long.parseLong(ownerId), builder.generate(input).getOwnerId(), 0);
+        List<String> input = generateInput(ownerId);
+        assertEquals(ownerId, builder.generate(input).getOwnerId(), 0);
     }
 
     @Test
     public void generateWithDatabaseReferenceOwnerShouldSetOwnerId() {
         String ownerDatabaseReference = "#" + ownerId;
         List<String> input = generateInputWithOwner(ownerDatabaseReference);
-        assertEquals(Long.parseLong(ownerId), builder.generate(input).getOwnerId(), 0);
+        assertEquals(ownerId, builder.generate(input).getOwnerId(), 0);
     }
 
     @Test
@@ -102,7 +99,7 @@ public class ComponentBuilderTest {
         String dropToReference = RandomStringUtils.randomNumeric(5);
         String exitReference = RandomStringUtils.randomNumeric(5);
 
-        List<String> coda = new ArrayList<String>(Arrays.asList(dropToReference, exitReference));
+        List<String> coda = new ArrayList<>(Arrays.asList(dropToReference, exitReference, ownerId.toString()));
         List<String> input = generateInput("0 0", coda);
         Space space = (Space)builder.generate(input);
         assertEquals(Long.parseLong(dropToReference), space.getDropTo(), 0);
@@ -110,8 +107,18 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldCreateAnArtifact() {
-        List<String> input = generateInput("1 0");
+        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString(), "333"));
+        List<String> input = generateInput("1 0", coda);
         assertTrue(builder.generate(input) instanceof Artifact);
+    }
+
+    @Test
+    public void generateShouldSetAnArtifactValue() {
+        Long value = RandomUtils.nextLong(0, 10000);
+        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString(), value.toString()));
+        List<String> input = generateInput("1 0", coda);
+        Artifact artifact = (Artifact)builder.generate(input);
+        assertEquals(value, artifact.getValue(), 0);
     }
 
     @Test
@@ -127,25 +134,25 @@ public class ComponentBuilderTest {
     }
 
     private List<String> generateInput() {
-        List<String> coda = new ArrayList<String>(Arrays.asList("333", "444"));
-        return generateInput("0 0", RandomStringUtils.randomNumeric(5), coda);
-    }
-
-    private List<String> generateInputWithOwner(String owner) {
-        List<String> coda = new ArrayList<String>(Arrays.asList("333", "444"));
-        return generateInput("0 0", owner, coda);
+        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
+        return generateInput("0 0", coda);
     }
 
     private List<String> generateInput(String flags) {
-        return generateInput(flags, RandomStringUtils.randomNumeric(5), new ArrayList<String>());
+        return generateInput(flags, new ArrayList<>(Arrays.asList("333", "444", ownerId.toString())));
+    }
+
+    private List<String> generateInput(Long ownerId) {
+        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
+        return generateInput("0 0", coda);
+    }
+
+    private List<String> generateInputWithOwner(String ownerDatabaseReference) {
+        return generateInput("0 0",  new ArrayList<>(Arrays.asList("333", "444", ownerDatabaseReference)));
     }
 
     private List<String> generateInput(String flags, List<String> coda) {
-        return generateInput(flags, RandomStringUtils.randomNumeric(5), coda);
-    }
-
-    private List<String> generateInput(String flags, String owner, List<String> coda) {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         lines.add("#" + databaseReference); // (00) Database Reference
         lines.add(name);                    // (01) Item Name
         lines.add("-1");                    // (02) Location
@@ -163,7 +170,6 @@ public class ComponentBuilderTest {
         for (String line : coda) {
             lines.add(line);
         }
-        lines.add(owner);
         return lines;
     }
 }
