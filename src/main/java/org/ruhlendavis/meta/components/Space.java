@@ -1,6 +1,6 @@
 package org.ruhlendavis.meta.components;
 
-public class Space extends Component {
+public class Space extends LinkSourceComponent {
     private Long dropTo = 0L;
 
     public Long getDropTo() {
