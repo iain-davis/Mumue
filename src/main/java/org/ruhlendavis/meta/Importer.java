@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Importer {
-    public void importFromGlow(String file) {
+    public List<Component> importFromGlow(String file) {
         File inputFile = new File(file);
-        List<Component> components = new ArrayList<Component>();
+        List<Component> components = new ArrayList<>();
         try {
             LineIterator inputIterator = FileUtils.lineIterator(inputFile);
-            List<String> lines = new ArrayList<String>();
-            String currentLine = "";
+            List<String> lines = new ArrayList<>();
+            String currentLine;
             ComponentBuilder builder = new ComponentBuilder();
             while (inputIterator.hasNext()) {
                 currentLine = inputIterator.nextLine();
@@ -72,10 +72,10 @@ public class Importer {
                 Component component = builder.generate(lines);
                 components.add(component);
                 lines.clear();
-                System.out.println(component.getName() + "(#" + component.getId() + ")");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return components;
     }
 }

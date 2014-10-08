@@ -4,10 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.time.Instant;
-import java.util.BitSet;
 import java.util.List;
 
 public class ComponentBuilder {
@@ -23,14 +20,15 @@ public class ComponentBuilder {
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (type == 1) {
             component = new Artifact();
-            component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
+            component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 2)));
         } else if (type == 2) {
             component = new Link();
             component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         } else if (type == 3) {
             component = new Character();
-//        } else if (type == 4) {
-//            // Program
+        } else if (type == 4) {
+            component = new Program();
+            component.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         }
         generateComponentFields(lines, component);
 
