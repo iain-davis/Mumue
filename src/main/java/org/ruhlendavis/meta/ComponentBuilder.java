@@ -37,6 +37,7 @@ public class ComponentBuilder {
 
     private Component generateArtifact(List<String> lines) {
         Artifact artifact = new Artifact();
+        artifact.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
         artifact.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 2)));
         artifact.setValue(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         return artifact;

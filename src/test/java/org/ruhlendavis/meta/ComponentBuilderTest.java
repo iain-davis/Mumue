@@ -122,6 +122,15 @@ public class ComponentBuilderTest {
     }
 
     @Test
+    public void generateShouldSetAnArtifactHome() {
+        Long home = RandomUtils.nextLong(0, 10000);
+        List<String> coda = new ArrayList<>(Arrays.asList(home.toString(), "444", ownerId.toString(), "333"));
+        List<String> input = generateInput("1 0", coda);
+        Artifact artifact = (Artifact)builder.generate(input);
+        assertEquals(home, artifact.getHome(), 0);
+    }
+
+    @Test
     public void generateShouldCreateALink() {
         List<String> input = generateInput("2 0");
         assertTrue(builder.generate(input) instanceof Link);
