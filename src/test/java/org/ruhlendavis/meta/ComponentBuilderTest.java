@@ -157,6 +157,14 @@ public class ComponentBuilderTest {
         assertEquals(wealth, character.getWealth(), 0);
     }
 
+    @Test
+    public void generateShouldSetACharacterPassword() {
+        String password = RandomStringUtils.randomAlphabetic(13);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", "", password)));
+        Character character = (Character)builder.generate(input);
+        assertEquals(password, character.getPassword());
+    }
+
     private List<String> generateInput() {
         List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
         return generateInput("0 0", coda);

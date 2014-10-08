@@ -47,6 +47,7 @@ public class ComponentBuilder {
         Character character = new Character();
         character.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
         character.setWealth(translateStringReferenceToLong(lines.get(lines.size() - 2)));
+        character.setPassword(lines.get(lines.size() - 1));
         return character;
     }
 
