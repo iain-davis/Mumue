@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 public class ComponentBuilderTest {
     private ComponentBuilder builder = new ComponentBuilder();
     private String databaseReference = RandomStringUtils.randomNumeric(5);
-    private Long ownerId = RandomUtils.nextLong(0, 100000);
+    private Long ownerId = RandomUtils.nextLong(1, 100000);
     private String name = RandomStringUtils.randomAlphanumeric(13);
     private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
     private Integer useCount = RandomUtils.nextInt(1, 400);
@@ -143,10 +143,18 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldSetACharacterHome() {
-        Long home = RandomUtils.nextLong(0, 10000);
+        Long home = RandomUtils.nextLong(1, 10000);
         List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList(home.toString(), "", "", "")));
         Character character = (Character)builder.generate(input);
         assertEquals(home, character.getHome(), 0);
+    }
+
+    @Test
+    public void generateShouldSetACharacterWealth() {
+        Long wealth = RandomUtils.nextLong(1, 10000);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", wealth.toString(), "")));
+        Character character = (Character)builder.generate(input);
+        assertEquals(wealth, character.getWealth(), 0);
     }
 
     private List<String> generateInput() {
