@@ -89,6 +89,7 @@ public class ComponentBuilder {
         }
         Link link = new Link();
         link.setId(id);
+        links.put(id, link);
         return link;
     }
 
