@@ -180,6 +180,21 @@ public class ComponentBuilderTest {
         assertEquals(password, character.getPassword());
     }
 
+    @Test
+    public void generateShouldSetCharacterFirstLink() {
+        Long linkId = RandomUtils.nextLong(0, 10000);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
+        Character character = (Character)builder.generate(input);
+        assertEquals(linkId, character.getLinks().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldNotSetCharacterFirstLink() {
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
+        Character character = (Character)builder.generate(input);
+        assertEquals(0, character.getLinks().size());
+    }
+
     private List<String> generateInput() {
         List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
         return generateInput("0 0", coda);

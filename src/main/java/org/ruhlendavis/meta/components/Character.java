@@ -1,6 +1,6 @@
 package org.ruhlendavis.meta.components;
 
-public class Character extends Component {
+public class Character extends LinkSourceComponent {
     private Long home = 0L;
     private Long wealth = 0L;
     private String password = "";
