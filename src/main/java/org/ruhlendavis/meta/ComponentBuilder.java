@@ -5,23 +5,27 @@ import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ComponentBuilder {
+    private Map<Long, Link> links = new HashMap<>();
     public Component generate(List<String> lines) {
         if (lines.isEmpty()) {
             return new Garbage();
         }
 
         Component component;
-
+        long id = translateStringReferenceToLong(lines.get(0));
         long type = Long.parseLong(lines.get(5).split(" ")[0]) & 0x7;
         if (type == 0) {
             component = generateSpace(lines);
         } else if (type == 1) {
             component = generateArtifact(lines);
         } else if (type == 2) {
-            component = generateLink(lines);
+            component = generateLink(id, lines);
         } else if (type == 3) {
             component = generateCharacter(lines);
         } else if (type == 4) {
@@ -29,9 +33,8 @@ public class ComponentBuilder {
         } else {
             component = new Garbage();
         }
-
+        component.setId(id);
         generateComponentFields(lines, component);
-
         return component;
     }
 
@@ -51,8 +54,8 @@ public class ComponentBuilder {
         return character;
     }
 
-    private Component generateLink(List<String> lines) {
-        Link link = new Link();
+    private Component generateLink(Long id, List<String> lines) {
+        Link link = getOrCreateLink(id);
         link.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         return link;
     }
@@ -70,6 +73,15 @@ public class ComponentBuilder {
         return space;
     }
 
+    private Link getOrCreateLink(Long id) {
+        if (links.containsKey(id)) {
+            return links.get(id);
+        }
+        Link link = new Link();
+        link.setId(id);
+        return link;
+    }
+
     private long translateStringReferenceToLong(String databaseReference) {
         if (StringUtils.isBlank(databaseReference)) {
             return 0L;
@@ -78,7 +90,6 @@ public class ComponentBuilder {
     }
 
     private void generateComponentFields(List<String> lines, Component component) {
-        component.setId(translateStringReferenceToLong(lines.get(0)));
         component.setName(lines.get(1));
         component.setCreated(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(6))));
         component.setLastUsed(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(7))));
