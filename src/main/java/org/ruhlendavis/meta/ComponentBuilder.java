@@ -45,6 +45,7 @@ public class ComponentBuilder {
 
     private Component generateCharacter(List<String> lines) {
         Character character = new Character();
+        character.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
         return character;
     }
 

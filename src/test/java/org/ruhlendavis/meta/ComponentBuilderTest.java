@@ -124,8 +124,7 @@ public class ComponentBuilderTest {
     @Test
     public void generateShouldSetAnArtifactHome() {
         Long home = RandomUtils.nextLong(0, 10000);
-        List<String> coda = new ArrayList<>(Arrays.asList(home.toString(), "444", ownerId.toString(), "333"));
-        List<String> input = generateInput("1 0", coda);
+        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList(home.toString(), "", "", "")));
         Artifact artifact = (Artifact)builder.generate(input);
         assertEquals(home, artifact.getHome(), 0);
     }
@@ -138,8 +137,16 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldCreateACharacter() {
-        List<String> input = generateInput("3 0");
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", "", "")));
         assertTrue(builder.generate(input) instanceof Character);
+    }
+
+    @Test
+    public void generateShouldSetACharacterHome() {
+        Long home = RandomUtils.nextLong(0, 10000);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList(home.toString(), "", "", "")));
+        Character character = (Character)builder.generate(input);
+        assertEquals(home, character.getHome(), 0);
     }
 
     private List<String> generateInput() {
