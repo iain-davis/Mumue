@@ -130,6 +130,21 @@ public class ComponentBuilderTest {
     }
 
     @Test
+    public void generateShouldSetArtifactFirstLink() {
+        Long linkId = RandomUtils.nextLong(0, 10000);
+        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
+        Artifact artifact = (Artifact)builder.generate(input);
+        assertEquals(linkId, artifact.getLinks().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldNotSetArtifactFirstLink() {
+        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
+        Artifact artifact = (Artifact)builder.generate(input);
+        assertEquals(0, artifact.getLinks().size());
+    }
+
+    @Test
     public void generateShouldCreateALink() {
         List<String> input = generateInput("2 0");
         assertTrue(builder.generate(input) instanceof Link);

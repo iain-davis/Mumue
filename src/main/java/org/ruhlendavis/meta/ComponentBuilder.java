@@ -41,9 +41,18 @@ public class ComponentBuilder {
     private Component generateArtifact(List<String> lines) {
         Artifact artifact = new Artifact();
         artifact.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
+        String linkReference = lines.get(lines.size() - 3);
+        addLink(artifact, linkReference);
         artifact.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 2)));
         artifact.setValue(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         return artifact;
+    }
+
+    private void addLink(Artifact artifact, String linkReference) {
+        Long id = translateStringReferenceToLong(linkReference);
+        if (id != -1) {
+            artifact.getLinks().add(getOrCreateLink(id));
+        }
     }
 
     private Component generateCharacter(List<String> lines) {
