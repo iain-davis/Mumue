@@ -97,12 +97,25 @@ public class ComponentBuilderTest {
     @Test
     public void generateWithSpaceShouldSetDropTo() {
         String dropToReference = RandomStringUtils.randomNumeric(5);
-        String exitReference = RandomStringUtils.randomNumeric(5);
 
-        List<String> coda = new ArrayList<>(Arrays.asList(dropToReference, exitReference, ownerId.toString()));
-        List<String> input = generateInput("0 0", coda);
+        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList(dropToReference, "", ownerId.toString())));
         Space space = (Space)builder.generate(input);
         assertEquals(Long.parseLong(dropToReference), space.getDropTo(), 0);
+    }
+
+    @Test
+    public void generateShouldSetSpaceFirstLink() {
+        Long linkId = RandomUtils.nextLong(0, 10000);
+        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "")));
+        Space space = (Space)builder.generate(input);
+        assertEquals(linkId, space.getLinks().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldNotSetSpaceFirstLink() {
+        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", "-1", "")));
+        Space space = (Space)builder.generate(input);
+        assertEquals(0, space.getLinks().size());
     }
 
     @Test

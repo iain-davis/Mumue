@@ -77,7 +77,8 @@ public class ComponentBuilder {
 
     private Component generateSpace(List<String> lines) {
         Space space = new Space();
-        space.setDropTo(Long.parseLong(lines.get(lines.size() - 3)));
+        space.setDropTo(translateStringReferenceToLong(lines.get(lines.size() - 3)));
+        addLink(space, lines.get(lines.size() - 2));
         space.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         return space;
     }
