@@ -39,8 +39,11 @@ public class Importer {
                     currentLine = inputIterator.nextLine();
                 }
 
-                while (inputIterator.hasNext() && !"*End*".equals(currentLine)) {
+                while (inputIterator.hasNext()) {
                     lines.add(currentLine);
+                    if ("*End*".equals(currentLine)) {
+                        break;
+                    }
                     currentLine = inputIterator.nextLine();
                 }
 
@@ -71,6 +74,7 @@ public class Importer {
                     lines.add(inputIterator.nextLine());
                 }
                 Component component = builder.generate(lines);
+                System.out.println("#" + component.getId() + ": " + component.getName());
                 components.add(component);
                 lines.clear();
             }
