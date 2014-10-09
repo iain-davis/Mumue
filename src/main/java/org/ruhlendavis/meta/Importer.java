@@ -87,7 +87,7 @@ public class Importer {
                 Link link = (Link) component;
                 List<Long> remove = new ArrayList<>();
                 for (Long id : link.getDestinationIds()) {
-                    if (id.equals(-3L)) {
+                    if (id.equals(GlobalConstants.REFERENCE_HOME)) {
                         continue;
                     }
                     boolean found = false;
