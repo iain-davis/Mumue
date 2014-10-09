@@ -1,16 +1,20 @@
 package org.ruhlendavis.meta.components;
 
+import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.PropertyTree;
+
 import java.time.Instant;
 
 public class Component {
-    private Long id = 0L;
-    private Long ownerId = 0L;
+    private Long id = GlobalConstants.REFERENCE_UNKNOWN;
+    private Long ownerId = GlobalConstants.REFERENCE_UNKNOWN;
     private String name = "";
     private String description = "";
     private Instant created = Instant.now();
     private Instant lastUsed = Instant.now();
     private Instant lastModified = Instant.now();
     private long useCount = 0;
+    private PropertyTree properties = new PropertyTree();
 
     public String getDescription() {
         return description;
@@ -74,5 +78,9 @@ public class Component {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public PropertyTree getProperties() {
+        return properties;
     }
 }

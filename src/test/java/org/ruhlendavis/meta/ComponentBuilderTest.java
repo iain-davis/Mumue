@@ -7,6 +7,7 @@ import org.ruhlendavis.meta.components.Artifact;
 import org.ruhlendavis.meta.components.Character;
 import org.ruhlendavis.meta.components.Link;
 import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.properties.StringProperty;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -242,6 +243,17 @@ public class ComponentBuilderTest {
         assertEquals(0, character.getLinks().size());
     }
 
+    @Test
+    public void generateShouldAddPropertyToProperties() {
+        String path = RandomStringUtils.randomAlphabetic(8);
+        String value = RandomStringUtils.randomAlphabetic(7);
+
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
+        Character character = (Character)builder.generate(input);
+        StringProperty property = (StringProperty)character.getProperties().getProperty(path);
+        assertEquals(value, property.getValue());
+    }
+
     private List<String> generateInput() {
         List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
         return generateInput("0 0", coda);
@@ -269,6 +281,7 @@ public class ComponentBuilderTest {
         lines.add(useCount.toString());     // (08) UseCount
         lines.add("1411597664");            // (09) LastModified
         lines.add("*Props*");               // (10) Beginning of property list
+        lines.add("uno/-1/card1:2:56");     // Some other property
         lines.add("_/de:10:" + description);// (??) Description
         lines.add("*End*");                 // (??) End of property list
 

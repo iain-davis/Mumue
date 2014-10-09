@@ -25,6 +25,7 @@ public class ComponentBuilder {
             }
             if (propertyListStart > 0 && "*End*".equals(line)) {
                 propertyListEnd = lineCount;
+                break;
             }
             lineCount++;
         }
