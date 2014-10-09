@@ -159,8 +159,42 @@ public class ComponentBuilderTest {
 
     @Test
     public void generateShouldCreateALink() {
-        List<String> input = generateInput("2 0");
+        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("0", "")));
         assertTrue(builder.generate(input) instanceof Link);
+    }
+
+    @Test
+    public void generateShouldSetLinkOwner() {
+        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("0", ownerId.toString())));
+        Link link = (Link)builder.generate(input);
+        assertEquals(ownerId, link.getOwnerId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetOneLinkDestinationId() {
+        Long destinationId = RandomUtils.nextLong(1, 10000);
+        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("1", destinationId.toString(), "")));
+        Link link = (Link)builder.generate(input);
+        assertEquals(destinationId, link.getDestinationIds().get(0), 0);
+    }
+
+    @Test
+    public void generateShouldSetMultipleLinkDestinationIds() {
+        Integer idCount = RandomUtils.nextInt(5, 10);
+        List<String> coda = new ArrayList<>();
+        List<Long> destinationIds = new ArrayList<>();
+        coda.add(idCount.toString());
+        for (int i = 0; i < idCount; i++) {
+            Long destinationId = RandomUtils.nextLong(1, 10000);
+            coda.add(destinationId.toString());
+            destinationIds.add(destinationId);
+        }
+        coda.add("");
+        List<String> input = generateInput("2 0", coda);
+        Link link = (Link)builder.generate(input);
+        for (int i = 0; i < idCount; i++) {
+            assertEquals(destinationIds.get(i), link.getDestinationIds().get(i), 0);
+        }
     }
 
     @Test
@@ -211,10 +245,6 @@ public class ComponentBuilderTest {
     private List<String> generateInput() {
         List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
         return generateInput("0 0", coda);
-    }
-
-    private List<String> generateInput(String flags) {
-        return generateInput(flags, new ArrayList<>(Arrays.asList("333", "444", ownerId.toString())));
     }
 
     private List<String> generateInput(Long ownerId) {

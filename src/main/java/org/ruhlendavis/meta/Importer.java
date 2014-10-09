@@ -3,6 +3,7 @@ package org.ruhlendavis.meta;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.components.Link;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,6 +77,27 @@ public class Importer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        for (Component component : components) {
+            if (component instanceof Link) {
+                Link link = (Link) component;
+                for (Long id : link.getDestinationIds()) {
+                    boolean found = false;
+                    for (Component innerComponent : components) {
+                        if (innerComponent.getId() == id) {
+                            link.getDestinations().add(innerComponent);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("Warning: Link id #" + link.getId() + " had non-existent destination id #" + id);
+                    }
+                }
+                link.getDestinationIds().clear();
+            }
+        }
+
         return components;
     }
 }

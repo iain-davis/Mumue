@@ -5,7 +5,6 @@ import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,19 @@ public class ComponentBuilder {
             return new Garbage();
         }
 
+        int propertyListStart = -1;
+        int propertyListEnd = -1;
+        int lineCount = 0;
+        for (String line : lines) {
+            if ("*Props*".equals(line)) {
+                propertyListStart = lineCount;
+            }
+            if (propertyListStart > 0 && "*End*".equals(line)) {
+                propertyListEnd = lineCount;
+            }
+            lineCount++;
+        }
+
         Component component;
         long id = translateStringReferenceToLong(lines.get(0));
         long type = Long.parseLong(lines.get(5).split(" ")[0]) & 0x7;
@@ -25,7 +37,7 @@ public class ComponentBuilder {
         } else if (type == 1) {
             component = generateArtifact(lines);
         } else if (type == 2) {
-            component = generateLink(id, lines);
+            component = generateLink(propertyListEnd + 1, id, lines);
         } else if (type == 3) {
             component = generateCharacter(lines);
         } else if (type == 4) {
@@ -63,8 +75,13 @@ public class ComponentBuilder {
         }
     }
 
-    private Component generateLink(Long id, List<String> lines) {
+    private Component generateLink(int destinationCountPosition, long id, List<String> lines) {
         Link link = getOrCreateLink(id);
+        Long destinationCount = translateStringReferenceToLong(lines.get(destinationCountPosition));
+        for (int i = 0; i < destinationCount; i++) {
+            Long destinationId = translateStringReferenceToLong(lines.get(destinationCountPosition + 1 + i));
+            link.getDestinationIds().add(destinationId);
+        }
         link.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
         return link;
     }
