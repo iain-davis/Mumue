@@ -1,7 +1,11 @@
 package org.ruhlendavis.meta.components;
 
-public class Space extends LinkSourceComponent {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Space extends Component implements LinkSource {
     private Long dropTo = 0L;
+    private List<Link> links = new ArrayList<>();
 
     public Long getDropTo() {
         return dropTo;
@@ -9,5 +13,9 @@ public class Space extends LinkSourceComponent {
 
     public void setDropTo(Long dropTo) {
         this.dropTo = dropTo;
+    }
+
+    public List<Link> getLinks() {
+        return links;
     }
 }

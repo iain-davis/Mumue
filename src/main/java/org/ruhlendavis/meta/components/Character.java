@@ -1,9 +1,13 @@
 package org.ruhlendavis.meta.components;
 
-public class Character extends LinkSourceComponent {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Character extends Component implements Homeable, LinkSource {
     private Long home = 0L;
     private Long wealth = 0L;
     private String password = "";
+    private List<Link> links = new ArrayList<>();
 
     public Long getHome() {
         return home;
@@ -27,5 +31,9 @@ public class Character extends LinkSourceComponent {
 
     public void setWealth(Long wealth) {
         this.wealth = wealth;
+    }
+
+    public List<Link> getLinks() {
+        return links;
     }
 }

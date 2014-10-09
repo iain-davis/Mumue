@@ -68,7 +68,7 @@ public class ComponentBuilder {
         return character;
     }
 
-    private void addLink(LinkSourceComponent component, String linkReference) {
+    private void addLink(LinkSource component, String linkReference) {
         Long id = translateStringReferenceToLong(linkReference);
         if (id != -1) {
             component.getLinks().add(getOrCreateLink(id));

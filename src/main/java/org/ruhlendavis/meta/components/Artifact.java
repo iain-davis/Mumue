@@ -1,8 +1,12 @@
 package org.ruhlendavis.meta.components;
 
-public class Artifact extends LinkSourceComponent {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Artifact extends Component implements Homeable, LinkSource {
     private Long home = 0L;
     private Long value = 0L;
+    private List<Link> links = new ArrayList<>();
 
     public Long getHome() {
         return home;
@@ -18,5 +22,9 @@ public class Artifact extends LinkSourceComponent {
 
     public void setValue(Long value) {
         this.value = value;
+    }
+
+    public List<Link> getLinks() {
+        return links;
     }
 }
