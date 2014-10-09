@@ -85,11 +85,16 @@ public class Importer {
         for (Component component : components) {
             if (component instanceof Link) {
                 Link link = (Link) component;
+                List<Long> remove = new ArrayList<>();
                 for (Long id : link.getDestinationIds()) {
+                    if (id.equals(-3L)) {
+                        continue;
+                    }
                     boolean found = false;
                     for (Component innerComponent : components) {
-                        if (innerComponent.getId() == id) {
+                        if (innerComponent.getId().equals(id)) {
                             link.getDestinations().add(innerComponent);
+                            remove.add(id);
                             found = true;
                             break;
                         }
@@ -98,7 +103,7 @@ public class Importer {
                         System.out.println("Warning: Link id #" + link.getId() + " had non-existent destination id #" + id);
                     }
                 }
-                link.getDestinationIds().clear();
+                link.getDestinationIds().removeAll(remove);
             }
         }
 
