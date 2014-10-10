@@ -48,14 +48,14 @@ public class ProcessLinesStage implements ImporterStage {
     }
 
     private void generateArtifact(Artifact artifact, List<String> lines, ImportBucket bucket) {
-        artifact.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
+        artifact.setHome(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 4))));
         addLink(artifact, lines.get(lines.size() - 3), bucket);
         artifact.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 2))));
         artifact.setValue(translateStringReferenceToLong(lines.get(lines.size() - 1)));
     }
 
     private void generateCharacter(Character character, List<String> lines, ImportBucket bucket) {
-        character.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
+        character.setHome(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 4))));
         addLink(character, lines.get(lines.size() - 3), bucket);
         character.setWealth(translateStringReferenceToLong(lines.get(lines.size() - 2)));
         character.setPassword(lines.get(lines.size() - 1));
@@ -72,7 +72,7 @@ public class ProcessLinesStage implements ImporterStage {
         Long destinationCount = translateStringReferenceToLong(lines.get(destinationCountPosition));
         for (int i = 0; i < destinationCount; i++) {
             Long destinationId = translateStringReferenceToLong(lines.get(destinationCountPosition + 1 + i));
-            link.getDestinationIds().add(destinationId);
+            link.getDestinations().add(bucket.getComponents().get(destinationId));
         }
         link.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
     }
@@ -82,7 +82,7 @@ public class ProcessLinesStage implements ImporterStage {
     }
 
     private void generateSpace(Space space, List<String> lines, ImportBucket bucket) {
-        space.setDropTo(translateStringReferenceToLong(lines.get(lines.size() - 3)));
+        space.setDropTo(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 3))));
         addLink(space, lines.get(lines.size() - 2), bucket);
         space.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
     }

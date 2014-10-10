@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Space extends Component implements LinkSource {
-    private Long dropTo = 0L;
+    private Component dropTo = new Component();
     private List<Link> links = new ArrayList<>();
 
-    public Long getDropTo() {
+    public Component getDropTo() {
         return dropTo;
     }
 
-    public void setDropTo(Long dropTo) {
+    public void setDropTo(Component dropTo) {
         this.dropTo = dropTo;
     }
 

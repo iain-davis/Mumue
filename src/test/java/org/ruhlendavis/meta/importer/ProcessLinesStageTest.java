@@ -24,9 +24,9 @@ public class ProcessLinesStageTest {
     private Long ownerId = RandomUtils.nextLong(100, 200);
     private Long componentId = RandomUtils.nextLong(0, 100);
     private Integer useCount = RandomUtils.nextInt(1, 400);
+    private ImportBucket bucket = new ImportBucket();
 
     private Component setupTest(List<String> input, Component component) {
-        ImportBucket bucket = new ImportBucket();
         setupSpecialComponents(bucket);
 
         Component owner = new Character();
@@ -96,6 +96,159 @@ public class ProcessLinesStageTest {
         assertEquals(GlobalConstants.REFERENCE_UNKNOWN, component.getOwner().getId(), 0);
     }
 
+    @Test
+    public void generateWithSpaceShouldSetDropTo() {
+        Long dropToReference = RandomUtils.nextLong(200, 300);
+        Component dropTo = new Component();
+        dropTo.setId(dropToReference);
+        bucket.getComponents().put(dropToReference, dropTo);
+
+        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList(dropToReference.toString(), "", ownerId.toString())));
+        Space space = (Space)setupTest(input, new Space());
+        assertEquals(dropToReference, space.getDropTo().getId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetSpaceFirstLink() {
+        Long linkId = RandomUtils.nextLong(200, 300);
+        Link link = new Link();
+        link.setId(linkId);
+        bucket.getComponents().put(linkId, link);
+        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "")));
+        Space space = (Space)setupTest(input, new Space());
+        assertEquals(linkId, space.getLinks().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldNotSetSpaceFirstLink() {
+        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", "-1", "")));
+        Space space = (Space)setupTest(input, new Space());
+        assertEquals(0, space.getLinks().size());
+    }
+
+    @Test
+    public void generateShouldSetAnArtifactValue() {
+        Long value = RandomUtils.nextLong(5, 10000);
+        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString(), value.toString()));
+        List<String> input = generateInput("1 0", coda);
+        Artifact artifact = (Artifact) setupTest(input, new Artifact());
+        assertEquals(value, artifact.getValue(), 0);
+    }
+
+    @Test
+    public void generateShouldSetAnArtifactHome() {
+        Long homeId = RandomUtils.nextLong(200, 300);
+        Space home = new Space();
+        home.setId(homeId);
+        bucket.getComponents().put(homeId, home);
+        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList(homeId.toString(), "", "", "")));
+        Artifact artifact = (Artifact) setupTest(input, new Artifact());
+        assertEquals(homeId, artifact.getHome().getId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetArtifactFirstLink() {
+        Long linkId = RandomUtils.nextLong(200, 300);
+        Link link = new Link();
+        link.setId(linkId);
+        bucket.getComponents().put(linkId, link);
+        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
+        Artifact artifact = (Artifact) setupTest(input, new Artifact());
+        assertEquals(linkId, artifact.getLinks().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldNotSetArtifactFirstLink() {
+        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
+        Artifact artifact = (Artifact) setupTest(input, new Artifact());
+        assertEquals(0, artifact.getLinks().size());
+    }
+
+    @Test
+    public void generateShouldSetLinkOwner() {
+        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("0", ownerId.toString())));
+        Link link = (Link) setupTest(input, new Link());
+        assertEquals(ownerId, link.getOwner().getId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetOneLinkDestinationId() {
+        Long destinationId = RandomUtils.nextLong(200, 300);
+        Component component = new Component();
+        component.setId(destinationId);
+        bucket.getComponents().put(destinationId, component);
+        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("1", destinationId.toString(), "")));
+        Link link = (Link) setupTest(input, new Link());
+        assertEquals(destinationId, link.getDestinations().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetMultipleLinkDestinationIds() {
+        Integer idCount = RandomUtils.nextInt(5, 10);
+        List<String> coda = new ArrayList<>();
+        List<Long> destinationIds = new ArrayList<>();
+        coda.add(idCount.toString());
+        for (int i = 0; i < idCount; i++) {
+            Long destinationId = 200L+i;
+            coda.add(destinationId.toString());
+            Component component = new Component();
+            component.setId(destinationId);
+            bucket.getComponents().put(destinationId, component);
+            destinationIds.add(destinationId);
+        }
+        coda.add("");
+        List<String> input = generateInput("2 0", coda);
+        Link link = (Link) setupTest(input, new Link());
+        for (int i = 0; i < idCount; i++) {
+            assertEquals(destinationIds.get(i), link.getDestinations().get(i).getId(), 0);
+        }
+    }
+
+    @Test
+    public void generateShouldSetACharacterHome() {
+        Long homeId = RandomUtils.nextLong(200, 300);
+        Space space = new Space();
+        space.setId(homeId);
+        bucket.getComponents().put(homeId, space);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList(homeId.toString(), "", "", "")));
+        Character character = (Character)setupTest(input, new Character());
+        assertEquals(homeId, character.getHome().getId(), 0);
+    }
+
+    @Test
+    public void generateShouldSetACharacterWealth() {
+        Long wealth = RandomUtils.nextLong(1, 10000);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", wealth.toString(), "")));
+        Character character = (Character) setupTest(input, new Character());
+        assertEquals(wealth, character.getWealth(), 0);
+    }
+
+    @Test
+    public void generateShouldSetACharacterPassword() {
+        String password = RandomStringUtils.randomAlphabetic(13);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", "", password)));
+        Character character = (Character) setupTest(input, new Character());
+        assertEquals(password, character.getPassword());
+    }
+
+    @Test
+    public void generateShouldSetCharacterFirstLink() {
+        Long linkId = RandomUtils.nextLong(200, 300);
+        Link link = new Link();
+        link.setId(linkId);
+        bucket.getComponents().put(linkId, link);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
+        Character character = (Character) setupTest(input, new Character());
+        assertEquals(linkId, character.getLinks().get(0).getId(), 0);
+    }
+
+    @Test
+    public void generateShouldNotSetCharacterFirstLink() {
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
+        Character character = (Character) setupTest(input, new Character());
+        assertEquals(0, character.getLinks().size());
+    }
+
     private List<String> generateInput() {
         List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
         return generateInput("0 0", coda);
@@ -144,136 +297,6 @@ public class ProcessLinesStageTest {
         component.setId(GlobalConstants.REFERENCE_HOME);
         bucket.getComponents().put(GlobalConstants.REFERENCE_HOME, component);
     }
-
-    //
-//    @Test
-//    public void generateWithSpaceShouldSetDropTo() {
-//        String dropToReference = RandomStringUtils.randomNumeric(5);
-//
-//        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList(dropToReference, "", ownerId.toString())));
-//        Space space = (Space) stage.generate(input);
-//        assertEquals(Long.parseLong(dropToReference), space.getDropTo(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetSpaceFirstLink() {
-//        Long linkId = RandomUtils.nextLong(0, 10000);
-//        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "")));
-//        Space space = (Space) stage.generate(input);
-//        assertEquals(linkId, space.getLinks().get(0).getId(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldNotSetSpaceFirstLink() {
-//        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", "-1", "")));
-//        Space space = (Space) stage.generate(input);
-//        assertEquals(0, space.getLinks().size());
-//    }
-//
-//    @Test
-//    public void generateShouldSetAnArtifactValue() {
-//        Long value = RandomUtils.nextLong(0, 10000);
-//        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString(), value.toString()));
-//        List<String> input = generateInput("1 0", coda);
-//        Artifact artifact = (Artifact) stage.generate(input);
-//        assertEquals(value, artifact.getValue(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetAnArtifactHome() {
-//        Long home = RandomUtils.nextLong(0, 10000);
-//        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList(home.toString(), "", "", "")));
-//        Artifact artifact = (Artifact) stage.generate(input);
-//        assertEquals(home, artifact.getHome(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetArtifactFirstLink() {
-//        Long linkId = RandomUtils.nextLong(0, 10000);
-//        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
-//        Artifact artifact = (Artifact) stage.generate(input);
-//        assertEquals(linkId, artifact.getLinks().get(0).getId(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldNotSetArtifactFirstLink() {
-//        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
-//        Artifact artifact = (Artifact) stage.generate(input);
-//        assertEquals(0, artifact.getLinks().size());
-//    }
-//
-//    @Test
-//    public void generateShouldSetLinkOwner() {
-//        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("0", ownerId.toString())));
-//        Link link = (Link) stage.generate(input);
-//        assertEquals(ownerId, link.getOwnerId(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetOneLinkDestinationId() {
-//        Long destinationId = RandomUtils.nextLong(1, 10000);
-//        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("1", destinationId.toString(), "")));
-//        Link link = (Link) stage.generate(input);
-//        assertEquals(destinationId, link.getDestinationIds().get(0), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetMultipleLinkDestinationIds() {
-//        Integer idCount = RandomUtils.nextInt(5, 10);
-//        List<String> coda = new ArrayList<>();
-//        List<Long> destinationIds = new ArrayList<>();
-//        coda.add(idCount.toString());
-//        for (int i = 0; i < idCount; i++) {
-//            Long destinationId = RandomUtils.nextLong(1, 10000);
-//            coda.add(destinationId.toString());
-//            destinationIds.add(destinationId);
-//        }
-//        coda.add("");
-//        List<String> input = generateInput("2 0", coda);
-//        Link link = (Link) stage.generate(input);
-//        for (int i = 0; i < idCount; i++) {
-//            assertEquals(destinationIds.get(i), link.getDestinationIds().get(i), 0);
-//        }
-//    }
-//
-//    @Test
-//    public void generateShouldSetACharacterHome() {
-//        Long home = RandomUtils.nextLong(1, 10000);
-//        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList(home.toString(), "", "", "")));
-//        Character character = (Character) stage.generate(input);
-//        assertEquals(home, character.getHome(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetACharacterWealth() {
-//        Long wealth = RandomUtils.nextLong(1, 10000);
-//        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", wealth.toString(), "")));
-//        Character character = (Character) stage.generate(input);
-//        assertEquals(wealth, character.getWealth(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldSetACharacterPassword() {
-//        String password = RandomStringUtils.randomAlphabetic(13);
-//        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", "", password)));
-//        Character character = (Character) stage.generate(input);
-//        assertEquals(password, character.getPassword());
-//    }
-//
-//    @Test
-//    public void generateShouldSetCharacterFirstLink() {
-//        Long linkId = RandomUtils.nextLong(0, 10000);
-//        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
-//        Character character = (Character) stage.generate(input);
-//        assertEquals(linkId, character.getLinks().get(0).getId(), 0);
-//    }
-//
-//    @Test
-//    public void generateShouldNotSetCharacterFirstLink() {
-//        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
-//        Character character = (Character) stage.generate(input);
-//        assertEquals(0, character.getLinks().size());
-//    }
 //
 //    @Test
 //    public void generateShouldAddPropertyToProperties() {

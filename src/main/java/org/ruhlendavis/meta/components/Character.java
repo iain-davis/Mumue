@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Character extends Component implements Homeable, LinkSource {
-    private Long home = 0L;
+    private Component home = new Component();
     private Long wealth = 0L;
     private String password = "";
     private List<Link> links = new ArrayList<>();
 
-    public Long getHome() {
+    public Component getHome() {
         return home;
     }
 
-    public void setHome(Long home) {
+    public void setHome(Component home) {
         this.home = home;
     }
 

@@ -1,6 +1,6 @@
 package org.ruhlendavis.meta.components;
 
 public interface Homeable {
-    public Long getHome();
-    public void setHome(Long home);
+    public Component getHome();
+    public void setHome(Component home);
 }
