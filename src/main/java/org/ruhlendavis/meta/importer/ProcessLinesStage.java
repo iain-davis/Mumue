@@ -48,14 +48,14 @@ public class ProcessLinesStage implements ImporterStage {
     }
 
     private void generateArtifact(Artifact artifact, List<String> lines, ImportBucket bucket) {
-        artifact.setHome(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 4))));
+        artifact.setHome(getComponent(bucket, lines.get(lines.size() - 4)));
         addLink(artifact, lines.get(lines.size() - 3), bucket);
-        artifact.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 2))));
+        artifact.setOwner(getComponent(bucket, lines.get(lines.size() - 2)));
         artifact.setValue(translateStringReferenceToLong(lines.get(lines.size() - 1)));
     }
 
     private void generateCharacter(Character character, List<String> lines, ImportBucket bucket) {
-        character.setHome(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 4))));
+        character.setHome(getComponent(bucket, lines.get(lines.size() - 4)));
         addLink(character, lines.get(lines.size() - 3), bucket);
         character.setWealth(translateStringReferenceToLong(lines.get(lines.size() - 2)));
         character.setPassword(lines.get(lines.size() - 1));
@@ -74,17 +74,17 @@ public class ProcessLinesStage implements ImporterStage {
             Long destinationId = translateStringReferenceToLong(lines.get(destinationCountPosition + 1 + i));
             link.getDestinations().add(bucket.getComponents().get(destinationId));
         }
-        link.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
+        link.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
     }
 
     private void generateProgram(Program program, List<String> lines, ImportBucket bucket) {
-        program.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
+        program.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
     }
 
     private void generateSpace(Space space, List<String> lines, ImportBucket bucket) {
-        space.setDropTo(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 3))));
+        space.setDropTo(getComponent(bucket, lines.get(lines.size() - 3)));
         addLink(space, lines.get(lines.size() - 2), bucket);
-        space.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
+        space.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
     }
 
     private long translateStringReferenceToLong(String databaseReference) {
@@ -96,7 +96,8 @@ public class ProcessLinesStage implements ImporterStage {
 
     private void generateComponentFields(List<String> lines, Component component, ImportBucket bucket) {
         component.setName(lines.get(1));
-        component.setLocation(bucket.getComponents().get(translateStringReferenceToLong(lines.get(2))));
+        component.setLocation(getComponent(bucket, lines.get(2)));
+        component.getContents().add(getComponent(bucket, lines.get(3)));
         component.setCreated(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(6))));
         component.setLastUsed(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(7))));
         component.setUseCount(translateStringReferenceToLong(lines.get(8)));
@@ -106,6 +107,10 @@ public class ProcessLinesStage implements ImporterStage {
                 component.setDescription(extractDescription(line));
             }
         }
+    }
+
+    private Component getComponent(ImportBucket bucket, String line) {
+        return bucket.getComponents().get(translateStringReferenceToLong(line));
     }
 
     private String extractDescription(String line) {

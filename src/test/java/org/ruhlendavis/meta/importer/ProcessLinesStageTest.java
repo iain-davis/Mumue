@@ -18,6 +18,7 @@ public class ProcessLinesStageTest {
     private String databaseReference = RandomStringUtils.randomNumeric(5);
     private String name = RandomStringUtils.randomAlphanumeric(13);
     private Long locationId = RandomUtils.nextLong(200, 300);
+    private Long contentsId = RandomUtils.nextLong(300, 400);
     private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
     private String created = RandomStringUtils.randomNumeric(10);
     private String lastUsed = RandomStringUtils.randomNumeric(10);
@@ -55,6 +56,15 @@ public class ProcessLinesStageTest {
         bucket.getComponents().put(locationId, space);
         Component component = setupTest(generateInput(), new Space());
         assertEquals(locationId, component.getLocation().getId());
+    }
+
+    @Test
+    public void generateShouldSetFirstContents() {
+        Component component = new Component();
+        component.setId(contentsId);
+        bucket.getComponents().put(contentsId, component);
+        component = setupTest(generateInput(), new Space());
+        assertEquals(contentsId, component.getContents().get(0).getId());
     }
 
     @Test
@@ -264,11 +274,6 @@ public class ProcessLinesStageTest {
         return generateInput("0 0", coda);
     }
 
-    private List<String> generateInput(Long ownerId) {
-        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
-        return generateInput("0 0", coda);
-    }
-
     private List<String> generateInputWithOwner(String ownerDatabaseReference) {
         return generateInput("0 0",  new ArrayList<>(Arrays.asList("333", "444", ownerDatabaseReference)));
     }
@@ -278,7 +283,7 @@ public class ProcessLinesStageTest {
         lines.add("#" + databaseReference); // (00) Database Reference
         lines.add(name);                    // (01) Item Name
         lines.add(locationId.toString());   // (02) Location
-        lines.add("524");                   // (03) Contents
+        lines.add(contentsId.toString());   // (03) Contents
         lines.add("-1");                    // (04) Next
         lines.add(flags);                   // (05) Flags F2Flags
         lines.add(created);                 // (06) Created Timestamp

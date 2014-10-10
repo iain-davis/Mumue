@@ -3,20 +3,22 @@ package org.ruhlendavis.meta.components;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.PropertyTree;
 
-import java.security.cert.Extension;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;
     private String name = "";
-    private Component owner;
+    private Component location;
+    private List<Component> contents = new ArrayList<>();
     private String description = "";
     private Instant created = Instant.now();
     private Instant lastUsed = Instant.now();
-    private Instant lastModified = Instant.now();
     private long useCount = 0;
+    private Instant lastModified = Instant.now();
     private PropertyTree properties = new PropertyTree();
-    private Component location;
+    private Component owner;
 
     public Component getOwner() {
         return owner;
@@ -92,5 +94,9 @@ public class Component {
 
     public void setLocation(Component location) {
         this.location = location;
+    }
+
+    public List<Component> getContents() {
+        return contents;
     }
 }
