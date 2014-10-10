@@ -9,11 +9,7 @@ public class PropertyTree {
     private Map<String, Property> properties = new HashMap<>();
 
     public Property getProperty(String path) {
-        Property property = properties.get(path);
-        if (property == null) {
-            property = new Property();
-        }
-        return property;
+        return properties.get(path);
     }
 
     public void setProperty(String path, Property property) {

@@ -10,12 +10,6 @@ public class PropertyTreeTest {
     PropertyTree propertyTree = new PropertyTree();
 
     @Test
-    public void getPropertyWithNonExistentKeyReturnsEmptyProperty() {
-        String path = RandomStringUtils.randomAlphabetic(7);
-        Assert.assertNotNull(propertyTree.getProperty(path));
-    }
-
-    @Test
     public void getPropertyReturnsProperty() {
         String path = RandomStringUtils.randomAlphabetic(7);
         Property property = new Property();

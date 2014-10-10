@@ -6,10 +6,10 @@ import org.junit.Test;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.properties.Property;
+import org.ruhlendavis.meta.properties.StringProperty;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -269,6 +269,42 @@ public class ProcessLinesStageTest {
         assertEquals(0, character.getLinks().size());
     }
 
+    @Test
+    public void generateShouldAddStringPropertyToProperties() {
+        String path = RandomStringUtils.randomAlphabetic(8);
+        String value = RandomStringUtils.randomAlphabetic(7);
+        StringProperty expected = new StringProperty();
+        expected.setValue(value);
+        Map<String, Property> properties = new HashMap<>();
+        properties.put(path, expected);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
+        Character character = (Character) setupTest(input, new Character());
+        StringProperty property = (StringProperty)character.getProperties().getProperty(path);
+        assertEquals(value, property.getValue());
+    }
+
+    @Test
+    public void generateShouldAddMultipleStringPropertiesToProperties() {
+        Map<String, Property> properties = new HashMap<>();
+
+        String path1 = RandomStringUtils.randomAlphabetic(8);
+        StringProperty expected1 = new StringProperty().withValue(RandomStringUtils.randomAlphabetic(7));
+        properties.put(path1, expected1);
+
+        String path2 = RandomStringUtils.randomAlphabetic(8);
+        StringProperty expected2 = new StringProperty().withValue(RandomStringUtils.randomAlphabetic(7));
+        properties.put(path2, expected2);
+
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
+        Character character = (Character) setupTest(input, new Character());
+
+        StringProperty property = (StringProperty)character.getProperties().getProperty(path1);
+        assertEquals(expected1.getValue(), property.getValue());
+
+        property = (StringProperty)character.getProperties().getProperty(path2);
+        assertEquals(expected2.getValue(), property.getValue());
+    }
+
     private List<String> generateInput() {
         List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
         return generateInput("0 0", coda);
@@ -279,6 +315,10 @@ public class ProcessLinesStageTest {
     }
 
     private List<String> generateInput(String flags, List<String> coda) {
+        return generateInput(flags, coda, new HashMap<>());
+    }
+
+    private List<String> generateInput(String flags, List<String> coda, Map<String, Property> properties) {
         List<String> lines = new ArrayList<>();
         lines.add("#" + databaseReference); // (00) Database Reference
         lines.add(name);                    // (01) Item Name
@@ -291,14 +331,24 @@ public class ProcessLinesStageTest {
         lines.add(useCount.toString());     // (08) UseCount
         lines.add(modified);                // (09) LastModified
         lines.add("*Props*");               // (10) Beginning of property list
-        lines.add("uno/-1/card1:2:56");     // Some other property
         lines.add("_/de:10:" + description);// (??) Description
+        addProperties(lines, properties);
         lines.add("*End*");                 // (??) End of property list
 
         for (String line : coda) {
             lines.add(line);
         }
         return lines;
+    }
+
+    private void addProperties(List<String> lines, Map<String, Property> properties) {
+        for (Map.Entry entry : properties.entrySet()) {
+            String line = entry.getKey() + ":";
+            if (entry.getValue() instanceof StringProperty) {
+                line = line + "10:" + ((StringProperty) entry.getValue()).getValue();
+                lines.add(line);
+            }
+        }
     }
 
     private void setupSpecialComponents(ImportBucket bucket) {
@@ -312,17 +362,4 @@ public class ProcessLinesStageTest {
         component.setId(GlobalConstants.REFERENCE_HOME);
         bucket.getComponents().put(GlobalConstants.REFERENCE_HOME, component);
     }
-//
-//    @Test
-//    public void generateShouldAddPropertyToProperties() {
-//        String path = RandomStringUtils.randomAlphabetic(8);
-//        String value = RandomStringUtils.randomAlphabetic(7);
-//
-//        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
-//        Character character = (Character) stage.generate(input);
-//        StringProperty property = (StringProperty)character.getProperties().getProperty(path);
-//        assertEquals(value, property.getValue());
-//    }
-//
-
 }

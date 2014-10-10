@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.properties.Property;
+import org.ruhlendavis.meta.properties.StringProperty;
 
 import java.time.Instant;
 import java.util.List;
@@ -22,14 +24,23 @@ public class ProcessLinesStage implements ImporterStage {
         int propertyListEnd = -1;
         int lineCount = 0;
         for (String line : lines) {
-            if ("*Props*".equals(line)) {
-                propertyListStart = lineCount;
-            }
-            if (propertyListStart > 0 && "*End*".equals(line)) {
-                propertyListEnd = lineCount;
-                break;
-            }
             lineCount++;
+            if ("*Props*".equals (line)) {
+                propertyListStart = lineCount;
+                continue;
+            }
+            if (propertyListStart > 0) {
+                if ("*End*".equals(line)) {
+                    propertyListEnd = lineCount;
+                    break;
+                }
+                String[] parts = line.split(":");
+                if ("_/de".equals(parts[0])) {
+                    component.setDescription(extractDescription(line));
+                } else {
+                    addProperty(component, parts);
+                }
+            }
         }
 
         if (component instanceof Space) {
@@ -37,7 +48,7 @@ public class ProcessLinesStage implements ImporterStage {
         } else if (component instanceof Artifact) {
             generateArtifact((Artifact) component, lines, bucket);
         } else if (component instanceof Link) {
-            generateLink((Link) component, propertyListEnd + 1, lines, bucket);
+            generateLink((Link) component, propertyListEnd, lines, bucket);
         } else if (component instanceof Character) {
             generateCharacter((Character) component, lines, bucket);
         } else if (component instanceof Program) {
@@ -45,6 +56,15 @@ public class ProcessLinesStage implements ImporterStage {
         }
 
         generateComponentFields(lines, component, bucket);
+    }
+
+    private void addProperty(Component component, String[] parts) {
+        long type = Long.parseLong(parts[1]) & 0x7;
+        if (type == 2) {
+            StringProperty property = new StringProperty();
+            property.setValue(parts[2]);
+            component.getProperties().setProperty(parts[0], property);
+        }
     }
 
     private void generateArtifact(Artifact artifact, List<String> lines, ImportBucket bucket) {
@@ -102,11 +122,6 @@ public class ProcessLinesStage implements ImporterStage {
         component.setLastUsed(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(7))));
         component.setUseCount(translateStringReferenceToLong(lines.get(8)));
         component.setLastModified(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(9))));
-        for (String line : lines) {
-            if (line.startsWith("_/de")) {
-                component.setDescription(extractDescription(line));
-            }
-        }
     }
 
     private Component getComponent(ImportBucket bucket, String line) {

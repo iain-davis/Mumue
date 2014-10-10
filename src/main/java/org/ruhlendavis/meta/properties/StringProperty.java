@@ -10,4 +10,9 @@ public class StringProperty extends Property {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public StringProperty withValue(String value) {
+        this.value = value;
+        return this;
+    }
 }
