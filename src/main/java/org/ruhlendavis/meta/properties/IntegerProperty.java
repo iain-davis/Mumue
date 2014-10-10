@@ -10,4 +10,9 @@ public class IntegerProperty extends Property {
     public void setValue(Long value) {
         this.value = value;
     }
+
+    public IntegerProperty withValue(long value) {
+        this.value = value;
+        return this;
+    }
 }

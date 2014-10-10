@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.properties.IntegerProperty;
 import org.ruhlendavis.meta.properties.Property;
 import org.ruhlendavis.meta.properties.StringProperty;
 
@@ -273,14 +274,26 @@ public class ProcessLinesStageTest {
     public void generateShouldAddStringPropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
         String value = RandomStringUtils.randomAlphabetic(7);
-        StringProperty expected = new StringProperty();
-        expected.setValue(value);
+        StringProperty expected = new StringProperty().withValue(value);
         Map<String, Property> properties = new HashMap<>();
         properties.put(path, expected);
         List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
         Character character = (Character) setupTest(input, new Character());
         StringProperty property = (StringProperty)character.getProperties().getProperty(path);
         assertEquals(value, property.getValue());
+    }
+
+    @Test
+    public void generateShouldAddIntegerPropertyToProperties() {
+        String path = RandomStringUtils.randomAlphabetic(8);
+        long value = RandomUtils.nextLong(10, 100);
+        IntegerProperty expected = new IntegerProperty().withValue(value);
+        Map<String, Property> properties = new HashMap<>();
+        properties.put(path, expected);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
+        Character character = (Character) setupTest(input, new Character());
+        IntegerProperty property = (IntegerProperty)character.getProperties().getProperty(path);
+        assertEquals(value, property.getValue(), 0);
     }
 
     @Test
@@ -347,7 +360,11 @@ public class ProcessLinesStageTest {
             if (entry.getValue() instanceof StringProperty) {
                 line = line + "10:" + ((StringProperty) entry.getValue()).getValue();
                 lines.add(line);
+            } else if (entry.getValue() instanceof IntegerProperty) {
+                line = line + "3:" + ((IntegerProperty) entry.getValue()).getValue().toString();
+                lines.add(line);
             }
+
         }
     }
 
