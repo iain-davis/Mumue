@@ -3,18 +3,20 @@ package org.ruhlendavis.meta.components;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.PropertyTree;
 
+import java.security.cert.Extension;
 import java.time.Instant;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;
-    private Component owner;
     private String name = "";
+    private Component owner;
     private String description = "";
     private Instant created = Instant.now();
     private Instant lastUsed = Instant.now();
     private Instant lastModified = Instant.now();
     private long useCount = 0;
     private PropertyTree properties = new PropertyTree();
+    private Component location;
 
     public Component getOwner() {
         return owner;
@@ -82,5 +84,13 @@ public class Component {
 
     public PropertyTree getProperties() {
         return properties;
+    }
+
+    public Component getLocation() {
+        return location;
+    }
+
+    public void setLocation(Component location) {
+        this.location = location;
     }
 }

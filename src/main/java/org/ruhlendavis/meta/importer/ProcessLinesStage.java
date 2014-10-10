@@ -44,7 +44,7 @@ public class ProcessLinesStage implements ImporterStage {
             generateProgram((Program) component, lines, bucket);
         }
 
-        generateComponentFields(lines, component);
+        generateComponentFields(lines, component, bucket);
     }
 
     private void generateArtifact(Artifact artifact, List<String> lines, ImportBucket bucket) {
@@ -94,8 +94,9 @@ public class ProcessLinesStage implements ImporterStage {
         return Long.parseLong(databaseReference.replace("#", ""));
     }
 
-    private void generateComponentFields(List<String> lines, Component component) {
+    private void generateComponentFields(List<String> lines, Component component, ImportBucket bucket) {
         component.setName(lines.get(1));
+        component.setLocation(bucket.getComponents().get(translateStringReferenceToLong(lines.get(2))));
         component.setCreated(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(6))));
         component.setLastUsed(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(7))));
         component.setUseCount(translateStringReferenceToLong(lines.get(8)));

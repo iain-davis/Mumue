@@ -17,6 +17,7 @@ public class ProcessLinesStageTest {
     private ProcessLinesStage stage = new ProcessLinesStage();
     private String databaseReference = RandomStringUtils.randomNumeric(5);
     private String name = RandomStringUtils.randomAlphanumeric(13);
+    private Long locationId = RandomUtils.nextLong(200, 300);
     private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
     private String created = RandomStringUtils.randomNumeric(10);
     private String lastUsed = RandomStringUtils.randomNumeric(10);
@@ -45,6 +46,15 @@ public class ProcessLinesStageTest {
     public void generateShouldSetName() {
         Component component = setupTest(generateInput(), new Space());
         assertEquals(name, component.getName());
+    }
+
+    @Test
+    public void generateShouldSetLocation() {
+        Space space = new Space();
+        space.setId(locationId);
+        bucket.getComponents().put(locationId, space);
+        Component component = setupTest(generateInput(), new Space());
+        assertEquals(locationId, component.getLocation().getId());
     }
 
     @Test
@@ -267,7 +277,7 @@ public class ProcessLinesStageTest {
         List<String> lines = new ArrayList<>();
         lines.add("#" + databaseReference); // (00) Database Reference
         lines.add(name);                    // (01) Item Name
-        lines.add("-1");                    // (02) Location
+        lines.add(locationId.toString());   // (02) Location
         lines.add("524");                   // (03) Contents
         lines.add("-1");                    // (04) Next
         lines.add(flags);                   // (05) Flags F2Flags
