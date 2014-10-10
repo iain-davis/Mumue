@@ -32,7 +32,9 @@ public class GenerateRawComponentsStage implements ImporterStage {
                 Long id = translateReference(reference);
 
                 addLines(lines, iterator, 4);
-                long type = determineType(iterator.nextLine());
+                String line = iterator.nextLine();
+                lines.add(line);
+                long type = determineType(line);
                 Component component = createComponent(type);
                 addLines(lines, iterator, 5);
                 addPropertyList(lines, iterator);
