@@ -6,9 +6,7 @@ import org.junit.Test;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.properties.IntegerProperty;
-import org.ruhlendavis.meta.properties.Property;
-import org.ruhlendavis.meta.properties.StringProperty;
+import org.ruhlendavis.meta.properties.*;
 
 import java.util.*;
 
@@ -284,6 +282,19 @@ public class ProcessLinesStageTest {
     }
 
     @Test
+    public void generateShouldAddLockPropertyToProperties() {
+        String path = RandomStringUtils.randomAlphabetic(8);
+        String value = RandomStringUtils.randomAlphabetic(7);
+        LockProperty expected = new LockProperty().withValue(value);
+        Map<String, Property> properties = new HashMap<>();
+        properties.put(path, expected);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
+        Character character = (Character) setupTest(input, new Character());
+        LockProperty property = (LockProperty)character.getProperties().getProperty(path);
+        assertEquals(value, property.getValue());
+    }
+
+    @Test
     public void generateShouldAddIntegerPropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
         long value = RandomUtils.nextLong(10, 100);
@@ -293,6 +304,19 @@ public class ProcessLinesStageTest {
         List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
         Character character = (Character) setupTest(input, new Character());
         IntegerProperty property = (IntegerProperty)character.getProperties().getProperty(path);
+        assertEquals(value, property.getValue(), 0);
+    }
+
+    @Test
+    public void generateShouldAddReferencePropertyToProperties() {
+        String path = RandomStringUtils.randomAlphabetic(8);
+        long value = RandomUtils.nextLong(10, 100);
+        ReferenceProperty expected = new ReferenceProperty().withValue(value);
+        Map<String, Property> properties = new HashMap<>();
+        properties.put(path, expected);
+        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
+        Character character = (Character) setupTest(input, new Character());
+        ReferenceProperty property = (ReferenceProperty)character.getProperties().getProperty(path);
         assertEquals(value, property.getValue(), 0);
     }
 
@@ -361,10 +385,15 @@ public class ProcessLinesStageTest {
                 line = line + "10:" + ((StringProperty) entry.getValue()).getValue();
                 lines.add(line);
             } else if (entry.getValue() instanceof IntegerProperty) {
-                line = line + "3:" + ((IntegerProperty) entry.getValue()).getValue().toString();
+                line = line + "3:" + ((IntegerProperty) entry.getValue()).getValue();
+                lines.add(line);
+            } else if (entry.getValue() instanceof LockProperty) {
+                line = line + "4:" + ((LockProperty) entry.getValue()).getValue();
+                lines.add(line);
+            } else if (entry.getValue() instanceof ReferenceProperty) {
+                line = line + "5:" + ((ReferenceProperty) entry.getValue()).getValue();
                 lines.add(line);
             }
-
         }
     }
 

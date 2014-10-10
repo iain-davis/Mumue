@@ -10,4 +10,9 @@ public class LockProperty extends Property {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public LockProperty withValue(String value) {
+        this.value = value;
+        return this;
+    }
 }

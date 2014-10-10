@@ -16,7 +16,7 @@ public class GenerateRawComponentsStageTest {
         String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\space.db";
         bucket.setFile(file);
         stage.run(bucket);
-        Assert.assertEquals(1, bucket.getComponents().size());
+        Assert.assertEquals(4, bucket.getComponents().size());
         Assert.assertTrue(bucket.getComponents().get(0L) instanceof Space);
     }
 
@@ -26,7 +26,7 @@ public class GenerateRawComponentsStageTest {
         String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\character.db";
         bucket.setFile(file);
         stage.run(bucket);
-        Assert.assertEquals(1, bucket.getComponents().size());
+        Assert.assertEquals(4, bucket.getComponents().size());
         Assert.assertTrue(bucket.getComponents().get(1L) instanceof org.ruhlendavis.meta.components.Character);
     }
 
@@ -36,7 +36,7 @@ public class GenerateRawComponentsStageTest {
         String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\glow.db";
         bucket.setFile(file);
         stage.run(bucket);
-        Assert.assertEquals(2, bucket.getComponents().size());
+        Assert.assertEquals(5, bucket.getComponents().size());
         Assert.assertTrue(bucket.getComponents().get(0L) instanceof Space);
         Assert.assertTrue(bucket.getComponents().get(1L) instanceof Character);
     }

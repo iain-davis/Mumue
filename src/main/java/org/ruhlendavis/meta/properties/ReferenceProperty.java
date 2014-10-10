@@ -12,4 +12,9 @@ public class ReferenceProperty extends Property {
     public void setValue(Long value) {
         this.value = value;
     }
+
+    public ReferenceProperty withValue(Long value) {
+        this.value = value;
+        return this;
+    }
 }

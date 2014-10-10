@@ -4,9 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.properties.IntegerProperty;
-import org.ruhlendavis.meta.properties.Property;
-import org.ruhlendavis.meta.properties.StringProperty;
+import org.ruhlendavis.meta.properties.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -67,6 +65,14 @@ public class ProcessLinesStage implements ImporterStage {
             component.getProperties().setProperty(parts[0], property);
         } else if (type == 3) {
             IntegerProperty property = new IntegerProperty();
+            property.setValue(Long.parseLong(parts[2]));
+            component.getProperties().setProperty(parts[0], property);
+        } else if (type == 4) {
+            LockProperty property = new LockProperty();
+            property.setValue(parts[2]);
+            component.getProperties().setProperty(parts[0], property);
+        } else if (type == 5) {
+            ReferenceProperty property = new ReferenceProperty();
             property.setValue(Long.parseLong(parts[2]));
             component.getProperties().setProperty(parts[0], property);
         }
