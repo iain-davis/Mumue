@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class GenerateRawComponentsStageTest {
     private GenerateRawComponentsStage stage = new GenerateRawComponentsStage();
-    private ImportBucket bucket = new ImportBucket();
     @Test
     public void generateRawComponentsGeneratesSpace() throws IOException {
+        ImportBucket bucket = new ImportBucket();
         String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\space.db";
         bucket.setFile(file);
         stage.run(bucket);
@@ -22,6 +22,7 @@ public class GenerateRawComponentsStageTest {
 
     @Test
     public void generateRawComponentsGeneratesCharacter() throws IOException {
+        ImportBucket bucket = new ImportBucket();
         String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\character.db";
         bucket.setFile(file);
         stage.run(bucket);
@@ -31,6 +32,7 @@ public class GenerateRawComponentsStageTest {
 
     @Test
     public void generateRawComponents() throws IOException {
+        ImportBucket bucket = new ImportBucket();
         String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\glow.db";
         bucket.setFile(file);
         stage.run(bucket);

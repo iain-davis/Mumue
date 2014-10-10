@@ -1,7 +1,7 @@
 package org.ruhlendavis.meta.properties;
 
 public class FloatProperty extends Property {
-    private Double value;
+    private Double value = 0.0;
 
     public Double getValue() {
         return value;
