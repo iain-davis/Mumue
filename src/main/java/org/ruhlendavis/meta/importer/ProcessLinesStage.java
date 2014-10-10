@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
 
@@ -32,15 +33,15 @@ public class ProcessLinesStage implements ImporterStage {
         }
 
         if (component instanceof Space) {
-            generateSpace((Space)component, lines, bucket);
+            generateSpace((Space) component, lines, bucket);
         } else if (component instanceof Artifact) {
-            generateArtifact((Artifact)component, lines, bucket);
+            generateArtifact((Artifact) component, lines, bucket);
         } else if (component instanceof Link) {
-            generateLink((Link) component, propertyListEnd + 1, lines);
+            generateLink((Link) component, propertyListEnd + 1, lines, bucket);
         } else if (component instanceof Character) {
             generateCharacter((Character) component, lines, bucket);
         } else if (component instanceof Program) {
-            generateProgram((Program) component, lines);
+            generateProgram((Program) component, lines, bucket);
         }
 
         generateComponentFields(lines, component);
@@ -49,7 +50,7 @@ public class ProcessLinesStage implements ImporterStage {
     private void generateArtifact(Artifact artifact, List<String> lines, ImportBucket bucket) {
         artifact.setHome(translateStringReferenceToLong(lines.get(lines.size() - 4)));
         addLink(artifact, lines.get(lines.size() - 3), bucket);
-        artifact.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 2)));
+        artifact.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 2))));
         artifact.setValue(translateStringReferenceToLong(lines.get(lines.size() - 1)));
     }
 
@@ -67,28 +68,28 @@ public class ProcessLinesStage implements ImporterStage {
         }
     }
 
-    private void generateLink(Link link, int destinationCountPosition, List<String> lines) {
+    private void generateLink(Link link, int destinationCountPosition, List<String> lines, ImportBucket bucket) {
         Long destinationCount = translateStringReferenceToLong(lines.get(destinationCountPosition));
         for (int i = 0; i < destinationCount; i++) {
             Long destinationId = translateStringReferenceToLong(lines.get(destinationCountPosition + 1 + i));
             link.getDestinationIds().add(destinationId);
         }
-        link.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
+        link.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
     }
 
-    private void generateProgram(Program program, List<String> lines) {
-        program.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
+    private void generateProgram(Program program, List<String> lines, ImportBucket bucket) {
+        program.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
     }
 
     private void generateSpace(Space space, List<String> lines, ImportBucket bucket) {
         space.setDropTo(translateStringReferenceToLong(lines.get(lines.size() - 3)));
         addLink(space, lines.get(lines.size() - 2), bucket);
-        space.setOwnerId(translateStringReferenceToLong(lines.get(lines.size() - 1)));
+        space.setOwner(bucket.getComponents().get(translateStringReferenceToLong(lines.get(lines.size() - 1))));
     }
 
     private long translateStringReferenceToLong(String databaseReference) {
         if (StringUtils.isBlank(databaseReference)) {
-            return 0L;
+            return GlobalConstants.REFERENCE_UNKNOWN;
         }
         return Long.parseLong(databaseReference.replace("#", ""));
     }

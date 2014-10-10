@@ -14,6 +14,6 @@ public class ComponentTest {
 
     @Test
     public void componentDefaultOwnerId() {
-        Assert.assertEquals(GlobalConstants.REFERENCE_UNKNOWN, component.getOwnerId(), 0);
+        Assert.assertEquals(GlobalConstants.REFERENCE_UNKNOWN, component.getOwner().getId(), 0);
     }
 }

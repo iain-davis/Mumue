@@ -14,6 +14,7 @@ import java.util.List;
 public class GenerateRawComponentsStage implements ImporterStage {
     @Override
     public void run(ImportBucket bucket) {
+        setupSpecialComponents(bucket);
         File file = new File(bucket.getFile());
         LineIterator iterator;
         String currentLine;
@@ -47,6 +48,18 @@ public class GenerateRawComponentsStage implements ImporterStage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupSpecialComponents(ImportBucket bucket) {
+        Component component = new Component();
+        component.setId(GlobalConstants.REFERENCE_UNKNOWN);
+        bucket.getComponents().put(GlobalConstants.REFERENCE_UNKNOWN, component);
+        component = new Component();
+        component.setId(GlobalConstants.REFERENCE_AMBIGUOUS);
+        bucket.getComponents().put(GlobalConstants.REFERENCE_AMBIGUOUS, component);
+        component = new Component();
+        component.setId(GlobalConstants.REFERENCE_HOME);
+        bucket.getComponents().put(GlobalConstants.REFERENCE_HOME, component);
     }
 
     private void addComponentSpecificLines(List<String> lines, LineIterator iterator, long type) {

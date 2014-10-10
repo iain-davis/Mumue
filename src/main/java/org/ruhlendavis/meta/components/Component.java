@@ -7,7 +7,7 @@ import java.time.Instant;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;
-    private Long ownerId = GlobalConstants.REFERENCE_UNKNOWN;
+    private Component owner;
     private String name = "";
     private String description = "";
     private Instant created = Instant.now();
@@ -15,6 +15,14 @@ public class Component {
     private Instant lastModified = Instant.now();
     private long useCount = 0;
     private PropertyTree properties = new PropertyTree();
+
+    public Component getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Component owner) {
+        this.owner = owner;
+    }
 
     public String getDescription() {
         return description;
@@ -70,14 +78,6 @@ public class Component {
 
     public void setUseCount(long useCount) {
         this.useCount = useCount;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
     }
 
     public PropertyTree getProperties() {
