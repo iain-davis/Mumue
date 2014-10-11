@@ -1,5 +1,5 @@
 ***Foxen5 TinyMUCK DUMP Format***
-2
+7
 1
 195
 dumpwarn_mesg=[!] Save soon.
@@ -89,8 +89,8 @@ max_site_lma=40
 max_ignores=250
 www_port=0
 dump_copies=0
-read_bytes=0
-write_bytes=0
+read_bytes=246
+write_bytes=2695
 player_start=#0
 environment_room=#0
 reg_wiz=#-1
@@ -197,21 +197,94 @@ transparent_paths=yes
 exit_guest_flag=no
 heartbeat=no
 division_by_zero_error=no
+#6
+gohome
+1
+-1
+-1
+2 0
+1413049321
+1413049321
+0
+1413049321
+*Props*
+*End*
+1
+-3
+1
+#5
+<garbage>
+-1
+-1
+-1
+6 0
+1413049347
+1413049347
+0
+1413049347
+*Props*
+_/de:2:<recyclable>
+*End*
+#4
+West
+0
+-1
+-1
+2 0
+1413049286
+1413049293
+1
+1413049286
+*Props*
+*End*
+1
+0
+1
+#3
+ThingOne
+1
+-1
+2
+1 0
+1413049279
+1413049279
+0
+1413049279
+*Props*
+*End*
+0
+-1
+1
+0
+#2
+GoGoGadget
+1
+-1
+-1
+1310724 0
+1413049261
+1413049261
+0
+1413049261
+*Props*
+_/de:2:A scroll containing a spell called GoGoGadget
+*End*
+1
 #1
 One
 0
--1
+3
 -1
 19 0
-1412719188
-1412719188
-0
-1412719188
+1413049245
+1413049354
+1
+1413049245
 *Props*
 _/de:2:You see Number One.
 *End*
 0
--1
+6
 0
 potrzebie
 #0
@@ -220,15 +293,20 @@ Room Zero
 1
 -1
 0 0
-1412719188
-1412719188
-0
-1412719188
+1413049245
+1413049293
+2
+1413049245
 *Props*
-_/osc:2:is briefly visible through the mist.
 _/de:2:You are in Room Zero.  It's very dark here.
+_/osc:2:is briefly visible through the mist.
+~sys/dumpinterval:3:14400
+~sys/lastdumptime:3:1413049354
+~sys/max_connects:3:1
+~sys/maxpennies:3:500
+~sys/startuptime:3:1413049245
 *End*
 -1
--1
+4
 1
 ***END OF DUMP***
