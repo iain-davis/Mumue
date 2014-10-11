@@ -1,23 +1,18 @@
 package org.ruhlendavis.meta.importer;
 
-import com.google.common.io.Resources;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ImporterTest {
@@ -54,8 +49,8 @@ public class ImporterTest {
         verify(loadLinesStage, never()).run(any(ImportBucket.class));
     }
 
-    @Test
-    public void f() throws URISyntaxException {
-        new Importer().run("C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\narnia.db");
-    }
+//    @Test
+//    public void f() throws URISyntaxException {
+//        new Importer().run("C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\narnia.db");
+//    }
 }
