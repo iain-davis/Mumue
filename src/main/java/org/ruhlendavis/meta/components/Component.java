@@ -99,4 +99,9 @@ public class Component {
     public List<Component> getContents() {
         return contents;
     }
+
+    public Component withId(Long id) {
+        this.id = id;
+        return this;
+    }
 }

@@ -27,4 +27,10 @@ public class Artifact extends Component implements Homeable, LinkSource {
     public List<Link> getLinks() {
         return links;
     }
+
+    @Override
+    public Artifact withId(Long id) {
+        setId(id);
+        return this;
+    }
 }

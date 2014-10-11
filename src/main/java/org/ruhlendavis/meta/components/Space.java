@@ -18,4 +18,10 @@ public class Space extends Component implements LinkSource {
     public List<Link> getLinks() {
         return links;
     }
+
+    @Override
+    public Space withId(Long id) {
+        setId(id);
+        return this;
+    }
 }

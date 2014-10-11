@@ -9,4 +9,10 @@ public class Link extends Component {
     public List<Component> getDestinations() {
         return destinations;
     }
+
+    @Override
+    public Link withId(Long id) {
+        setId(id);
+        return this;
+    }
 }

@@ -36,4 +36,10 @@ public class Character extends Component implements Homeable, LinkSource {
     public List<Link> getLinks() {
         return links;
     }
+
+    @Override
+    public Character withId(Long id) {
+        setId(id);
+        return this;
+    }
 }
