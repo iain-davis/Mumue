@@ -1,2 +1,5 @@
 * text=auto
 *.java text
+*.jar binary
+*.gradle text
+*.properties text
