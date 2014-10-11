@@ -2,11 +2,10 @@ package org.ruhlendavis.meta.importer;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.components.Space;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class GenerateRawComponentsStageTest {
     private GenerateRawComponentsStage stage = new GenerateRawComponentsStage();

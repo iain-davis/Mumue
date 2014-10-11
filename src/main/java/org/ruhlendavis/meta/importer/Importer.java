@@ -6,5 +6,6 @@ public class Importer {
         bucket.setFile(file);
         new GenerateRawComponentsStage().run(bucket);
         new ProcessLinesStage().run(bucket);
+//        new ContentsChainStage().run(bucket);
     }
 }
