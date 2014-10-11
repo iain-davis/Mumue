@@ -29,7 +29,7 @@ public class GenerateRawComponentsStage extends ImporterStage {
                 List<String> lines = new ArrayList<>();
                 lines.add(reference);
 
-                Long id = translateReference(reference);
+                Long id = parseReference(reference);
 
                 addLines(lines, iterator, 4);
                 String line = iterator.nextLine();
@@ -108,10 +108,6 @@ public class GenerateRawComponentsStage extends ImporterStage {
             component = new Garbage();
         }
         return component;
-    }
-
-    private long determineType(String line) {
-        return Long.parseLong(line.split(" ")[0]) & 0x7;
     }
 
     private String skipParameterSection(LineIterator inputIterator, String currentLine) {
