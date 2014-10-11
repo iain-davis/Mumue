@@ -12,12 +12,16 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ImporterTest {
     @Mock
     LoadLinesStage loadLinesStage;
+    @Mock
+    ImportBucket bucket;
 
     @InjectMocks
     private Importer importer = new Importer();
@@ -35,6 +39,16 @@ public class ImporterTest {
         importer.setStages(stages);
         importer.run("file");
         verify(loadLinesStage).run(any(ImportBucket.class));
+    }
+
+    @Test
+    public void runDoesNotExecuteFailedBucket() {
+        List<ImporterStage> stages = new ArrayList<>();
+        stages.add(loadLinesStage);
+        importer.setStages(stages);
+        when(bucket.isFailed()).thenReturn(true);
+        importer.run("file");
+        verify(loadLinesStage, never()).run(any(ImportBucket.class));
     }
 
 //    @Test

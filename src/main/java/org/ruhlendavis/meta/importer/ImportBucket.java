@@ -2,15 +2,16 @@ package org.ruhlendavis.meta.importer;
 
 import org.ruhlendavis.meta.components.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ImportBucket {
-    String file = "";
-    private Map<Long, Component> components = new HashMap<Long, Component>();
+    private String file = "";
+    private Map<Long, Component> components = new HashMap<>();
     private Map<Long, List<String>> componentLines = new HashMap<>();
-    private List<String> sourceLines;
+    private List<String> sourceLines = new ArrayList<>();
+    private List<String> parameterLines = new ArrayList<>();
+    private Long databaseItemCount = new Long(0L);
+    private Boolean failed = false;
 
     public String getFile() {
         return file;
@@ -42,5 +43,29 @@ public class ImportBucket {
 
     public List<String> getSourceLines() {
         return sourceLines;
+    }
+
+    public List<String> getParameterLines() {
+        return parameterLines;
+    }
+
+    public void setParameterLines(List<String> parameterLines) {
+        this.parameterLines = parameterLines;
+    }
+
+    public Long getDatabaseItemCount() {
+        return databaseItemCount;
+    }
+
+    public void setDatabaseItemCount(Long databaseItemCount) {
+        this.databaseItemCount = databaseItemCount;
+    }
+
+    public Boolean isFailed() {
+        return failed;
+    }
+
+    public void setFailed(Boolean failed) {
+        this.failed = failed;
     }
 }

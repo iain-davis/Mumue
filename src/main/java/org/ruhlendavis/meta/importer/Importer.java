@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Importer {
     private List<ImporterStage> stages = new ArrayList<>();
+    private ImportBucket bucket = new ImportBucket();
 
     public Importer() {
         stages.add(new LoadLinesStage());
@@ -12,9 +13,11 @@ public class Importer {
     }
 
     public void run(String file) {
-        ImportBucket bucket = new ImportBucket();
         bucket.setFile(file);
         for (ImporterStage stage : stages) {
+            if (bucket.isFailed()) {
+                break;
+            }
             stage.run(bucket);
         }
     }
