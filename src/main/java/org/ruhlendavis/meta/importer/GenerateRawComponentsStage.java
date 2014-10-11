@@ -2,7 +2,6 @@ package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 
@@ -11,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenerateRawComponentsStage implements ImporterStage {
+public class GenerateRawComponentsStage extends ImporterStage {
     @Override
     public void run(ImportBucket bucket) {
         setupSpecialComponents(bucket);
@@ -122,12 +121,5 @@ public class GenerateRawComponentsStage implements ImporterStage {
             }
         }
         return currentLine;
-    }
-
-    private long translateReference(String reference) {
-        if (StringUtils.isBlank(reference)) {
-            return GlobalConstants.REFERENCE_UNKNOWN;
-        }
-        return Long.parseLong(reference.replace("#", ""));
     }
 }

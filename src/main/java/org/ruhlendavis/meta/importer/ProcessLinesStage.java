@@ -1,16 +1,17 @@
 package org.ruhlendavis.meta.importer;
 
-import org.apache.commons.lang3.StringUtils;
-import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.properties.*;
+import org.ruhlendavis.meta.properties.IntegerProperty;
+import org.ruhlendavis.meta.properties.LockProperty;
+import org.ruhlendavis.meta.properties.ReferenceProperty;
+import org.ruhlendavis.meta.properties.StringProperty;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-public class ProcessLinesStage implements ImporterStage {
+public class ProcessLinesStage extends ImporterStage {
     @Override
     public void run(ImportBucket bucket) {
         for (Map.Entry<Long, List<String>> entry : bucket.getComponentLines().entrySet()) {
@@ -82,27 +83,27 @@ public class ProcessLinesStage implements ImporterStage {
         artifact.setHome(getComponent(bucket, lines.get(lines.size() - 4)));
         addLink(artifact, lines.get(lines.size() - 3), bucket);
         artifact.setOwner(getComponent(bucket, lines.get(lines.size() - 2)));
-        artifact.setValue(translateStringReferenceToLong(lines.get(lines.size() - 1)));
+        artifact.setValue(translateReference(lines.get(lines.size() - 1)));
     }
 
     private void generateCharacter(Character character, List<String> lines, ImportBucket bucket) {
         character.setHome(getComponent(bucket, lines.get(lines.size() - 4)));
         addLink(character, lines.get(lines.size() - 3), bucket);
-        character.setWealth(translateStringReferenceToLong(lines.get(lines.size() - 2)));
+        character.setWealth(translateReference(lines.get(lines.size() - 2)));
         character.setPassword(lines.get(lines.size() - 1));
     }
 
     private void addLink(LinkSource component, String linkReference, ImportBucket bucket) {
-        Long id = translateStringReferenceToLong(linkReference);
+        Long id = translateReference(linkReference);
         if (id != -1) {
             component.getLinks().add((Link)bucket.getComponents().get(id));
         }
     }
 
     private void generateLink(Link link, int destinationCountPosition, List<String> lines, ImportBucket bucket) {
-        Long destinationCount = translateStringReferenceToLong(lines.get(destinationCountPosition));
+        Long destinationCount = translateReference(lines.get(destinationCountPosition));
         for (int i = 0; i < destinationCount; i++) {
-            Long destinationId = translateStringReferenceToLong(lines.get(destinationCountPosition + 1 + i));
+            Long destinationId = translateReference(lines.get(destinationCountPosition + 1 + i));
             link.getDestinations().add(bucket.getComponents().get(destinationId));
         }
         link.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
@@ -118,25 +119,18 @@ public class ProcessLinesStage implements ImporterStage {
         space.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
     }
 
-    private long translateStringReferenceToLong(String databaseReference) {
-        if (StringUtils.isBlank(databaseReference)) {
-            return GlobalConstants.REFERENCE_UNKNOWN;
-        }
-        return Long.parseLong(databaseReference.replace("#", ""));
-    }
-
     private void generateComponentFields(List<String> lines, Component component, ImportBucket bucket) {
         component.setName(lines.get(1));
         component.setLocation(getComponent(bucket, lines.get(2)));
         component.getContents().add(getComponent(bucket, lines.get(3)));
-        component.setCreated(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(6))));
-        component.setLastUsed(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(7))));
-        component.setUseCount(translateStringReferenceToLong(lines.get(8)));
-        component.setLastModified(Instant.ofEpochSecond(translateStringReferenceToLong(lines.get(9))));
+        component.setCreated(Instant.ofEpochSecond(translateReference(lines.get(6))));
+        component.setLastUsed(Instant.ofEpochSecond(translateReference(lines.get(7))));
+        component.setUseCount(translateReference(lines.get(8)));
+        component.setLastModified(Instant.ofEpochSecond(translateReference(lines.get(9))));
     }
 
     private Component getComponent(ImportBucket bucket, String line) {
-        return bucket.getComponents().get(translateStringReferenceToLong(line));
+        return bucket.getComponents().get(translateReference(line));
     }
 
     private String extractDescription(String line) {
