@@ -8,6 +8,7 @@ public class Importer {
 
     public Importer() {
         stages.add(new LoadLinesStage());
+        stages.add(new SeparateSectionsStage());
     }
 
     public void run(String file) {
@@ -18,7 +19,11 @@ public class Importer {
         }
     }
 
-    protected void setStages(List<ImporterStage> stages) {
+    List<ImporterStage> getStages() {
+        return stages;
+    }
+
+    void setStages(List<ImporterStage> stages) {
         this.stages = stages;
     }
 }

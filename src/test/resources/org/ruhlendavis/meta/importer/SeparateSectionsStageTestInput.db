@@ -1,0 +1,234 @@
+***Foxen5 TinyMUCK DUMP Format***
+2
+1
+195
+dumpwarn_mesg=[!] Save soon.
+deltawarn_mesg=[!] Save soon.
+dumpdeltas_mesg=[!] Saving...
+dumping_mesg=[!] Saving...
+dumpdone_mesg=[!] Done.
+shutdown_mesg=Going down, be back in a bit!
+restart_mesg=Muck restarting, be back in a moment!
+penny=pobble
+pennies=pobbles
+cpenny=Pobble
+cpennies=Pobbles
+muckname=GlowMuck
+rwho_passwd=potrzebie
+rwho_server=riemann.math.okstate.edu
+huh_mesg=Hmm?  For help just type help.
+leave_mesg=May your heart always guide your actions.
+idle_boot_mesg=*poke* *poke*  Psst!
+register_mesg=legacy@legacy.muq.org
+playermax_warnmesg=[!] We're pretty full now, it may be hard to get on.
+playermax_bootmesg=[!] Uh oh, we're full!  Try again in a few minutes.
+path_dir=@u/d
+html_parent_link=/
+pueblo_message=<xch_mudtext>
+home_command=home
+mob_interval=  0d  0:00:05
+mud_interval=  0d  0:01:00
+rwho_interval=  0d  0:04:00
+dump_interval=  0d  4:00:00
+dump_warntime=  0d  0:02:00
+monolithic_interval=  1d  0:00:00
+clean_interval=  0d  0:15:00
+aging_time=180d  0:00:00
+maxidle=  0d  4:00:00
+idletime=  0d  4:00:00
+reg_wait=  0d  1:00:00
+connect_wait=  0d  0:05:00
+fail_wait=  0d  0:00:05
+max_object_endowment=0
+object_cost=100
+exit_cost=1000
+link_cost=0
+room_cost=1000
+lookup_cost=0
+max_pennies=500
+penny_rate=10
+start_pennies=500
+kill_base_cost=1000
+kill_min_cost=100
+kill_bonus=50
+command_burst_size=500
+commands_per_time=20
+command_time_msec=1000
+max_delta_objs=20
+max_loaded_objs=3
+max_process_limit=100
+max_plyr_processes=8
+max_instr_count=20000
+instr_slice=5000
+mpi_max_commands=500
+pause_min=100
+free_frames_pool=8
+max_output=65536
+rand_screens=0
+listen_mlev=7
+playermax_limit=120
+max_rooms=250
+max_exits=5
+max_things=5
+max_programs=10
+muf_macro_mlevel=3
+tinkerproof_mlevel=0
+hidden_prop_mlevel=6
+seeonly_prop_mlevel=4
+private_prop_mlevel=4
+quell_ignore_mlevel=4
+muf_proglog_mlevel=4
+path_mlevel=4
+help_mlevel=2
+muf_mpi_flag_mlevel=4
+newobject_mlevel=1
+fail_retries=3
+max_player_logins=3
+max_site_welcomes=5
+max_site_lma=40
+max_ignores=250
+www_port=0
+dump_copies=0
+read_bytes=0
+write_bytes=0
+player_start=#0
+environment_room=#0
+reg_wiz=#-1
+path_prog=#-1
+jail_room=#-1
+home_room=#-1
+offered_room=#-1
+dead_room=#-1
+www_root=#-1
+www_user=#-1
+heartbeat_user=#-1
+use_hostnames=yes
+log_commands=no
+log_interactive=yes
+log_wizards=no
+log_www_activity=no
+log_connects=no
+log_mud_commands=no
+log_failed_commands=no
+log_programs=yes
+log_guests=no
+log_with_names=no
+dbdump_warning=yes
+deltadump_warning=yes
+periodic_program_purge=yes
+mobile_support=no
+mud_support=no
+run_rwho=no
+secure_who=yes
+who_doing=yes
+realms_control=no
+allow_listeners=no
+allow_listeners_obj=no
+allow_listeners_env=no
+allow_zombies=no
+wiz_vehicles=no
+wiz_name=no
+recycle_frobs=no
+m1_name_notify=yes
+restrict_kill=yes
+registration=yes
+online_registration=yes
+fast_registration=no
+validate_hostname=no
+validate_warning=yes
+teleport_to_player=yes
+secure_teleport=no
+exit_darking=yes
+thing_darking=no
+dark_sleepers=no
+who_hides_dark=no
+compatible_priorities=yes
+compatible_muf=no
+compatible_mpi=no
+parse_help_as_mpi=no
+do_mpi_parsing=yes
+look_propqueues=no
+lock_envcheck=no
+diskbase_propvals=yes
+idleboot=no
+playermax=no
+db_readonly=no
+building=yes
+restricted_building=no
+restricted_mpi=no
+mortal_mpi_listen_props=no
+date_motd=yes
+author_motd=no
+building_quotas=no
+quotas_with_bbits=no
+space_nag=no
+user_connect_propqueue=yes
+user_arrive_propqueue=yes
+user_idle_propqueue=no
+look_on_connect=yes
+show_idlers=no
+doing_blocks_ads=no
+doing_blocks_hard=no
+pause_after_motd=no
+mortals_need_id_prop=no
+purify_muf_files=yes
+db_help_first=no
+server_ansi=yes
+glow_ansi=yes
+tilde_ansi=yes
+rp_who_lists_ic=no
+ignore_support=yes
+alias_support=yes
+global_aliases=no
+chat_tokens=yes
+dash_tokens=no
+default_messages=no
+multi_wiz_levels=no
+quiet_moves=no
+quiet_dark_exits=no
+pueblo_support=no
+dump_copies_decay=no
+unix_login=no
+save_glow_flags=yes
+gender_commands=yes
+www_player_pages=yes
+restricted_www=no
+transparent_paths=yes
+exit_guest_flag=no
+heartbeat=no
+division_by_zero_error=no
+#1
+One
+0
+-1
+-1
+19 0
+1412719188
+1412719188
+0
+1412719188
+*Props*
+_/de:2:You see Number One.
+*End*
+0
+-1
+0
+potrzebie
+#0
+Room Zero
+-1
+1
+-1
+0 0
+1412719188
+1412719188
+0
+1412719188
+*Props*
+_/osc:2:is briefly visible through the mist.
+_/de:2:You are in Room Zero.  It's very dark here.
+*End*
+-1
+-1
+1
+***END OF DUMP***
