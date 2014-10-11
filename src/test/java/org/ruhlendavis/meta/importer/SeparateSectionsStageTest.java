@@ -1,10 +1,8 @@
 package org.ruhlendavis.meta.importer;
 
-import com.google.common.io.Resources;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,20 @@ public class SeparateSectionsStageTest {
         ImportBucket bucket = new ImportBucket();
         List<String> lines = new ArrayList<>();
         lines.add(RandomStringUtils.randomAlphabetic(25));
+        lines.add(RandomStringUtils.randomNumeric(5));
+        lines.add("1");
+        bucket.setSourceLines(lines);
+        stage.run(bucket);
+        assertTrue(bucket.isFailed());
+    }
+
+    @Test
+    public void runConfirmsDatabaseFormat() throws URISyntaxException {
+        ImportBucket bucket = new ImportBucket();
+        List<String> lines = new ArrayList<>();
+        lines.add("***Foxen5 TinyMUCK DUMP Format***");
+        lines.add(RandomStringUtils.randomNumeric(5));
+        lines.add("3");
         bucket.setSourceLines(lines);
         stage.run(bucket);
         assertTrue(bucket.isFailed());
@@ -35,29 +47,30 @@ public class SeparateSectionsStageTest {
 
     @Test
     public void runRetrievesDatabaseItemCount() throws URISyntaxException {
+        String parameterCount = RandomStringUtils.randomNumeric(3);
+        String itemCount = RandomStringUtils.randomNumeric(5);
+        ImportBucket bucket = setupBucket(itemCount, parameterCount);
+        stage.run(bucket);
+        assertEquals(Long.parseLong(itemCount), bucket.getDatabaseItemCount(), 0);
+    }
+
+    @Test
+    public void runRetrievesParameterCount() throws URISyntaxException {
+        String parameterCount = RandomStringUtils.randomNumeric(3);
+        String itemCount = RandomStringUtils.randomNumeric(5);
+        ImportBucket bucket = setupBucket(itemCount, parameterCount);
+        stage.run(bucket);
+        assertEquals(Long.parseLong(parameterCount), bucket.getParameterCount(), 0);
+    }
+
+    private ImportBucket setupBucket(String itemCount, String parameterCount) {
         ImportBucket bucket = new ImportBucket();
         List<String> lines = new ArrayList<>();
         lines.add("***Foxen5 TinyMUCK DUMP Format***");
-        String count = RandomStringUtils.randomNumeric(5);
-        lines.add(count);
+        lines.add(itemCount);
+        lines.add("1");
+        lines.add(parameterCount);
         bucket.setSourceLines(lines);
-        stage.run(bucket);
-        assertEquals(Long.parseLong(count), bucket.getDatabaseItemCount(), 0);
+        return bucket;
     }
 }
-//    @Test
-//    public void runRejectsCompressedFile() throws URISyntaxException {
-//        ImportBucket bucket = new ImportBucket();
-//        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/SeparateSectionsStageTestCompressedInput.db").toURI();
-//        bucket.setFile(uri.getPath());
-//        stage.run(bucket);
-//        assertEquals(0, bucket.getComponentLines().size());
-//    }
-//    @Test
-//    public void runHandlesTestInputFile() throws URISyntaxException {
-//        ImportBucket bucket = new ImportBucket();
-//        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/SeparateSectionsStageTestInput.db").toURI();
-//        bucket.setFile(uri.getPath());
-//        stage.run(bucket);
-//        assertEquals(300, bucket.getParameterLines().size());
-//        assertEquals(7, bucket.getComponentLines().size());

@@ -12,6 +12,7 @@ public class ImportBucket {
     private List<String> parameterLines = new ArrayList<>();
     private Long databaseItemCount = new Long(0L);
     private Boolean failed = false;
+    private Long parameterCount = new Long(0L);
 
     public String getFile() {
         return file;
@@ -67,5 +68,13 @@ public class ImportBucket {
 
     public void setFailed(Boolean failed) {
         this.failed = failed;
+    }
+
+    public Long getParameterCount() {
+        return parameterCount;
+    }
+
+    public void setParameterCount(Long parameterCount) {
+        this.parameterCount = parameterCount;
     }
 }
