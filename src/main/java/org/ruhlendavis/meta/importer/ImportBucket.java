@@ -10,6 +10,7 @@ public class ImportBucket {
     String file = "";
     private Map<Long, Component> components = new HashMap<Long, Component>();
     private Map<Long, List<String>> componentLines = new HashMap<>();
+    private List<String> sourceLines;
 
     public String getFile() {
         return file;
@@ -33,5 +34,13 @@ public class ImportBucket {
 
     public void setComponents(Map<Long, Component> components) {
         this.components = components;
+    }
+
+    public void setSourceLines(List<String> sourceLines) {
+        this.sourceLines = sourceLines;
+    }
+
+    public List<String> getSourceLines() {
+        return sourceLines;
     }
 }
