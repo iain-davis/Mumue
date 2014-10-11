@@ -1,13 +1,10 @@
 package org.ruhlendavis.meta.importer;
 
 import com.google.common.io.Resources;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,7 +14,7 @@ public class LoadLinesStageTest {
     @Test
     public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
-        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/LoadLinesStageTest.txt").toURI();
+        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/LoadLinesStageTestInput.db").toURI();
         bucket.setFile(uri.getPath());
 
         stage.run(bucket);
