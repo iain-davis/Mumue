@@ -12,8 +12,8 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProcessLinesStageTest {
-    private ProcessLinesStage stage = new ProcessLinesStage();
+public class ProcessComponentLinesStageTest {
+    private ProcessComponentLinesStage stage = new ProcessComponentLinesStage();
     private String databaseReference = RandomStringUtils.randomNumeric(5);
     private String name = RandomStringUtils.randomAlphanumeric(13);
     private Long locationId = RandomUtils.nextLong(200, 300);

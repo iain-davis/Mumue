@@ -25,8 +25,8 @@ public class ImporterStageTest {
     @Test
     public void determineTypeWithFlagsReturnsType() {
         Integer type = RandomUtils.nextInt(0, 5);
-        String line = ((Integer)(type + 24)).toString();
-        assertEquals(3, stage.determineType(line));
+        String line = new Integer(type + 24).toString();
+        assertEquals(type, stage.determineType(line), 0);
     }
 
     @Test

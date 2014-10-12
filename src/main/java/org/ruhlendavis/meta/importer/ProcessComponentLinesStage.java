@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-public class ProcessLinesStage extends ImporterStage {
+public class ProcessComponentLinesStage extends ImporterStage {
     @Override
     public void run(ImportBucket bucket) {
         for (Map.Entry<Long, List<String>> entry : bucket.getComponentLines().entrySet()) {

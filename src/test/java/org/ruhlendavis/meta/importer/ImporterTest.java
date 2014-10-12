@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ImporterTest {
         assertTrue(importer.getStages().get(0).getClass().equals(LoadLinesStage.class));
         assertTrue(importer.getStages().get(1).getClass().equals(SeparateSectionsStage.class));
         assertTrue(importer.getStages().get(2).getClass().equals(GenerateRawComponentsStage.class));
+        assertTrue(importer.getStages().get(3).getClass().equals(ProcessComponentLinesStage.class));
     }
 
     @Test
@@ -49,8 +51,8 @@ public class ImporterTest {
         verify(loadLinesStage, never()).run(any(ImportBucket.class));
     }
 
-//    @Test
-//    public void f() throws URISyntaxException {
-//        new Importer().run("C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\narnia.db");
-//    }
+    @Test
+    public void f() throws URISyntaxException {
+        new Importer().run("C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\narnia.db");
+    }
 }
