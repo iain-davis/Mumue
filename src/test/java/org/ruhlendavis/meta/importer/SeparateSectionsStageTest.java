@@ -89,6 +89,17 @@ public class SeparateSectionsStageTest extends ImporterStageTestHelper {
     }
 
     @Test
+    public void runIgnoresGarbageItem() {
+        ImportBucket bucket = setupBucket("1", "1");
+        String id = RandomStringUtils.randomNumeric(3);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "6", 0, 0);
+        bucket.getSourceLines().add("***END OF DUMP***");
+        stage.run(bucket);
+        assertEquals(0, bucket.getComponentLines().size());
+        assertNull(bucket.getComponentLines().get(Long.parseLong(id)));
+    }
+
+    @Test
     public void runRetrievesOneSpaceItem() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);

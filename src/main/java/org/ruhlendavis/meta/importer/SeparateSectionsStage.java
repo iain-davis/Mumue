@@ -22,6 +22,7 @@ public class SeparateSectionsStage extends ImporterStage {
     private static final int LINK_TYPE_VALUE = 2;
     private static final int CHARACTER_TYPE_VALUE = 3;
     private static final int PROGRAM_TYPE_VALUE = 4;
+    private static final int GARBAGE_TYPE_VALUE = 6;
 
     @Override
     public void run(ImportBucket bucket) {
@@ -67,6 +68,9 @@ public class SeparateSectionsStage extends ImporterStage {
             } else if (type == PROGRAM_TYPE_VALUE) {
                 addLines(sourceLines, currentIndex, item, PROGRAM_CODA_LINES);
                 currentIndex = currentIndex + PROGRAM_CODA_LINES;
+            } else if (type == GARBAGE_TYPE_VALUE) {
+                referenceIndex = currentIndex;
+                continue;
             }
             referenceIndex = currentIndex;
             bucket.getComponentLines().put(reference, item);
