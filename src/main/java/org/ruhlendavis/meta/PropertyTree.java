@@ -15,4 +15,8 @@ public class PropertyTree {
     public void setProperty(String path, Property property) {
         properties.put(path, property);
     }
+
+    public int size() {
+        return properties.size();
+    }
 }

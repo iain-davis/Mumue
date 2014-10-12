@@ -18,15 +18,6 @@ public class Component {
     private long useCount = 0;
     private Instant lastModified = Instant.now();
     private PropertyTree properties = new PropertyTree();
-    private Component owner;
-
-    public Component getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Component owner) {
-        this.owner = owner;
-    }
 
     public String getDescription() {
         return description;

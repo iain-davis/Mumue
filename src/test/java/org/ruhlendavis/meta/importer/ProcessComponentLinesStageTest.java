@@ -2,282 +2,115 @@ package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.properties.*;
+import org.ruhlendavis.meta.properties.IntegerProperty;
+import org.ruhlendavis.meta.properties.LockProperty;
+import org.ruhlendavis.meta.properties.ReferenceProperty;
+import org.ruhlendavis.meta.properties.StringProperty;
 
-import java.util.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class ProcessComponentLinesStageTest {
     private ProcessComponentLinesStage stage = new ProcessComponentLinesStage();
-    private String databaseReference = RandomStringUtils.randomNumeric(5);
-    private String name = RandomStringUtils.randomAlphanumeric(13);
-    private Long locationId = RandomUtils.nextLong(200, 300);
-    private Long contentsId = RandomUtils.nextLong(300, 400);
-    private String description = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(10, 50));
-    private String created = RandomStringUtils.randomNumeric(10);
-    private String lastUsed = RandomStringUtils.randomNumeric(10);
-    private String modified = RandomStringUtils.randomNumeric(10);
-    private Long ownerId = RandomUtils.nextLong(100, 200);
-    private Long componentId = RandomUtils.nextLong(0, 100);
-    private Integer useCount = RandomUtils.nextInt(1, 400);
-    private ImportBucket bucket = new ImportBucket();
-
-    private Component setupTest(List<String> input, Component component) {
-        setupSpecialComponents(bucket);
-
-        Component owner = new Character();
-        owner.setId(ownerId);
-        bucket.getComponents().put(ownerId, owner);
-
-        component.setId(componentId);
-        bucket.getComponents().put(componentId, component);
-        bucket.getComponentLines().put(componentId, input);
-
-        stage.run(bucket);
-        return component;
-    }
 
     @Test
     public void generateShouldSetName() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(name, component.getName());
+        String name = RandomStringUtils.randomAlphanumeric(13);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, name, "");
+        stage.run(bucket);
+        assertEquals(name, space.getName());
     }
 
     @Test
     public void generateShouldSetLocation() {
-        Space space = new Space();
-        space.setId(locationId);
-        bucket.getComponents().put(locationId, space);
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(locationId, component.getLocation().getId());
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Space location = new Space().withId(RandomUtils.nextLong(100, 200));
+        ImportBucket bucket = setupTest(space, location);
+        stage.run(bucket);
+        assertEquals(location.getId(), space.getLocation().getId());
     }
 
     @Test
     public void generateShouldSetFirstContents() {
-        Component component = new Component();
-        component.setId(contentsId);
-        bucket.getComponents().put(contentsId, component);
-        component = setupTest(generateInput(), new Space());
-        assertEquals(contentsId, component.getContents().get(0).getId());
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(200, 300));
+        ImportBucket bucket = setupTest(space, artifact);
+        stage.run(bucket);
+        assertEquals(artifact.getId(), bucket.getComponents().get(space.getId()).getContents().get(0).getId());
     }
 
     @Test
-    public void generateShouldSetCreatedTimeStamp() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(Long.parseLong(created), component.getCreated().getEpochSecond());
+    public void generateShouldSetCreated() {
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Long created = RandomUtils.nextLong(100000, 200000);
+        ImportBucket bucket = setupTest(space, created, 0L, 0L);
+        stage.run(bucket);
+        assertEquals(Instant.ofEpochSecond(created), space.getCreated());
     }
 
     @Test
-    public void generateShouldSetLastUsedTimeStamp() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(Long.parseLong(lastUsed), component.getLastUsed().getEpochSecond());
-    }
-
-    @Test
-    public void generateShouldSetModifiedTimeStamp() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(Long.parseLong(modified), component.getLastModified().getEpochSecond());
+    public void generateShouldSetLastUsed() {
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Long lastUsed = RandomUtils.nextLong(100000, 200000);
+        ImportBucket bucket = setupTest(space, 0L, lastUsed, 0L);
+        stage.run(bucket);
+        assertEquals(Instant.ofEpochSecond(lastUsed), space.getLastUsed());
     }
 
     @Test
     public void generateShouldSetUseCount() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(useCount, component.getUseCount(), 0);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Integer useCount = RandomUtils.nextInt(100, 500);
+        ImportBucket bucket = setupTest(space, useCount);
+        stage.run(bucket);
+        assertEquals(useCount, space.getUseCount(), 0);
+    }
+
+    @Test
+    public void generateShouldSetModified() {
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Long lastModified = RandomUtils.nextLong(100000, 200000);
+        ImportBucket bucket = setupTest(space, 0L, 0L, lastModified);
+        stage.run(bucket);
+        assertEquals(Instant.ofEpochSecond(lastModified), space.getLastModified());
     }
 
     @Test
     public void generateShouldSetDescription() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(description, component.getDescription());
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        String description = RandomStringUtils.randomAlphabetic(255);
+        ImportBucket bucket = setupTest(space, "", description);
+        stage.run(bucket);
+        assertEquals(description, space.getDescription());
     }
 
     @Test
-    public void generateShouldSetOwner() {
-        Component component = setupTest(generateInput(), new Space());
-        assertEquals(ownerId, component.getOwner().getId(), 0);
-    }
-
-    @Test
-    public void generateWithDatabaseReferenceOwnerShouldSetOwnerId() {
-        String ownerDatabaseReference = "#" + ownerId;
-        Component component = setupTest(generateInputWithOwner(ownerDatabaseReference), new Space());
-        assertEquals(ownerId, component.getOwner().getId(), 0);
-    }
-
-    @Test
-    public void generateWithBlankOwnerShouldSetOwnerId() {
-        Component component = setupTest(generateInputWithOwner(""), new Space());
-        assertEquals(GlobalConstants.REFERENCE_UNKNOWN, component.getOwner().getId(), 0);
-    }
-
-    @Test
-    public void generateWithSpaceShouldSetDropTo() {
-        Long dropToReference = RandomUtils.nextLong(200, 300);
-        Component dropTo = new Component();
-        dropTo.setId(dropToReference);
-        bucket.getComponents().put(dropToReference, dropTo);
-
-        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList(dropToReference.toString(), "", ownerId.toString())));
-        Space space = (Space)setupTest(input, new Space());
-        assertEquals(dropToReference, space.getDropTo().getId(), 0);
-    }
-
-    @Test
-    public void generateShouldSetSpaceFirstLink() {
-        Long linkId = RandomUtils.nextLong(200, 300);
-        Link link = new Link();
-        link.setId(linkId);
-        bucket.getComponents().put(linkId, link);
-        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "")));
-        Space space = (Space)setupTest(input, new Space());
-        assertEquals(linkId, space.getLinks().get(0).getId(), 0);
-    }
-
-    @Test
-    public void generateShouldNotSetSpaceFirstLink() {
-        List<String> input = generateInput("0 0", new ArrayList<>(Arrays.asList("", "-1", "")));
-        Space space = (Space)setupTest(input, new Space());
-        assertEquals(0, space.getLinks().size());
-    }
-
-    @Test
-    public void generateShouldSetAnArtifactValue() {
-        Long value = RandomUtils.nextLong(5, 10000);
-        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString(), value.toString()));
-        List<String> input = generateInput("1 0", coda);
-        Artifact artifact = (Artifact) setupTest(input, new Artifact());
-        assertEquals(value, artifact.getValue(), 0);
-    }
-
-    @Test
-    public void generateShouldSetAnArtifactHome() {
-        Long homeId = RandomUtils.nextLong(200, 300);
-        Space home = new Space();
-        home.setId(homeId);
-        bucket.getComponents().put(homeId, home);
-        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList(homeId.toString(), "", "", "")));
-        Artifact artifact = (Artifact) setupTest(input, new Artifact());
-        assertEquals(homeId, artifact.getHome().getId(), 0);
-    }
-
-    @Test
-    public void generateShouldSetArtifactFirstLink() {
-        Long linkId = RandomUtils.nextLong(200, 300);
-        Link link = new Link();
-        link.setId(linkId);
-        bucket.getComponents().put(linkId, link);
-        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
-        Artifact artifact = (Artifact) setupTest(input, new Artifact());
-        assertEquals(linkId, artifact.getLinks().get(0).getId(), 0);
-    }
-
-    @Test
-    public void generateShouldNotSetArtifactFirstLink() {
-        List<String> input = generateInput("1 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
-        Artifact artifact = (Artifact) setupTest(input, new Artifact());
-        assertEquals(0, artifact.getLinks().size());
-    }
-
-    @Test
-    public void generateShouldSetLinkOwner() {
-        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("0", ownerId.toString())));
-        Link link = (Link) setupTest(input, new Link());
-        assertEquals(ownerId, link.getOwner().getId(), 0);
-    }
-
-    @Test
-    public void generateShouldSetOneLinkDestinationId() {
-        Long destinationId = RandomUtils.nextLong(200, 300);
-        Component component = new Component();
-        component.setId(destinationId);
-        bucket.getComponents().put(destinationId, component);
-        List<String> input = generateInput("2 0", new ArrayList<>(Arrays.asList("1", destinationId.toString(), "")));
-        Link link = (Link) setupTest(input, new Link());
-        assertEquals(destinationId, link.getDestinations().get(0).getId(), 0);
-    }
-
-    @Test
-    public void generateShouldSetMultipleLinkDestinationIds() {
-        Integer idCount = RandomUtils.nextInt(5, 10);
-        List<String> coda = new ArrayList<>();
-        List<Long> destinationIds = new ArrayList<>();
-        coda.add(idCount.toString());
-        for (int i = 0; i < idCount; i++) {
-            Long destinationId = 200L+i;
-            coda.add(destinationId.toString());
-            Component component = new Component();
-            component.setId(destinationId);
-            bucket.getComponents().put(destinationId, component);
-            destinationIds.add(destinationId);
-        }
-        coda.add("");
-        List<String> input = generateInput("2 0", coda);
-        Link link = (Link) setupTest(input, new Link());
-        for (int i = 0; i < idCount; i++) {
-            assertEquals(destinationIds.get(i), link.getDestinations().get(i).getId(), 0);
-        }
-    }
-
-    @Test
-    public void generateShouldSetACharacterHome() {
-        Long homeId = RandomUtils.nextLong(200, 300);
-        Space space = new Space();
-        space.setId(homeId);
-        bucket.getComponents().put(homeId, space);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList(homeId.toString(), "", "", "")));
-        Character character = (Character)setupTest(input, new Character());
-        assertEquals(homeId, character.getHome().getId(), 0);
-    }
-
-    @Test
-    public void generateShouldSetACharacterWealth() {
-        Long wealth = RandomUtils.nextLong(1, 10000);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", wealth.toString(), "")));
-        Character character = (Character) setupTest(input, new Character());
-        assertEquals(wealth, character.getWealth(), 0);
-    }
-
-    @Test
-    public void generateShouldSetACharacterPassword() {
-        String password = RandomStringUtils.randomAlphabetic(13);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "", "", password)));
-        Character character = (Character) setupTest(input, new Character());
-        assertEquals(password, character.getPassword());
-    }
-
-    @Test
-    public void generateShouldSetCharacterFirstLink() {
-        Long linkId = RandomUtils.nextLong(200, 300);
-        Link link = new Link();
-        link.setId(linkId);
-        bucket.getComponents().put(linkId, link);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", linkId.toString(), "", "")));
-        Character character = (Character) setupTest(input, new Character());
-        assertEquals(linkId, character.getLinks().get(0).getId(), 0);
-    }
-
-    @Test
-    public void generateShouldNotSetCharacterFirstLink() {
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")));
-        Character character = (Character) setupTest(input, new Character());
-        assertEquals(0, character.getLinks().size());
+    public void generateShouldHandleMinimalProperties() {
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, new ArrayList<>());
+        stage.run(bucket);
+        assertEquals(0, space.getProperties().size());
     }
 
     @Test
     public void generateShouldAddStringPropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
         String value = RandomStringUtils.randomAlphabetic(7);
-        StringProperty expected = new StringProperty().withValue(value);
-        Map<String, Property> properties = new HashMap<>();
-        properties.put(path, expected);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
-        Character character = (Character) setupTest(input, new Character());
-        StringProperty property = (StringProperty)character.getProperties().getProperty(path);
+        List<String> properties = new ArrayList<>();
+        properties.add(path + ":10:" + value);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, properties);
+        stage.run(bucket);
+        StringProperty property = (StringProperty)space.getProperties().getProperty(path);
         assertEquals(value, property.getValue());
     }
 
@@ -285,127 +118,502 @@ public class ProcessComponentLinesStageTest {
     public void generateShouldAddLockPropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
         String value = RandomStringUtils.randomAlphabetic(7);
-        LockProperty expected = new LockProperty().withValue(value);
-        Map<String, Property> properties = new HashMap<>();
-        properties.put(path, expected);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
-        Character character = (Character) setupTest(input, new Character());
-        LockProperty property = (LockProperty)character.getProperties().getProperty(path);
+        List<String> properties = new ArrayList<>();
+        properties.add(path + ":4:" + value);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, properties);
+        stage.run(bucket);
+        LockProperty property = (LockProperty)space.getProperties().getProperty(path);
         assertEquals(value, property.getValue());
     }
 
     @Test
     public void generateShouldAddIntegerPropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
-        long value = RandomUtils.nextLong(10, 100);
-        IntegerProperty expected = new IntegerProperty().withValue(value);
-        Map<String, Property> properties = new HashMap<>();
-        properties.put(path, expected);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
-        Character character = (Character) setupTest(input, new Character());
-        IntegerProperty property = (IntegerProperty)character.getProperties().getProperty(path);
-        assertEquals(value, property.getValue(), 0);
+        String value = RandomStringUtils.randomNumeric(5);
+        List<String> properties = new ArrayList<>();
+        properties.add(path + ":3:" + value);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, properties);
+        stage.run(bucket);
+        IntegerProperty property = (IntegerProperty)space.getProperties().getProperty(path);
+        assertEquals(Long.parseLong(value), property.getValue(), 0);
     }
 
     @Test
     public void generateShouldAddReferencePropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
-        long value = RandomUtils.nextLong(10, 100);
-        ReferenceProperty expected = new ReferenceProperty().withValue(value);
-        Map<String, Property> properties = new HashMap<>();
-        properties.put(path, expected);
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
-        Character character = (Character) setupTest(input, new Character());
-        ReferenceProperty property = (ReferenceProperty)character.getProperties().getProperty(path);
-        assertEquals(value, property.getValue(), 0);
+        String value = RandomStringUtils.randomNumeric(5);
+        List<String> properties = new ArrayList<>();
+        properties.add(path + ":5:" + value);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, properties);
+        stage.run(bucket);
+        ReferenceProperty property = (ReferenceProperty)space.getProperties().getProperty(path);
+        assertEquals(Long.parseLong(value), property.getValue(), 0);
     }
 
     @Test
     public void generateShouldAddMultipleStringPropertiesToProperties() {
-        Map<String, Property> properties = new HashMap<>();
+        String path1 = RandomStringUtils.randomAlphabetic(6);
+        String path2 = RandomStringUtils.randomAlphabetic(7);
+        String value1 = RandomStringUtils.randomAlphabetic(8);
+        String value2 = RandomStringUtils.randomAlphabetic(9);
 
-        String path1 = RandomStringUtils.randomAlphabetic(8);
-        StringProperty expected1 = new StringProperty().withValue(RandomStringUtils.randomAlphabetic(7));
-        properties.put(path1, expected1);
+        List<String> properties = new ArrayList<>();
+        properties.add(path1 + ":10:" + value1);
+        properties.add(path2 + ":10:" + value2);
 
-        String path2 = RandomStringUtils.randomAlphabetic(8);
-        StringProperty expected2 = new StringProperty().withValue(RandomStringUtils.randomAlphabetic(7));
-        properties.put(path2, expected2);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, properties);
+        stage.run(bucket);
 
-        List<String> input = generateInput("3 0", new ArrayList<>(Arrays.asList("", "-1", "", "")), properties);
-        Character character = (Character) setupTest(input, new Character());
+        StringProperty property = (StringProperty)space.getProperties().getProperty(path1);
+        assertEquals(value1, property.getValue());
 
-        StringProperty property = (StringProperty)character.getProperties().getProperty(path1);
-        assertEquals(expected1.getValue(), property.getValue());
-
-        property = (StringProperty)character.getProperties().getProperty(path2);
-        assertEquals(expected2.getValue(), property.getValue());
+        property = (StringProperty)space.getProperties().getProperty(path2);
+        assertEquals(value2, property.getValue());
     }
 
-    private List<String> generateInput() {
-        List<String> coda = new ArrayList<>(Arrays.asList("333", "444", ownerId.toString()));
-        return generateInput("0 0", coda);
+    @Test
+    public void generateWithArtifactShouldSetHome() {
+        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(300, 400));
+        Space home = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(artifact, home, null, null, 0L);
+        stage.run(bucket);
+        assertEquals(home.getId(), artifact.getHome().getId());
     }
 
-    private List<String> generateInputWithOwner(String ownerDatabaseReference) {
-        return generateInput("0 0",  new ArrayList<>(Arrays.asList("333", "444", ownerDatabaseReference)));
+    @Test
+    public void generateWithArtifactShouldSetFirstLink() {
+        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(300, 400));
+        Link link = new Link().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(artifact, null, link, null, 0L);
+        stage.run(bucket);
+        assertEquals(link.getId(), artifact.getLinks().get(0).getId());
     }
 
-    private List<String> generateInput(String flags, List<String> coda) {
-        return generateInput(flags, coda, new HashMap<>());
+    @Test
+    public void generateWithArtifactShouldNotSetFirstLink() {
+        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(artifact, null, null, null, 0L);
+        stage.run(bucket);
+        assertEquals(0, artifact.getLinks().size());
     }
 
-    private List<String> generateInput(String flags, List<String> coda, Map<String, Property> properties) {
-        List<String> lines = new ArrayList<>();
-        lines.add("#" + databaseReference); // (00) Database Reference
-        lines.add(name);                    // (01) Item Name
-        lines.add(locationId.toString());   // (02) Location
-        lines.add(contentsId.toString());   // (03) Contents
-        lines.add("-1");                    // (04) Next
-        lines.add(flags);                   // (05) Flags F2Flags
-        lines.add(created);                 // (06) Created Timestamp
-        lines.add(lastUsed);                // (07) LastUsed Timestamp
-        lines.add(useCount.toString());     // (08) UseCount
-        lines.add(modified);                // (09) LastModified
-        lines.add("*Props*");               // (10) Beginning of property list
-        lines.add("_/de:10:" + description);// (??) Description
-        addProperties(lines, properties);
-        lines.add("*End*");                 // (??) End of property list
+    @Test
+    public void generateWithArtifactShouldSetOwner() {
+        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(300, 400));
+        Character owner = new Character().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(artifact, null, null, owner, 0L);
+        stage.run(bucket);
+        assertEquals(owner.getId(), artifact.getOwner().getId());
+    }
 
-        for (String line : coda) {
-            lines.add(line);
+    @Test
+    public void generateWithArtifactShouldSetValue() {
+        Long value = RandomUtils.nextLong(100, 1000);
+        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(artifact, null, null, null, value);
+        stage.run(bucket);
+        assertEquals(value, artifact.getValue(), 0);
+    }
+
+    @Test
+    public void generateWithCharacterShouldSetHome() {
+        Character character = new Character().withId(RandomUtils.nextLong(300, 400));
+        Space home = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(character, home, null, 0L, "");
+        stage.run(bucket);
+        assertEquals(home.getId(), character.getHome().getId());
+    }
+
+    @Test
+    public void generateWithCharacterShouldSetFirstLink() {
+        Character character = new Character().withId(RandomUtils.nextLong(300, 400));
+        Link link = new Link().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(character, null, link, 0L, "");
+        stage.run(bucket);
+        assertEquals(link.getId(), character.getLinks().get(0).getId());
+    }
+
+    @Test
+    public void generateWithCharacterShouldNotSetFirstLink() {
+        Character character = new Character().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(character, null, null, 0L, "");
+        stage.run(bucket);
+        assertEquals(0, character.getLinks().size());
+    }
+    @Test
+    public void generateWithCharacterShouldSetWealth() {
+        Long value = RandomUtils.nextLong(100, 1000);
+        Character character = new Character().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(character, null, null, value, "");
+        stage.run(bucket);
+        assertEquals(value, character.getWealth(), 0);
+    }
+
+    @Test
+    public void generateWithCharacterShouldSetPassword() {
+        String password = RandomStringUtils.randomAlphabetic(13);
+        Character character = new Character().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(character, null, null, 0L, password);
+        stage.run(bucket);
+        assertEquals(password, character.getPassword());
+    }
+
+    @Test
+    public void generateWithLinkWithoutDestinations() {
+        Link link = new Link().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(link, new ArrayList<>(), null);
+        stage.run(bucket);
+        assertEquals(0, link.getDestinations().size());
+    }
+
+    @Test
+    public void generateWithLinkShouldSetFirstDestination() {
+        Link link = new Link().withId(RandomUtils.nextLong(2, 100));
+        Space destination = new Space().withId(RandomUtils.nextLong(300, 400));
+        List<Component> destinations = new ArrayList<>();
+        destinations.add(destination);
+        ImportBucket bucket = setupTest(link, destinations ,null);
+        stage.run(bucket);
+        assertEquals(destination.getId(), link.getDestinations().get(0).getId());
+    }
+
+    @Test
+    public void generateWithLinkShouldSetMultipleDestinations() {
+        Link link = new Link().withId(RandomUtils.nextLong(2, 100));
+        List<Component> destinations = new ArrayList<>();
+        int count = RandomUtils.nextInt(3, 10);
+        for (int i = 0; i < count; i++) {
+            Space destination = new Space().withId(RandomUtils.nextLong(300, 400));
+            destinations.add(destination);
         }
-        return lines;
+        ImportBucket bucket = setupTest(link, destinations ,null);
+        stage.run(bucket);
+        int i = 0;
+        for (Component destination : destinations) {
+            assertEquals(destination.getId(), link.getDestinations().get(i).getId());
+            i++;
+        }
     }
 
-    private void addProperties(List<String> lines, Map<String, Property> properties) {
-        for (Map.Entry entry : properties.entrySet()) {
-            String line = entry.getKey() + ":";
-            if (entry.getValue() instanceof StringProperty) {
-                line = line + "10:" + ((StringProperty) entry.getValue()).getValue();
-                lines.add(line);
-            } else if (entry.getValue() instanceof IntegerProperty) {
-                line = line + "3:" + ((IntegerProperty) entry.getValue()).getValue();
-                lines.add(line);
-            } else if (entry.getValue() instanceof LockProperty) {
-                line = line + "4:" + ((LockProperty) entry.getValue()).getValue();
-                lines.add(line);
-            } else if (entry.getValue() instanceof ReferenceProperty) {
-                line = line + "5:" + ((ReferenceProperty) entry.getValue()).getValue();
-                lines.add(line);
+    @Test
+    public void generateWithLinkShouldSetOwner() {
+        Link link = new Link().withId(RandomUtils.nextLong(300, 400));
+        Character owner = new Character().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(link, new ArrayList<>(), owner);
+        stage.run(bucket);
+        assertEquals(owner.getId(), link.getOwner().getId());
+    }
+
+    @Test
+    public void generateWithProgramShouldSetOwner() {
+        Program program = new Program().withId(RandomUtils.nextLong(300, 400));
+        Character owner = new Character().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(program, owner);
+        stage.run(bucket);
+        assertEquals(owner.getId(), program.getOwner().getId());
+    }
+
+    @Test
+    public void generateWithProgramWithHashOwnerReferenceShouldSetOwner() {
+        Program program = new Program().withId(RandomUtils.nextLong(300, 400));
+        Character owner = new Character().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(program, owner, true, false);
+        stage.run(bucket);
+        assertEquals(owner.getId(), program.getOwner().getId());
+    }
+
+    @Test
+    public void generateWithProgramWithBlankOwnerShouldSetOwner() {
+        Program program = new Program().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(program, null, false, true);
+        stage.run(bucket);
+        assertEquals(1L, program.getOwner().getId(), 0);
+    }
+
+    @Test
+    public void generateWithSpaceShouldSetDropTo() {
+        Space space = new Space().withId(RandomUtils.nextLong(300, 400));
+        Space dropTo = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, dropTo, null, null);
+        stage.run(bucket);
+        assertEquals(dropTo.getId(), space.getDropTo().getId());
+    }
+
+    @Test
+    public void generateWithSpaceShouldNotSetDropTo() {
+        Space space = new Space().withId(RandomUtils.nextLong(300, 400));
+        Space dropTo = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, null, null, (Character)null);
+        stage.run(bucket);
+        assertNull(space.getDropTo());
+    }
+
+    @Test
+    public void generateWithSpaceShouldSetFirstLink() {
+        Space space = new Space().withId(RandomUtils.nextLong(300, 400));
+        Link link = new Link().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, null, link, null);
+        stage.run(bucket);
+        assertEquals(link.getId(), space.getLinks().get(0).getId());
+    }
+
+    @Test
+    public void generateWithSpaceShouldNotSetFirstLink() {
+        Space space = new Space().withId(RandomUtils.nextLong(300, 400));
+        ImportBucket bucket = setupTest(space, null, (Link)null, null);
+        stage.run(bucket);
+        assertEquals(0, space.getLinks().size(), 0);
+    }
+
+    @Test
+    public void generateWithSpaceShouldSetOwner() {
+        Space space = new Space().withId(RandomUtils.nextLong(300, 400));
+        Character owner = new Character().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, null, null, owner);
+        stage.run(bucket);
+        assertEquals(owner.getId(), space.getOwner().getId());
+    }
+
+    private ImportBucket setupTest(Artifact artifact, Space home, Link firstLink, Character owner, Long value) {
+        ImportBucket bucket = setupTest(artifact, RandomStringUtils.randomAlphabetic(13), "1 0",
+                                        new Space().withId(RandomUtils.nextLong(100, 200)),
+                                        new Artifact().withId(RandomUtils.nextLong(200, 300)),
+                                        "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        if (home == null) {
+            home = new Space().withId(RandomUtils.nextLong(600, 700));
+        }
+        if (owner == null) {
+            owner = new Character().withId(RandomUtils.nextLong(500, 600));
+        }
+        List<String> lines = bucket.getComponentLines().get(artifact.getId());
+        setupTargetComponent(bucket, lines, home);
+        setupTargetComponent(bucket, lines, firstLink);
+        setupTargetComponent(bucket, lines, owner);
+        lines.add(value.toString());
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Character character, Space home, Link firstLink, Long wealth, String password) {
+        ImportBucket bucket = setupTest(character, RandomStringUtils.randomAlphabetic(13), "1 0",
+                new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)),
+                "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        if (home == null) {
+            home = new Space().withId(RandomUtils.nextLong(600, 700));
+        }
+        List<String> lines = bucket.getComponentLines().get(character.getId());
+        setupTargetComponent(bucket, lines, home);
+        setupTargetComponent(bucket, lines, firstLink);
+        lines.add(wealth.toString());
+        lines.add(password);
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Link link, List<Component> destinations, Character owner) {
+        ImportBucket bucket = setupTest(link, RandomStringUtils.randomAlphabetic(13), "1 0",
+                new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)),
+                "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        if (owner == null) {
+            owner = new Character().withId(RandomUtils.nextLong(500, 600));
+        }
+        List<String> lines = bucket.getComponentLines().get(link.getId());
+        lines.add(String.valueOf(destinations.size()));
+        for (Component component : destinations) {
+            setupTargetComponent(bucket, lines, component);
+        }
+        setupTargetComponent(bucket, lines, owner);
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Program program, Character owner) {
+        return setupTest(program, owner, false, false);
+    }
+
+    private ImportBucket setupTest(Program program, Character owner, boolean hashOwner, boolean blankOwner) {
+        ImportBucket bucket = setupTest(program, RandomStringUtils.randomAlphabetic(13), "1 0",
+                new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)),
+                "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        if (owner == null) {
+            owner = new Character().withId(RandomUtils.nextLong(500, 600));
+        }
+        List<String> lines = bucket.getComponentLines().get(program.getId());
+        if (blankOwner) {
+            lines.add("");
+        } else {
+            setupTargetComponent(bucket, lines, owner);
+            if (hashOwner) {
+                lines.set(lines.size() - 1, "#" + lines.get(lines.size() - 1));
             }
         }
+        return bucket;
+    }
+    private ImportBucket setupTest(Space space, Space dropTo, Link firstLink, Character owner) {
+        ImportBucket bucket = setupTest(space, RandomStringUtils.randomAlphabetic(13), "1 0",
+                new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)),
+                "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        if (owner == null) {
+            owner = new Character().withId(RandomUtils.nextLong(500, 600));
+        }
+        List<String> lines = bucket.getComponentLines().get(space.getId());
+        setupTargetComponent(bucket, lines, dropTo);
+        setupTargetComponent(bucket, lines, firstLink);
+        setupTargetComponent(bucket, lines, owner);
+        return bucket;
     }
 
-    private void setupSpecialComponents(ImportBucket bucket) {
-        Component component = new Component();
-        component.setId(GlobalConstants.REFERENCE_UNKNOWN);
-        bucket.getComponents().put(GlobalConstants.REFERENCE_UNKNOWN, component);
-        component = new Component();
-        component.setId(GlobalConstants.REFERENCE_AMBIGUOUS);
-        bucket.getComponents().put(GlobalConstants.REFERENCE_AMBIGUOUS, component);
-        component = new Component();
-        component.setId(GlobalConstants.REFERENCE_HOME);
-        bucket.getComponents().put(GlobalConstants.REFERENCE_HOME, component);
+    private ImportBucket setupTest(Component component, String name, String description) {
+        ImportBucket bucket = setupTest(component, name, description, new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        List<String> lines = bucket.getComponentLines().get(component.getId());
+        lines.add("-1");
+        lines.add("-1");
+        setupTargetComponent(bucket, lines, new Character().withId(RandomUtils.nextLong(500, 600)));
+        return bucket;
+    }
+
+    private void setupTargetComponent(ImportBucket bucket, List<String> lines, Component target) {
+        if (target == null) {
+            lines.add("-1");
+        } else {
+            lines.add(target.getId().toString());
+            setupDefaultComponent(bucket, target);
+        }
+    }
+
+    private ImportBucket setupTest(Component component, List<String> properties) {
+        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, properties);
+        List<String> lines = bucket.getComponentLines().get(component.getId());
+        lines.add("-1");
+        lines.add("-1");
+        setupTargetComponent(bucket, lines, new Character().withId(RandomUtils.nextLong(500, 600)));
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Component component, Integer useCount) {
+        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, useCount, 0L, new ArrayList<>());
+        List<String> lines = bucket.getComponentLines().get(component.getId());
+        lines.add("-1");
+        lines.add("-1");
+        setupTargetComponent(bucket, lines, new Character().withId(RandomUtils.nextLong(500, 600)));
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Component component, Long created, Long lastUsed, Long lastModified) {
+        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
+                new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", created, lastUsed, 0, lastModified,
+                new ArrayList<>());
+        List<String> lines = bucket.getComponentLines().get(component.getId());
+        lines.add("-1");
+        lines.add("-1");
+        setupTargetComponent(bucket, lines, new Character().withId(RandomUtils.nextLong(500, 600)));
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Space space, Artifact firstContent) {
+        ImportBucket bucket = setupTest(space, RandomStringUtils.randomAlphabetic(13), "",
+                new Space().withId(RandomUtils.nextLong(100, 200)),  firstContent, "0 0", 0L, 0L, 0, 0L,
+                new ArrayList<>());
+        List<String> lines = bucket.getComponentLines().get(space.getId());
+        lines.add("-1");
+        lines.add("-1");
+        setupTargetComponent(bucket, lines, new Character().withId(RandomUtils.nextLong(500, 600)));
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Component component, Space location) {
+        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", location,
+                         new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
+        List<String> lines = bucket.getComponentLines().get(component.getId());
+        lines.add("-1");
+        lines.add("-1");
+        setupTargetComponent(bucket, lines, new Character().withId(RandomUtils.nextLong(500, 600)));
+        return bucket;
+    }
+
+    private ImportBucket setupTest(Component component, String name, String description, Space location,
+                                   Artifact firstContent, String flags, Long created, Long lastUsed, Integer useCount,
+                                   Long lastModified, List<String> properties) {
+        if (StringUtils.isBlank(description)) {
+            description = "description";
+        }
+        ImportBucket bucket = new ImportBucket();
+        List<String> lines = new ArrayList<>();
+        lines.add("#" + component.getId().toString());
+        lines.add(name);
+        lines.add(location.getId().toString());
+        lines.add(firstContent.getId().toString());
+        lines.add("-1");
+        lines.add(flags);
+        lines.add(created.toString());
+        lines.add(lastUsed.toString());
+        lines.add(useCount.toString());
+        lines.add(lastModified.toString());
+        lines.add("*Props*");
+        lines.add("_/de:10:" + description);
+        for (String property : properties) {
+            lines.add(property);
+        }
+        lines.add("*End*");
+        bucket.getComponents().put(component.getId(), component);
+        bucket.getComponentLines().put(component.getId(), lines);
+
+        setupDefaultComponent(bucket, location);
+        setupDefaultComponent(bucket, firstContent);
+
+        setupDefaultComponent(bucket, new Character().withId(1L));
+        setupDefaultComponent(bucket, new Space().withId(0L));
+        return bucket;
+    }
+
+    private void setupDefaultComponent(ImportBucket bucket, Component location) {
+        bucket.getComponents().put(location.getId(), location);
+        bucket.getComponentLines().put(location.getId(), defaultLines(location));
+    }
+
+    private List<String> defaultLines(Component component) {
+        List<String> lines = new ArrayList<>();
+        lines.add("#" + component.getId().toString());
+        lines.add(RandomStringUtils.randomAlphabetic(13));
+        lines.add("-1");
+        lines.add("-1");
+        lines.add("-1");
+        lines.add("0 0");
+        lines.add("0");
+        lines.add("0");
+        lines.add("0");
+        lines.add("0");
+        lines.add("*Props*");
+        lines.add("_/de:10:description");
+        lines.add("*End*");
+        if (component instanceof Program) {
+            lines.add("1");
+        } else if (component instanceof Character) {
+            lines.add("0");
+            lines.add("-1");
+            lines.add("0");
+            lines.add("password");
+        } else if (component instanceof Link) {
+            lines.add("0");
+            lines.add("1");
+        } else if (component instanceof Space) {
+            lines.add("-1");
+            lines.add("-1");
+            lines.add("1");
+        } else if (component instanceof Artifact) {
+            lines.add("0");
+            lines.add("-1");
+            lines.add("1");
+            lines.add("0");
+        }
+        return lines;
     }
 }

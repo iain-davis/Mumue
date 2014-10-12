@@ -2,140 +2,150 @@ package org.ruhlendavis.meta.importer;
 
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.properties.IntegerProperty;
-import org.ruhlendavis.meta.properties.LockProperty;
-import org.ruhlendavis.meta.properties.ReferenceProperty;
-import org.ruhlendavis.meta.properties.StringProperty;
+import org.ruhlendavis.meta.properties.*;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 public class ProcessComponentLinesStage extends ImporterStage {
+    private static final int NAME_INDEX = 1;
+    private static final int LOCATION_INDEX = 2;
+    private static final int CONTENTS_INDEX = 3;
+//    private static final int NEXT_INDEX = 4;
+//    private static final int FLAGS_INDEX = 5;
+    private static final int CREATED_INDEX = 6;
+    private static final int LAST_USED_INDEX = 7;
+    private static final int USE_COUNT_INDEX = 8;
+    private static final int LAST_MODIFIED_INDEX = 9;
+    // *Props* = 10
+    private static final int FIRST_PROPERTY_INDEX = 11;
+
     @Override
     public void run(ImportBucket bucket) {
-        for (Map.Entry<Long, List<String>> entry : bucket.getComponentLines().entrySet()) {
-            processComponent(bucket, bucket.getComponents().get(entry.getKey()), entry.getValue());
+        for (Entry<Long, Component> entry : bucket.getComponents().entrySet()) {
+            processComponent(bucket, entry.getValue());
         }
     }
 
-    private void processComponent(ImportBucket bucket, Component component, List<String> lines) {
-        int propertyListStart = -1;
-        int propertyListEnd = -1;
-        int lineCount = 0;
-        for (String line : lines) {
-            lineCount++;
-            if ("*Props*".equals (line)) {
-                propertyListStart = lineCount;
-                continue;
-            }
-            if (propertyListStart > 0) {
-                if ("*End*".equals(line)) {
-                    propertyListEnd = lineCount;
-                    break;
-                }
-                String[] parts = line.split(":");
-                if ("_/de".equals(parts[0])) {
-                    component.setDescription(extractDescription(line));
-                } else {
-                    addProperty(component, parts);
-                }
-            }
-        }
-
-        if (component instanceof Space) {
-            generateSpace((Space) component, lines, bucket);
-        } else if (component instanceof Artifact) {
-            generateArtifact((Artifact) component, lines, bucket);
-        } else if (component instanceof Link) {
-            generateLink((Link) component, propertyListEnd, lines, bucket);
+    private void processComponent(ImportBucket bucket, Component component) {
+        List<String> lines = bucket.getComponentLines().get(component.getId());
+        component.setName(lines.get(NAME_INDEX));
+        component.setLocation(getComponent(bucket, lines.get(LOCATION_INDEX)));
+        component.getContents().add(getComponent(bucket, lines.get(CONTENTS_INDEX)));
+        component.setCreated(Instant.ofEpochSecond(Long.parseLong(lines.get(CREATED_INDEX))));
+        component.setLastUsed(Instant.ofEpochSecond(Long.parseLong(lines.get(LAST_USED_INDEX))));
+        component.setUseCount(Long.parseLong(lines.get(USE_COUNT_INDEX)));
+        component.setLastModified(Instant.ofEpochSecond(Long.parseLong(lines.get(LAST_MODIFIED_INDEX))));
+        int endLineNumber = processProperties(component, lines);
+        endLineNumber++;
+        if (component instanceof Artifact) {
+            processArtifact(bucket, lines, endLineNumber, (Artifact) component);
         } else if (component instanceof Character) {
-            generateCharacter((Character) component, lines, bucket);
+            processCharacter(bucket, lines, endLineNumber, (Character) component);
+        } else if (component instanceof Link) {
+            processLink(bucket, lines, endLineNumber, (Link) component);
         } else if (component instanceof Program) {
-            generateProgram((Program) component, lines, bucket);
-        }
-
-        generateComponentFields(lines, component, bucket);
-    }
-
-    private void addProperty(Component component, String[] parts) {
-        long type = Long.parseLong(parts[1]) & 0x7;
-        if (type == 2) {
-            StringProperty property = new StringProperty();
-            property.setValue(parts[2]);
-            component.getProperties().setProperty(parts[0], property);
-        } else if (type == 3) {
-            IntegerProperty property = new IntegerProperty();
-            property.setValue(Long.parseLong(parts[2]));
-            component.getProperties().setProperty(parts[0], property);
-        } else if (type == 4) {
-            LockProperty property = new LockProperty();
-            property.setValue(parts[2]);
-            component.getProperties().setProperty(parts[0], property);
-        } else if (type == 5) {
-            ReferenceProperty property = new ReferenceProperty();
-            property.setValue(Long.parseLong(parts[2]));
-            component.getProperties().setProperty(parts[0], property);
+            processProgram(bucket, lines, endLineNumber, (Program) component);
+        } else if (component instanceof Space) {
+            generateSpace(bucket, lines, endLineNumber, (Space) component);
         }
     }
 
-    private void generateArtifact(Artifact artifact, List<String> lines, ImportBucket bucket) {
-        artifact.setHome(getComponent(bucket, lines.get(lines.size() - 4)));
-        addLink(artifact, lines.get(lines.size() - 3), bucket);
-        artifact.setOwner(getComponent(bucket, lines.get(lines.size() - 2)));
-        artifact.setValue(parseReference(lines.get(lines.size() - 1)));
+    private void processArtifact(ImportBucket bucket, List<String> lines, int lineNumber, Artifact artifact) {
+        artifact.setHome(getComponent(bucket, lines.get(lineNumber)));
+        addLink(bucket, artifact, lines.get(lineNumber + 1));
+        setOwner(bucket, artifact, lines.get(lineNumber + 2));
+        artifact.setValue(Long.parseLong(lines.get(lineNumber + 3)));
     }
 
-    private void generateCharacter(Character character, List<String> lines, ImportBucket bucket) {
-        character.setHome(getComponent(bucket, lines.get(lines.size() - 4)));
-        addLink(character, lines.get(lines.size() - 3), bucket);
-        character.setWealth(parseReference(lines.get(lines.size() - 2)));
-        character.setPassword(lines.get(lines.size() - 1));
+    private void processCharacter(ImportBucket bucket, List<String> lines, int lineNumber, Character character) {
+        character.setHome(getComponent(bucket, lines.get(lineNumber)));
+        addLink(bucket, character, lines.get(lineNumber + 1));
+        character.setWealth(Long.parseLong(lines.get(lineNumber + 2)));
+        character.setPassword(lines.get(lineNumber + 3));
     }
 
-    private void addLink(LinkSource component, String linkReference, ImportBucket bucket) {
-        Long id = parseReference(linkReference);
-        if (id != -1) {
-            component.getLinks().add((Link)bucket.getComponents().get(id));
-        }
-    }
-
-    private void generateLink(Link link, int destinationCountPosition, List<String> lines, ImportBucket bucket) {
-        Long destinationCount = parseReference(lines.get(destinationCountPosition));
-        for (int i = 0; i < destinationCount; i++) {
-            Long destinationId = parseReference(lines.get(destinationCountPosition + 1 + i));
+    private void processLink(ImportBucket bucket, List<String> lines, int lineNumber, Link link) {
+        int destinationCount = Integer.parseInt(lines.get(lineNumber));
+        for (int i = 1; i <= destinationCount; i++) {
+            Long destinationId = parseReference(lines.get(lineNumber + i));
             link.getDestinations().add(bucket.getComponents().get(destinationId));
         }
-        link.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
+        setOwner(bucket, link, lines.get(lineNumber + 1 + destinationCount));
     }
 
-    private void generateProgram(Program program, List<String> lines, ImportBucket bucket) {
-        program.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
+    private void processProgram(ImportBucket bucket, List<String> lines, int lineNumber, Program program) {
+        setOwner(bucket, program, lines.get(lineNumber));
     }
 
-    private void generateSpace(Space space, List<String> lines, ImportBucket bucket) {
-        space.setDropTo(getComponent(bucket, lines.get(lines.size() - 3)));
-        addLink(space, lines.get(lines.size() - 2), bucket);
-        space.setOwner(getComponent(bucket, lines.get(lines.size() - 1)));
+    private void generateSpace(ImportBucket bucket, List<String> lines, int lineNumber, Space space) {
+        Long id = parseReference(lines.get(lineNumber));
+        if (id != -1L) {
+            space.setDropTo(getComponent(bucket, id));
+        }
+        addLink(bucket, space, lines.get(lineNumber + 1));
+        setOwner(bucket, space, lines.get(lineNumber + 2));
     }
 
-    private void generateComponentFields(List<String> lines, Component component, ImportBucket bucket) {
-        component.setName(lines.get(1));
-        component.setLocation(getComponent(bucket, lines.get(2)));
-        component.getContents().add(getComponent(bucket, lines.get(3)));
-        component.setCreated(Instant.ofEpochSecond(parseReference(lines.get(6))));
-        component.setLastUsed(Instant.ofEpochSecond(parseReference(lines.get(7))));
-        component.setUseCount(parseReference(lines.get(8)));
-        component.setLastModified(Instant.ofEpochSecond(parseReference(lines.get(9))));
+    private void addLink(ImportBucket bucket, LinkSource component, String reference) {
+        Long id = parseReference(reference);
+        if (id != -1L) {
+            component.getLinks().add((Link)getComponent(bucket, id));
+        }
+    }
+
+    private void setOwner(ImportBucket bucket, Ownable component, String reference) {
+        Long id = parseReference(reference);
+        if (id == -1L) {
+            component.setOwner(getComponent(bucket, 1L));
+        } else {
+            component.setOwner(getComponent(bucket, id));
+        }
+    }
+
+    private int processProperties(Component component, List<String> lines) {
+        int lineNumber = FIRST_PROPERTY_INDEX;
+        String line = lines.get(FIRST_PROPERTY_INDEX);
+        while (!"*End*".equals(line)) {
+            String[] parts = line.split(":");
+            if ("_/de".equals(parts[0])) {
+                component.setDescription(parts[2]);
+            } else {
+                addProperty(component, parts[0], parts[1], parts[2]);
+            }
+            lineNumber++;
+            line = lines.get(lineNumber);
+        }
+        return lineNumber;
+    }
+
+    private void addProperty(Component component, String path, String flags, String value) {
+        long type = determineType(flags);
+        if (type == 2) {
+            StringProperty property = new StringProperty();
+            property.setValue(value);
+            component.getProperties().setProperty(path, property);
+        } else if (type == 3) {
+            IntegerProperty property = new IntegerProperty();
+            property.setValue(Long.parseLong(value));
+            component.getProperties().setProperty(path, property);
+        } else if (type == 4) {
+            LockProperty property = new LockProperty();
+            property.setValue(value);
+            component.getProperties().setProperty(path, property);
+        } else if (type == 5) {
+            ReferenceProperty property = new ReferenceProperty();
+            property.setValue(Long.parseLong(value));
+            component.getProperties().setProperty(path, property);
+        }
+    }
+
+    private Component getComponent(ImportBucket bucket, Long id) {
+        return bucket.getComponents().get(id);
     }
 
     private Component getComponent(ImportBucket bucket, String line) {
-        return bucket.getComponents().get(parseReference(line));
-    }
-
-    private String extractDescription(String line) {
-        int position = line.indexOf(":") + 1;
-        position = line.indexOf(":", position) + 1;
-        return line.substring(position);
+        return getComponent(bucket, parseReference(line));
     }
 }
