@@ -34,8 +34,8 @@ public class LoadLinesStageTest {
 
         stage.run(bucket);
 
-        assertEquals("Line 1", bucket.getSourceLines().get(0));
-        assertEquals("Line 2", bucket.getSourceLines().get(1));
-        assertEquals("Line 3", bucket.getSourceLines().get(2));
+        assertEquals("Line\r1", bucket.getSourceLines().get(0));
+        assertEquals("Line\r2", bucket.getSourceLines().get(1));
+        assertEquals("Line\r3", bucket.getSourceLines().get(2));
     }
 }
