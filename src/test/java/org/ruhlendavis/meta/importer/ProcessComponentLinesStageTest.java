@@ -115,6 +115,19 @@ public class ProcessComponentLinesStageTest {
     }
 
     @Test
+    public void generateShouldAddStringWithColonPropertyToProperties() {
+        String path = RandomStringUtils.randomAlphabetic(8);
+        String value = RandomStringUtils.randomAlphabetic(7) + ":" + RandomStringUtils.randomAlphanumeric(13);
+        List<String> properties = new ArrayList<>();
+        properties.add(path + ":10:" + value);
+        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        ImportBucket bucket = setupTest(space, properties);
+        stage.run(bucket);
+        StringProperty property = (StringProperty)space.getProperties().getProperty(path);
+        assertEquals(value, property.getValue());
+    }
+
+    @Test
     public void generateShouldAddLockPropertyToProperties() {
         String path = RandomStringUtils.randomAlphabetic(8);
         String value = RandomStringUtils.randomAlphabetic(7);

@@ -96,11 +96,15 @@ public class ProcessComponentLinesStage extends ImporterStage {
         int lineNumber = FIRST_PROPERTY_INDEX;
         String line = lines.get(FIRST_PROPERTY_INDEX);
         while (!"*End*".equals(line)) {
-            String[] parts = line.split(":");
-            if ("_/de".equals(parts[0])) {
-                component.setDescription(parts[2]);
+            int firstColonPosition = line.indexOf(":");
+            int secondColonPosition = line.indexOf(":", firstColonPosition + 1);
+            String path = line.substring(0, firstColonPosition);
+            String flags = line.substring(firstColonPosition + 1, secondColonPosition);
+            String value = line.substring(secondColonPosition + 1);
+            if ("_/de".equals(path)) {
+                component.setDescription(value);
             } else {
-                addProperty(component, parts[0], parts[1], parts[2]);
+                addProperty(component, path, flags, value);
             }
             lineNumber++;
             line = lines.get(lineNumber);
