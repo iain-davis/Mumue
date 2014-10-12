@@ -2,7 +2,6 @@ package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 
 public class LoadLinesStage extends ImporterStage {

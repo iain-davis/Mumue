@@ -2,6 +2,8 @@ package org.ruhlendavis.meta.importer;
 
 import com.google.common.io.Resources;
 import org.junit.Test;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.LoadLinesStage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
