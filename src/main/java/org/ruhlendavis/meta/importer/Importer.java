@@ -12,6 +12,7 @@ public class Importer {
         stages.add(new SeparateSectionsStage());
         stages.add(new GenerateRawComponentsStage());
         stages.add(new ProcessComponentLinesStage());
+//        stages.add(new ContentsChainStage());
     }
 
     public void run(String file) {

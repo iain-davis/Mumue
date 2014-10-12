@@ -2,14 +2,26 @@ package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class LoadLinesStage extends ImporterStage {
     @Override
     public void run(ImportBucket bucket) {
+        Scanner scanner= null;
         try {
-            bucket.setSourceLines(FileUtils.readLines(FileUtils.getFile(bucket.getFile())));
-        } catch (IOException exception) {
+            scanner = new Scanner(FileUtils.getFile(bucket.getFile()), "US-ASCII");
+            scanner.useDelimiter("\\x0A");
+            while(scanner.hasNext())
+            {
+                String line = scanner.next();
+                bucket.getSourceLines().add(line);
+            }
+        } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
     }

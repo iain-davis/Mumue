@@ -25,4 +25,17 @@ public class LoadLinesStageTest {
         assertEquals("Line 2", bucket.getSourceLines().get(1));
         assertEquals("Line 3", bucket.getSourceLines().get(2));
     }
+
+    @Test
+    public void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
+        ImportBucket bucket = new ImportBucket();
+        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/LoadLinesStageTestCRInput.db").toURI();
+        bucket.setFile(uri.getPath());
+
+        stage.run(bucket);
+
+        assertEquals("Line 1", bucket.getSourceLines().get(0));
+        assertEquals("Line 2", bucket.getSourceLines().get(1));
+        assertEquals("Line 3", bucket.getSourceLines().get(2));
+    }
 }

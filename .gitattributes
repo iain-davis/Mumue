@@ -3,3 +3,4 @@
 *.jar binary
 *.gradle text
 *.properties text
+*.db binary

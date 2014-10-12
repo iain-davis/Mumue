@@ -9,18 +9,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class ProcessComponentLinesStage extends ImporterStage {
-    private static final int NAME_INDEX = 1;
-    private static final int LOCATION_INDEX = 2;
-    private static final int CONTENTS_INDEX = 3;
-//    private static final int NEXT_INDEX = 4;
-//    private static final int FLAGS_INDEX = 5;
-    private static final int CREATED_INDEX = 6;
-    private static final int LAST_USED_INDEX = 7;
-    private static final int USE_COUNT_INDEX = 8;
-    private static final int LAST_MODIFIED_INDEX = 9;
-    // *Props* = 10
-    private static final int FIRST_PROPERTY_INDEX = 11;
-
     @Override
     public void run(ImportBucket bucket) {
         for (Entry<Long, Component> entry : bucket.getComponents().entrySet()) {
@@ -148,4 +136,16 @@ public class ProcessComponentLinesStage extends ImporterStage {
     private Component getComponent(ImportBucket bucket, String line) {
         return getComponent(bucket, parseReference(line));
     }
+
+    private static final int NAME_INDEX = 1;
+    private static final int LOCATION_INDEX = 2;
+    private static final int CONTENTS_INDEX = 3;
+//    private static final int NEXT_INDEX = 4;
+//    private static final int FLAGS_INDEX = 5;
+    private static final int CREATED_INDEX = 6;
+    private static final int LAST_USED_INDEX = 7;
+    private static final int USE_COUNT_INDEX = 8;
+    private static final int LAST_MODIFIED_INDEX = 9;
+//    *Props* = 10
+    private static final int FIRST_PROPERTY_INDEX = 11;
 }

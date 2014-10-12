@@ -30,6 +30,7 @@ public class ImporterTest {
         assertTrue(importer.getStages().get(1).getClass().equals(SeparateSectionsStage.class));
         assertTrue(importer.getStages().get(2).getClass().equals(GenerateRawComponentsStage.class));
         assertTrue(importer.getStages().get(3).getClass().equals(ProcessComponentLinesStage.class));
+//        assertTrue(importer.getStages().get(4).getClass().equals(ContentsChainStage.class));
     }
 
     @Test
