@@ -1,42 +1,110 @@
 package org.ruhlendavis.meta.importer;
 
-import org.junit.Assert;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.components.Space;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GenerateRawComponentsStageTest {
-    private GenerateRawComponentsStage stage = new GenerateRawComponentsStage();
+import static org.junit.Assert.*;
+
+public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
+    GenerateRawComponentsStage stage = new GenerateRawComponentsStage();
+
     @Test
-    public void generateRawComponentsGeneratesSpace() throws IOException {
+    public void runHandlesNoComponents() {
         ImportBucket bucket = new ImportBucket();
-        String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\space.db";
-        bucket.setFile(file);
         stage.run(bucket);
-        Assert.assertEquals(4, bucket.getComponents().size());
-        Assert.assertTrue(bucket.getComponents().get(0L) instanceof Space);
+        assertEquals(0, bucket.getComponents().size());
     }
 
     @Test
-    public void generateRawComponentsGeneratesCharacter() throws IOException {
-        ImportBucket bucket = new ImportBucket();
-        String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\character.db";
-        bucket.setFile(file);
+    public void runHandlesOneSpaceComponent() {
+        String id = RandomStringUtils.randomNumeric(3);
+        ImportBucket bucket = setupImportBucket("0", id);
         stage.run(bucket);
-        Assert.assertEquals(4, bucket.getComponents().size());
-        Assert.assertTrue(bucket.getComponents().get(1L) instanceof org.ruhlendavis.meta.components.Character);
+        assertEquals(1, bucket.getComponents().size());
+        Component component = bucket.getComponents().get(Long.parseLong(id));
+        assertNotNull(component);
+        assertTrue(component instanceof Space);
+        assertEquals(Long.parseLong(id), bucket.getComponents().get(Long.parseLong(id)).getId(), 0);
     }
 
     @Test
-    public void generateRawComponents() throws IOException {
-        ImportBucket bucket = new ImportBucket();
-        String file = "C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\glow.db";
-        bucket.setFile(file);
+    public void runHandlesOneMultipleComponents() {
+        String id1 = RandomStringUtils.randomNumeric(3);
+        String id2 = RandomStringUtils.randomNumeric(3);
+        ImportBucket bucket = setupImportBucket("0", id1);
+        List<String> lines = new ArrayList<>();
+        addOneDatabaseItemToList(lines, id2, "1", 0, 0);
+        bucket.getComponentLines().put(Long.parseLong(id2), lines);
         stage.run(bucket);
-        Assert.assertEquals(5, bucket.getComponents().size());
-        Assert.assertTrue(bucket.getComponents().get(0L) instanceof Space);
-        Assert.assertTrue(bucket.getComponents().get(1L) instanceof Character);
+        assertEquals(2, bucket.getComponents().size());
+        Component component = bucket.getComponents().get(Long.parseLong(id1));
+        assertNotNull(component);
+        assertTrue(component instanceof Space);
+        assertEquals(Long.parseLong(id1), component.getId(), 0);
+        component = bucket.getComponents().get(Long.parseLong(id2));
+        assertNotNull(component);
+        assertTrue(component instanceof Artifact);
+        assertEquals(Long.parseLong(id2), component.getId(), 0);
+    }
+
+    @Test
+    public void runHandlesOneArtifactComponent() {
+        String id = RandomStringUtils.randomNumeric(3);
+        ImportBucket bucket = setupImportBucket("1", id);
+        stage.run(bucket);
+        assertEquals(1, bucket.getComponents().size());
+        Component component = bucket.getComponents().get(Long.parseLong(id));
+        assertNotNull(component);
+        assertTrue(component instanceof Artifact);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
+    }
+
+    @Test
+    public void runHandlesOneLinkComponent() {
+        String id = RandomStringUtils.randomNumeric(3);
+        ImportBucket bucket = setupImportBucket("2", id);
+        stage.run(bucket);
+        assertEquals(1, bucket.getComponents().size());
+        Component component = bucket.getComponents().get(Long.parseLong(id));
+        assertNotNull(component);
+        assertTrue(component instanceof Link);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
+    }
+
+    @Test
+    public void runHandlesOneCharacterComponent() {
+        String id = RandomStringUtils.randomNumeric(3);
+        ImportBucket bucket = setupImportBucket("3", id);
+        stage.run(bucket);
+        assertEquals(1, bucket.getComponents().size());
+        Component component = bucket.getComponents().get(Long.parseLong(id));
+        assertNotNull(component);
+        assertTrue(component instanceof Character);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
+    }
+
+    @Test
+    public void runHandlesOneProgramComponent() {
+        String id = RandomStringUtils.randomNumeric(3);
+        ImportBucket bucket = setupImportBucket("4", id);
+        stage.run(bucket);
+        assertEquals(1, bucket.getComponents().size());
+        Component component = bucket.getComponents().get(Long.parseLong(id));
+        assertNotNull(component);
+        assertTrue(component instanceof Program);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
+    }
+
+    private ImportBucket setupImportBucket(String flags, String id) {
+        ImportBucket bucket = new ImportBucket();
+        List<String> lines = new ArrayList<>();
+        addOneDatabaseItemToList(lines, id, flags, 0, 0);
+        bucket.getComponentLines().put(Long.parseLong(id), lines);
+        return bucket;
     }
 }

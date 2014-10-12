@@ -9,7 +9,6 @@ public class SeparateSectionsStage extends ImporterStage {
     private static final int SOURCE_FORMAT_INDEX = 2;
     private static final int SOURCE_PARAMETER_COUNT_INDEX = 3;
     private static final int SOURCE_FIRST_PARAMETER_INDEX = 4;
-    private static final int ITEM_FLAGS_INDEX = 5;
     private static final int ITEM_LINES_BEFORE_PROPERTIES = 11;
 
     /*package*/static final int SPACE_CODA_LINES = 3;

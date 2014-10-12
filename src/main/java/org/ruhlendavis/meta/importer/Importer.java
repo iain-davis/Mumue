@@ -10,6 +10,7 @@ public class Importer {
     public Importer() {
         stages.add(new LoadLinesStage());
         stages.add(new SeparateSectionsStage());
+        stages.add(new GenerateRawComponentsStage());
     }
 
     public void run(String file) {

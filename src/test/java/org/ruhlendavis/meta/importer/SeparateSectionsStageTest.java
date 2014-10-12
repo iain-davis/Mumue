@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class SeparateSectionsStageTest {
+public class SeparateSectionsStageTest extends ImporterStageTestHelper {
     private SeparateSectionsStage stage = new SeparateSectionsStage();
 
     @Test
@@ -48,7 +48,7 @@ public class SeparateSectionsStageTest {
         String parameterCount = RandomStringUtils.randomNumeric(2);
         String itemCount = RandomStringUtils.randomNumeric(2);
         ImportBucket bucket = setupBucket(itemCount, parameterCount);
-        addOneDatabaseItemToBucket(bucket, "#1", "0", 0, 3);
+        addOneDatabaseItemToList(bucket.getSourceLines(), "#1", "0", 0, 3);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(Long.parseLong(itemCount), bucket.getDatabaseItemCount(), 0);
@@ -59,7 +59,7 @@ public class SeparateSectionsStageTest {
         String parameterCount = RandomStringUtils.randomNumeric(2);
         String itemCount = RandomStringUtils.randomNumeric(2);
         ImportBucket bucket = setupBucket(itemCount, parameterCount);
-        addOneDatabaseItemToBucket(bucket, "#1", "0", 0, 3);
+        addOneDatabaseItemToList(bucket.getSourceLines(), "#1", "0", 0, 3);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(Long.parseLong(parameterCount), bucket.getParameterCount(), 0);
@@ -71,7 +71,7 @@ public class SeparateSectionsStageTest {
         String itemCount = RandomStringUtils.randomNumeric(5);
         ImportBucket bucket = setupBucket(itemCount, parameterCount);
         int count = Integer.parseInt(parameterCount);
-        addOneDatabaseItemToBucket(bucket, "#1", "0", 0, 3);
+        addOneDatabaseItemToList(bucket.getSourceLines(), "#1", "0", 0, 3);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(count, bucket.getParameterCount(), 0);
@@ -82,7 +82,7 @@ public class SeparateSectionsStageTest {
     public void runClearsSourceLinesWhenFinished() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "0", 0, SeparateSectionsStage.SPACE_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "0", 0, SeparateSectionsStage.SPACE_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(0, bucket.getSourceLines().size());
@@ -92,7 +92,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneSpaceItem() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "0", 0, SeparateSectionsStage.SPACE_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "0", 0, SeparateSectionsStage.SPACE_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -104,7 +104,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneSpaceItemWhenItemHasFlags() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "8", 0, SeparateSectionsStage.SPACE_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "8", 0, SeparateSectionsStage.SPACE_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -118,9 +118,9 @@ public class SeparateSectionsStageTest {
         String id1 = RandomStringUtils.randomNumeric(3);
         String id2 = RandomStringUtils.randomNumeric(3);
         String id3 = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id1, "0", 0, SeparateSectionsStage.SPACE_CODA_LINES);
-        addOneDatabaseItemToBucket(bucket, id2, "0", 1, SeparateSectionsStage.SPACE_CODA_LINES);
-        addOneDatabaseItemToBucket(bucket, id3, "0", 2, SeparateSectionsStage.SPACE_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id1, "0", 0, SeparateSectionsStage.SPACE_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id2, "0", 1, SeparateSectionsStage.SPACE_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id3, "0", 2, SeparateSectionsStage.SPACE_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(3, bucket.getComponentLines().size());
@@ -136,7 +136,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneArtifactItem() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "1", 0, SeparateSectionsStage.ARTIFACT_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "1", 0, SeparateSectionsStage.ARTIFACT_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -148,7 +148,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneArtifactItemWhenItemHasFlags() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "9", 0, SeparateSectionsStage.ARTIFACT_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "9", 0, SeparateSectionsStage.ARTIFACT_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -160,7 +160,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneCharacterItem() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "3", 0, SeparateSectionsStage.CHARACTER_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "3", 0, SeparateSectionsStage.CHARACTER_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -172,7 +172,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneCharacterItemWhenItemHasFlags() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "11", 0, SeparateSectionsStage.CHARACTER_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "11", 0, SeparateSectionsStage.CHARACTER_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -184,7 +184,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneProgramItem() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "4", 0, SeparateSectionsStage.PROGRAM_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "4", 0, SeparateSectionsStage.PROGRAM_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -196,7 +196,7 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneProgramItemWhenItemHasFlags() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucket(bucket, id, "12", 0, SeparateSectionsStage.PROGRAM_CODA_LINES);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "12", 0, SeparateSectionsStage.PROGRAM_CODA_LINES);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -208,9 +208,9 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneLinkItem() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucketWithoutCoda(bucket, id, "2", 0);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "2", 0);
         bucket.getSourceLines().add("0");
-        addRandomLines(bucket, 1);
+        addRandomLinesToList(bucket.getSourceLines(), 1);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -222,9 +222,9 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneLinkItemWithDestinations() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucketWithoutCoda(bucket, id, "2", 0);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "2", 0);
         bucket.getSourceLines().add("3");
-        addRandomLines(bucket, 4);
+        addRandomLinesToList(bucket.getSourceLines(), 4);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
@@ -236,35 +236,14 @@ public class SeparateSectionsStageTest {
     public void runRetrievesOneLinkItemWhenItemHasFlags() {
         ImportBucket bucket = setupBucket("1", "1");
         String id = RandomStringUtils.randomNumeric(3);
-        addOneDatabaseItemToBucketWithoutCoda(bucket, id, "10", 0);
+        addOneDatabaseItemToList(bucket.getSourceLines(), id, "10", 0);
         bucket.getSourceLines().add("0");
-        addRandomLines(bucket, 1);
+        addRandomLinesToList(bucket.getSourceLines(), 1);
         bucket.getSourceLines().add("***END OF DUMP***");
         stage.run(bucket);
         assertEquals(1, bucket.getComponentLines().size());
         assertNotNull(bucket.getComponentLines().get(Long.parseLong(id)));
         assertEquals(14, bucket.getComponentLines().get(Long.parseLong(id)).size());
-    }
-
-    private void addOneDatabaseItemToBucket(ImportBucket bucket, String id, String flags, int propLines, int codaLines) {
-        addOneDatabaseItemToBucketWithoutCoda(bucket, id, flags, propLines);
-        addRandomLines(bucket, codaLines);
-    }
-
-    private void addOneDatabaseItemToBucketWithoutCoda(ImportBucket bucket, String id, String flags, int propLines) {
-        bucket.getSourceLines().add("#" + id);
-        addRandomLines(bucket, 4);
-        bucket.getSourceLines().add(flags);
-        addRandomLines(bucket, 4);
-        bucket.getSourceLines().add("*Props*");
-        addRandomLines(bucket, propLines);
-        bucket.getSourceLines().add("*End*");
-    }
-
-    private void addRandomLines(ImportBucket bucket, int count) {
-        for (int i = 0; i < count; i++) {
-            bucket.getSourceLines().add(RandomStringUtils.randomAlphabetic(5));
-        }
     }
 
     private ImportBucket setupBucket(String itemCount, String parameterCount) {

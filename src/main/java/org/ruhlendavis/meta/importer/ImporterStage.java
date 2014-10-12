@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.GlobalConstants;
 
 public abstract class ImporterStage {
+    protected static final int ITEM_FLAGS_INDEX = 5;
+
     public abstract void run(ImportBucket bucket);
 
     protected Long parseReference(String reference) {
