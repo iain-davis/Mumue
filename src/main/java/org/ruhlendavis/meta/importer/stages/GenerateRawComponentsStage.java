@@ -1,7 +1,9 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStage;
 
 import java.util.List;
 import java.util.Map.Entry;

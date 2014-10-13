@@ -1,6 +1,8 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import org.apache.commons.io.FileUtils;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStage;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

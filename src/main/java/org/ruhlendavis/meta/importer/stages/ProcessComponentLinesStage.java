@@ -1,7 +1,9 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStage;
 import org.ruhlendavis.meta.properties.*;
 
 import java.time.Instant;
@@ -58,7 +60,7 @@ public class ProcessComponentLinesStage extends ImporterStage {
         int destinationCount = Integer.parseInt(lines.get(lineNumber));
         for (int i = 1; i <= destinationCount; i++) {
             Long destinationId = parseReference(lines.get(lineNumber + i));
-            link.getDestinations().add(bucket.getComponents().get(destinationId));
+            link.getDestinations().add(getComponent(bucket, destinationId));
         }
         setOwner(bucket, link, lines.get(lineNumber + 1 + destinationCount));
     }
@@ -131,14 +133,6 @@ public class ProcessComponentLinesStage extends ImporterStage {
             property.setValue(Long.parseLong(value));
             component.getProperties().setProperty(path, property);
         }
-    }
-
-    private Component getComponent(ImportBucket bucket, Long id) {
-        return bucket.getComponents().get(id);
-    }
-
-    private Component getComponent(ImportBucket bucket, String line) {
-        return getComponent(bucket, parseReference(line));
     }
 
     private static final int NAME_INDEX = 1;

@@ -1,7 +1,9 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStage;
 
 import java.util.Map.Entry;
 
@@ -25,7 +27,7 @@ public class ContentsChainStage extends ImporterStage {
             if (id.equals(GlobalConstants.REFERENCE_UNKNOWN)) {
                 return;
             }
-            current = bucket.getComponents().get(id);
+            current = getComponent(bucket, id);
             component.getContents().add(current);
         }
     }

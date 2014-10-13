@@ -1,7 +1,10 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStageTestHelper;
+import org.ruhlendavis.meta.importer.stages.SeparateSectionsStage;
 
 import java.util.ArrayList;
 import java.util.List;

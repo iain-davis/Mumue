@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.ruhlendavis.meta.components.*;
 import org.ruhlendavis.meta.components.Character;
+import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.properties.IntegerProperty;
 import org.ruhlendavis.meta.properties.LockProperty;
 import org.ruhlendavis.meta.properties.ReferenceProperty;

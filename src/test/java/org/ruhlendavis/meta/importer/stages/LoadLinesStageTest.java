@@ -1,9 +1,8 @@
-package org.ruhlendavis.meta.importer;
+package org.ruhlendavis.meta.importer.stages;
 
 import com.google.common.io.Resources;
 import org.junit.Test;
 import org.ruhlendavis.meta.importer.ImportBucket;
-import org.ruhlendavis.meta.importer.LoadLinesStage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,7 +15,7 @@ public class LoadLinesStageTest {
     @Test
     public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
-        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/LoadLinesStageTestInput.db").toURI();
+        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/stages/LoadLinesStageTestInput.db").toURI();
         bucket.setFile(uri.getPath());
 
         stage.run(bucket);
@@ -29,7 +28,7 @@ public class LoadLinesStageTest {
     @Test
     public void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
-        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/LoadLinesStageTestCRInput.db").toURI();
+        URI uri = Resources.getResource("org/ruhlendavis/meta/importer/stages/LoadLinesStageTestCRInput.db").toURI();
         bucket.setFile(uri.getPath());
 
         stage.run(bucket);

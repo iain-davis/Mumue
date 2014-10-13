@@ -2,6 +2,7 @@ package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.importer.ImportBucket;
 
 public abstract class ImporterStage {
@@ -18,5 +19,13 @@ public abstract class ImporterStage {
 
     protected long determineType(String line) {
         return Long.parseLong(line.split(" ")[0]) & 0x7;
+    }
+
+    protected Component getComponent(ImportBucket bucket, Long id) {
+        return bucket.getComponents().get(id);
+    }
+
+    protected Component getComponent(ImportBucket bucket, String line) {
+        return getComponent(bucket, parseReference(line));
     }
 }
