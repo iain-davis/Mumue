@@ -15,6 +15,7 @@ public class Importer {
         stages.add(new GenerateRawComponentsStage());
         stages.add(new ProcessComponentLinesStage());
         stages.add(new ContentsChainStage());
+        stages.add(new LinkSourceChainStage());
     }
 
     public void run(String file) {

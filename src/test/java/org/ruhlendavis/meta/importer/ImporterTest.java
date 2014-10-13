@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.importer.stages.*;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +27,13 @@ public class ImporterTest {
 
     @Test
     public void importerAddsAllStages() {
-        assertTrue(importer.getStages().get(0).getClass().equals(LoadLinesStage.class));
-        assertTrue(importer.getStages().get(1).getClass().equals(SeparateSectionsStage.class));
-        assertTrue(importer.getStages().get(2).getClass().equals(GenerateRawComponentsStage.class));
-        assertTrue(importer.getStages().get(3).getClass().equals(ProcessComponentLinesStage.class));
-        assertTrue(importer.getStages().get(4).getClass().equals(ContentsChainStage.class));
+        int index = 0;
+        assertTrue(importer.getStages().get(index++).getClass().equals(LoadLinesStage.class));
+        assertTrue(importer.getStages().get(index++).getClass().equals(SeparateSectionsStage.class));
+        assertTrue(importer.getStages().get(index++).getClass().equals(GenerateRawComponentsStage.class));
+        assertTrue(importer.getStages().get(index++).getClass().equals(ProcessComponentLinesStage.class));
+        assertTrue(importer.getStages().get(index++).getClass().equals(ContentsChainStage.class));
+        assertTrue(importer.getStages().get(index++).getClass().equals(LinkSourceChainStage.class));
     }
 
     @Test
