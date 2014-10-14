@@ -54,9 +54,4 @@ public class ImporterTest {
         importer.run("file");
         verify(loadLinesStage, never()).run(any(ImportBucket.class));
     }
-
-//    @Test
-//    public void f() throws URISyntaxException {
-//        new Importer().run("C:\\Users\\Feaelin\\Documents\\Actual Data\\Programming\\Meta\\src\\test\\resources\\narnia.db");
-//    }
 }
