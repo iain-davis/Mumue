@@ -10,7 +10,7 @@ public class Listener implements Runnable {
     private ThreadFactory threadFactory = new ThreadFactory();
     private ServerSocket serverSocket;
     private int port = 9999;
-    private boolean isRunning = true;
+    private boolean running = true;
     private Vector<Thread> connections = new Vector();
 
     public Listener() {
@@ -19,7 +19,7 @@ public class Listener implements Runnable {
     @Override
     public void run() {
         serverSocket = socketFactory.createSocket(port);
-        while (isRunning) {
+        while (isRunning()) {
             waitForConnection();
         }
     }
@@ -33,7 +33,7 @@ public class Listener implements Runnable {
             connections.add(client);
             client.start();
         } catch (IOException exception) {
-            if (!isRunning) {
+            if (!running) {
                 return;
             }
             throw new RuntimeException("Error accepting client connection", exception);
@@ -45,12 +45,12 @@ public class Listener implements Runnable {
         return this;
     }
 
-    public boolean isRunning() {
-        return isRunning;
+    public synchronized boolean isRunning() {
+        return running;
     }
 
-    public void stop() {
-        isRunning = false;
+    public synchronized void stop() {
+        running = false;
     }
 
     public int getConnectionCount() {
