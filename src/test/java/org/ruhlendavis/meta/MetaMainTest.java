@@ -1,11 +1,13 @@
 package org.ruhlendavis.meta;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Properties;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +51,6 @@ public class MetaMainTest {
     @Test
     public void runHandlesMissingConfiguration() {
         main.run(new String[]{});
-        verify(prompter).run();
+        verify(prompter).run(System.in, System.out, any(Properties.class));
     }
 }

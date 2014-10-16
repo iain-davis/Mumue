@@ -24,7 +24,7 @@ public class MetaMain {
             configuration.setProperties(properties);
         } catch (FileNotFoundException exception) {
             if (arguments.length == 0) {
-                prompter.run();
+                prompter.run(System.in, System.out, properties);
             }
             System.out.println("Configuration file '" + configurationPath + "' not found.");
             return;
