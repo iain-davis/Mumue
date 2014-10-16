@@ -2,6 +2,7 @@ package org.ruhlendavis.meta;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.io.Resources;
@@ -51,6 +52,6 @@ public class MetaMainTest {
     @Test
     public void runHandlesMissingConfiguration() {
         main.run(new String[]{});
-        verify(prompter).run(System.in, System.out, any(Properties.class));
+        verify(prompter).run(eq(System.in), eq(System.out), any(Properties.class));
     }
 }
