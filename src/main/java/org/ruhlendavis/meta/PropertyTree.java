@@ -1,9 +1,8 @@
 package org.ruhlendavis.meta;
 
-import org.ruhlendavis.meta.properties.Property;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.ruhlendavis.meta.properties.Property;
 
 public class PropertyTree {
     private Map<String, Property> properties = new HashMap<>();

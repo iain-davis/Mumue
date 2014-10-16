@@ -1,8 +1,11 @@
 package org.ruhlendavis.meta.importer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.ruhlendavis.meta.Player;
 import org.ruhlendavis.meta.components.Component;
-
-import java.util.*;
 
 public class ImportBucket {
     private String file = "";
@@ -13,6 +16,7 @@ public class ImportBucket {
     private Long databaseItemCount = new Long(0L);
     private Boolean failed = false;
     private int parameterCount = 0;
+    private List<Player> players = new ArrayList<>();
 
     public String getFile() {
         return file;
@@ -76,5 +80,9 @@ public class ImportBucket {
 
     public void setParameterCount(int parameterCount) {
         this.parameterCount = parameterCount;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }

@@ -1,14 +1,22 @@
 package org.ruhlendavis.meta.importer.stages;
 
-import org.ruhlendavis.meta.components.*;
-import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.importer.ImportBucket;
-import org.ruhlendavis.meta.importer.ImporterStage;
-import org.ruhlendavis.meta.properties.*;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Map.Entry;
+import org.ruhlendavis.meta.components.Artifact;
+import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.components.GameCharacter;
+import org.ruhlendavis.meta.components.Link;
+import org.ruhlendavis.meta.components.LinkSource;
+import org.ruhlendavis.meta.components.Ownable;
+import org.ruhlendavis.meta.components.Program;
+import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStage;
+import org.ruhlendavis.meta.properties.IntegerProperty;
+import org.ruhlendavis.meta.properties.LockProperty;
+import org.ruhlendavis.meta.properties.ReferenceProperty;
+import org.ruhlendavis.meta.properties.StringProperty;
 
 public class ProcessComponentLinesStage extends ImporterStage {
     @Override
@@ -31,8 +39,8 @@ public class ProcessComponentLinesStage extends ImporterStage {
         endLineNumber++;
         if (component instanceof Artifact) {
             processArtifact(bucket, lines, endLineNumber, (Artifact) component);
-        } else if (component instanceof Character) {
-            processCharacter(bucket, lines, endLineNumber, (Character) component);
+        } else if (component instanceof GameCharacter) {
+            processCharacter(bucket, lines, endLineNumber, (GameCharacter) component);
         } else if (component instanceof Link) {
             processLink(bucket, lines, endLineNumber, (Link) component);
         } else if (component instanceof Program) {
@@ -49,11 +57,10 @@ public class ProcessComponentLinesStage extends ImporterStage {
         artifact.setValue(Long.parseLong(lines.get(lineNumber + 3)));
     }
 
-    private void processCharacter(ImportBucket bucket, List<String> lines, int lineNumber, Character character) {
+    private void processCharacter(ImportBucket bucket, List<String> lines, int lineNumber, GameCharacter character) {
         character.setHome(getComponent(bucket, lines.get(lineNumber)));
         addLink(bucket, character, lines.get(lineNumber + 1));
         character.setWealth(Long.parseLong(lines.get(lineNumber + 2)));
-        character.setPassword(lines.get(lineNumber + 3));
     }
 
     private void processLink(ImportBucket bucket, List<String> lines, int lineNumber, Link link) {

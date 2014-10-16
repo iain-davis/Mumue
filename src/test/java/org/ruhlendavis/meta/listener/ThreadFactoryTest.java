@@ -1,10 +1,10 @@
 package org.ruhlendavis.meta.listener;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
 
 public class ThreadFactoryTest {
     private ThreadFactory factory = new ThreadFactory();

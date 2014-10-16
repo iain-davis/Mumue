@@ -1,16 +1,21 @@
 package org.ruhlendavis.meta.importer.stages;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.ruhlendavis.meta.components.*;
-import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.importer.ImportBucket;
-import org.ruhlendavis.meta.importer.ImporterStageTestHelper;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
+import org.ruhlendavis.meta.components.Artifact;
+import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.components.GameCharacter;
+import org.ruhlendavis.meta.components.Link;
+import org.ruhlendavis.meta.components.Program;
+import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStageTestHelper;
 
 public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
     GenerateRawComponentsStage stage = new GenerateRawComponentsStage();
@@ -86,7 +91,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         assertEquals(1, bucket.getComponents().size());
         Component component = bucket.getComponents().get(Long.parseLong(id));
         assertNotNull(component);
-        assertTrue(component instanceof Character);
+        assertTrue(component instanceof GameCharacter);
         assertEquals(Long.parseLong(id), component.getId(), 0);
     }
 

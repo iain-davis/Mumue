@@ -1,13 +1,12 @@
 package org.ruhlendavis.meta.importer.stages;
 
-import com.google.common.io.Resources;
-import org.junit.Test;
-import org.ruhlendavis.meta.importer.ImportBucket;
+import static org.junit.Assert.assertEquals;
 
+import com.google.common.io.Resources;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.ruhlendavis.meta.importer.ImportBucket;
 
 public class LoadLinesStageTest {
     LoadLinesStage stage = new LoadLinesStage();

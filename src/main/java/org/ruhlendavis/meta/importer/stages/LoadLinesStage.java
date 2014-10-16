@@ -1,15 +1,10 @@
 package org.ruhlendavis.meta.importer.stages;
 
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStage;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class LoadLinesStage extends ImporterStage {
     @Override

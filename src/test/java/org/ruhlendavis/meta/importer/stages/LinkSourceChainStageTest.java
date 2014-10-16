@@ -1,18 +1,22 @@
 package org.ruhlendavis.meta.importer.stages;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
-import org.ruhlendavis.meta.components.*;
-import org.ruhlendavis.meta.components.Character;
-import org.ruhlendavis.meta.importer.ImportBucket;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Test;
+import org.ruhlendavis.meta.components.Artifact;
+import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.components.GameCharacter;
+import org.ruhlendavis.meta.components.Link;
+import org.ruhlendavis.meta.components.Program;
+import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStageTestHelper;
 
-import static org.junit.Assert.assertEquals;
-
-public class LinkSourceChainStageTest {
+public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     private LinkSourceChainStage stage = new LinkSourceChainStage();
 
     @Test
@@ -124,7 +128,7 @@ public class LinkSourceChainStageTest {
     public void characterHasMultipleLinks() {
         ImportBucket bucket = new ImportBucket();
 
-        Character character = new Character().withId(RandomUtils.nextLong(2, 100));
+        GameCharacter character = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
         bucket.getComponents().put(character.getId(), character);
         List<String> lines = setupLines(character);
         bucket.getComponentLines().put(character.getId(), lines);
@@ -172,7 +176,7 @@ public class LinkSourceChainStageTest {
         lines.add("*End*");
         if (component instanceof Program) {
             lines.add("1");
-        } else if (component instanceof Character) {
+        } else if (component instanceof GameCharacter) {
             lines.add("0");
             lines.add("-1");
             lines.add("0");

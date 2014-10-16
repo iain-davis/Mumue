@@ -1,10 +1,11 @@
 package org.ruhlendavis.meta.importer.stages;
 
-import org.ruhlendavis.meta.components.*;
+import java.util.Map.Entry;
+import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.components.Link;
+import org.ruhlendavis.meta.components.LinkSource;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStage;
-
-import java.util.Map.Entry;
 
 public class LinkSourceChainStage extends ImporterStage {
     @Override

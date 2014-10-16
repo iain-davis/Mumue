@@ -1,13 +1,11 @@
 package org.ruhlendavis.meta.importer;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 import org.ruhlendavis.meta.GlobalConstants;
-import org.ruhlendavis.meta.importer.ImportBucket;
-import org.ruhlendavis.meta.importer.ImporterStage;
-
-import static org.junit.Assert.assertEquals;
 
 public class ImporterStageTest {
     ImporterStage stage = new ImporterStage() {

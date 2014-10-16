@@ -1,11 +1,10 @@
 package org.ruhlendavis.meta.components;
 
-import org.ruhlendavis.meta.GlobalConstants;
-import org.ruhlendavis.meta.PropertyTree;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.PropertyTree;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;

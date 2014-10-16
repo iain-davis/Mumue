@@ -1,10 +1,9 @@
 package org.ruhlendavis.meta.importer.stages;
 
-import org.ruhlendavis.meta.importer.ImportBucket;
-import org.ruhlendavis.meta.importer.ImporterStage;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.ruhlendavis.meta.importer.ImportBucket;
+import org.ruhlendavis.meta.importer.ImporterStage;
 
 public class SeparateSectionsStage extends ImporterStage {
     private static final int SOURCE_VERSION_INDEX = 0;

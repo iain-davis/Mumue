@@ -1,9 +1,13 @@
 package org.ruhlendavis.meta.importer;
 
-import org.ruhlendavis.meta.importer.stages.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.ruhlendavis.meta.importer.stages.ContentsChainStage;
+import org.ruhlendavis.meta.importer.stages.GenerateRawComponentsStage;
+import org.ruhlendavis.meta.importer.stages.LinkSourceChainStage;
+import org.ruhlendavis.meta.importer.stages.LoadLinesStage;
+import org.ruhlendavis.meta.importer.stages.ProcessComponentLinesStage;
+import org.ruhlendavis.meta.importer.stages.SeparateSectionsStage;
 
 public class Importer {
     private List<ImporterStage> stages = new ArrayList<>();
