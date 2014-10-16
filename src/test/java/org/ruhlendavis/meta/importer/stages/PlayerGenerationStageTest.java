@@ -55,8 +55,6 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
         stage.run(bucket);
 
         assertEquals(2, bucket.getPlayers().size());
-        assertEquals(name1, bucket.getPlayers().get(1).getName());
-        assertEquals(name2, bucket.getPlayers().get(0).getName());
     }
 
     @Test
