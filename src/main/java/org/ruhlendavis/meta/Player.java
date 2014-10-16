@@ -2,11 +2,12 @@ package org.ruhlendavis.meta;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.ruhlendavis.meta.components.GameCharacter;
 
 public class Player {
     String name = "";
     String password = "";
-    List<Character> characters = new ArrayList<>();
+    List<GameCharacter> characters = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -24,7 +25,7 @@ public class Player {
         this.password = password;
     }
 
-    public List<Character> getCharacters() {
+    public List<GameCharacter> getCharacters() {
         return characters;
     }
 }

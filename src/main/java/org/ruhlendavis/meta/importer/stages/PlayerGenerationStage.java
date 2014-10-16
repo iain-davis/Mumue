@@ -22,6 +22,7 @@ public class PlayerGenerationStage extends ImporterStage{
                 player.setName(name);
                 player.setPassword(password);
                 bucket.getPlayers().add(player);
+                player.getCharacters().add((GameCharacter)entry.getValue());
             }
         }
     }

@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.importer.stages;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -25,6 +26,20 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
         stage.run(bucket);
 
         assertEquals(1, bucket.getPlayers().size());
+    }
+
+    @Test
+    public void runWithCharacterAddsCharacterToCreatedPlayer() {
+        ImportBucket bucket = new ImportBucket();
+
+        String name = RandomStringUtils.randomAlphabetic(13);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        Long id = RandomUtils.nextLong(2, 100);
+        mockCharacterData(bucket, name, password, id);
+
+        stage.run(bucket);
+
+        assertSame(bucket.getComponents().get(id), bucket.getPlayers().get(0).getCharacters().get(0));
     }
 
     @Test
