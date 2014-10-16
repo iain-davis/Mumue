@@ -17,6 +17,7 @@ import org.ruhlendavis.meta.importer.stages.ContentsChainStage;
 import org.ruhlendavis.meta.importer.stages.GenerateRawComponentsStage;
 import org.ruhlendavis.meta.importer.stages.LinkSourceChainStage;
 import org.ruhlendavis.meta.importer.stages.LoadLinesStage;
+import org.ruhlendavis.meta.importer.stages.PlayerGenerationStage;
 import org.ruhlendavis.meta.importer.stages.ProcessComponentLinesStage;
 import org.ruhlendavis.meta.importer.stages.SeparateSectionsStage;
 
@@ -39,6 +40,7 @@ public class ImporterTest {
         assertTrue(importer.getStages().get(index++).getClass().equals(ProcessComponentLinesStage.class));
         assertTrue(importer.getStages().get(index++).getClass().equals(ContentsChainStage.class));
         assertTrue(importer.getStages().get(index++).getClass().equals(LinkSourceChainStage.class));
+        assertTrue(importer.getStages().get(index++).getClass().equals(PlayerGenerationStage.class));
     }
 
     @Test

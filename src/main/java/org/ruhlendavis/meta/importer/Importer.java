@@ -6,6 +6,7 @@ import org.ruhlendavis.meta.importer.stages.ContentsChainStage;
 import org.ruhlendavis.meta.importer.stages.GenerateRawComponentsStage;
 import org.ruhlendavis.meta.importer.stages.LinkSourceChainStage;
 import org.ruhlendavis.meta.importer.stages.LoadLinesStage;
+import org.ruhlendavis.meta.importer.stages.PlayerGenerationStage;
 import org.ruhlendavis.meta.importer.stages.ProcessComponentLinesStage;
 import org.ruhlendavis.meta.importer.stages.SeparateSectionsStage;
 
@@ -20,6 +21,7 @@ public class Importer {
         stages.add(new ProcessComponentLinesStage());
         stages.add(new ContentsChainStage());
         stages.add(new LinkSourceChainStage());
+        stages.add(new PlayerGenerationStage());
     }
 
     public void run(String file) {
