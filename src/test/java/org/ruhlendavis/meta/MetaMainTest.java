@@ -1,64 +1,104 @@
 package org.ruhlendavis.meta;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.io.Resources;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
-import java.util.Properties;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.FileFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MetaMainTest {
     @Mock
-    private ConfigurationPrompter prompter;
+    Configuration configuration;
+    @Mock
+    File file;
+    @Mock
+    private FileFactory fileFactory;
     @Mock
     private Listener listener;
 
     @InjectMocks
     private MetaMain main = new MetaMain();
 
-    @Test
-    public void runSetsDefaultPath() throws IOException {
-        String path = "configuration.properties";
-        assertEquals(path, main.getConfigurationPath());
-    }
-
-    @Test
-    public void runParsesRetrievesConfigurationFromCommandLine() throws URISyntaxException {
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration.properties").toURI().getPath();
-        main.run(new String[]{path});
-        assertEquals(path, main.getConfigurationPath());
-    }
-
-    @Test
-    public void runParsesRetrievesConfiguration() throws URISyntaxException {
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration.properties").toURI().getPath();
-        main.run(new String[]{path});
-        assertEquals(9999, main.getConfiguration().getPort());
-    }
-
-    @Test
-    public void runHandlesBadSpecifiedPath() {
-        main.run(new String[]{RandomStringUtils.randomAlphabetic(15)});
-    }
-
-    @Ignore
-    @Test
-    public void runHandlesMissingConfiguration() {
+    @Before
+    public void beforeEach() {
         when(listener.isRunning()).thenReturn(false);
-        main.run(new String[]{});
-        verify(prompter).run(eq(System.in), eq(System.out), any(Properties.class));
+        when(fileFactory.createFile(anyString())).thenReturn(file);
+        when(file.exists()).thenReturn(true);
+        when(file.isDirectory()).thenReturn(false);
+        doNothing().when(configuration).load(anyString());
+    }
+
+    @Test
+    public void runUsesDefaultPath() throws IOException {
+        main.run(new String[]{}, System.out);
+        verify(fileFactory).createFile("configuration.properties");
+    }
+
+    @Test
+    public void runUsesSpecifiedPath() throws IOException, URISyntaxException {
+        String path = RandomStringUtils.randomAlphabetic(15);
+        main.run(new String[]{path}, System.out);
+        verify(fileFactory).createFile(path);
+    }
+
+    @Test
+    public void runHandlesUnknownPath() throws IOException {
+        String path = RandomStringUtils.randomAlphabetic(15);
+        when(fileFactory.createFile(path)).thenReturn(file);
+        when(file.exists()).thenReturn(false);
+        main.run(new String[]{path}, System.out);
+        verify(configuration, never()).load(path);
+    }
+
+    @Test
+    public void runHandlesUnknownPathThatIsDirectory() throws IOException {
+        String path = RandomStringUtils.randomAlphabetic(15);
+        when(fileFactory.createFile(path)).thenReturn(file);
+        when(file.exists()).thenReturn(true);
+        when(file.isDirectory()).thenReturn(true);
+        main.run(new String[]{path}, System.out);
+        verify(configuration, never()).load(path);
+    }
+
+    @Test
+    public void runHandlesPrintsErrorForUnknownPath() throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        String path = RandomStringUtils.randomAlphabetic(15);
+        when(fileFactory.createFile(path)).thenReturn(file);
+        when(file.exists()).thenReturn(false);
+        main.run(new String[]{path}, new PrintStream(output));
+        assertEquals("Configuration file '" + path + "' not found." + System.lineSeparator(), output.toString());
+    }
+
+    @Test
+    public void runSetsMainListenerPort() {
+        int port = 9999;
+        when(configuration.getPort()).thenReturn(port);
+        main.run(new String[]{}, System.out);
+        verify(listener).setPort(port);
+    }
+
+    @Test
+    public void runRunsMainListener() {
+        main.run(new String[]{}, System.out);
+        verify(listener).run();
     }
 }

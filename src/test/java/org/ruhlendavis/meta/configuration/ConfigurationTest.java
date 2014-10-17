@@ -1,7 +1,6 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.configuration;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 import com.google.common.io.Resources;
 import java.net.URISyntaxException;
@@ -17,14 +16,14 @@ public class ConfigurationTest {
         configuration.setProperties(properties);
         String port = RandomStringUtils.randomNumeric(4);
         properties.setProperty("port", port);
-        
+
         assertEquals(Integer.parseInt(port), configuration.getPort());
     }
 
     @Test
     public void loadLoadsConfiguration() throws URISyntaxException {
         Configuration configuration = new Configuration();
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration.properties").toURI().getPath();
+        String path = Resources.getResource("org/ruhlendavis/meta/configuration/configuration.properties").toURI().getPath();
         configuration.load(path);
         assertEquals(9999, configuration.getPort());
     }

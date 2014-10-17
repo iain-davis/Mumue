@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ public class Configuration {
 
     public void load(String configurationPath) {
         try {
-            InputStream input = FileUtils.openInputStream(FileUtils.getFile(configurationPath));
+            InputStream input = FileUtils.openInputStream(new FileFactory().createFile(configurationPath));
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();
