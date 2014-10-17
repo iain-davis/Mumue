@@ -18,10 +18,29 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretFindsATokenCommand() {
-        CommandInterpreter.putTokenCommand("~", new CommandSay());
-        CommandResult result = interpreter.interpret("~");
+        String token = "~";
+        CommandInterpreter.putTokenCommand(token, new CommandSay());
+        CommandResult result = interpreter.interpret(token);
         assertEquals(CommandStatus.OK, result.getStatus());
         assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
+    }
+
+    @Test
+    public void interpretSetsTokenCommand() {
+        String token = "~";
+        CommandInterpreter.putTokenCommand(token, new CommandSay());
+        CommandResult result = interpreter.interpret(token);
+        assertEquals(token, result.getCommandString());
+    }
+
+    @Test
+    public void interpretWithTokenSetsArguments() {
+        String token = "~";
+        CommandInterpreter.putTokenCommand(token, new CommandSay());
+        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String line = token + arguments;
+        CommandResult result = interpreter.interpret(line);
+        assertEquals(arguments, result.getCommandArguments());
     }
 
     @Test
@@ -51,6 +70,25 @@ public class CommandInterpreterTest {
         CommandResult result = interpreter.interpret(command);
         assertEquals(CommandStatus.OK, result.getStatus());
         assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
+    }
+
+    @Test
+    public void interpretSetsCommandString() {
+        String command = RandomStringUtils.randomAlphabetic(13);
+        String line = command + " " + RandomStringUtils.randomAlphabetic(13);
+        CommandInterpreter.putCommand(command, new CommandSay());
+        CommandResult result = interpreter.interpret(line);
+        assertEquals(command, result.getCommandString());
+    }
+
+    @Test
+    public void interpretSetsCommandArguments() {
+        String command = RandomStringUtils.randomAlphabetic(12);
+        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String line = command + " " + arguments;
+        CommandInterpreter.putCommand(command, new CommandSay());
+        CommandResult result = interpreter.interpret(line);
+        assertEquals(arguments, result.getCommandArguments());
     }
 
     @Test

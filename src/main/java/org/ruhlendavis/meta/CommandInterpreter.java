@@ -28,7 +28,9 @@ public class CommandInterpreter {
         CommandResult result = new CommandResult();
 
         for (Entry<String, Command> entry : tokenCommandList.entrySet()) {
-            if (entry.getKey().equals(line.toLowerCase().substring(0,1))) {
+            if (entry.getKey().equals(line.substring(0, 1))) {
+                result.setCommandString(line.substring(0, 1));
+                result.setCommandArguments(line.substring(1));
                 result.setStatus(CommandStatus.OK);
                 result.getCommands().add(entry.getValue());
             }
@@ -37,8 +39,11 @@ public class CommandInterpreter {
         result.setStatus(CommandStatus.OK);
         for (Entry<String, Command> entry : commandList.entrySet()) {
             if (line.toLowerCase().startsWith(entry.getKey())) {
-                if (result.getCommands().size() == 1) {
-                    result.setStatus(CommandStatus.AMBIGUOUS_COMMAND);
+                if (line.contains(" ")) {
+                    result.setCommandString(line.substring(0, line.indexOf(" ")));
+                    result.setCommandArguments(line.substring(line.indexOf(" ") + 1));
+                } else {
+                    result.setCommandString(line);
                 }
                 result.getCommands().add(entry.getValue());
             }

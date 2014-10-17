@@ -7,6 +7,8 @@ import org.ruhlendavis.meta.commands.Command;
 public class CommandResult {
     CommandStatus status = CommandStatus.OK;
     List<Command> commands = new ArrayList<>();
+    private String commandString;
+    private String commandArguments;
 
     public CommandStatus getStatus() {
         return status;
@@ -28,5 +30,21 @@ public class CommandResult {
     public CommandResult withCommand(Command command) {
         this.commands.add(command);
         return this;
+    }
+
+    public String getCommandString() {
+        return commandString;
+    }
+
+    public void setCommandString(String commandString) {
+        this.commandString = commandString;
+    }
+
+    public String getCommandArguments() {
+        return commandArguments;
+    }
+
+    public void setCommandArguments(String commandArguments) {
+        this.commandArguments = commandArguments;
     }
 }
