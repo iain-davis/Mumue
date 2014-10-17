@@ -20,6 +20,6 @@ public class ConfigurationTest {
     public void getPortReturnsPortProperty() {
         String port = RandomStringUtils.randomNumeric(4);
         properties.setProperty("port", port);
-        assertEquals(port, configuration.getPort());
+        assertEquals(Integer.parseInt(port), configuration.getPort());
     }
 }
