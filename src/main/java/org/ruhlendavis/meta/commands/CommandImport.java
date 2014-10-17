@@ -6,7 +6,7 @@ public class CommandImport extends Command {
     private Importer importer = new Importer();
 
     @Override
-    public void execute() {
+    public void execute(String command, String... arguments) {
         // Steps:
         // 1. Verify specified path
         // 2. Verify database type (only glow at this time)

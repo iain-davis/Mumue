@@ -5,20 +5,10 @@ import java.util.List;
 import org.ruhlendavis.meta.Role;
 
 abstract public class Command {
-    private String minimumPartial;
     private String fullCommand;
     private List<Role> allowedRoles = new ArrayList<>();
 
-    abstract public void execute();
-
-    public String getMinimumPartial() {
-        return minimumPartial;
-    }
-
-    public Command withMinimumPartial(String minimumPartial) {
-        this.minimumPartial = minimumPartial;
-        return this;
-    }
+    abstract public void execute(String command, String... arguments);
 
     public String getFullCommand() {
         return fullCommand;
