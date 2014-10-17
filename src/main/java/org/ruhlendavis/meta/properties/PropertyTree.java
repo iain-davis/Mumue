@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.properties;
 
 import java.util.HashMap;
 import java.util.Map;

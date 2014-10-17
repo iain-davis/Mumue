@@ -1,9 +1,8 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.ruhlendavis.meta.properties.Property;
 
 public class PropertyTreeTest {
     PropertyTree propertyTree = new PropertyTree();
