@@ -8,7 +8,7 @@ abstract public class Command {
     private String fullCommand;
     private List<Role> allowedRoles = new ArrayList<>();
 
-    abstract public void execute(String command, String... arguments);
+    abstract public void execute(String command, String arguments);
 
     public String getFullCommand() {
         return fullCommand;
