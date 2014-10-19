@@ -46,7 +46,7 @@ public class ListenerTest {
     @Test
     public void runUsesSpecifiedPort() {
         int port = RandomUtils.nextInt(2048, 4096);
-        listener.withPort(port);
+        listener.setPort(port);
         listener.stop();
         listener.run();
         verify(socketFactory).createSocket(port);

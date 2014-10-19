@@ -40,11 +40,6 @@ public class Listener implements Runnable {
         }
     }
 
-    public Listener withPort(int port) {
-        this.port = port;
-        return this;
-    }
-
     public synchronized boolean isRunning() {
         return running;
     }
@@ -55,5 +50,13 @@ public class Listener implements Runnable {
 
     public int getConnectionCount() {
         return connections.size();
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
     }
 }
