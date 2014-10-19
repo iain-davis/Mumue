@@ -7,13 +7,13 @@ import org.ruhlendavis.meta.configuration.FileFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class MetaMain {
-    private static final String DEFAULT_CONFIGURATION_PATH = "configuration.properties";
     private Configuration configuration = new Configuration();
     private FileFactory fileFactory = new FileFactory();
     private Listener listener = new Listener();
+    private Thread thread = new Thread(listener);
 
     public void run(String[] arguments, PrintStream output) {
-        String path = DEFAULT_CONFIGURATION_PATH;
+        String path = GlobalConstants.DEFAULT_CONFIGURATION_PATH;
         if (arguments.length == 1) {
             path = arguments[0];
         }
@@ -21,11 +21,16 @@ public class MetaMain {
         if (file.exists() && !file.isDirectory()) {
             configuration.load(path);
         } else {
-            output.println("Configuration file '" + path + "' not found.");
-            return;
+            if (arguments.length == 0) {
+                output.println("WARNING: Configuration file '" + path + "' not found.");
+            }
+            else {
+                output.println("CRITICAL: Configuration file '" + path + "' not found.");
+                return;
+            }
         }
         listener.setPort(configuration.getPort());
-        new Thread(listener).start();
+        thread.start();
         while (listener.isRunning());
     }
 

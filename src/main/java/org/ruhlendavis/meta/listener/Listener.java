@@ -13,9 +13,6 @@ public class Listener implements Runnable {
     private boolean running = true;
     private Vector<Thread> connections = new Vector();
 
-    public Listener() {
-    }
-
     @Override
     public void run() {
         serverSocket = socketFactory.createSocket(port);

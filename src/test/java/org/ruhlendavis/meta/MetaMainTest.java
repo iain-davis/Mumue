@@ -33,6 +33,8 @@ public class MetaMainTest {
     private FileFactory fileFactory;
     @Mock
     private Listener listener;
+    @Mock
+    private Thread thread;
 
     @InjectMocks
     private MetaMain main = new MetaMain();
@@ -49,7 +51,7 @@ public class MetaMainTest {
     @Test
     public void runUsesDefaultPath() throws IOException {
         main.run(new String[]{}, System.out);
-        verify(fileFactory).createFile("configuration.properties");
+        verify(fileFactory).createFile(GlobalConstants.DEFAULT_CONFIGURATION_PATH);
     }
 
     @Test
@@ -79,13 +81,22 @@ public class MetaMainTest {
     }
 
     @Test
+    public void runWithoutSpecificConfigurationUsesDefaults() {
+        when(file.exists()).thenReturn(false);
+        main.run(new String[]{}, System.out);
+        verify(fileFactory).createFile(GlobalConstants.DEFAULT_CONFIGURATION_PATH);
+        verify(configuration, never()).load(GlobalConstants.DEFAULT_CONFIGURATION_PATH);
+        verify(thread).start();
+    }
+
+    @Test
     public void runHandlesPrintsErrorForUnknownPath() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         String path = RandomStringUtils.randomAlphabetic(15);
         when(fileFactory.createFile(path)).thenReturn(file);
         when(file.exists()).thenReturn(false);
         main.run(new String[]{path}, new PrintStream(output));
-        assertEquals("Configuration file '" + path + "' not found." + System.lineSeparator(), output.toString());
+        assertEquals("CRITICAL: Configuration file '" + path + "' not found." + System.lineSeparator(), output.toString());
     }
 
     @Test
@@ -99,6 +110,6 @@ public class MetaMainTest {
     @Test
     public void runRunsMainListener() {
         main.run(new String[]{}, System.out);
-        verify(listener).run();
+        verify(thread).start();
     }
 }
