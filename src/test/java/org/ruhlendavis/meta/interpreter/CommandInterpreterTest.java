@@ -1,12 +1,12 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.interpreter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.ruhlendavis.meta.commands.CommandPose;
-import org.ruhlendavis.meta.commands.CommandSay;
+import org.ruhlendavis.meta.interpreter.commands.CommandPose;
+import org.ruhlendavis.meta.interpreter.commands.CommandSay;
 
 public class CommandInterpreterTest {
     CommandInterpreter interpreter = new CommandInterpreter();

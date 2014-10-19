@@ -1,8 +1,8 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.interpreter;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.ruhlendavis.meta.commands.Command;
+import org.ruhlendavis.meta.interpreter.commands.Command;
 
 public class CommandResult {
     CommandStatus status = CommandStatus.OK;

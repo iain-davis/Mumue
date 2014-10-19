@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.commands;
+package org.ruhlendavis.meta.interpreter.commands;
 
 public class CommandSay extends Command {
     @Override

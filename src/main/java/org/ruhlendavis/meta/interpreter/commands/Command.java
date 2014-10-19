@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.commands;
+package org.ruhlendavis.meta.interpreter.commands;
 
 import java.util.ArrayList;
 import java.util.List;

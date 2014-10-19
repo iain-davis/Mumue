@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.interpreter;
 
 public enum CommandStatus {
     OK,

@@ -1,13 +1,13 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.interpreter;
 
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import org.ruhlendavis.meta.commands.Command;
-import org.ruhlendavis.meta.commands.CommandImport;
-import org.ruhlendavis.meta.commands.CommandPose;
-import org.ruhlendavis.meta.commands.CommandSay;
-import org.ruhlendavis.meta.commands.CommandSayDirected;
+import org.ruhlendavis.meta.interpreter.commands.Command;
+import org.ruhlendavis.meta.interpreter.commands.CommandImport;
+import org.ruhlendavis.meta.interpreter.commands.CommandPose;
+import org.ruhlendavis.meta.interpreter.commands.CommandSay;
+import org.ruhlendavis.meta.interpreter.commands.CommandSayDirected;
 
 public class CommandInterpreter {
     private static final ConcurrentMap<String, Command> tokenCommandList = new ConcurrentHashMap<>();
