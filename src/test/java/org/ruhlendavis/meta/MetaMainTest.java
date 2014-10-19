@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.ConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.FileFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -35,7 +36,8 @@ public class MetaMainTest {
     private Listener listener;
     @Mock
     private Thread thread;
-
+    @Mock
+    private ConfigurationAnalyzer configurationAnalyzer;
     @InjectMocks
     private MetaMain main = new MetaMain();
 
@@ -46,6 +48,7 @@ public class MetaMainTest {
         when(file.exists()).thenReturn(true);
         when(file.isDirectory()).thenReturn(false);
         doNothing().when(configuration).load(anyString());
+        when(configurationAnalyzer.isValid(configuration)).thenReturn(true);
     }
 
     @Test
@@ -105,6 +108,21 @@ public class MetaMainTest {
         when(configuration.getPort()).thenReturn(port);
         main.run(new String[]{}, System.out);
         verify(listener).setPort(port);
+    }
+
+    @Test
+    public void runWithInvalidConfigurationQuits() {
+        when(configurationAnalyzer.isValid(configuration)).thenReturn(false);
+        main.run(new String[]{}, System.out);
+        verify(thread, never()).start();
+    }
+
+    @Test
+    public void runWithInvalidConfigurationDisplaysError() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        when(configurationAnalyzer.isValid(configuration)).thenReturn(false);
+        main.run(new String[]{}, new PrintStream(output));
+        assertEquals("CRITICAL: Configuration file '" + GlobalConstants.DEFAULT_CONFIGURATION_PATH + "' is invalid." + System.lineSeparator(), output.toString());
     }
 
     @Test

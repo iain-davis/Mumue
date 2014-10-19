@@ -3,6 +3,7 @@ package org.ruhlendavis.meta;
 import java.io.File;
 import java.io.PrintStream;
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.ConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.FileFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -11,6 +12,7 @@ public class MetaMain {
     private FileFactory fileFactory = new FileFactory();
     private Listener listener = new Listener();
     private Thread thread = new Thread(listener);
+    private ConfigurationAnalyzer configurationAnalyzer = new ConfigurationAnalyzer();
 
     public void run(String[] arguments, PrintStream output) {
         String path = GlobalConstants.DEFAULT_CONFIGURATION_PATH;
@@ -20,6 +22,10 @@ public class MetaMain {
         File file = fileFactory.createFile(path);
         if (file.exists() && !file.isDirectory()) {
             configuration.load(path);
+            if (!configurationAnalyzer.isValid(configuration)) {
+                output.println("CRITICAL: Configuration file '" + path + "' is invalid.");
+                return;
+            }
         } else {
             if (arguments.length == 0) {
                 output.println("WARNING: Configuration file '" + path + "' not found.");
