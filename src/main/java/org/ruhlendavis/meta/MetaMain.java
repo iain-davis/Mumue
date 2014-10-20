@@ -27,10 +27,7 @@ public class MetaMain {
                 return;
             }
         } else {
-            if (arguments.length == 0) {
-                output.println("WARNING: Configuration file '" + path + "' not found.");
-            }
-            else {
+            if (arguments.length == 1) {
                 output.println("CRITICAL: Configuration file '" + path + "' not found.");
                 return;
             }
