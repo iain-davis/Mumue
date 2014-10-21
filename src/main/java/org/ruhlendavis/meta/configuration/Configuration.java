@@ -19,11 +19,23 @@ public class Configuration {
     }
 
     public int getPort() {
-        return Integer.parseInt(properties.getProperty("port", GlobalConstants.DEFAULT_PORT));
+        return Integer.parseInt(properties.getProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, GlobalConstants.DEFAULT_TELNET_PORT));
+    }
+
+    public void setPort(int port) {
+        properties.setProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, String.valueOf(port));
     }
 
     public String getDatabasePath() {
-        return properties.getProperty("database-path", GlobalConstants.DEFAULT_DATABASE_PATH);
+        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PATH, GlobalConstants.DEFAULT_DATABASE_PATH);
+    }
+
+    public String getDatabaseUsername() {
+        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_USERNAME, GlobalConstants.DEFAULT_DATABASE_USERNAME);
+    }
+
+    public String getDatabasePassword() {
+        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PASSWORD, GlobalConstants.DEFAULT_DATABASE_PASSWORD);
     }
 
     public void setProperties(Properties properties) {
