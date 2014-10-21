@@ -20,19 +20,19 @@ public class ConfigurationAnalyzerTest {
     @Test
     public void portAboveOneIsValid() {
         int port = RandomUtils.nextInt(1, 65536);
-        when(configuration.getPort()).thenReturn(port);
+        when(configuration.getTelnetPort()).thenReturn(port);
         assertTrue(analyzer.isValid(configuration));
     }
 
     @Test
     public void analyzeWithPortBelowOneReturnsFalse() {
-        when(configuration.getPort()).thenReturn(0);
+        when(configuration.getTelnetPort()).thenReturn(0);
         assertFalse(analyzer.isValid(configuration));
     }
 
     @Test
     public void analyzeWithPortAbove65535ReturnsFalse() {
-        when(configuration.getPort()).thenReturn(RandomUtils.nextInt(65536, 100000));
+        when(configuration.getTelnetPort()).thenReturn(RandomUtils.nextInt(65536, 100000));
         assertFalse(analyzer.isValid(configuration));
     }
 }

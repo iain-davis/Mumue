@@ -33,7 +33,7 @@ public class ConfigurationTest {
         Configuration configuration = new Configuration();
         String path = Resources.getResource("org/ruhlendavis/meta/configuration/" + GlobalConstants.DEFAULT_CONFIGURATION_PATH).toURI().getPath();
         configuration.load(path);
-        assertEquals(9999, configuration.getPort());
+        assertEquals(9999, configuration.getTelnetPort());
     }
 
     @Test
@@ -57,21 +57,21 @@ public class ConfigurationTest {
         String port = RandomStringUtils.randomNumeric(4);
         properties.setProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, port);
 
-        assertEquals(Integer.parseInt(port), configuration.getPort());
+        assertEquals(Integer.parseInt(port), configuration.getTelnetPort());
     }
 
     @Test
     public void getPortReturnsDefaultPort() {
         Configuration configuration = new Configuration();
-        assertEquals(Integer.parseInt(GlobalConstants.DEFAULT_TELNET_PORT), configuration.getPort());
+        assertEquals(Integer.parseInt(GlobalConstants.DEFAULT_TELNET_PORT), configuration.getTelnetPort());
     }
 
     @Test
     public void setPortSetsPort() {
         Configuration configuration = new Configuration();
         int port = RandomUtils.nextInt(1, 65536);
-        configuration.setPort(port);
-        assertEquals(port, configuration.getPort());
+        configuration.setTelnetPort(port);
+        assertEquals(port, configuration.getTelnetPort());
     }
 
     @Test

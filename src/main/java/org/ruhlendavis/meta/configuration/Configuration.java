@@ -30,11 +30,11 @@ public class Configuration {
         }
     }
 
-    public int getPort() {
+    public int getTelnetPort() {
         return Integer.parseInt(properties.getProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, GlobalConstants.DEFAULT_TELNET_PORT));
     }
 
-    public void setPort(int port) {
+    public void setTelnetPort(int port) {
         properties.setProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, String.valueOf(port));
     }
 
