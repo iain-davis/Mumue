@@ -16,11 +16,11 @@ import org.ruhlendavis.meta.components.GameCharacter;
 import org.ruhlendavis.meta.components.Link;
 import org.ruhlendavis.meta.components.Program;
 import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.components.properties.IntegerProperty;
+import org.ruhlendavis.meta.components.properties.LockProperty;
+import org.ruhlendavis.meta.components.properties.ReferenceProperty;
+import org.ruhlendavis.meta.components.properties.StringProperty;
 import org.ruhlendavis.meta.importer.ImportBucket;
-import org.ruhlendavis.meta.properties.IntegerProperty;
-import org.ruhlendavis.meta.properties.LockProperty;
-import org.ruhlendavis.meta.properties.ReferenceProperty;
-import org.ruhlendavis.meta.properties.StringProperty;
 
 public class ProcessComponentLinesStageTest {
     private ProcessComponentLinesStage stage = new ProcessComponentLinesStage();

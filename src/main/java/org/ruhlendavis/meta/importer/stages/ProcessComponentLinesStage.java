@@ -11,12 +11,12 @@ import org.ruhlendavis.meta.components.LinkSource;
 import org.ruhlendavis.meta.components.Ownable;
 import org.ruhlendavis.meta.components.Program;
 import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.components.properties.IntegerProperty;
+import org.ruhlendavis.meta.components.properties.LockProperty;
+import org.ruhlendavis.meta.components.properties.ReferenceProperty;
+import org.ruhlendavis.meta.components.properties.StringProperty;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStage;
-import org.ruhlendavis.meta.properties.IntegerProperty;
-import org.ruhlendavis.meta.properties.LockProperty;
-import org.ruhlendavis.meta.properties.ReferenceProperty;
-import org.ruhlendavis.meta.properties.StringProperty;
 
 public class ProcessComponentLinesStage extends ImporterStage {
     @Override

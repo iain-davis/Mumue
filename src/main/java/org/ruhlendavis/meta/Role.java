@@ -4,5 +4,5 @@ public enum Role {
     SuperPlayer,
     Administrator,
     Player,
-    Character;
+    Character
 }
