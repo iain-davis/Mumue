@@ -2,17 +2,29 @@ package org.ruhlendavis.meta.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import org.ruhlendavis.meta.GlobalConstants;
 
 public class Configuration {
     private Properties properties = new Properties();
+    private FileFactory fileFactory = new FileFactory();
+    private OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
 
-    public void load(String configurationPath) {
+    public void load(String path) {
         try {
-            InputStream input = FileUtils.openInputStream(new FileFactory().createFile(configurationPath));
+            InputStream input = FileUtils.openInputStream(fileFactory.createFile(path));
             properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void save(String path) {
+        try {
+            OutputStream output = outputStreamFactory.createOutputStream(path);
+            properties.store(output, "");
         } catch (IOException e) {
             e.printStackTrace();
         }

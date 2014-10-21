@@ -1,16 +1,32 @@
 package org.ruhlendavis.meta.configuration;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.common.io.Resources;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Properties;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.GlobalConstants;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigurationTest {
+    @Mock private OutputStreamFactory outputStreamFactory;
+    @InjectMocks private Configuration configuration = new Configuration();
 
     @Test
     public void loadLoadsConfiguration() throws URISyntaxException {
@@ -18,6 +34,19 @@ public class ConfigurationTest {
         String path = Resources.getResource("org/ruhlendavis/meta/configuration/" + GlobalConstants.DEFAULT_CONFIGURATION_PATH).toURI().getPath();
         configuration.load(path);
         assertEquals(9999, configuration.getPort());
+    }
+
+    @Test
+    public void saveSavesConfiguration() throws URISyntaxException, IOException {
+        OutputStream output = mock(OutputStream.class);
+        Properties properties = mock(Properties.class);
+        configuration.setProperties(properties);
+        doNothing().when(properties).store(any(OutputStream.class), anyString());
+        when(outputStreamFactory.createOutputStream(anyString())).thenReturn(output);
+        String path = RandomStringUtils.randomAlphabetic(13);
+        configuration.save(path);
+        verify(outputStreamFactory).createOutputStream(eq(path));
+        verify(properties).store(any(OutputStream.class), anyString());
     }
 
     @Test
@@ -95,5 +124,4 @@ public class ConfigurationTest {
         Configuration configuration = new Configuration();
         assertEquals(GlobalConstants.DEFAULT_DATABASE_PASSWORD, configuration.getDatabasePassword());
     }
-
 }
