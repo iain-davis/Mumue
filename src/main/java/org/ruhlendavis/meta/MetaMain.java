@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.FileFactory;
+import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class MetaMain {
@@ -32,12 +33,11 @@ public class MetaMain {
                 return;
             }
         }
-        listener.setPort(configuration.getPort());
+        listener.setPort(configuration.getTelnetPort());
         thread.start();
+        DataStore dataStore = new DataStore();
+        dataStore.setupConnection(configuration);
+        dataStore.setupDatabase(configuration);
         while (listener.isRunning());
-    }
-
-    public Configuration getConfiguration() {
-        return configuration;
     }
 }

@@ -105,7 +105,7 @@ public class MetaMainTest {
     @Test
     public void runSetsMainListenerPort() {
         int port = 9999;
-        when(configuration.getPort()).thenReturn(port);
+        when(configuration.getTelnetPort()).thenReturn(port);
         main.run(new String[]{}, System.out);
         verify(listener).setPort(port);
     }
