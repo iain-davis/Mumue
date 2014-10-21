@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.properties;
+package org.ruhlendavis.meta.components.properties;
 
 import org.junit.Assert;
 import org.junit.Test;

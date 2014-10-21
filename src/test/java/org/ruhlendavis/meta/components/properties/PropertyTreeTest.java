@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.properties;
+package org.ruhlendavis.meta.components.properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
