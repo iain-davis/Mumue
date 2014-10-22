@@ -35,20 +35,16 @@ public class DataStore {
             }
 
             query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/schema.sql'";
-            if (statement.execute(query)) {
-                query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/defaultData.sql'";
-                if (statement.execute(query)) {
-                    return;
-                } else {
-                    System.out.println("CRITICAL: Error while loading default database data.");
-                }
-            } else {
-                System.out.println(statement.getWarnings());
-                System.out.println("CRITICAL: Error while loading database schema.");
-            }
-
-            // error message?
+            statement.execute(query);
+            query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/defaultData.sql'";
+            statement.execute(query);
+            connection.close();
         } catch (SQLException exception) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             exception.printStackTrace();
         }
     }
