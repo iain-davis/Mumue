@@ -11,7 +11,7 @@ public class Listener implements Runnable {
     private ServerSocket serverSocket;
     private int port = 9999;
     private boolean running = true;
-    private Vector<Thread> connections = new Vector();
+    private Vector<Thread> connections = new Vector<>();
 
     @Override
     public void run() {

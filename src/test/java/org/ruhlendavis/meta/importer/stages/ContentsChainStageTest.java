@@ -36,7 +36,7 @@ public class ContentsChainStageTest {
         buildNext(bucket, contentId, GlobalConstants.REFERENCE_UNKNOWN);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().get(id).getContents().size());
-        assertEquals(contentId, bucket.getComponents().get(id).getContents().get(0).getId());
+        assertEquals(contentId, bucket.getComponents().get(id).getContents().get(0).getReference());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ContentsChainStageTest {
         stage.run(bucket);
         assertEquals(count, bucket.getComponents().get(id).getContents().size());
         for (int i = 0; i < count; i++) {
-            assertEquals(contentIds.get(i), bucket.getComponents().get(id).getContents().get(i).getId());
+            assertEquals(contentIds.get(i), bucket.getComponents().get(id).getContents().get(i).getReference());
         }
     }
 

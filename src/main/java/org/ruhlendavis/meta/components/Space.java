@@ -29,8 +29,8 @@ public class Space extends Component implements LinkSource, Ownable {
     }
 
     @Override
-    public Space withId(Long id) {
-        setId(id);
+    public Space withId(Long reference) {
+        setReference(reference);
         return this;
     }
 }

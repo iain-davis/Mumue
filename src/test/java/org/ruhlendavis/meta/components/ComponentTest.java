@@ -9,6 +9,6 @@ public class ComponentTest {
 
     @Test
     public void componentDefaultId() {
-        Assert.assertEquals(GlobalConstants.REFERENCE_UNKNOWN, component.getId(), 0);
+        Assert.assertEquals(GlobalConstants.REFERENCE_UNKNOWN, component.getReference(), 0);
     }
 }

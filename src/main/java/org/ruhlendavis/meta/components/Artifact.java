@@ -38,8 +38,8 @@ public class Artifact extends Component implements Homeable, LinkSource, Ownable
     }
 
     @Override
-    public Artifact withId(Long id) {
-        setId(id);
+    public Artifact withId(Long reference) {
+        setReference(reference);
         return this;
     }
 }

@@ -37,7 +37,7 @@ public class MetaMain {
         thread.start();
         DataStore dataStore = new DataStore();
         dataStore.setupConnection(configuration);
-        dataStore.setupDatabase(configuration);
+        dataStore.setupDatabase();
         while (listener.isRunning());
     }
 }

@@ -29,8 +29,8 @@ public class GameCharacter extends Component implements Homeable, LinkSource {
     }
 
     @Override
-    public GameCharacter withId(Long id) {
-        setId(id);
+    public GameCharacter withId(Long reference) {
+        setReference(reference);
         return this;
     }
 }

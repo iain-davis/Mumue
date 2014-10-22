@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.interpreter.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.ruhlendavis.meta.Role;
 
@@ -24,9 +25,7 @@ abstract public class Command {
     }
 
     public Command withRoles(Role... roles) {
-        for (Role role : roles) {
-            allowedRoles.add(role);
-        }
+        allowedRoles.addAll(Arrays.asList(roles));
         return this;
     }
 }

@@ -40,7 +40,7 @@ public class ProcessComponentLinesStageTest {
         Space location = new Space().withId(RandomUtils.nextLong(100, 200));
         ImportBucket bucket = setupTest(space, location);
         stage.run(bucket);
-        assertEquals(location.getId(), space.getLocation().getId());
+        assertEquals(location.getReference(), space.getLocation().getReference());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ProcessComponentLinesStageTest {
         Artifact artifact = new Artifact().withId(RandomUtils.nextLong(200, 300));
         ImportBucket bucket = setupTest(space, artifact);
         stage.run(bucket);
-        assertEquals(artifact.getId(), bucket.getComponents().get(space.getId()).getContents().get(0).getId());
+        assertEquals(artifact.getReference(), bucket.getComponents().get(space.getReference()).getContents().get(0).getReference());
     }
 
     @Test
@@ -198,7 +198,7 @@ public class ProcessComponentLinesStageTest {
         Space home = new Space().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(artifact, home, null, null, 0L);
         stage.run(bucket);
-        assertEquals(home.getId(), artifact.getHome().getId());
+        assertEquals(home.getReference(), artifact.getHome().getReference());
     }
 
     @Test
@@ -207,7 +207,7 @@ public class ProcessComponentLinesStageTest {
         Link link = new Link().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(artifact, null, link, null, 0L);
         stage.run(bucket);
-        assertEquals(link.getId(), artifact.getLinks().get(0).getId());
+        assertEquals(link.getReference(), artifact.getLinks().get(0).getReference());
     }
 
     @Test
@@ -224,7 +224,7 @@ public class ProcessComponentLinesStageTest {
         GameCharacter owner = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(artifact, null, null, owner, 0L);
         stage.run(bucket);
-        assertEquals(owner.getId(), artifact.getOwner().getId());
+        assertEquals(owner.getReference(), artifact.getOwner().getReference());
     }
 
     @Test
@@ -242,7 +242,7 @@ public class ProcessComponentLinesStageTest {
         Space home = new Space().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(character, home, null, 0L, "");
         stage.run(bucket);
-        assertEquals(home.getId(), character.getHome().getId());
+        assertEquals(home.getReference(), character.getHome().getReference());
     }
 
     @Test
@@ -251,7 +251,7 @@ public class ProcessComponentLinesStageTest {
         Link link = new Link().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(character, null, link, 0L, "");
         stage.run(bucket);
-        assertEquals(link.getId(), character.getLinks().get(0).getId());
+        assertEquals(link.getReference(), character.getLinks().get(0).getReference());
     }
 
     @Test
@@ -286,7 +286,7 @@ public class ProcessComponentLinesStageTest {
         destinations.add(destination);
         ImportBucket bucket = setupTest(link, destinations ,null);
         stage.run(bucket);
-        assertEquals(destination.getId(), link.getDestinations().get(0).getId());
+        assertEquals(destination.getReference(), link.getDestinations().get(0).getReference());
     }
 
     @Test
@@ -302,7 +302,7 @@ public class ProcessComponentLinesStageTest {
         stage.run(bucket);
         int i = 0;
         for (Component destination : destinations) {
-            assertEquals(destination.getId(), link.getDestinations().get(i).getId());
+            assertEquals(destination.getReference(), link.getDestinations().get(i).getReference());
             i++;
         }
     }
@@ -313,7 +313,7 @@ public class ProcessComponentLinesStageTest {
         GameCharacter owner = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(link, new ArrayList<>(), owner);
         stage.run(bucket);
-        assertEquals(owner.getId(), link.getOwner().getId());
+        assertEquals(owner.getReference(), link.getOwner().getReference());
     }
 
     @Test
@@ -322,7 +322,7 @@ public class ProcessComponentLinesStageTest {
         GameCharacter owner = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(program, owner);
         stage.run(bucket);
-        assertEquals(owner.getId(), program.getOwner().getId());
+        assertEquals(owner.getReference(), program.getOwner().getReference());
     }
 
     @Test
@@ -331,7 +331,7 @@ public class ProcessComponentLinesStageTest {
         GameCharacter owner = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(program, owner, true, false);
         stage.run(bucket);
-        assertEquals(owner.getId(), program.getOwner().getId());
+        assertEquals(owner.getReference(), program.getOwner().getReference());
     }
 
     @Test
@@ -339,7 +339,7 @@ public class ProcessComponentLinesStageTest {
         Program program = new Program().withId(RandomUtils.nextLong(300, 400));
         ImportBucket bucket = setupTest(program, null, false, true);
         stage.run(bucket);
-        assertEquals(1L, program.getOwner().getId(), 0);
+        assertEquals(1L, program.getOwner().getReference(), 0);
     }
 
     @Test
@@ -348,7 +348,7 @@ public class ProcessComponentLinesStageTest {
         Space dropTo = new Space().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(space, dropTo, null, null);
         stage.run(bucket);
-        assertEquals(dropTo.getId(), space.getDropTo().getId());
+        assertEquals(dropTo.getReference(), space.getDropTo().getReference());
     }
 
     @Test
@@ -366,7 +366,7 @@ public class ProcessComponentLinesStageTest {
         Link link = new Link().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(space, null, link, null);
         stage.run(bucket);
-        assertEquals(link.getId(), space.getLinks().get(0).getId());
+        assertEquals(link.getReference(), space.getLinks().get(0).getReference());
     }
 
     @Test
@@ -383,7 +383,7 @@ public class ProcessComponentLinesStageTest {
         GameCharacter owner = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(space, null, null, owner);
         stage.run(bucket);
-        assertEquals(owner.getId(), space.getOwner().getId());
+        assertEquals(owner.getReference(), space.getOwner().getReference());
     }
 
     private ImportBucket setupTest(Artifact artifact, Space home, Link firstLink, GameCharacter owner, Long value) {
@@ -397,7 +397,7 @@ public class ProcessComponentLinesStageTest {
         if (owner == null) {
             owner = new GameCharacter().withId(RandomUtils.nextLong(500, 600));
         }
-        List<String> lines = bucket.getComponentLines().get(artifact.getId());
+        List<String> lines = bucket.getComponentLines().get(artifact.getReference());
         setupTargetComponent(bucket, lines, home);
         setupTargetComponent(bucket, lines, firstLink);
         setupTargetComponent(bucket, lines, owner);
@@ -413,7 +413,7 @@ public class ProcessComponentLinesStageTest {
         if (home == null) {
             home = new Space().withId(RandomUtils.nextLong(600, 700));
         }
-        List<String> lines = bucket.getComponentLines().get(character.getId());
+        List<String> lines = bucket.getComponentLines().get(character.getReference());
         setupTargetComponent(bucket, lines, home);
         setupTargetComponent(bucket, lines, firstLink);
         lines.add(wealth.toString());
@@ -429,7 +429,7 @@ public class ProcessComponentLinesStageTest {
         if (owner == null) {
             owner = new GameCharacter().withId(RandomUtils.nextLong(500, 600));
         }
-        List<String> lines = bucket.getComponentLines().get(link.getId());
+        List<String> lines = bucket.getComponentLines().get(link.getReference());
         lines.add(String.valueOf(destinations.size()));
         for (Component component : destinations) {
             setupTargetComponent(bucket, lines, component);
@@ -450,7 +450,7 @@ public class ProcessComponentLinesStageTest {
         if (owner == null) {
             owner = new GameCharacter().withId(RandomUtils.nextLong(500, 600));
         }
-        List<String> lines = bucket.getComponentLines().get(program.getId());
+        List<String> lines = bucket.getComponentLines().get(program.getReference());
         if (blankOwner) {
             lines.add("");
         } else {
@@ -469,7 +469,7 @@ public class ProcessComponentLinesStageTest {
         if (owner == null) {
             owner = new GameCharacter().withId(RandomUtils.nextLong(500, 600));
         }
-        List<String> lines = bucket.getComponentLines().get(space.getId());
+        List<String> lines = bucket.getComponentLines().get(space.getReference());
         setupTargetComponent(bucket, lines, dropTo);
         setupTargetComponent(bucket, lines, firstLink);
         setupTargetComponent(bucket, lines, owner);
@@ -479,7 +479,7 @@ public class ProcessComponentLinesStageTest {
     private ImportBucket setupTest(Component component, String name, String description) {
         ImportBucket bucket = setupTest(component, name, description, new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
-        List<String> lines = bucket.getComponentLines().get(component.getId());
+        List<String> lines = bucket.getComponentLines().get(component.getReference());
         lines.add("-1");
         lines.add("-1");
         setupTargetComponent(bucket, lines, new GameCharacter().withId(RandomUtils.nextLong(500, 600)));
@@ -490,7 +490,7 @@ public class ProcessComponentLinesStageTest {
         if (target == null) {
             lines.add("-1");
         } else {
-            lines.add(target.getId().toString());
+            lines.add(target.getReference().toString());
             setupDefaultComponent(bucket, target);
         }
     }
@@ -498,7 +498,7 @@ public class ProcessComponentLinesStageTest {
     private ImportBucket setupTest(Component component, List<String> properties) {
         ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, properties);
-        List<String> lines = bucket.getComponentLines().get(component.getId());
+        List<String> lines = bucket.getComponentLines().get(component.getReference());
         lines.add("-1");
         lines.add("-1");
         setupTargetComponent(bucket, lines, new GameCharacter().withId(RandomUtils.nextLong(500, 600)));
@@ -508,7 +508,7 @@ public class ProcessComponentLinesStageTest {
     private ImportBucket setupTest(Component component, Integer useCount) {
         ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, useCount, 0L, new ArrayList<>());
-        List<String> lines = bucket.getComponentLines().get(component.getId());
+        List<String> lines = bucket.getComponentLines().get(component.getReference());
         lines.add("-1");
         lines.add("-1");
         setupTargetComponent(bucket, lines, new GameCharacter().withId(RandomUtils.nextLong(500, 600)));
@@ -519,7 +519,7 @@ public class ProcessComponentLinesStageTest {
         ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", created, lastUsed, 0, lastModified,
                 new ArrayList<>());
-        List<String> lines = bucket.getComponentLines().get(component.getId());
+        List<String> lines = bucket.getComponentLines().get(component.getReference());
         lines.add("-1");
         lines.add("-1");
         setupTargetComponent(bucket, lines, new GameCharacter().withId(RandomUtils.nextLong(500, 600)));
@@ -530,7 +530,7 @@ public class ProcessComponentLinesStageTest {
         ImportBucket bucket = setupTest(space, RandomStringUtils.randomAlphabetic(13), "",
                 new Space().withId(RandomUtils.nextLong(100, 200)),  firstContent, "0 0", 0L, 0L, 0, 0L,
                 new ArrayList<>());
-        List<String> lines = bucket.getComponentLines().get(space.getId());
+        List<String> lines = bucket.getComponentLines().get(space.getReference());
         lines.add("-1");
         lines.add("-1");
         setupTargetComponent(bucket, lines, new GameCharacter().withId(RandomUtils.nextLong(500, 600)));
@@ -540,7 +540,7 @@ public class ProcessComponentLinesStageTest {
     private ImportBucket setupTest(Component component, Space location) {
         ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", location,
                          new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
-        List<String> lines = bucket.getComponentLines().get(component.getId());
+        List<String> lines = bucket.getComponentLines().get(component.getReference());
         lines.add("-1");
         lines.add("-1");
         setupTargetComponent(bucket, lines, new GameCharacter().withId(RandomUtils.nextLong(500, 600)));
@@ -555,10 +555,10 @@ public class ProcessComponentLinesStageTest {
         }
         ImportBucket bucket = new ImportBucket();
         List<String> lines = new ArrayList<>();
-        lines.add("#" + component.getId().toString());
+        lines.add("#" + component.getReference().toString());
         lines.add(name);
-        lines.add(location.getId().toString());
-        lines.add(firstContent.getId().toString());
+        lines.add(location.getReference().toString());
+        lines.add(firstContent.getReference().toString());
         lines.add("-1");
         lines.add(flags);
         lines.add(created.toString());
@@ -571,8 +571,8 @@ public class ProcessComponentLinesStageTest {
             lines.add(property);
         }
         lines.add("*End*");
-        bucket.getComponents().put(component.getId(), component);
-        bucket.getComponentLines().put(component.getId(), lines);
+        bucket.getComponents().put(component.getReference(), component);
+        bucket.getComponentLines().put(component.getReference(), lines);
 
         setupDefaultComponent(bucket, location);
         setupDefaultComponent(bucket, firstContent);
@@ -583,13 +583,13 @@ public class ProcessComponentLinesStageTest {
     }
 
     private void setupDefaultComponent(ImportBucket bucket, Component location) {
-        bucket.getComponents().put(location.getId(), location);
-        bucket.getComponentLines().put(location.getId(), defaultLines(location));
+        bucket.getComponents().put(location.getReference(), location);
+        bucket.getComponentLines().put(location.getReference(), defaultLines(location));
     }
 
     private List<String> defaultLines(Component component) {
         List<String> lines = new ArrayList<>();
-        lines.add("#" + component.getId().toString());
+        lines.add("#" + component.getReference().toString());
         lines.add(RandomStringUtils.randomAlphabetic(13));
         lines.add("-1");
         lines.add("-1");

@@ -23,7 +23,7 @@ public class DataStore {
         return false;
     }
 
-    public void setupDatabase(Configuration configuration) {
+    public void setupDatabase() {
         String query;
         try {
             Statement statement = connection.createStatement();

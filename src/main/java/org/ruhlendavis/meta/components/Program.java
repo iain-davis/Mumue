@@ -2,6 +2,7 @@ package org.ruhlendavis.meta.components;
 
 public class Program extends Component implements Ownable {
     private Component owner;
+
     public Component getOwner() {
         return owner;
     }
@@ -11,8 +12,8 @@ public class Program extends Component implements Ownable {
     }
 
     @Override
-    public Program withId(Long id) {
-        setId(id);
+    public Program withId(Long reference) {
+        setReference(reference);
         return this;
     }
 }

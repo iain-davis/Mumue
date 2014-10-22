@@ -13,7 +13,7 @@ public class ImportBucket {
     private Map<Long, List<String>> componentLines = new HashMap<>();
     private List<String> sourceLines = new ArrayList<>();
     private List<String> parameterLines = new ArrayList<>();
-    private Long databaseItemCount = new Long(0L);
+    private Long databaseItemCount = 0L;
     private Boolean failed = false;
     private int parameterCount = 0;
     private List<Player> players = new ArrayList<>();

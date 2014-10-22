@@ -38,15 +38,15 @@ public class ImporterStageTestHelper {
 
     protected List<String> mockComponentLines(Component component, Player player) {
         List<String> lines = new ArrayList<>();
-        lines.add("#" + component.getId().toString());
+        lines.add("#" + component.getReference().toString());
         lines.add(component.getName());
         if (component.getLocation() != null) {
-            lines.add(component.getLocation().getId().toString());
+            lines.add(component.getLocation().getReference().toString());
         }
         if (component.getContents().size() == 0) {
             lines.add("-1");
         } else {
-            lines.add(component.getContents().get(0).getId().toString());
+            lines.add(component.getContents().get(0).getReference().toString());
         }
         lines.add("-1"); // Next
         addFlagLine(component, lines);
@@ -60,18 +60,18 @@ public class ImporterStageTestHelper {
         if (component instanceof Program) {
             addOwner((Ownable) component, lines);
         } else if (component instanceof GameCharacter) {
-            lines.add(((Homeable) component).getHome().getId().toString());
+            lines.add(((Homeable) component).getHome().getReference().toString());
             if (((LinkSource) component).getLinks().size() == 0) {
                 lines.add("-1");
             } else {
-                lines.add(((LinkSource) component).getLinks().get(0).getId().toString());
+                lines.add(((LinkSource) component).getLinks().get(0).getReference().toString());
             }
             lines.add(((GameCharacter) component).getWealth().toString());
             lines.add(player.getPassword());
         } else if (component instanceof Link) {
             lines.add(String.valueOf(((Link)component).getDestinations().size()));
             for (Component destination : ((Link)component).getDestinations()) {
-                lines.add(destination.getId().toString());
+                lines.add(destination.getReference().toString());
             }
             addOwner((Ownable) component, lines);
         } else if (component instanceof Space) {
@@ -79,11 +79,11 @@ public class ImporterStageTestHelper {
             lines.add("-1");
             addOwner((Ownable) component, lines);
         } else if (component instanceof Artifact) {
-            lines.add(((Homeable) component).getHome().getId().toString());
+            lines.add(((Homeable) component).getHome().getReference().toString());
             if (((LinkSource) component).getLinks().size() == 0) {
                 lines.add("-1");
             } else {
-                lines.add(((LinkSource) component).getLinks().get(0).getId().toString());
+                lines.add(((LinkSource) component).getLinks().get(0).getReference().toString());
             }
             addOwner((Ownable) component, lines);
             lines.add(String.valueOf(((Artifact)component).getValue().toString()));
@@ -95,7 +95,7 @@ public class ImporterStageTestHelper {
         if (component.getOwner() == null) {
             lines.add("1");
         } else {
-            lines.add(component.getOwner().getId().toString());
+            lines.add(component.getOwner().getReference().toString());
         }
     }
 

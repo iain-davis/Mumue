@@ -20,8 +20,8 @@ public class Link extends Component implements Ownable {
     }
 
     @Override
-    public Link withId(Long id) {
-        setId(id);
+    public Link withId(Long reference) {
+        setReference(reference);
         return this;
     }
 }

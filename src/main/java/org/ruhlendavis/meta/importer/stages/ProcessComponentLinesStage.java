@@ -27,7 +27,7 @@ public class ProcessComponentLinesStage extends ImporterStage {
     }
 
     private void processComponent(ImportBucket bucket, Component component) {
-        List<String> lines = bucket.getComponentLines().get(component.getId());
+        List<String> lines = bucket.getComponentLines().get(component.getReference());
         component.setName(lines.get(NAME_INDEX));
         component.setLocation(getComponent(bucket, lines.get(LOCATION_INDEX)));
         component.getContents().add(getComponent(bucket, lines.get(CONTENTS_INDEX)));

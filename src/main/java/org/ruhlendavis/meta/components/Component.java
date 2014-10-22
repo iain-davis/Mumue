@@ -7,7 +7,9 @@ import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.properties.PropertyTree;
 
 public class Component {
-    private Long id = GlobalConstants.REFERENCE_UNKNOWN;
+    private Long id = -1L;
+    private Long universeId = -1L;
+    private Long reference = GlobalConstants.REFERENCE_UNKNOWN;
     private String name = "";
     private Component location;
     private List<Component> contents = new ArrayList<>();
@@ -26,12 +28,12 @@ public class Component {
         this.description = description;
     }
 
-    public Long getId() {
-        return id;
+    public Long getReference() {
+        return reference;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setReference(Long reference) {
+        this.reference = reference;
     }
 
     public String getName() {
@@ -90,8 +92,24 @@ public class Component {
         return contents;
     }
 
-    public Component withId(Long id) {
-        this.id = id;
+    public Component withId(Long reference) {
+        this.reference = reference;
         return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUniverseId() {
+        return universeId;
+    }
+
+    public void setUniverseId(Long universeId) {
+        this.universeId = universeId;
     }
 }
