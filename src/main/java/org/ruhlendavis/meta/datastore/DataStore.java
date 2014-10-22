@@ -43,6 +43,7 @@ public class DataStore {
                     System.out.println("CRITICAL: Error while loading default database data.");
                 }
             } else {
+                System.out.println(statement.getWarnings());
                 System.out.println("CRITICAL: Error while loading database schema.");
             }
 
