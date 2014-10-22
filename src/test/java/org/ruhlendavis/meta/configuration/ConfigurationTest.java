@@ -33,7 +33,7 @@ public class ConfigurationTest {
         Configuration configuration = new Configuration();
         String path = Resources.getResource("org/ruhlendavis/meta/configuration/" + GlobalConstants.DEFAULT_CONFIGURATION_PATH).toURI().getPath();
         configuration.load(path);
-        assertEquals(9999, configuration.getTelnetPort());
+        assertEquals(9998, configuration.getTelnetPort());
     }
 
     @Test
