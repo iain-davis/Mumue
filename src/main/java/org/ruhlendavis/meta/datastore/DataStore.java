@@ -10,7 +10,7 @@ import org.ruhlendavis.meta.configuration.Configuration;
 public class DataStore {
     private Connection connection;
 
-    public void setupConnection(Configuration configuration) {
+    public void setup(Configuration configuration) {
         try {
             String uri = "jdbc:h2:" + configuration.getDatabasePath() + ";MV_STORE=FALSE;MVCC=FALSE";
             connection = DriverManager.getConnection(uri, configuration.getDatabaseUsername(), configuration.getDatabasePassword());
@@ -19,26 +19,14 @@ public class DataStore {
         }
     }
 
-    public boolean isDataStoreReady() {
-        return false;
-    }
-
-    public void setupDatabase() {
+    public void populateDatabase() {
         String query;
         try {
             Statement statement = connection.createStatement();
-            query = "select count(*) from information_schema.tables where table_name = 'CONFIGURATION_OPTIONS'";
-            ResultSet resultSet = statement.executeQuery(query);
-            resultSet.next();
-            if (resultSet.getBoolean(1)) {
-                return;
-            }
-
             query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/schema.sql'";
             statement.execute(query);
             query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/defaultData.sql'";
             statement.execute(query);
-            connection.close();
         } catch (SQLException exception) {
             try {
                 connection.close();
@@ -47,6 +35,21 @@ public class DataStore {
             }
             exception.printStackTrace();
         }
+    }
+
+    public boolean isDatabaseEmpty() {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select count(*) from information_schema.tables where table_name = 'CONFIGURATION_OPTIONS'");
+            resultSet.next();
+            if (resultSet.getBoolean(1)) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 //
 //    public boolean write(Player player) {

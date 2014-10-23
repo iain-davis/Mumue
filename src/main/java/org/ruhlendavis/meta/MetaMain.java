@@ -10,10 +10,11 @@ import org.ruhlendavis.meta.listener.Listener;
 
 public class MetaMain {
     private Configuration configuration = new Configuration();
+    private ConfigurationAnalyzer configurationAnalyzer = new ConfigurationAnalyzer();
+    private DataStore dataStore = new DataStore();
     private FileFactory fileFactory = new FileFactory();
     private Listener listener = new Listener();
     private Thread thread = new Thread(listener);
-    private ConfigurationAnalyzer configurationAnalyzer = new ConfigurationAnalyzer();
 
     public void run(String[] arguments, PrintStream output) {
         String path = GlobalConstants.DEFAULT_CONFIGURATION_PATH;
@@ -33,11 +34,15 @@ public class MetaMain {
                 return;
             }
         }
+
+        dataStore.setup(configuration);
+        if (dataStore.isDatabaseEmpty()) {
+            dataStore.populateDatabase();
+        }
+
         listener.setPort(configuration.getTelnetPort());
         thread.start();
-        DataStore dataStore = new DataStore();
-        dataStore.setupConnection(configuration);
-        dataStore.setupDatabase();
+
         while (listener.isRunning());
     }
 }

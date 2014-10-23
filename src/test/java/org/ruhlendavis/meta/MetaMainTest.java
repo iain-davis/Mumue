@@ -22,22 +22,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.FileFactory;
+import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MetaMainTest {
-    @Mock
-    Configuration configuration;
-    @Mock
-    File file;
-    @Mock
-    private FileFactory fileFactory;
-    @Mock
-    private Listener listener;
-    @Mock
-    private Thread thread;
-    @Mock
-    private ConfigurationAnalyzer configurationAnalyzer;
+    @Mock private Configuration configuration;
+    @Mock private ConfigurationAnalyzer configurationAnalyzer;
+    @Mock private DataStore dataStore;
+    @Mock private File file;
+    @Mock private FileFactory fileFactory;
+    @Mock private Listener listener;
+    @Mock private Thread thread;
+
     @InjectMocks
     private MetaMain main = new MetaMain();
 
@@ -129,5 +126,18 @@ public class MetaMainTest {
     public void runRunsMainListener() {
         main.run(new String[]{}, System.out);
         verify(thread).start();
+    }
+
+    @Test
+    public void runSetsUpDataStore() {
+        main.run(new String[]{}, System.out);
+        verify(dataStore).setup(configuration);
+    }
+
+    @Test
+    public void runPopulatesDataStoreWhenEmpty() {
+        when(dataStore.isDatabaseEmpty()).thenReturn(true);
+        main.run(new String[]{}, System.out);
+        verify(dataStore).populateDatabase();
     }
 }
