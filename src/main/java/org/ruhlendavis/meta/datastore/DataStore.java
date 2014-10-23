@@ -38,9 +38,8 @@ public class DataStore {
     }
 
     public boolean isDatabaseEmpty() {
-        Statement statement = null;
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select count(*) from information_schema.tables where table_name = 'CONFIGURATION_OPTIONS'");
             resultSet.next();
             if (resultSet.getBoolean(1)) {
