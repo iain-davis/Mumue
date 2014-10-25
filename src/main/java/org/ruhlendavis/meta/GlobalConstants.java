@@ -11,8 +11,8 @@ public interface GlobalConstants {
     public static final String DEFAULT_DATABASE_USERNAME = "metadatabase";
 
     public static final String DEFAULT_TELNET_PORT = "9999";
-    public static final String OPTION_NAME_DATABASE_PASSWORD = "database password";
-    public static final String OPTION_NAME_DATABASE_PATH = "database path";
-    public static final String OPTION_NAME_DATABASE_USERNAME = "database username";
-    public static final String OPTION_NAME_TELNET_PORT = "telnet port";
+    public static final String OPTION_NAME_DATABASE_PASSWORD = "database-password";
+    public static final String OPTION_NAME_DATABASE_PATH = "database-path";
+    public static final String OPTION_NAME_DATABASE_USERNAME = "database-username";
+    public static final String OPTION_NAME_TELNET_PORT = "telnet-port";
 }
