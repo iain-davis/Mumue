@@ -15,15 +15,9 @@ public class CommandInterpreter {
             if (line.toLowerCase().startsWith(entry.getKey().toLowerCase())) {
                 result.setStatus(CommandStatus.OK);
                 if (entry.getValue().isToken()) {
-                    result.setCommandString(line.substring(0, 1));
-                    result.setCommandArguments(line.substring(1));
+                    extractTokenArguments(line, result);
                 } else {
-                    if (line.contains(" ")) {
-                        result.setCommandString(line.substring(0, line.indexOf(" ")));
-                        result.setCommandArguments(line.substring(line.indexOf(" ") + 1));
-                    } else {
-                        result.setCommandString(line);
-                    }
+                    extractNormalArguments(line, result);
                 }
                 result.getCommands().add(entry.getValue().getCommand());
             }
@@ -40,11 +34,22 @@ public class CommandInterpreter {
         return result;
     }
 
-    private void putCommand(String minimumPartial, Command command, boolean isToken) {
-        CommandSyntax syntax = new CommandSyntax();
-        syntax.setCommand(command);
-        syntax.setToken(isToken);
-        commands.put(minimumPartial, syntax);
+    private void extractTokenArguments(String line, CommandResult result) {
+        result.setCommandString(line.substring(0, 1));
+        result.setCommandArguments(line.substring(1));
+    }
+
+    private void extractNormalArguments(String line, CommandResult result) {
+        if (line.contains(" ")) {
+            result.setCommandString(line.substring(0, line.indexOf(" ")));
+            result.setCommandArguments(line.substring(line.indexOf(" ") + 1));
+        } else {
+            result.setCommandString(line);
+        }
+    }
+
+    public Map<String, CommandSyntax> getCommands() {
+        return commands;
     }
 
     public void putCommand(String minimumPartial, Command command) {
@@ -55,7 +60,10 @@ public class CommandInterpreter {
         putCommand(token, command, true);
     }
 
-    public Map<String, CommandSyntax> getCommands() {
-        return commands;
+    private void putCommand(String minimumPartial, Command command, boolean isToken) {
+        CommandSyntax syntax = new CommandSyntax();
+        syntax.setCommand(command);
+        syntax.setToken(isToken);
+        commands.put(minimumPartial, syntax);
     }
 }
