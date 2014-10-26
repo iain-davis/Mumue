@@ -13,13 +13,13 @@ public class CommandInterpreterTest {
 
     @Before
     public void beforeEach() {
-        CommandInterpreter.clearCommands();
+        interpreter.getCommands().clear();
     }
 
     @Test
     public void interpretFindsATokenCommand() {
         String token = "~";
-        CommandInterpreter.putTokenCommand(token, new CommandSay());
+        interpreter.putTokenCommand(token, new CommandSay());
         CommandResult result = interpreter.interpret(token);
         assertEquals(CommandStatus.OK, result.getStatus());
         assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
@@ -28,7 +28,7 @@ public class CommandInterpreterTest {
     @Test
     public void interpretSetsTokenCommand() {
         String token = "~";
-        CommandInterpreter.putTokenCommand(token, new CommandSay());
+        interpreter.putTokenCommand(token, new CommandSay());
         CommandResult result = interpreter.interpret(token);
         assertEquals(token, result.getCommandString());
     }
@@ -36,7 +36,7 @@ public class CommandInterpreterTest {
     @Test
     public void interpretWithTokenSetsArguments() {
         String token = "~";
-        CommandInterpreter.putTokenCommand(token, new CommandSay());
+        interpreter.putTokenCommand(token, new CommandSay());
         String arguments = RandomStringUtils.randomAlphabetic(13);
         String line = token + arguments;
         CommandResult result = interpreter.interpret(line);
@@ -45,8 +45,8 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretFindsTwoTokens() {
-        CommandInterpreter.putTokenCommand("~", new CommandSay());
-        CommandInterpreter.putTokenCommand("&", new CommandSay());
+        interpreter.putTokenCommand("~", new CommandSay());
+        interpreter.putTokenCommand("&", new CommandSay());
         CommandResult result1 = interpreter.interpret("~");
         CommandResult result2 = interpreter.interpret("&");
         assertEquals(CommandStatus.OK, result1.getStatus());
@@ -57,7 +57,7 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretRejectsUnknownToken() {
-        CommandInterpreter.putTokenCommand("~", new CommandSay());
+        interpreter.putTokenCommand("~", new CommandSay());
         CommandResult result = interpreter.interpret("(");
         assertEquals(CommandStatus.UNKNOWN_COMMAND, result.getStatus());
         assertEquals(0, result.getCommands().size());
@@ -66,17 +66,34 @@ public class CommandInterpreterTest {
     @Test
     public void interpretFindsACommand() {
         String command = RandomStringUtils.randomAlphabetic(13);
-        CommandInterpreter.putCommand(command, new CommandSay());
+        interpreter.putCommand(command, new CommandSay());
         CommandResult result = interpreter.interpret(command);
         assertEquals(CommandStatus.OK, result.getStatus());
         assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
     }
 
     @Test
-    public void interpretSetsCommandString() {
+    public void interpretFindsACommandIgnoringCase() {
+        String command = RandomStringUtils.randomAlphabetic(13).toLowerCase();
+        interpreter.putCommand(command.toUpperCase(), new CommandSay());
+        CommandResult result = interpreter.interpret(command);
+        assertEquals(CommandStatus.OK, result.getStatus());
+        assertEquals(command, result.getCommandString());
+    }
+
+    @Test
+    public void interpretWithoutArgumentsSetsCommandString() {
+        String command = RandomStringUtils.randomAlphabetic(13);
+        interpreter.putCommand(command, new CommandSay());
+        CommandResult result = interpreter.interpret(command);
+        assertEquals(command, result.getCommandString());
+    }
+
+    @Test
+    public void interpretWithArgumentsSetsCommandString() {
         String command = RandomStringUtils.randomAlphabetic(13);
         String line = command + " " + RandomStringUtils.randomAlphabetic(13);
-        CommandInterpreter.putCommand(command, new CommandSay());
+        interpreter.putCommand(command, new CommandSay());
         CommandResult result = interpreter.interpret(line);
         assertEquals(command, result.getCommandString());
     }
@@ -86,7 +103,7 @@ public class CommandInterpreterTest {
         String command = RandomStringUtils.randomAlphabetic(12);
         String arguments = RandomStringUtils.randomAlphabetic(13);
         String line = command + " " + arguments;
-        CommandInterpreter.putCommand(command, new CommandSay());
+        interpreter.putCommand(command, new CommandSay());
         CommandResult result = interpreter.interpret(line);
         assertEquals(arguments, result.getCommandArguments());
     }
@@ -94,7 +111,7 @@ public class CommandInterpreterTest {
     @Test
     public void interpretFindsACommandEvenThoughCaseDiffers() {
         String command = RandomStringUtils.randomAlphabetic(13).toUpperCase();
-        CommandInterpreter.putCommand(command, new CommandSay());
+        interpreter.putCommand(command, new CommandSay());
         CommandResult result = interpreter.interpret(command);
         assertEquals(CommandStatus.OK, result.getStatus());
         assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
@@ -103,7 +120,7 @@ public class CommandInterpreterTest {
     @Test
     public void interpretWithPartialMatchReturnsCommand() {
         String command = RandomStringUtils.randomAlphabetic(13);
-        CommandInterpreter.putCommand(command, new CommandPose());
+        interpreter.putCommand(command, new CommandPose());
         CommandResult result = interpreter.interpret(command + RandomStringUtils.randomAlphabetic(3));
         assertEquals(CommandStatus.OK, result.getStatus());
     }
@@ -111,8 +128,8 @@ public class CommandInterpreterTest {
     @Test
     public void interpretWithMultipleMatchesReturnsAmbiguous() {
         String command = RandomStringUtils.randomAlphabetic(13);
-        CommandInterpreter.putCommand(command.substring(0, 3), new CommandSay());
-        CommandInterpreter.putCommand(command.substring(0, 4), new CommandPose());
+        interpreter.putCommand(command.substring(0, 3), new CommandSay());
+        interpreter.putCommand(command.substring(0, 4), new CommandPose());
         CommandResult result = interpreter.interpret(command);
         assertEquals(CommandStatus.AMBIGUOUS_COMMAND, result.getStatus());
     }
@@ -120,8 +137,8 @@ public class CommandInterpreterTest {
     @Test
     public void interpretWithMultipleMatchesReturnsBothCommands() {
         String command = RandomStringUtils.randomAlphabetic(13);
-        CommandInterpreter.putCommand(command.substring(0, 3), new CommandSay());
-        CommandInterpreter.putCommand(command.substring(0, 4), new CommandPose());
+        interpreter.putCommand(command.substring(0, 3), new CommandSay());
+        interpreter.putCommand(command.substring(0, 4), new CommandPose());
         CommandResult result = interpreter.interpret(command);
         assertEquals(CommandStatus.AMBIGUOUS_COMMAND, result.getStatus());
         assertEquals(2, result.getCommands().size());
