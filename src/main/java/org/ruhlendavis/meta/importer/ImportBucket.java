@@ -35,10 +35,6 @@ public class ImportBucket {
         return components;
     }
 
-    public void setComponents(Map<Long, Component> components) {
-        this.components = components;
-    }
-
     public void setSourceLines(List<String> sourceLines) {
         this.sourceLines = sourceLines;
     }
