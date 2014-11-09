@@ -9,6 +9,6 @@ public class ConnectionTest {
     public void buildUnauthenticatedCommandList() {
         Connection connection = new Connection();
         connection.run();
-        assertEquals(1, connection.getInterpreter().getCommands().size());
+        assertEquals(2, connection.getInterpreter().getCommands().size());
     }
 }

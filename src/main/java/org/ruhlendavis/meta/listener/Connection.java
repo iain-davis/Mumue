@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.listener;
 
 import java.net.Socket;
+
 import org.ruhlendavis.meta.interpreter.CommandInterpreter;
 import org.ruhlendavis.meta.interpreter.commands.CommandConnect;
 
@@ -10,6 +11,7 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         interpreter.putCommand("@c", new CommandConnect());
+        interpreter.putCommand("c", new CommandConnect());
         // display welcome
         // respond to a command valid for unauthenticated connections.
         // @connect/@authenticate/@login/login/connect/authenticate <playername> <password>
