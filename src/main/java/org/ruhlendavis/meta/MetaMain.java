@@ -2,6 +2,7 @@ package org.ruhlendavis.meta;
 
 import java.io.File;
 import java.io.PrintStream;
+
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.FileFactory;
@@ -35,9 +36,8 @@ public class MetaMain {
             }
         }
 
-        dataStore.setup(configuration);
-        if (dataStore.isDatabaseEmpty()) {
-            dataStore.populateDatabase();
+        if (dataStore.isDatabaseEmpty(configuration)) {
+            dataStore.populateDatabase(configuration);
         }
 
         listener.setPort(configuration.getTelnetPort());

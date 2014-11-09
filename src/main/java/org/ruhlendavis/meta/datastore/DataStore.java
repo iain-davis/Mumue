@@ -1,57 +1,45 @@
 package org.ruhlendavis.meta.datastore;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import javax.sql.DataSource;
+
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
+
 import org.ruhlendavis.meta.configuration.Configuration;
 
 public class DataStore {
-    private Connection connection;
+    private DataSourceFactory dataSourceFactory = new DataSourceFactory();
+    private QueryRunnerFactory queryRunnerFactory = new QueryRunnerFactory();
 
-    public void setup(Configuration configuration) {
+    public boolean isDatabaseEmpty(Configuration configuration) {
+        QueryRunner queryRunner = getQueryRunner(getDataSource(configuration));
+        ResultSetHandler rsh = new ScalarHandler<>(1);
         try {
-            String uri = "jdbc:h2:" + configuration.getDatabasePath() + ";MV_STORE=FALSE;MVCC=FALSE";
-            connection = DriverManager.getConnection(uri, configuration.getDatabaseUsername(), configuration.getDatabasePassword());
+            long found = (long) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, rsh);
+            return found == 0;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+    public void populateDatabase(Configuration configuration) {
+        QueryRunner queryRunner = getQueryRunner(getDataSource(configuration));
+        try {
+            queryRunner.update(SqlConstants.SCHEMA_SCRIPT);
+            queryRunner.update(SqlConstants.DEFAULT_DATA_SCRIPT);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
-    public void populateDatabase() {
-        String query;
-        try {
-            Statement statement = connection.createStatement();
-            query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/schema.sql'";
-            statement.execute(query);
-            query = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/datastore/defaultData.sql'";
-            statement.execute(query);
-        } catch (SQLException exception) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            exception.printStackTrace();
-        }
+    private DataSource getDataSource(Configuration configuration) {
+            return dataSourceFactory.createDataSource(configuration);
     }
 
-    public boolean isDatabaseEmpty() {
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select count(*) from information_schema.tables where table_name = 'CONFIGURATION_OPTIONS'");
-            resultSet.next();
-            if (resultSet.getBoolean(1)) {
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
+    private QueryRunner getQueryRunner(DataSource dataSource) {
+            return queryRunnerFactory.createQueryRunner(dataSource);
     }
-//
-//    public boolean write(Player player) {
-//        return false;
-//    }
 }

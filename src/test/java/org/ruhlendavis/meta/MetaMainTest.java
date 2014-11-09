@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.FileFactory;
@@ -129,15 +130,9 @@ public class MetaMainTest {
     }
 
     @Test
-    public void runSetsUpDataStore() {
-        main.run(new String[]{}, System.out);
-        verify(dataStore).setup(configuration);
-    }
-
-    @Test
     public void runPopulatesDataStoreWhenEmpty() {
-        when(dataStore.isDatabaseEmpty()).thenReturn(true);
+        when(dataStore.isDatabaseEmpty(configuration)).thenReturn(true);
         main.run(new String[]{}, System.out);
-        verify(dataStore).populateDatabase();
+        verify(dataStore).populateDatabase(configuration);
     }
 }
