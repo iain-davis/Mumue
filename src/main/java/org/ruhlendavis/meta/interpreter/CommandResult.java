@@ -2,6 +2,7 @@ package org.ruhlendavis.meta.interpreter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.ruhlendavis.meta.interpreter.commands.Command;
 
 public class CommandResult {
@@ -20,16 +21,6 @@ public class CommandResult {
 
     public List<Command> getCommands() {
         return commands;
-    }
-
-    public CommandResult withStatus(CommandStatus status) {
-        this.status = status;
-        return this;
-    }
-
-    public CommandResult withCommand(Command command) {
-        this.commands.add(command);
-        return this;
     }
 
     public String getCommandString() {

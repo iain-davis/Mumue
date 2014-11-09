@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.ruhlendavis.meta.interpreter.commands.CommandPose;
 import org.ruhlendavis.meta.interpreter.commands.CommandSay;
 
