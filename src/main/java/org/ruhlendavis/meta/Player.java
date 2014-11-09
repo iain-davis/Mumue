@@ -2,6 +2,7 @@ package org.ruhlendavis.meta;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.ruhlendavis.meta.components.GameCharacter;
 
 public class Player {

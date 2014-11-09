@@ -2,6 +2,7 @@ package org.ruhlendavis.meta.components.properties;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.ruhlendavis.meta.GlobalConstants;
 
 public class ReferencePropertyTest {

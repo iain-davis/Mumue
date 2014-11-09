@@ -3,12 +3,12 @@ package org.ruhlendavis.meta.components;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.components.properties.PropertyTree;
 
 public class Component {
     private Long id = -1L;
-    private Long universeId = -1L;
     private Long reference = GlobalConstants.REFERENCE_UNKNOWN;
     private String name = "";
     private Component location;
@@ -103,13 +103,5 @@ public class Component {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUniverseId() {
-        return universeId;
-    }
-
-    public void setUniverseId(Long universeId) {
-        this.universeId = universeId;
     }
 }

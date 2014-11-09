@@ -6,6 +6,7 @@ import com.google.common.io.Resources;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.Test;
+
 import org.ruhlendavis.meta.importer.ImportBucket;
 
 public class LoadLinesStageTest {

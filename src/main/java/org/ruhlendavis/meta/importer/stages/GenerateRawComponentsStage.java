@@ -2,6 +2,7 @@ package org.ruhlendavis.meta.importer.stages;
 
 import java.util.List;
 import java.util.Map.Entry;
+
 import org.ruhlendavis.meta.components.Artifact;
 import org.ruhlendavis.meta.components.GameCharacter;
 import org.ruhlendavis.meta.components.Link;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.ruhlendavis.meta.Player;
 import org.ruhlendavis.meta.components.Component;
 
@@ -30,10 +31,6 @@ public class ImportBucket {
         return componentLines;
     }
 
-    public void setComponentLines(Map<Long, List<String>> componentLines) {
-        this.componentLines = componentLines;
-    }
-
     public Map<Long, Component> getComponents() {
         return components;
     }
@@ -52,10 +49,6 @@ public class ImportBucket {
 
     public List<String> getParameterLines() {
         return parameterLines;
-    }
-
-    public void setParameterLines(List<String> parameterLines) {
-        this.parameterLines = parameterLines;
     }
 
     public Long getDatabaseItemCount() {
