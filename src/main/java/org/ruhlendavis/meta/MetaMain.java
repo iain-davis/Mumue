@@ -10,6 +10,11 @@ import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class MetaMain {
+    public static void main(String... arguments) {
+        MetaMain metaMain = new MetaMain();
+        metaMain.run(arguments, System.out);
+    }
+
     private Configuration configuration = new Configuration();
     private ConfigurationAnalyzer configurationAnalyzer = new ConfigurationAnalyzer();
     private DataStore dataStore = new DataStore();

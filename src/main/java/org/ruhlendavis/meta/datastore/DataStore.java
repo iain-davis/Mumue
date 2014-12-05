@@ -36,10 +36,30 @@ public class DataStore {
     }
 
     private DataSource getDataSource(Configuration configuration) {
-            return dataSourceFactory.createDataSource(configuration);
+        return dataSourceFactory.createDataSource(configuration);
     }
 
     private QueryRunner getQueryRunner(DataSource dataSource) {
-            return queryRunnerFactory.createQueryRunner(dataSource);
+        return queryRunnerFactory.createQueryRunner(dataSource);
+    }
+
+    public String getText(Configuration configuration, String locale, String name) {
+        String text = "";
+        QueryRunner queryRunner = getQueryRunner(getDataSource(configuration));
+        ResultSetHandler rsh = new ScalarHandler<>(SqlConstants.TEXT_COLUMN);
+        try {
+            text = (String)queryRunner.query(SqlConstants.QUERY_TEXT, rsh, locale, name);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return text;
+    }
+
+    public String getText(Configuration configuration, String key) {
+        return getText(configuration, getDefaultLocale(), key);
+    }
+
+    private String getDefaultLocale() {
+        return null;
     }
 }
