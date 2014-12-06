@@ -1,5 +1,6 @@
 package org.ruhlendavis.meta.listener;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,14 +22,14 @@ public class Listener implements Runnable {
         while (isRunning()) {
             waitForConnection();
         }
-        closeSocket();
+        closeSocket(serverSocket);
     }
 
-    private void closeSocket() {
+    private void closeSocket(Closeable socket) {
         try {
-            serverSocket.close();
+            socket.close();
         } catch (IOException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         } finally {
             IOUtils.closeQuietly(serverSocket);
         }

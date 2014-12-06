@@ -14,7 +14,9 @@ public class Main {
     public void run(Listener listener, CommandLineProvider commandLineProvider) {
         configuration = new Configuration(commandLineProvider.get());
         Thread thread = startListener(listener, configuration.getPort());
+
         while(listener.isRunning() && !configuration.isTest()) {}
+
         stopListener(listener, thread);
     }
 
@@ -29,8 +31,8 @@ public class Main {
         listener.stop();
         try {
             thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }

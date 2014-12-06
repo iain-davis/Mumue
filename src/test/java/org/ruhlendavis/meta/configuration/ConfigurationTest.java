@@ -32,7 +32,7 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void getPortWithoutCommandLineOptionReturnsDefaultPort() {
+    public void getPortReturnsDefaultPort() {
         CommandLine commandLine = setupCommandLine("anything", "");
         Configuration configuration = new Configuration(commandLine);
         assertThat(configuration.getPort(), equalTo(GlobalConstants.DEFAULT_TELNET_PORT));
