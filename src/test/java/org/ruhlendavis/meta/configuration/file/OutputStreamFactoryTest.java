@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration;
+package org.ruhlendavis.meta.configuration.file;
 
 import static org.junit.Assert.assertNotNull;
 

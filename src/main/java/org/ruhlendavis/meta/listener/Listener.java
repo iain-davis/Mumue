@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import org.apache.commons.io.IOUtils;
+
 public class Listener implements Runnable {
     private SocketFactory socketFactory = new SocketFactory();
     private ThreadFactory threadFactory = new ThreadFactory();
@@ -19,6 +21,17 @@ public class Listener implements Runnable {
         while (isRunning()) {
             waitForConnection();
         }
+        closeSocket();
+    }
+
+    private void closeSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(serverSocket);
+        }
     }
 
     protected void waitForConnection() {
@@ -30,10 +43,9 @@ public class Listener implements Runnable {
             connections.add(client);
             client.start();
         } catch (IOException exception) {
-            if (!running) {
-                return;
+            if (running) {
+                throw new RuntimeException("Error accepting client connection", exception);
             }
-            throw new RuntimeException("Error accepting client connection", exception);
         }
     }
 
@@ -51,5 +63,9 @@ public class Listener implements Runnable {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 }

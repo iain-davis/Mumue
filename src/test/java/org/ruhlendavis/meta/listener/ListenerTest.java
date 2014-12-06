@@ -2,6 +2,7 @@ package org.ruhlendavis.meta.listener;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -23,16 +24,13 @@ public class ListenerTest {
     private ServerSocket serverSocket = mock(ServerSocket.class);
     private Thread clientThread = mock(Thread.class);
 
-    @Mock
-    private SocketFactory socketFactory;
-    @Mock
-    private ThreadFactory threadFactory;
-    @InjectMocks
-    private Listener listener = new Listener();
+    @Mock private SocketFactory socketFactory;
+    @Mock private ThreadFactory threadFactory;
+    @InjectMocks private Listener listener = new Listener();
 
     @Before
     public void beforeEach() {
-        when(socketFactory.createSocket(9999)).thenReturn(serverSocket);
+        when(socketFactory.createSocket(anyInt())).thenReturn(serverSocket);
         when(threadFactory.createThread(any(Connection.class), anyString())).thenReturn(clientThread);
     }
 

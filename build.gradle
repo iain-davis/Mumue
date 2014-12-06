@@ -5,6 +5,7 @@ repositories {
 }
 
 dependencies {
+    compile 'commons-cli:commons-cli:1.2'
     compile 'com.h2database:h2:1.4.181'
     compile 'commons-dbutils:commons-dbutils:1.6'
     compile 'org.apache.commons:commons-dbcp2:2.0.1'

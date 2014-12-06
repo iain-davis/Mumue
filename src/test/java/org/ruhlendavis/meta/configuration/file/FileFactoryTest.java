@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration;
+package org.ruhlendavis.meta.configuration.file;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,7 @@ public class FileFactoryTest {
     public void createFileReturnsFile() throws URISyntaxException {
         FileFactory fileFactory = new FileFactory();
         String name = "configuration.properties";
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration/" + name).toURI().getPath();
+        String path = Resources.getResource("org/ruhlendavis/meta/configuration/file/" + name).toURI().getPath();
         File file = fileFactory.createFile(path);
         assertEquals(name, file.getName());
     }
