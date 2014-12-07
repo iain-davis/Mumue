@@ -7,14 +7,14 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import org.ruhlendavis.meta.configuration.file.FileConfiguration;
+import org.ruhlendavis.meta.configuration.Configuration;
 
 public class DataStore {
     private DataSourceFactory dataSourceFactory = new DataSourceFactory();
     private QueryRunnerFactory queryRunnerFactory = new QueryRunnerFactory();
 
-    public boolean isDatabaseEmpty(FileConfiguration fileConfiguration) {
-        QueryRunner queryRunner = getQueryRunner(getDataSource(fileConfiguration));
+    public boolean isDatabaseEmpty(Configuration configuration) {
+        QueryRunner queryRunner = getQueryRunner(getDataSource(configuration));
         ResultSetHandler rsh = new ScalarHandler<>(1);
         try {
             long found = (long) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, rsh);
@@ -25,8 +25,8 @@ public class DataStore {
         }
     }
 
-    public void populateDatabase(FileConfiguration fileConfiguration) {
-        QueryRunner queryRunner = getQueryRunner(getDataSource(fileConfiguration));
+    public void populateDatabase(Configuration configuration) {
+        QueryRunner queryRunner = getQueryRunner(getDataSource(configuration));
         try {
             queryRunner.update(SqlConstants.SCHEMA_SCRIPT);
             queryRunner.update(SqlConstants.DEFAULT_DATA_SCRIPT);
@@ -35,17 +35,17 @@ public class DataStore {
         }
     }
 
-    private DataSource getDataSource(FileConfiguration fileConfiguration) {
-        return dataSourceFactory.createDataSource(fileConfiguration);
+    private DataSource getDataSource(Configuration configuration) {
+        return dataSourceFactory.createDataSource(configuration);
     }
 
     private QueryRunner getQueryRunner(DataSource dataSource) {
         return queryRunnerFactory.createQueryRunner(dataSource);
     }
 
-    public String getText(FileConfiguration fileConfiguration, String locale, String name) {
+    public String getText(Configuration configuration, String locale, String name) {
         String text = "";
-        QueryRunner queryRunner = getQueryRunner(getDataSource(fileConfiguration));
+        QueryRunner queryRunner = getQueryRunner(getDataSource(configuration));
         ResultSetHandler rsh = new ScalarHandler<>(SqlConstants.TEXT_COLUMN);
         try {
             text = (String)queryRunner.query(SqlConstants.QUERY_TEXT, rsh, locale, name);
@@ -55,8 +55,8 @@ public class DataStore {
         return text;
     }
 
-    public String getText(FileConfiguration fileConfiguration, String key) {
-        return getText(fileConfiguration, getDefaultLocale(), key);
+    public String getText(Configuration configuration, String key) {
+        return getText(configuration, getDefaultLocale(), key);
     }
 
     private String getDefaultLocale() {

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import org.ruhlendavis.meta.configuration.file.FileConfiguration;
+import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.interpreter.CommandInterpreter;
 import org.ruhlendavis.meta.interpreter.commands.CommandConnect;
 
 public class Connection implements Runnable {
-    private FileConfiguration fileConfiguration;
+    private Configuration configuration;
     private Socket socket;
     private CommandInterpreter interpreter = new CommandInterpreter();
 
@@ -20,7 +20,7 @@ public class Connection implements Runnable {
         OutputStream output;
         try {
             output = socket.getOutputStream();
-            String welcomeText = dataStore.getText(fileConfiguration, "welcome-screen");
+            String welcomeText = dataStore.getText(configuration, "welcome-screen");
             output.write(welcomeText.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

@@ -46,6 +46,27 @@ public class ConfigurationTest {
         assertThat(configuration.getPort(), equalTo(port));
     }
 
+    @Test
+    public void getDatabaseUsernameReturnsDefault() {
+        CommandLine commandLine = setupCommandLine("anything", "");
+        Configuration configuration = new Configuration(commandLine);
+        assertThat(configuration.getDatabaseUsername(), equalTo(GlobalConstants.DEFAULT_DATABASE_USERNAME));
+    }
+
+    @Test
+    public void getDatabasePasswordReturnsDefault() {
+        CommandLine commandLine = setupCommandLine("anything", "");
+        Configuration configuration = new Configuration(commandLine);
+        assertThat(configuration.getDatabasePassword(), equalTo(GlobalConstants.DEFAULT_DATABASE_PASSWORD));
+    }
+
+    @Test
+    public void getDatabasePathReturnsDefault() {
+        CommandLine commandLine = setupCommandLine("anything", "");
+        Configuration configuration = new Configuration(commandLine);
+        assertThat(configuration.getDatabasePath(), equalTo(GlobalConstants.DEFAULT_DATABASE_PATH));
+    }
+
     private CommandLine setupCommandLine(String optionName, String optionValue) {
         Options options = new Options();
         if (StringUtils.isBlank(optionValue)) {

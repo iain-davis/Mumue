@@ -3,8 +3,6 @@ package org.ruhlendavis.meta;
 import java.io.File;
 import java.io.PrintStream;
 
-import org.apache.commons.cli.CommandLine;
-
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.file.FileConfiguration;
@@ -45,10 +43,10 @@ public class MetaMain {
             }
         }
 
-//        Configuration configuration = new Configuration(new CommandLineProvider().get(arguments), fileConfiguration);
+        Configuration configuration = new Configuration(new CommandLineProvider(arguments).get());
 
-        if (dataStore.isDatabaseEmpty(fileConfiguration)) {
-            dataStore.populateDatabase(fileConfiguration);
+        if (dataStore.isDatabaseEmpty(configuration)) {
+            dataStore.populateDatabase(configuration);
         }
 
         listener.setPort(fileConfiguration.getTelnetPort());

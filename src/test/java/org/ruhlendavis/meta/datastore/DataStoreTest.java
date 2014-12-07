@@ -19,13 +19,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.configuration.file.FileConfiguration;
+import org.ruhlendavis.meta.configuration.Configuration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataStoreTest {
     private final BasicDataSource source = new BasicDataSource();
-    @Mock
-    FileConfiguration fileConfiguration;
+    @Mock Configuration configuration;
     @Mock DataSourceFactory dataSourceFactory;
     @Mock QueryRunnerFactory queryRunnerFactory;
     @InjectMocks private DataStore dataStore;
@@ -36,7 +35,7 @@ public class DataStoreTest {
         source.setUsername("user");
         source.setPassword("password");
         source.setUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
-        when(dataSourceFactory.createDataSource(fileConfiguration)).thenReturn(source);
+        when(dataSourceFactory.createDataSource(configuration)).thenReturn(source);
         when(queryRunnerFactory.createQueryRunner(source)).thenCallRealMethod();
     }
 
@@ -44,13 +43,13 @@ public class DataStoreTest {
     public void isDatabaseEmptyReturnsTrue() throws SQLException {
         QueryRunner queryRunner = new QueryRunner(source);
         queryRunner.update("DROP ALL OBJECTS");
-        assertTrue(dataStore.isDatabaseEmpty(fileConfiguration));
+        assertTrue(dataStore.isDatabaseEmpty(configuration));
     }
 
     @Test
     public void isDatabaseEmptyReturnsFalse() {
-        dataStore.populateDatabase(fileConfiguration);
-        assertFalse(dataStore.isDatabaseEmpty(fileConfiguration));
+        dataStore.populateDatabase(configuration);
+        assertFalse(dataStore.isDatabaseEmpty(configuration));
     }
 
     @Test
@@ -58,7 +57,7 @@ public class DataStoreTest {
         QueryRunner queryRunner = Mockito.mock(QueryRunner.class);
         when(queryRunnerFactory.createQueryRunner(source)).thenReturn(queryRunner);
         when(queryRunner.query(eq(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE), any(ResultSetHandler.class))).thenThrow(new SQLException());
-        assertFalse(dataStore.isDatabaseEmpty(fileConfiguration));
+        assertFalse(dataStore.isDatabaseEmpty(configuration));
     }
 //
 //    @Test
