@@ -5,16 +5,16 @@ import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class Main {
-    private Configuration configuration;
     public static void main(String... arguments) {
         Main main = new Main();
         main.run(new Listener(), new CommandLineProvider(arguments));
     }
 
     public void run(Listener listener, CommandLineProvider commandLineProvider) {
-        configuration = new Configuration(commandLineProvider.get());
+        Configuration configuration = new Configuration(commandLineProvider.get());
         Thread thread = startListener(listener, configuration.getPort());
 
+        //noinspection StatementWithEmptyBody
         while(listener.isRunning() && !configuration.isTest()) {}
 
         stopListener(listener, thread);

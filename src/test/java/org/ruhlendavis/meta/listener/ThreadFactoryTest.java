@@ -7,7 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class ThreadFactoryTest {
-    private ThreadFactory factory = new ThreadFactory();
+    private final ThreadFactory factory = new ThreadFactory();
 
     @Test
     public void createThreadReturnsThread() {

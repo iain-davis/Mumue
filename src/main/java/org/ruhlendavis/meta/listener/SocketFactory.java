@@ -8,9 +8,7 @@ public class SocketFactory {
         try {
             return new ServerSocket(port);
         } catch (IOException exception) {
-            exception.printStackTrace();
-            return null;
+            throw new RuntimeException(exception);
         }
     }
-
 }

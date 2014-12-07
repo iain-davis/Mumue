@@ -1,7 +1,5 @@
 package org.ruhlendavis.meta;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.verify;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -28,6 +26,6 @@ public class MainTest {
     public void usePortFromConfiguration() {
         Integer port = RandomUtils.nextInt(1024, 65536);
         main.run(listener, new CommandLineProvider("--test", "--port", port.toString()));
-        verify(listener).setPort(port.intValue());
+        verify(listener).setPort(port);
     }
 }
