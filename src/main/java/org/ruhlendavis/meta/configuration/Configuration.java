@@ -2,7 +2,7 @@ package org.ruhlendavis.meta.configuration;
 
 import org.apache.commons.cli.CommandLine;
 
-import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.constants.Defaults;
 
 public class Configuration {
     private final CommandLine commandLine;
@@ -12,23 +12,27 @@ public class Configuration {
     }
 
     public String getDatabaseUsername() {
-        return GlobalConstants.DEFAULT_DATABASE_USERNAME;
+        return Defaults.DATABASE_USERNAME;
     }
 
     public String getDatabasePassword() {
-        return GlobalConstants.DEFAULT_DATABASE_PASSWORD;
+        return Defaults.DATABASE_PASSWORD;
     }
 
     public String getDatabasePath() {
-        return GlobalConstants.DEFAULT_DATABASE_PATH;
+        return Defaults.DATABASE_PATH;
     }
 
     public int getPort() {
         String port = commandLine.getOptionValue("port");
-        return port == null ? GlobalConstants.DEFAULT_TELNET_PORT : Integer.parseInt(port);
+        return port == null ? Defaults.TELNET_PORT : Integer.parseInt(port);
     }
 
     public boolean isTest() {
         return commandLine.hasOption("test");
+    }
+
+    public String getServerLocale() {
+        return Defaults.SERVER_LOCALE;
     }
 }

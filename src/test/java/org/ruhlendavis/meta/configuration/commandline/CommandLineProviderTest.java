@@ -13,16 +13,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import org.ruhlendavis.meta.constants.OptionName;
+
 public class CommandLineProviderTest {
     @Rule public ExpectedException thrown= ExpectedException.none();
 
     @Test
     public void supportTestOption() {
-        CommandLineProvider commandLineProvider = new CommandLineProvider("--test");
+        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(OptionName.TEST));
 
         CommandLine commandLine = commandLineProvider.get();
 
-        assertTrue(commandLine.hasOption("test"));
+        assertTrue(commandLine.hasOption(OptionName.TEST));
     }
 
     @Test
@@ -32,25 +34,29 @@ public class CommandLineProviderTest {
 
         CommandLine commandLine = commandLineProvider.get();
 
-        assertThat(commandLine.getOptionValue("port"), equalTo(port.toString()));
+        assertThat(commandLine.getOptionValue(OptionName.PORT), equalTo(port.toString()));
     }
 
     @Test
     public void supportPortOption() {
         Integer port = RandomUtils.nextInt(1024, 65536);
-        CommandLineProvider commandLineProvider = new CommandLineProvider("--port", port.toString());
+        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(OptionName.PORT), port.toString());
 
         CommandLine commandLine = commandLineProvider.get();
 
-        assertThat(commandLine.getOptionValue("port"), equalTo(port.toString()));
+        assertThat(commandLine.getOptionValue(OptionName.PORT), equalTo(port.toString()));
     }
 
     @Test
     public void portOptionRequiresArgument() {
         thrown.expect(RuntimeException.class);
         thrown.expectCause(new CauseMatcher(MissingArgumentException.class));
-        CommandLineProvider commandLineProvider = new CommandLineProvider("--port");
+        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(OptionName.PORT));
         commandLineProvider.get();
+    }
+
+    private String getSwitch(String option) {
+        return "--" + option;
     }
 
     private static class CauseMatcher extends TypeSafeMatcher<Throwable> {

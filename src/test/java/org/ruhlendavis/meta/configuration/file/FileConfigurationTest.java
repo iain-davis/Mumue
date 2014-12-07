@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.constants.Defaults;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileConfigurationTest {
@@ -90,7 +91,7 @@ public class FileConfigurationTest {
     @Test
     public void getDatabasePathReturnsDefaultDatabasePath() {
         FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(GlobalConstants.DEFAULT_DATABASE_PATH, fileConfiguration.getDatabasePath());
+        assertEquals(Defaults.DATABASE_PATH, fileConfiguration.getDatabasePath());
     }
 
     @Test
@@ -107,7 +108,7 @@ public class FileConfigurationTest {
     @Test
     public void getDatabaseUsernameReturnsDefaultDatabaseUsername() {
         FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(GlobalConstants.DEFAULT_DATABASE_USERNAME, fileConfiguration.getDatabaseUsername());
+        assertEquals(Defaults.DATABASE_USERNAME, fileConfiguration.getDatabaseUsername());
     }
 
     @Test
@@ -124,6 +125,6 @@ public class FileConfigurationTest {
     @Test
     public void getDatabasePasswordReturnsDefaultDatabasePassword() {
         FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(GlobalConstants.DEFAULT_DATABASE_PASSWORD, fileConfiguration.getDatabasePassword());
+        assertEquals(Defaults.DATABASE_PASSWORD, fileConfiguration.getDatabasePassword());
     }
 }

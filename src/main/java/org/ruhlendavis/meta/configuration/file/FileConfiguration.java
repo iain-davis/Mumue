@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 
 import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.constants.Defaults;
 
 public class FileConfiguration {
     private Properties properties = new Properties();
@@ -41,15 +42,15 @@ public class FileConfiguration {
     }
 
     public String getDatabasePath() {
-        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PATH, GlobalConstants.DEFAULT_DATABASE_PATH);
+        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PATH, Defaults.DATABASE_PATH);
     }
 
     public String getDatabaseUsername() {
-        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_USERNAME, GlobalConstants.DEFAULT_DATABASE_USERNAME);
+        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_USERNAME, Defaults.DATABASE_USERNAME);
     }
 
     public String getDatabasePassword() {
-        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PASSWORD, GlobalConstants.DEFAULT_DATABASE_PASSWORD);
+        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PASSWORD, Defaults.DATABASE_PASSWORD);
     }
 
     public void setProperties(Properties properties) {

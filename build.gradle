@@ -5,12 +5,17 @@ repositories {
 }
 
 dependencies {
-    compile 'org.apache.commons:commons-dbcp2:2.0.1'
-    compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'commons-cli:commons-cli:1.2'
-    compile 'commons-dbutils:commons-dbutils:1.6'
+
+    // General
+    compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'commons-io:commons-io:2.4'
     compile 'com.google.guava:guava:18.0'
+
+    // Database
+    compile 'org.apache.commons:commons-dbcp2:2.0.1'
+    compile 'commons-dbutils:commons-dbutils:1.6'
+    compile 'com.j256.ormlite:ormlite-jdbc:4.48'
     compile 'com.h2database:h2:1.4.181'
 
     testCompile 'org.mockito:mockito-core:1.10.8'

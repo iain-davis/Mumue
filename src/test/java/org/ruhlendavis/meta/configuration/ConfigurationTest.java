@@ -14,12 +14,13 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.constants.OptionName;
 
 public class ConfigurationTest {
     @Test
     public void isTestReturnsTrue() {
-        CommandLine commandLine = setupCommandLine("test", "");
+        CommandLine commandLine = setupCommandLine(OptionName.TEST, "");
         Configuration configuration = new Configuration(commandLine);
         assertTrue(configuration.isTest());
     }
@@ -35,13 +36,13 @@ public class ConfigurationTest {
     public void getPortReturnsDefaultPort() {
         CommandLine commandLine = setupCommandLine("anything", "");
         Configuration configuration = new Configuration(commandLine);
-        assertThat(configuration.getPort(), equalTo(GlobalConstants.DEFAULT_TELNET_PORT));
+        assertThat(configuration.getPort(), equalTo(Defaults.TELNET_PORT));
     }
 
     @Test
     public void getPortReturnsPort() {
         Integer port = RandomUtils.nextInt(1024, 65536);
-        CommandLine commandLine = setupCommandLine("port", port.toString());
+        CommandLine commandLine = setupCommandLine(OptionName.PORT, port.toString());
         Configuration configuration = new Configuration(commandLine);
         assertThat(configuration.getPort(), equalTo(port));
     }
@@ -50,21 +51,28 @@ public class ConfigurationTest {
     public void getDatabaseUsernameReturnsDefault() {
         CommandLine commandLine = setupCommandLine("anything", "");
         Configuration configuration = new Configuration(commandLine);
-        assertThat(configuration.getDatabaseUsername(), equalTo(GlobalConstants.DEFAULT_DATABASE_USERNAME));
+        assertThat(configuration.getDatabaseUsername(), equalTo(Defaults.DATABASE_USERNAME));
     }
 
     @Test
     public void getDatabasePasswordReturnsDefault() {
         CommandLine commandLine = setupCommandLine("anything", "");
         Configuration configuration = new Configuration(commandLine);
-        assertThat(configuration.getDatabasePassword(), equalTo(GlobalConstants.DEFAULT_DATABASE_PASSWORD));
+        assertThat(configuration.getDatabasePassword(), equalTo(Defaults.DATABASE_PASSWORD));
     }
 
     @Test
     public void getDatabasePathReturnsDefault() {
         CommandLine commandLine = setupCommandLine("anything", "");
         Configuration configuration = new Configuration(commandLine);
-        assertThat(configuration.getDatabasePath(), equalTo(GlobalConstants.DEFAULT_DATABASE_PATH));
+        assertThat(configuration.getDatabasePath(), equalTo(Defaults.DATABASE_PATH));
+    }
+
+    @Test
+    public void getServerLocaleReturnsDefault() {
+        CommandLine commandLine = setupCommandLine("anything", "");
+        Configuration configuration = new Configuration(commandLine);
+        assertThat(configuration.getServerLocale(), equalTo(Defaults.SERVER_LOCALE));
     }
 
     private CommandLine setupCommandLine(String optionName, String optionValue) {
