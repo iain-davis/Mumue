@@ -3,6 +3,7 @@ package org.ruhlendavis.meta.configuration;
 import org.apache.commons.cli.CommandLine;
 
 import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.constants.OptionName;
 
 public class Configuration {
     private final CommandLine commandLine;
@@ -24,12 +25,12 @@ public class Configuration {
     }
 
     public int getPort() {
-        String port = commandLine.getOptionValue("port");
+        String port = commandLine.getOptionValue(OptionName.PORT);
         return port == null ? Defaults.TELNET_PORT : Integer.parseInt(port);
     }
 
     public boolean isTest() {
-        return commandLine.hasOption("test");
+        return commandLine.hasOption(OptionName.TEST);
     }
 
     public String getServerLocale() {

@@ -13,10 +13,13 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.constants.Defaults;
 import org.ruhlendavis.meta.constants.OptionName;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigurationTest {
     @Test
     public void isTestReturnsTrue() {
