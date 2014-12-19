@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration.file;
+package org.ruhlendavis.meta.configuration.startup;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -23,108 +23,108 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.constants.OptionName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FileConfigurationTest {
+public class StartupConfigurationTest {
     @Mock private OutputStreamFactory outputStreamFactory;
-    @InjectMocks private FileConfiguration fileConfiguration = new FileConfiguration();
+    @InjectMocks private StartupConfiguration startupConfiguration = new StartupConfiguration();
 
     @Test
     public void loadLoadsConfiguration() throws URISyntaxException {
-        FileConfiguration fileConfiguration = new FileConfiguration();
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration/file/" + GlobalConstants.DEFAULT_CONFIGURATION_PATH).toURI().getPath();
-        fileConfiguration.load(path);
-        assertEquals(9998, fileConfiguration.getTelnetPort());
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + Defaults.CONFIGURATION_PATH).toURI().getPath();
+        startupConfiguration.load(path);
+        assertEquals(9998, startupConfiguration.getTelnetPort());
     }
 
     @Test
     public void saveSavesConfiguration() throws URISyntaxException, IOException {
         OutputStream output = mock(OutputStream.class);
         Properties properties = mock(Properties.class);
-        fileConfiguration.setProperties(properties);
+        startupConfiguration.setProperties(properties);
         doNothing().when(properties).store(any(OutputStream.class), anyString());
         when(outputStreamFactory.createOutputStream(anyString())).thenReturn(output);
         String path = RandomStringUtils.randomAlphabetic(13);
-        fileConfiguration.save(path);
+        startupConfiguration.save(path);
         verify(outputStreamFactory).createOutputStream(eq(path));
         verify(properties).store(any(OutputStream.class), anyString());
     }
 
     @Test
     public void getPortReturnsPortProperty() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        fileConfiguration.setProperties(properties);
+        startupConfiguration.setProperties(properties);
         String port = RandomStringUtils.randomNumeric(4);
-        properties.setProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, port);
+        properties.setProperty(OptionName.TELNET_PORT, port);
 
-        assertEquals(Integer.parseInt(port), fileConfiguration.getTelnetPort());
+        assertEquals(Integer.parseInt(port), startupConfiguration.getTelnetPort());
     }
 
     @Test
     public void getPortReturnsDefaultPort() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(Integer.parseInt(GlobalConstants.DEFAULT_TELNET_PORT_OLD), fileConfiguration.getTelnetPort());
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        assertEquals(Integer.parseInt(Defaults.TELNET_PORT_OLD), startupConfiguration.getTelnetPort());
     }
 
     @Test
     public void setPortSetsPort() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
         int port = RandomUtils.nextInt(1, 65536);
-        fileConfiguration.setTelnetPort(port);
-        assertEquals(port, fileConfiguration.getTelnetPort());
+        startupConfiguration.setTelnetPort(port);
+        assertEquals(port, startupConfiguration.getTelnetPort());
     }
 
     @Test
     public void getDatabasePathReturnsDatabasePath() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        fileConfiguration.setProperties(properties);
+        startupConfiguration.setProperties(properties);
         String path = RandomStringUtils.randomAlphabetic(17);
-        properties.setProperty(GlobalConstants.OPTION_NAME_DATABASE_PATH, path);
+        properties.setProperty(OptionName.DATABASE_PATH, path);
 
-        assertEquals(path, fileConfiguration.getDatabasePath());
+        assertEquals(path, startupConfiguration.getDatabasePath());
     }
 
     @Test
     public void getDatabasePathReturnsDefaultDatabasePath() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(Defaults.DATABASE_PATH, fileConfiguration.getDatabasePath());
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        assertEquals(Defaults.DATABASE_PATH, startupConfiguration.getDatabasePath());
     }
 
     @Test
     public void getDatabaseUsernameReturnsDatabaseUsername() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        fileConfiguration.setProperties(properties);
+        startupConfiguration.setProperties(properties);
         String username = RandomStringUtils.randomAlphabetic(17);
-        properties.setProperty(GlobalConstants.OPTION_NAME_DATABASE_USERNAME, username);
+        properties.setProperty(OptionName.DATABASE_USERNAME, username);
 
-        assertEquals(username, fileConfiguration.getDatabaseUsername());
+        assertEquals(username, startupConfiguration.getDatabaseUsername());
     }
 
     @Test
     public void getDatabaseUsernameReturnsDefaultDatabaseUsername() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(Defaults.DATABASE_USERNAME, fileConfiguration.getDatabaseUsername());
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        assertEquals(Defaults.DATABASE_USERNAME, startupConfiguration.getDatabaseUsername());
     }
 
     @Test
     public void getDatabaseUsernameReturnsDatabasePassword() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        fileConfiguration.setProperties(properties);
+        startupConfiguration.setProperties(properties);
         String password = RandomStringUtils.randomAlphabetic(17);
-        properties.setProperty(GlobalConstants.OPTION_NAME_DATABASE_PASSWORD, password);
+        properties.setProperty(OptionName.DATABASE_PASSWORD, password);
 
-        assertEquals(password, fileConfiguration.getDatabasePassword());
+        assertEquals(password, startupConfiguration.getDatabasePassword());
     }
 
     @Test
     public void getDatabasePasswordReturnsDefaultDatabasePassword() {
-        FileConfiguration fileConfiguration = new FileConfiguration();
-        assertEquals(Defaults.DATABASE_PASSWORD, fileConfiguration.getDatabasePassword());
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        assertEquals(Defaults.DATABASE_PASSWORD, startupConfiguration.getDatabasePassword());
     }
 }

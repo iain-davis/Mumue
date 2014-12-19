@@ -21,15 +21,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.configuration.file.FileConfiguration;
-import org.ruhlendavis.meta.configuration.file.FileConfigurationAnalyzer;
-import org.ruhlendavis.meta.configuration.file.FileFactory;
+import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.configuration.startup.FileConfigurationAnalyzer;
+import org.ruhlendavis.meta.configuration.startup.FileFactory;
+import org.ruhlendavis.meta.constants.Defaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MetaMainTest {
-    @Mock private FileConfiguration fileConfiguration;
+    @Mock private StartupConfiguration startupConfiguration;
     @Mock private FileConfigurationAnalyzer fileConfigurationAnalyzer;
     @Mock private DataStore dataStore;
     @Mock private File file;
@@ -45,14 +46,14 @@ public class MetaMainTest {
         when(fileFactory.createFile(anyString())).thenReturn(file);
         when(file.exists()).thenReturn(true);
         when(file.isDirectory()).thenReturn(false);
-        doNothing().when(fileConfiguration).load(anyString());
-        when(fileConfigurationAnalyzer.isValid(fileConfiguration)).thenReturn(true);
+        doNothing().when(startupConfiguration).load(anyString());
+        when(fileConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(true);
     }
 
     @Test
     public void runUsesDefaultPath() throws IOException {
         main.run(System.out, new String[]{});
-        verify(fileFactory).createFile(GlobalConstants.DEFAULT_CONFIGURATION_PATH);
+        verify(fileFactory).createFile(Defaults.CONFIGURATION_PATH);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class MetaMainTest {
         when(fileFactory.createFile(path)).thenReturn(file);
         when(file.exists()).thenReturn(false);
         main.run(System.out, new String[]{path});
-        verify(fileConfiguration, never()).load(path);
+        verify(startupConfiguration, never()).load(path);
     }
 
     @Test
@@ -78,15 +79,15 @@ public class MetaMainTest {
         when(file.exists()).thenReturn(true);
         when(file.isDirectory()).thenReturn(true);
         main.run(System.out, new String[]{path});
-        verify(fileConfiguration, never()).load(path);
+        verify(startupConfiguration, never()).load(path);
     }
 
     @Test
     public void runWithoutSpecificConfigurationUsesDefaults() {
         when(file.exists()).thenReturn(false);
         main.run(System.out, new String[]{});
-        verify(fileFactory).createFile(GlobalConstants.DEFAULT_CONFIGURATION_PATH);
-        verify(fileConfiguration, never()).load(GlobalConstants.DEFAULT_CONFIGURATION_PATH);
+        verify(fileFactory).createFile(Defaults.CONFIGURATION_PATH);
+        verify(startupConfiguration, never()).load(Defaults.CONFIGURATION_PATH);
         verify(thread).start();
     }
 
@@ -103,14 +104,14 @@ public class MetaMainTest {
     @Test
     public void runSetsMainListenerPort() {
         int port = 9999;
-        when(fileConfiguration.getTelnetPort()).thenReturn(port);
+        when(startupConfiguration.getTelnetPort()).thenReturn(port);
         main.run(System.out, new String[]{});
         verify(listener).setPort(port);
     }
 
     @Test
     public void runWithInvalidConfigurationQuits() {
-        when(fileConfigurationAnalyzer.isValid(fileConfiguration)).thenReturn(false);
+        when(fileConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
         main.run(System.out, new String[]{});
         verify(thread, never()).start();
     }
@@ -118,9 +119,9 @@ public class MetaMainTest {
     @Test
     public void runWithInvalidConfigurationDisplaysError() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        when(fileConfigurationAnalyzer.isValid(fileConfiguration)).thenReturn(false);
+        when(fileConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
         main.run(new PrintStream(output), new String[]{});
-        assertEquals("CRITICAL: Configuration file '" + GlobalConstants.DEFAULT_CONFIGURATION_PATH + "' is invalid." + System.lineSeparator(), output.toString());
+        assertEquals("CRITICAL: Configuration file '" + Defaults.CONFIGURATION_PATH + "' is invalid." + System.lineSeparator(), output.toString());
     }
 
     @Test

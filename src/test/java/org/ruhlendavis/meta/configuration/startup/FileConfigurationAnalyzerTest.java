@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration.file;
+package org.ruhlendavis.meta.configuration.startup;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -13,7 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class FileConfigurationAnalyzerTest {
     @Mock
-    private FileConfiguration fileConfiguration;
+    private StartupConfiguration fileConfiguration;
 
     private FileConfigurationAnalyzer analyzer = new FileConfigurationAnalyzer();
 

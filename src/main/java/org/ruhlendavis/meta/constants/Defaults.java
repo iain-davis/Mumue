@@ -6,4 +6,6 @@ public interface Defaults {
     String DATABASE_USERNAME = "metadatabase";
     String SERVER_LOCALE = "en-US";
     int TELNET_PORT = 9999;
+    String TELNET_PORT_OLD = "9999";
+    String CONFIGURATION_PATH = "configuration.properties";
 }

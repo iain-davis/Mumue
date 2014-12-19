@@ -16,7 +16,7 @@ public class CommandLineProvider {
         this.arguments = arguments;
     }
 
-    public CommandLine get() {
+    public CommandLine get(String... arguments) {
         Options options = new Options();
         options.addOption(getLongOption(OptionName.TEST));
         options.addOption(getOptionWithArgument(OptionName.PORT));

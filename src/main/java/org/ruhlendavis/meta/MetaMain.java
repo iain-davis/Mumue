@@ -5,9 +5,10 @@ import java.io.PrintStream;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
-import org.ruhlendavis.meta.configuration.file.FileConfiguration;
-import org.ruhlendavis.meta.configuration.file.FileConfigurationAnalyzer;
-import org.ruhlendavis.meta.configuration.file.FileFactory;
+import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.configuration.startup.FileConfigurationAnalyzer;
+import org.ruhlendavis.meta.configuration.startup.FileFactory;
+import org.ruhlendavis.meta.constants.Defaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -17,7 +18,7 @@ public class MetaMain {
         metaMain.run(System.out, arguments);
     }
 
-    private FileConfiguration fileConfiguration = new FileConfiguration();
+    private StartupConfiguration startupConfiguration = new StartupConfiguration();
     private FileConfigurationAnalyzer fileConfigurationAnalyzer = new FileConfigurationAnalyzer();
     private DataStore dataStore = new DataStore();
     private FileFactory fileFactory = new FileFactory();
@@ -25,14 +26,14 @@ public class MetaMain {
     private Thread thread = new Thread(listener);
 
     public void run(PrintStream output, String... arguments) {
-        String path = GlobalConstants.DEFAULT_CONFIGURATION_PATH;
+        String path = Defaults.CONFIGURATION_PATH;
         if (arguments.length == 1) {
             path = arguments[0];
         }
         File file = fileFactory.createFile(path);
         if (file.exists() && !file.isDirectory()) {
-            fileConfiguration.load(path);
-            if (!fileConfigurationAnalyzer.isValid(fileConfiguration)) {
+            startupConfiguration.load(path);
+            if (!fileConfigurationAnalyzer.isValid(startupConfiguration)) {
                 output.println("CRITICAL: Configuration file '" + path + "' is invalid.");
                 return;
             }
@@ -49,7 +50,7 @@ public class MetaMain {
             dataStore.populateDatabase(configuration);
         }
 
-        listener.setPort(fileConfiguration.getTelnetPort());
+        listener.setPort(startupConfiguration.getTelnetPort());
         thread.start();
 
         while (listener.isRunning());

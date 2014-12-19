@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration.file;
+package org.ruhlendavis.meta.configuration.startup;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,10 +7,10 @@ import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 
-import org.ruhlendavis.meta.GlobalConstants;
 import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.constants.OptionName;
 
-public class FileConfiguration {
+public class StartupConfiguration {
     private Properties properties = new Properties();
     private FileFactory fileFactory = new FileFactory();
     private OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
@@ -34,23 +34,24 @@ public class FileConfiguration {
     }
 
     public int getTelnetPort() {
-        return Integer.parseInt(properties.getProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, GlobalConstants.DEFAULT_TELNET_PORT_OLD));
+        String port = properties.getProperty(OptionName.TELNET_PORT, Defaults.TELNET_PORT_OLD);
+        return Integer.parseInt(port);
     }
 
     public void setTelnetPort(int port) {
-        properties.setProperty(GlobalConstants.OPTION_NAME_TELNET_PORT, String.valueOf(port));
+        properties.setProperty(OptionName.TELNET_PORT, String.valueOf(port));
     }
 
     public String getDatabasePath() {
-        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PATH, Defaults.DATABASE_PATH);
+        return properties.getProperty(OptionName.DATABASE_PATH, Defaults.DATABASE_PATH);
     }
 
     public String getDatabaseUsername() {
-        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_USERNAME, Defaults.DATABASE_USERNAME);
+        return properties.getProperty(OptionName.DATABASE_USERNAME, Defaults.DATABASE_USERNAME);
     }
 
     public String getDatabasePassword() {
-        return properties.getProperty(GlobalConstants.OPTION_NAME_DATABASE_PASSWORD, Defaults.DATABASE_PASSWORD);
+        return properties.getProperty(OptionName.DATABASE_PASSWORD, Defaults.DATABASE_PASSWORD);
     }
 
     public void setProperties(Properties properties) {

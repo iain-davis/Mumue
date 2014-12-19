@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration.file;
+package org.ruhlendavis.meta.configuration.startup;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,13 +7,14 @@ import java.io.File;
 import java.net.URISyntaxException;
 import org.junit.Test;
 
+import org.ruhlendavis.meta.constants.Defaults;
+
 public class FileFactoryTest {
     @Test
     public void createFileReturnsFile() throws URISyntaxException {
         FileFactory fileFactory = new FileFactory();
-        String name = "configuration.properties";
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration/file/" + name).toURI().getPath();
+        String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + Defaults.CONFIGURATION_PATH).toURI().getPath();
         File file = fileFactory.createFile(path);
-        assertEquals(name, file.getName());
+        assertEquals(Defaults.CONFIGURATION_PATH, file.getName());
     }
 }
