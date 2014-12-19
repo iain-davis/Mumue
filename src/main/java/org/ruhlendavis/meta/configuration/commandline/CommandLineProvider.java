@@ -7,8 +7,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import org.ruhlendavis.meta.constants.OptionName;
-
 public class CommandLineProvider {
     private final String[] arguments;
 
@@ -16,10 +14,10 @@ public class CommandLineProvider {
         this.arguments = arguments;
     }
 
-    public CommandLine get(String... arguments) {
+    public CommandLine get() {
         Options options = new Options();
-        options.addOption(getLongOption(OptionName.TEST));
-        options.addOption(getOptionWithArgument(OptionName.PORT));
+        options.addOption(getLongOption(CommandLineOptionName.TEST));
+        options.addOption(getOptionWithArgument(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
         CommandLineParser parser = new BasicParser();
         try {
             return parser.parse(options, arguments);

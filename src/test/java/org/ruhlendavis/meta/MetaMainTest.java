@@ -22,16 +22,16 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.meta.configuration.startup.FileConfigurationAnalyzer;
+import org.ruhlendavis.meta.configuration.startup.StartupConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.startup.FileFactory;
-import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.configuration.Defaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MetaMainTest {
     @Mock private StartupConfiguration startupConfiguration;
-    @Mock private FileConfigurationAnalyzer fileConfigurationAnalyzer;
+    @Mock private StartupConfigurationAnalyzer startupConfigurationAnalyzer;
     @Mock private DataStore dataStore;
     @Mock private File file;
     @Mock private FileFactory fileFactory;
@@ -47,7 +47,7 @@ public class MetaMainTest {
         when(file.exists()).thenReturn(true);
         when(file.isDirectory()).thenReturn(false);
         doNothing().when(startupConfiguration).load(anyString());
-        when(fileConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(true);
+        when(startupConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(true);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class MetaMainTest {
 
     @Test
     public void runWithInvalidConfigurationQuits() {
-        when(fileConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
+        when(startupConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
         main.run(System.out, new String[]{});
         verify(thread, never()).start();
     }
@@ -119,7 +119,7 @@ public class MetaMainTest {
     @Test
     public void runWithInvalidConfigurationDisplaysError() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        when(fileConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
+        when(startupConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
         main.run(new PrintStream(output), new String[]{});
         assertEquals("CRITICAL: Configuration file '" + Defaults.CONFIGURATION_PATH + "' is invalid." + System.lineSeparator(), output.toString());
     }

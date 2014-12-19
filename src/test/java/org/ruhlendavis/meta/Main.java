@@ -1,7 +1,8 @@
 package org.ruhlendavis.meta;
 
-import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
+import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class Main {
@@ -11,11 +12,13 @@ public class Main {
     }
 
     public void run(Listener listener, CommandLineProvider commandLineProvider) {
-        Configuration configuration = new Configuration(commandLineProvider.get());
-        Thread thread = startListener(listener, configuration.getPort());
+        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineProvider.get());
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());
+        Thread thread = startListener(listener, startupConfiguration.getTelnetPort());
 
         //noinspection StatementWithEmptyBody
-        while(listener.isRunning() && !configuration.isTest()) {}
+        while(listener.isRunning() && !commandLineConfiguration.isTest()) {}
 
         stopListener(listener, thread);
     }

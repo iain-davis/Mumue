@@ -21,11 +21,4 @@ public class MainTest {
     public void doNotRunForeverInTest() {
         main.run(listener, new CommandLineProvider("--test"));
     }
-
-    @Test
-    public void usePortFromConfiguration() {
-        Integer port = RandomUtils.nextInt(1024, 65536);
-        main.run(listener, new CommandLineProvider("--test", "--port", port.toString()));
-        verify(listener).setPort(port);
-    }
 }

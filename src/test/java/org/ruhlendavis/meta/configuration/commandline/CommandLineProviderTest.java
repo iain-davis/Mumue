@@ -6,52 +6,50 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.MissingArgumentException;
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import org.ruhlendavis.meta.constants.OptionName;
-
 public class CommandLineProviderTest {
     @Rule public ExpectedException thrown= ExpectedException.none();
 
     @Test
     public void supportTestOption() {
-        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(OptionName.TEST));
+        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.TEST));
 
         CommandLine commandLine = commandLineProvider.get();
 
-        assertTrue(commandLine.hasOption(OptionName.TEST));
+        assertTrue(commandLine.hasOption(CommandLineOptionName.TEST));
     }
 
     @Test
-    public void supportPOption() {
-        Integer port = RandomUtils.nextInt(1024, 65536);
-        CommandLineProvider commandLineProvider = new CommandLineProvider("-p", port.toString());
+    public void supportSOption() {
+        String path = RandomStringUtils.randomAlphabetic(13);
+        CommandLineProvider commandLineProvider = new CommandLineProvider("-s", path);
 
         CommandLine commandLine = commandLineProvider.get();
 
-        assertThat(commandLine.getOptionValue(OptionName.PORT), equalTo(port.toString()));
+        assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
 
     @Test
-    public void supportPortOption() {
-        Integer port = RandomUtils.nextInt(1024, 65536);
-        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(OptionName.PORT), port.toString());
+    public void supportStartupConfigurationOption() {
+        String path = RandomStringUtils.randomAlphabetic(13);
+        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), path);
 
         CommandLine commandLine = commandLineProvider.get();
 
-        assertThat(commandLine.getOptionValue(OptionName.PORT), equalTo(port.toString()));
+        assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
 
     @Test
-    public void portOptionRequiresArgument() {
+    public void startupConfigurationOptionRequiresArgument() {
         thrown.expect(RuntimeException.class);
         thrown.expectCause(new CauseMatcher(MissingArgumentException.class));
-        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(OptionName.PORT));
+        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
         commandLineProvider.get();
     }
 

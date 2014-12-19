@@ -23,8 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.constants.Defaults;
-import org.ruhlendavis.meta.constants.OptionName;
+import org.ruhlendavis.meta.configuration.Defaults;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StartupConfigurationTest {
@@ -58,7 +57,7 @@ public class StartupConfigurationTest {
         Properties properties = new Properties();
         startupConfiguration.setProperties(properties);
         String port = RandomStringUtils.randomNumeric(4);
-        properties.setProperty(OptionName.TELNET_PORT, port);
+        properties.setProperty(StartupConfigurationOptionName.TELNET_PORT, port);
 
         assertEquals(Integer.parseInt(port), startupConfiguration.getTelnetPort());
     }
@@ -83,7 +82,7 @@ public class StartupConfigurationTest {
         Properties properties = new Properties();
         startupConfiguration.setProperties(properties);
         String path = RandomStringUtils.randomAlphabetic(17);
-        properties.setProperty(OptionName.DATABASE_PATH, path);
+        properties.setProperty(StartupConfigurationOptionName.DATABASE_PATH, path);
 
         assertEquals(path, startupConfiguration.getDatabasePath());
     }
@@ -100,7 +99,7 @@ public class StartupConfigurationTest {
         Properties properties = new Properties();
         startupConfiguration.setProperties(properties);
         String username = RandomStringUtils.randomAlphabetic(17);
-        properties.setProperty(OptionName.DATABASE_USERNAME, username);
+        properties.setProperty(StartupConfigurationOptionName.DATABASE_USERNAME, username);
 
         assertEquals(username, startupConfiguration.getDatabaseUsername());
     }
@@ -117,7 +116,7 @@ public class StartupConfigurationTest {
         Properties properties = new Properties();
         startupConfiguration.setProperties(properties);
         String password = RandomStringUtils.randomAlphabetic(17);
-        properties.setProperty(OptionName.DATABASE_PASSWORD, password);
+        properties.setProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, password);
 
         assertEquals(password, startupConfiguration.getDatabasePassword());
     }

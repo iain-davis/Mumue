@@ -7,7 +7,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.configuration.Defaults;
 
 public class FileFactoryTest {
     @Test

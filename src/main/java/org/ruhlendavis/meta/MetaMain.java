@@ -3,12 +3,12 @@ package org.ruhlendavis.meta;
 import java.io.File;
 import java.io.PrintStream;
 
-import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.meta.configuration.startup.FileConfigurationAnalyzer;
+import org.ruhlendavis.meta.configuration.startup.StartupConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.startup.FileFactory;
-import org.ruhlendavis.meta.constants.Defaults;
+import org.ruhlendavis.meta.configuration.Defaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -19,7 +19,7 @@ public class MetaMain {
     }
 
     private StartupConfiguration startupConfiguration = new StartupConfiguration();
-    private FileConfigurationAnalyzer fileConfigurationAnalyzer = new FileConfigurationAnalyzer();
+    private StartupConfigurationAnalyzer startupConfigurationAnalyzer = new StartupConfigurationAnalyzer();
     private DataStore dataStore = new DataStore();
     private FileFactory fileFactory = new FileFactory();
     private Listener listener = new Listener();
@@ -33,7 +33,7 @@ public class MetaMain {
         File file = fileFactory.createFile(path);
         if (file.exists() && !file.isDirectory()) {
             startupConfiguration.load(path);
-            if (!fileConfigurationAnalyzer.isValid(startupConfiguration)) {
+            if (!startupConfigurationAnalyzer.isValid(startupConfiguration)) {
                 output.println("CRITICAL: Configuration file '" + path + "' is invalid.");
                 return;
             }
@@ -44,10 +44,10 @@ public class MetaMain {
             }
         }
 
-        Configuration configuration = new Configuration(new CommandLineProvider(arguments).get());
+        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(new CommandLineProvider(arguments).get());
 
-        if (dataStore.isDatabaseEmpty(configuration)) {
-            dataStore.populateDatabase(configuration);
+        if (dataStore.isDatabaseEmpty(startupConfiguration)) {
+            dataStore.populateDatabase(startupConfiguration);
         }
 
         listener.setPort(startupConfiguration.getTelnetPort());

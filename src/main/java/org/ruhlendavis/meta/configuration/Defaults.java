@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.constants;
+package org.ruhlendavis.meta.configuration;
 
 public interface Defaults {
     String DATABASE_PASSWORD = "metadatabase";
@@ -7,5 +7,5 @@ public interface Defaults {
     String SERVER_LOCALE = "en-US";
     int TELNET_PORT = 9999;
     String TELNET_PORT_OLD = "9999";
-    String CONFIGURATION_PATH = "configuration.properties";
+    String CONFIGURATION_PATH = "startup-configuration.properties";
 }

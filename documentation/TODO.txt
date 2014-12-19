@@ -1,0 +1,2 @@
+- Rewrite tests for Main
+- Get rid of the integer TELNET PORT DEFAULT

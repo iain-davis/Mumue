@@ -11,11 +11,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FileConfigurationAnalyzerTest {
+public class StartupConfigurationAnalyzerTest {
     @Mock
     private StartupConfiguration fileConfiguration;
 
-    private FileConfigurationAnalyzer analyzer = new FileConfigurationAnalyzer();
+    private StartupConfigurationAnalyzer analyzer = new StartupConfigurationAnalyzer();
 
     @Test
     public void portAboveOneIsValid() {
