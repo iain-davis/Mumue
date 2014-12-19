@@ -6,6 +6,7 @@ import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class Main {
+    private StartupConfiguration startupConfiguration = new StartupConfiguration();
     public static void main(String... arguments) {
         Main main = new Main();
         main.run(new Listener(), new CommandLineProvider(arguments));
@@ -13,7 +14,6 @@ public class Main {
 
     public void run(Listener listener, CommandLineProvider commandLineProvider) {
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineProvider.get());
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
         startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());
         Thread thread = startListener(listener, startupConfiguration.getTelnetPort());
 
