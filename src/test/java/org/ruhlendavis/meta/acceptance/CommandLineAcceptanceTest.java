@@ -9,7 +9,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.Main;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
-import org.ruhlendavis.meta.configuration.Defaults;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,6 +25,6 @@ public class CommandLineAcceptanceTest {
     @Test
     public void listenOnDefaultPort() {
         main.run(listener, new CommandLineProvider("--test"));
-        assertThat(listener.getServerSocket().getLocalPort(), equalTo(Defaults.TELNET_PORT));
+        assertThat(listener.getServerSocket().getLocalPort(), equalTo(ConfigurationDefaults.TELNET_PORT));
     }
 }

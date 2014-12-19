@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 
-import org.ruhlendavis.meta.configuration.Defaults;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 public class StartupConfiguration {
     private Properties properties = new Properties();
@@ -33,7 +33,7 @@ public class StartupConfiguration {
     }
 
     public int getTelnetPort() {
-        String port = properties.getProperty(StartupConfigurationOptionName.TELNET_PORT, Defaults.TELNET_PORT_OLD);
+        String port = properties.getProperty(StartupConfigurationOptionName.TELNET_PORT, String.valueOf(ConfigurationDefaults.TELNET_PORT));
         return Integer.parseInt(port);
     }
 
@@ -42,15 +42,15 @@ public class StartupConfiguration {
     }
 
     public String getDatabasePath() {
-        return properties.getProperty(StartupConfigurationOptionName.DATABASE_PATH, Defaults.DATABASE_PATH);
+        return properties.getProperty(StartupConfigurationOptionName.DATABASE_PATH, ConfigurationDefaults.DATABASE_PATH);
     }
 
     public String getDatabaseUsername() {
-        return properties.getProperty(StartupConfigurationOptionName.DATABASE_USERNAME, Defaults.DATABASE_USERNAME);
+        return properties.getProperty(StartupConfigurationOptionName.DATABASE_USERNAME, ConfigurationDefaults.DATABASE_USERNAME);
     }
 
     public String getDatabasePassword() {
-        return properties.getProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, Defaults.DATABASE_PASSWORD);
+        return properties.getProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, ConfigurationDefaults.DATABASE_PASSWORD);
     }
 
     public void setProperties(Properties properties) {

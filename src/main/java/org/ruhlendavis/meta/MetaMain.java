@@ -8,7 +8,7 @@ import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.startup.FileFactory;
-import org.ruhlendavis.meta.configuration.Defaults;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -26,7 +26,7 @@ public class MetaMain {
     private Thread thread = new Thread(listener);
 
     public void run(PrintStream output, String... arguments) {
-        String path = Defaults.CONFIGURATION_PATH;
+        String path = ConfigurationDefaults.CONFIGURATION_PATH;
         if (arguments.length == 1) {
             path = arguments[0];
         }

@@ -23,7 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.configuration.Defaults;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StartupConfigurationTest {
@@ -33,7 +33,7 @@ public class StartupConfigurationTest {
     @Test
     public void loadLoadsConfiguration() throws URISyntaxException {
         StartupConfiguration startupConfiguration = new StartupConfiguration();
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + Defaults.CONFIGURATION_PATH).toURI().getPath();
+        String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + ConfigurationDefaults.CONFIGURATION_PATH).toURI().getPath();
         startupConfiguration.load(path);
         assertEquals(9998, startupConfiguration.getTelnetPort());
     }
@@ -65,7 +65,7 @@ public class StartupConfigurationTest {
     @Test
     public void getPortReturnsDefaultPort() {
         StartupConfiguration startupConfiguration = new StartupConfiguration();
-        assertEquals(Integer.parseInt(Defaults.TELNET_PORT_OLD), startupConfiguration.getTelnetPort());
+        assertEquals(ConfigurationDefaults.TELNET_PORT, startupConfiguration.getTelnetPort());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class StartupConfigurationTest {
     @Test
     public void getDatabasePathReturnsDefaultDatabasePath() {
         StartupConfiguration startupConfiguration = new StartupConfiguration();
-        assertEquals(Defaults.DATABASE_PATH, startupConfiguration.getDatabasePath());
+        assertEquals(ConfigurationDefaults.DATABASE_PATH, startupConfiguration.getDatabasePath());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class StartupConfigurationTest {
     @Test
     public void getDatabaseUsernameReturnsDefaultDatabaseUsername() {
         StartupConfiguration startupConfiguration = new StartupConfiguration();
-        assertEquals(Defaults.DATABASE_USERNAME, startupConfiguration.getDatabaseUsername());
+        assertEquals(ConfigurationDefaults.DATABASE_USERNAME, startupConfiguration.getDatabaseUsername());
     }
 
     @Test
@@ -124,6 +124,6 @@ public class StartupConfigurationTest {
     @Test
     public void getDatabasePasswordReturnsDefaultDatabasePassword() {
         StartupConfiguration startupConfiguration = new StartupConfiguration();
-        assertEquals(Defaults.DATABASE_PASSWORD, startupConfiguration.getDatabasePassword());
+        assertEquals(ConfigurationDefaults.DATABASE_PASSWORD, startupConfiguration.getDatabasePassword());
     }
 }

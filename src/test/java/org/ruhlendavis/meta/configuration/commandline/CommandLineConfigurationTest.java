@@ -13,7 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.configuration.Defaults;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 public class CommandLineConfigurationTest {
     @Test
@@ -34,7 +34,7 @@ public class CommandLineConfigurationTest {
     public void startupConfigurationPathDefaults() {
         CommandLine commandLine = setupCommandLine("anythin", "");
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLine);
-        assertEquals(Defaults.CONFIGURATION_PATH, commandLineConfiguration.getStartupConfigurationPath());
+        assertEquals(ConfigurationDefaults.CONFIGURATION_PATH, commandLineConfiguration.getStartupConfigurationPath());
     }
 
     @Test

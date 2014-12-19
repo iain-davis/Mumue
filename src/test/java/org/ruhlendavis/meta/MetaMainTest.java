@@ -24,7 +24,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationAnalyzer;
 import org.ruhlendavis.meta.configuration.startup.FileFactory;
-import org.ruhlendavis.meta.configuration.Defaults;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -53,7 +53,7 @@ public class MetaMainTest {
     @Test
     public void runUsesDefaultPath() throws IOException {
         main.run(System.out, new String[]{});
-        verify(fileFactory).createFile(Defaults.CONFIGURATION_PATH);
+        verify(fileFactory).createFile(ConfigurationDefaults.CONFIGURATION_PATH);
     }
 
     @Test
@@ -86,8 +86,8 @@ public class MetaMainTest {
     public void runWithoutSpecificConfigurationUsesDefaults() {
         when(file.exists()).thenReturn(false);
         main.run(System.out, new String[]{});
-        verify(fileFactory).createFile(Defaults.CONFIGURATION_PATH);
-        verify(startupConfiguration, never()).load(Defaults.CONFIGURATION_PATH);
+        verify(fileFactory).createFile(ConfigurationDefaults.CONFIGURATION_PATH);
+        verify(startupConfiguration, never()).load(ConfigurationDefaults.CONFIGURATION_PATH);
         verify(thread).start();
     }
 
@@ -121,7 +121,7 @@ public class MetaMainTest {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         when(startupConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(false);
         main.run(new PrintStream(output), new String[]{});
-        assertEquals("CRITICAL: Configuration file '" + Defaults.CONFIGURATION_PATH + "' is invalid." + System.lineSeparator(), output.toString());
+        assertEquals("CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' is invalid." + System.lineSeparator(), output.toString());
     }
 
     @Test
