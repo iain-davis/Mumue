@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration.database;
+package org.ruhlendavis.meta.configuration.online;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

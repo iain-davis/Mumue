@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.configuration.database;
+package org.ruhlendavis.meta.configuration.online;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -10,14 +10,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConfigurationDaoProviderTest {
+public class OnlineConfigurationDaoProviderTest {
     @Mock ConnectionSourceProvider connectionSourceProvider;
     @Mock ConnectionSource connectionSource;
-    @InjectMocks ConfigurationDaoProvider configurationDaoProvider;
+    @InjectMocks
+    OnlineConfigurationDaoProvider onlineConfigurationDaoProvider;
 
     @Test
     public void getReturnsConfigurationDao() {
         ConnectionSource connectionSource = new ConnectionSourceProvider().get("jdbc:h2:mem", "a", "a");
-        assertNotNull(configurationDaoProvider.get(connectionSource));
+        assertNotNull(onlineConfigurationDaoProvider.get(connectionSource));
     }
 }
