@@ -1,11 +1,8 @@
 package org.ruhlendavis.meta.configuration.database;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.j256.ormlite.support.ConnectionSource;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

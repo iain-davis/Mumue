@@ -2,9 +2,10 @@ package org.ruhlendavis.meta.configuration.startup;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.common.io.Resources;
 import java.io.File;
 import java.net.URISyntaxException;
+
+import com.google.common.io.Resources;
 import org.junit.Test;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;

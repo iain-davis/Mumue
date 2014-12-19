@@ -3,12 +3,12 @@ package org.ruhlendavis.meta;
 import java.io.File;
 import java.io.PrintStream;
 
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
+import org.ruhlendavis.meta.configuration.startup.FileFactory;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationAnalyzer;
-import org.ruhlendavis.meta.configuration.startup.FileFactory;
-import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.datastore.DataStore;
 import org.ruhlendavis.meta.listener.Listener;
 
