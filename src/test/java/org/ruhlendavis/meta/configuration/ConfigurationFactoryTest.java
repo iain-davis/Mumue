@@ -1,7 +1,5 @@
 package org.ruhlendavis.meta.configuration;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 

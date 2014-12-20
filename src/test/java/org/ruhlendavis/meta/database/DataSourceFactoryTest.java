@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.meta.database.DataSourceFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataSourceFactoryTest {

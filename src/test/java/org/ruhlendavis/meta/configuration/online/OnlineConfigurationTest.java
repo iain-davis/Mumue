@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

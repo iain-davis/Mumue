@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruhlendavis.meta.importer.GlobalConstants;
 import org.ruhlendavis.meta.components.properties.PropertyTree;
+import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class Component {
     private Long id = -1L;

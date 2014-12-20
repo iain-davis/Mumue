@@ -11,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.database.QueryRunnerFactory;
-
 @RunWith(MockitoJUnitRunner.class)
 public class QueryRunnerFactoryTest {
     @Mock DataSource dataSource;
