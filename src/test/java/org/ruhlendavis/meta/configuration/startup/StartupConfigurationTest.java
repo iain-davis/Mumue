@@ -24,31 +24,32 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
+import org.ruhlendavis.meta.configuration.TestConstants;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StartupConfigurationTest {
-    @Mock private OutputStreamFactory outputStreamFactory;
-    @InjectMocks private StartupConfiguration startupConfiguration = new StartupConfiguration();
-
-    @Test
-    public void loadLoadsConfiguration() throws URISyntaxException {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + ConfigurationDefaults.CONFIGURATION_PATH).toURI().getPath();
-        startupConfiguration.load(path);
-        assertEquals(9998, startupConfiguration.getTelnetPort());
-    }
+    @Mock OutputStreamFactory outputStreamFactory;
+    @InjectMocks StartupConfiguration startupConfiguration;
 
     @Test
     public void saveSavesConfiguration() throws URISyntaxException, IOException {
+        String path = RandomStringUtils.randomAlphabetic(13);
         OutputStream output = mock(OutputStream.class);
         Properties properties = mock(Properties.class);
         startupConfiguration.setProperties(properties);
         doNothing().when(properties).store(any(OutputStream.class), anyString());
-        when(outputStreamFactory.createOutputStream(anyString())).thenReturn(output);
-        String path = RandomStringUtils.randomAlphabetic(13);
+        when(outputStreamFactory.create(anyString())).thenReturn(output);
         startupConfiguration.save(path);
-        verify(outputStreamFactory).createOutputStream(eq(path));
+        verify(outputStreamFactory).create(eq(path));
         verify(properties).store(any(OutputStream.class), anyString());
+    }
+
+    @Test
+    public void loadLoadsConfiguration() throws URISyntaxException {
+        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_PATH).toURI().getPath();
+        startupConfiguration.load(path);
+        assertEquals(9998, startupConfiguration.getTelnetPort());
     }
 
     @Test

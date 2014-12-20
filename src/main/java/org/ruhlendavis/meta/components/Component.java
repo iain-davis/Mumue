@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.importer.GlobalConstants;
 import org.ruhlendavis.meta.components.properties.PropertyTree;
 
 public class Component {

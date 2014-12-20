@@ -7,9 +7,9 @@ import org.apache.commons.io.FileUtils;
 
 public class OutputStreamFactory {
     private FileFactory fileFactory = new FileFactory();
-    public OutputStream createOutputStream(String path) {
+    public OutputStream create(String path) {
         try {
-            return FileUtils.openOutputStream(FileUtils.getFile(fileFactory.createFile(path)));
+            return FileUtils.openOutputStream(FileUtils.getFile(fileFactory.create(path)));
         } catch (IOException e) {
             e.printStackTrace();
         }

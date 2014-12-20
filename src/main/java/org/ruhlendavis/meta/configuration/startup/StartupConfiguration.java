@@ -16,7 +16,7 @@ public class StartupConfiguration {
 
     public void load(String path) {
         try {
-            InputStream input = FileUtils.openInputStream(fileFactory.createFile(path));
+            InputStream input = FileUtils.openInputStream(fileFactory.create(path));
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();
@@ -25,7 +25,7 @@ public class StartupConfiguration {
 
     public void save(String path) {
         try {
-            OutputStream output = outputStreamFactory.createOutputStream(path);
+            OutputStream output = outputStreamFactory.create(path);
             properties.store(output, "");
         } catch (IOException e) {
             e.printStackTrace();

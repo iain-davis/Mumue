@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 
 public class FileFactory {
-    public File createFile(String path) {
+    public File create(String path) {
         return FileUtils.getFile(path);
     }
 }

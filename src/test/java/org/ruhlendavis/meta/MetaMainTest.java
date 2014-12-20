@@ -43,59 +43,19 @@ public class MetaMainTest {
     @Before
     public void beforeEach() {
         when(listener.isRunning()).thenReturn(false);
-        when(fileFactory.createFile(anyString())).thenReturn(file);
+        when(fileFactory.create(anyString())).thenReturn(file);
         when(file.exists()).thenReturn(true);
         when(file.isDirectory()).thenReturn(false);
         doNothing().when(startupConfiguration).load(anyString());
         when(startupConfigurationAnalyzer.isValid(startupConfiguration)).thenReturn(true);
     }
 
-    @Test
-    public void runUsesDefaultPath() throws IOException {
-        main.run(System.out, new String[]{});
-        verify(fileFactory).createFile(ConfigurationDefaults.CONFIGURATION_PATH);
-    }
-
-    @Test
-    public void runUsesSpecifiedPath() throws IOException, URISyntaxException {
-        String path = RandomStringUtils.randomAlphabetic(15);
-        main.run(System.out, new String[]{path});
-        verify(fileFactory).createFile(path);
-    }
-
-    @Test
-    public void runHandlesUnknownPath() throws IOException {
-        String path = RandomStringUtils.randomAlphabetic(15);
-        when(fileFactory.createFile(path)).thenReturn(file);
-        when(file.exists()).thenReturn(false);
-        main.run(System.out, new String[]{path});
-        verify(startupConfiguration, never()).load(path);
-    }
-
-    @Test
-    public void runHandlesUnknownPathThatIsDirectory() throws IOException {
-        String path = RandomStringUtils.randomAlphabetic(15);
-        when(fileFactory.createFile(path)).thenReturn(file);
-        when(file.exists()).thenReturn(true);
-        when(file.isDirectory()).thenReturn(true);
-        main.run(System.out, new String[]{path});
-        verify(startupConfiguration, never()).load(path);
-    }
-
-    @Test
-    public void runWithoutSpecificConfigurationUsesDefaults() {
-        when(file.exists()).thenReturn(false);
-        main.run(System.out, new String[]{});
-        verify(fileFactory).createFile(ConfigurationDefaults.CONFIGURATION_PATH);
-        verify(startupConfiguration, never()).load(ConfigurationDefaults.CONFIGURATION_PATH);
-        verify(thread).start();
-    }
 
     @Test
     public void runHandlesPrintsErrorForUnknownPath() throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         String path = RandomStringUtils.randomAlphabetic(15);
-        when(fileFactory.createFile(path)).thenReturn(file);
+        when(fileFactory.create(path)).thenReturn(file);
         when(file.exists()).thenReturn(false);
         main.run(new PrintStream(output), new String[]{path});
         assertEquals("CRITICAL: Configuration file '" + path + "' not found." + System.lineSeparator(), output.toString());

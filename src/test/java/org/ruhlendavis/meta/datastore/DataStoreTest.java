@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.configuration.online.TestConstants;
+import org.ruhlendavis.meta.configuration.TestConstants;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.QueryRunnerFactory;

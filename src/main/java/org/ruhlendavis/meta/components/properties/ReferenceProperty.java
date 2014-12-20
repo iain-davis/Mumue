@@ -1,6 +1,6 @@
 package org.ruhlendavis.meta.components.properties;
 
-import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class ReferenceProperty extends Property {
     Long value = GlobalConstants.REFERENCE_UNKNOWN;

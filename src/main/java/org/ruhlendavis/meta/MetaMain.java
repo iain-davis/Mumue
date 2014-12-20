@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.PrintStream;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
-import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
-import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.startup.FileFactory;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationAnalyzer;
@@ -30,7 +28,7 @@ public class MetaMain {
         if (arguments.length == 1) {
             path = arguments[0];
         }
-        File file = fileFactory.createFile(path);
+        File file = fileFactory.create(path);
         if (file.exists() && !file.isDirectory()) {
             startupConfiguration.load(path);
             if (!startupConfigurationAnalyzer.isValid(startupConfiguration)) {
@@ -44,8 +42,6 @@ public class MetaMain {
             }
         }
 
-        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(new CommandLineProvider(arguments).get());
-
         if (dataStore.isDatabaseEmpty(startupConfiguration)) {
             dataStore.populateDatabase(startupConfiguration);
         }
@@ -54,9 +50,5 @@ public class MetaMain {
         thread.start();
 
         while (listener.isRunning());
-    }
-
-    public int getPort() {
-        return 0;
     }
 }

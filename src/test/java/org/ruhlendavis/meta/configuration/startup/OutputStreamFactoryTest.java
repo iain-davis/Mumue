@@ -15,7 +15,7 @@ public class OutputStreamFactoryTest {
     @Test
     public void createOutputStreamCreatesStream() throws IOException {
         String path = RandomStringUtils.randomAlphabetic(13);
-        OutputStream output = factory.createOutputStream(path);
+        OutputStream output = factory.create(path);
         assertNotNull(output);
         output.close();
         FileUtils.delete(path);

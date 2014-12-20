@@ -1,7 +1,10 @@
 package org.ruhlendavis.meta;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,13 +14,20 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainTest {
+    @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
     @Mock Listener listener;
     @InjectMocks Main main;
+
+    @Before
+    public void beforeEach() {
+        when(startupConfigurationFactory.create(anyString())).thenReturn(startupConfiguration);
+    }
 
     @Test
     public void doNotRunForeverInTest() {

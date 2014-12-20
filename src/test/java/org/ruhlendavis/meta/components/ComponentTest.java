@@ -3,7 +3,7 @@ package org.ruhlendavis.meta.components;
 import org.junit.Assert;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.GlobalConstants;
+import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class ComponentTest {
     Component component = new Component();

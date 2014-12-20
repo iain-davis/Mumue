@@ -6,8 +6,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.GlobalConstants;
-
 public class ImporterStageTest {
     ImporterStage stage = new ImporterStage() {
         @Override

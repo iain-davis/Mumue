@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.ruhlendavis.meta.configuration.TestConstants;
 import org.ruhlendavis.meta.database.QueryRunnerFactory;
 import org.ruhlendavis.meta.database.SqlConstants;
 

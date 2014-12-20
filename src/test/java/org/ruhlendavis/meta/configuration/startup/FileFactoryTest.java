@@ -15,7 +15,7 @@ public class FileFactoryTest {
     public void createFileReturnsFile() throws URISyntaxException {
         FileFactory fileFactory = new FileFactory();
         String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + ConfigurationDefaults.CONFIGURATION_PATH).toURI().getPath();
-        File file = fileFactory.createFile(path);
+        File file = fileFactory.create(path);
         assertEquals(ConfigurationDefaults.CONFIGURATION_PATH, file.getName());
     }
 }

@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.importer;
 
 public interface GlobalConstants {
     long REFERENCE_UNKNOWN = -1L;

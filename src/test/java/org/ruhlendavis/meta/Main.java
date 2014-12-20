@@ -10,12 +10,15 @@ import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfigurationDao;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
+import org.ruhlendavis.meta.configuration.startup.StartupConfigurationNotFound;
 import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.QueryRunnerFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
 public class Main {
-    private StartupConfiguration startupConfiguration = new StartupConfiguration();
+    private StartupConfigurationFactory startupConfigurationFactory = new StartupConfigurationFactory();
+
     public static void main(String... arguments) {
         Main main = new Main();
         main.run(new Listener(), new CommandLineProvider(arguments));
@@ -34,13 +37,22 @@ public class Main {
 
     private Configuration getConfiguration(CommandLineProvider commandLineProvider) {
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineProvider.get());
-        startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());
+        StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
+        try {
+            startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());
+        } catch (StartupConfigurationNotFound exception) {
+
+        }
+        OnlineConfiguration onlineConfiguration = getOnlineConfiguration(startupConfiguration);
+
+        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration);
+    }
+
+    private OnlineConfiguration getOnlineConfiguration(StartupConfiguration startupConfiguration) {
         DataSource dataSource = new DataSourceFactory().createDataSource(startupConfiguration);
         QueryRunner queryRunner = new QueryRunnerFactory().createQueryRunner(dataSource);
         OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
-        OnlineConfiguration onlineConfiguration = new OnlineConfiguration(dao);
-
-        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration);
+        return new OnlineConfiguration(dao);
     }
 
     private Thread startListener(Listener listener, int port) {
@@ -58,4 +70,5 @@ public class Main {
             throw new RuntimeException(exception);
         }
     }
+
 }
