@@ -22,6 +22,17 @@ public class Main {
     }
 
     public void run(Listener listener, CommandLineProvider commandLineProvider) {
+        Configuration configuration = getConfiguration(commandLineProvider);
+
+        Thread thread = startListener(listener, configuration.getTelnetPort());
+
+        //noinspection StatementWithEmptyBody
+        while(listener.isRunning() && !configuration.isTest()) {}
+
+        stopListener(listener, thread);
+    }
+
+    private Configuration getConfiguration(CommandLineProvider commandLineProvider) {
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineProvider.get());
         startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());
         DataSource dataSource = new DataSourceFactory().createDataSource(startupConfiguration);
@@ -29,14 +40,7 @@ public class Main {
         OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
         OnlineConfiguration onlineConfiguration = new OnlineConfiguration(dao);
 
-        Configuration configuration = new Configuration(commandLineConfiguration, onlineConfiguration);
-
-        Thread thread = startListener(listener, startupConfiguration.getTelnetPort());
-
-        //noinspection StatementWithEmptyBody
-        while(listener.isRunning() && !configuration.isTest()) {}
-
-        stopListener(listener, thread);
+        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration);
     }
 
     private Thread startListener(Listener listener, int port) {
