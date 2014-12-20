@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.datastore;
+package org.ruhlendavis.meta.database;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.database.DataSourceFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataSourceFactoryTest {

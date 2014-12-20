@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.datastore;
+package org.ruhlendavis.meta.database;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import org.ruhlendavis.meta.database.QueryRunnerFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QueryRunnerFactoryTest {

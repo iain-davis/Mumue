@@ -8,6 +8,9 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.database.DataSourceFactory;
+import org.ruhlendavis.meta.database.QueryRunnerFactory;
+import org.ruhlendavis.meta.database.SqlConstants;
 
 public class DataStore {
     private DataSourceFactory dataSourceFactory = new DataSourceFactory();

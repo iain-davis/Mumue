@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.datastore;
+package org.ruhlendavis.meta.database;
 
 import javax.sql.DataSource;
 

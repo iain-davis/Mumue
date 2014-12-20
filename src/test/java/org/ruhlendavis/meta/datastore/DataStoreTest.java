@@ -19,14 +19,20 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.ruhlendavis.meta.configuration.online.TestConstants;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.database.DataSourceFactory;
+import org.ruhlendavis.meta.database.QueryRunnerFactory;
+import org.ruhlendavis.meta.database.SqlConstants;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataStoreTest {
     private final BasicDataSource source = new BasicDataSource();
     @Mock StartupConfiguration startupConfiguration;
-    @Mock DataSourceFactory dataSourceFactory;
-    @Mock QueryRunnerFactory queryRunnerFactory;
+    @Mock
+    DataSourceFactory dataSourceFactory;
+    @Mock
+    QueryRunnerFactory queryRunnerFactory;
     @InjectMocks private DataStore dataStore;
 
     @Before
@@ -42,7 +48,7 @@ public class DataStoreTest {
     @Test
     public void isDatabaseEmptyReturnsTrue() throws SQLException {
         QueryRunner queryRunner = new QueryRunner(source);
-        queryRunner.update("DROP ALL OBJECTS");
+        queryRunner.update(TestConstants.QUERY_PURGE_DATABASE);
         assertTrue(dataStore.isDatabaseEmpty(startupConfiguration));
     }
 
