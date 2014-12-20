@@ -29,7 +29,7 @@ public class Main {
         OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
         OnlineConfiguration onlineConfiguration = new OnlineConfiguration(dao);
 
-        Configuration configuration = new Configuration(commandLineConfiguration);
+        Configuration configuration = new Configuration(commandLineConfiguration, onlineConfiguration);
 
         Thread thread = startListener(listener, startupConfiguration.getTelnetPort());
 
