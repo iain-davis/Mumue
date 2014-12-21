@@ -1,10 +1,12 @@
 package org.ruhlendavis.meta;
 
+import java.io.PrintStream;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
@@ -21,11 +23,11 @@ public class Main {
 
     public static void main(String... arguments) {
         Main main = new Main();
-        main.run(new Listener(), new CommandLineProvider(arguments));
+        main.run(System.out, new Listener(), new CommandLineProvider(arguments));
     }
 
-    public void run(Listener listener, CommandLineProvider commandLineProvider) {
-        Configuration configuration = getConfiguration(commandLineProvider);
+    public void run(PrintStream output, Listener listener, CommandLineProvider commandLineProvider) {
+        Configuration configuration = getConfiguration(output, commandLineProvider);
 
         Thread thread = startListener(listener, configuration.getTelnetPort());
 
@@ -35,13 +37,13 @@ public class Main {
         stopListener(listener, thread);
     }
 
-    private Configuration getConfiguration(CommandLineProvider commandLineProvider) {
+    private Configuration getConfiguration(PrintStream output, CommandLineProvider commandLineProvider) {
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineProvider.get());
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         try {
             startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());
         } catch (StartupConfigurationNotFound exception) {
-
+            output.println("CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found.");
         }
         OnlineConfiguration onlineConfiguration = getOnlineConfiguration(startupConfiguration);
 
@@ -70,5 +72,4 @@ public class Main {
             throw new RuntimeException(exception);
         }
     }
-
 }

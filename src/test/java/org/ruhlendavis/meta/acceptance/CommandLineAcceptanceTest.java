@@ -20,6 +20,7 @@ import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommandLineAcceptanceTest {
+    public static final String MISSING_STARTUP_CONFIGURATION_MESSAGE = "CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found." + System.lineSeparator();
     @Mock Listener listener;
     @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
@@ -32,13 +33,13 @@ public class CommandLineAcceptanceTest {
 
     @Test
     public void doNotRunForeverInTestMode() {
-        main.run(listener, new CommandLineProvider("--test"));
+        main.run(System.out, listener, new CommandLineProvider("--test"));
     }
 
     @Test
     public void listenOnDefaultPort() {
         when(startupConfiguration.getTelnetPort()).thenReturn(ConfigurationDefaults.TELNET_PORT);
-        main.run(listener, new CommandLineProvider("--test"));
+        main.run(System.out, listener, new CommandLineProvider("--test"));
         verify(listener).setPort(ConfigurationDefaults.TELNET_PORT);
     }
 }
