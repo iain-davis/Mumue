@@ -65,8 +65,4 @@ public class Listener implements Runnable {
     public void setPort(int port) {
         this.port = port;
     }
-
-    public ServerSocket getServerSocket() {
-        return serverSocket;
-    }
 }
