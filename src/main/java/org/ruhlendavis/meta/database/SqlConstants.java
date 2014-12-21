@@ -10,7 +10,4 @@ public interface SqlConstants {
 
     String SCHEMA_SCRIPT = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/database/schema.sql'";
     String DEFAULT_DATA_SCRIPT = "RUNSCRIPT FROM 'classpath:org/ruhlendavis/meta/database/defaultData.sql'";
-
-    String QUERY_TEXT = "select text from text where locale = ? and name = ?";
-    String TEXT_COLUMN = "text";
 }
