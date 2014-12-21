@@ -19,6 +19,7 @@ import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.DatabaseInitializerDao;
 import org.ruhlendavis.meta.database.QueryRunnerFactory;
 import org.ruhlendavis.meta.listener.Listener;
+import org.ruhlendavis.meta.text.TextDao;
 
 public class Main {
     private StartupConfigurationFactory startupConfigurationFactory = new StartupConfigurationFactory();
@@ -47,13 +48,13 @@ public class Main {
             output.println("CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found.");
         }
         OnlineConfiguration onlineConfiguration = getOnlineConfiguration(startupConfiguration);
-
-        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration);
+        TextDao textDao = new TextDao(new QueryRunnerFactory().create(new DataSourceFactory().create(startupConfiguration)));
+        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration, textDao);
     }
 
     private OnlineConfiguration getOnlineConfiguration(StartupConfiguration startupConfiguration) {
-        DataSource dataSource = new DataSourceFactory().createDataSource(startupConfiguration);
-        QueryRunner queryRunner = new QueryRunnerFactory().createQueryRunner(dataSource);
+        DataSource dataSource = new DataSourceFactory().create(startupConfiguration);
+        QueryRunner queryRunner = new QueryRunnerFactory().create(dataSource);
         new DatabaseInitializer(new DatabaseInitializerDao(queryRunner)).initialize();
         OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
         return new OnlineConfiguration(dao);

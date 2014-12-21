@@ -18,19 +18,12 @@ public class QueryRunnerFactoryTest {
 
     @Test
     public void createQueryRunner() {
-        assertNotNull(queryRunnerFactory.createQueryRunner(dataSource));
+        assertNotNull(queryRunnerFactory.create(dataSource));
     }
 
     @Test
     public void createQueryRunnerUsesProvidedDataSource() {
-        QueryRunner queryRunner = queryRunnerFactory.createQueryRunner(dataSource);
+        QueryRunner queryRunner = queryRunnerFactory.create(dataSource);
         assertSame(dataSource, queryRunner.getDataSource());
-    }
-
-    @Test
-    public void createQueryRunnerIsSingleton() {
-        QueryRunner queryRunner1 = queryRunnerFactory.createQueryRunner(dataSource);
-        QueryRunner queryRunner2 = queryRunnerFactory.createQueryRunner(dataSource);
-        assertSame(queryRunner1, queryRunner2);
     }
 }

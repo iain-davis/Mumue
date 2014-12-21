@@ -3,17 +3,20 @@ package org.ruhlendavis.meta.configuration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.text.TextDao;
 import org.ruhlendavis.meta.text.TextName;
 
 public class Configuration {
+    private TextDao textDao;
     private CommandLineConfiguration commandLineConfiguration;
     private OnlineConfiguration onlineConfiguration;
     private StartupConfiguration startupConfiguration;
 
-    public Configuration(CommandLineConfiguration commandLineConfiguration, OnlineConfiguration onlineConfiguration, StartupConfiguration startupConfiguration) {
+    public Configuration(CommandLineConfiguration commandLineConfiguration, OnlineConfiguration onlineConfiguration, StartupConfiguration startupConfiguration, TextDao textDao) {
         this.commandLineConfiguration = commandLineConfiguration;
         this.onlineConfiguration = onlineConfiguration;
         this.startupConfiguration = startupConfiguration;
+        this.textDao = textDao;
     }
 
     public boolean isTest() {
@@ -29,6 +32,6 @@ public class Configuration {
     }
 
     public String getText(String serverLocale, TextName textName) {
-        return null;
+        return textDao.getText(serverLocale, textName);
     }
 }

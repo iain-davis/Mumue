@@ -37,7 +37,7 @@ public class DatabaseHelper {
         source.setPassword("password");
         source.setUrl(TestConstants.MEMORY_DATABASE);
         QueryRunnerFactory queryRunnerFactory = new QueryRunnerFactory();
-        QueryRunner queryRunner = queryRunnerFactory.createQueryRunner(source);
+        QueryRunner queryRunner = queryRunnerFactory.create(source);
         try {
             queryRunner.update(TestConstants.QUERY_PURGE_DATABASE);
         } catch (SQLException exception) {

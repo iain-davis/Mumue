@@ -20,12 +20,12 @@ public class DataSourceFactoryTest {
 
     @Test
     public void createDataSourceReturnsDataSource() {
-        assertNotNull(dataSourceFactory.createDataSource(startupConfiguration));
+        assertNotNull(dataSourceFactory.create(startupConfiguration));
     }
 
     @Test
     public void createDataSourceSetsDriver() {
-        BasicDataSource source = (BasicDataSource) dataSourceFactory.createDataSource(startupConfiguration);
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         assertEquals("org.h2.Driver", source.getDriverClassName());
     }
 
@@ -33,7 +33,7 @@ public class DataSourceFactoryTest {
     public void createDataSourceSetsUsername() {
         String username = RandomStringUtils.randomAlphabetic(13);
         when(startupConfiguration.getDatabaseUsername()).thenReturn(username);
-        BasicDataSource source = (BasicDataSource) dataSourceFactory.createDataSource(startupConfiguration);
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         assertEquals(username, source.getUsername());
     }
 
@@ -41,7 +41,7 @@ public class DataSourceFactoryTest {
     public void createDataSourceSetsPassword() {
         String password = RandomStringUtils.randomAlphabetic(13);
         when(startupConfiguration.getDatabasePassword()).thenReturn(password);
-        BasicDataSource source = (BasicDataSource) dataSourceFactory.createDataSource(startupConfiguration);
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         assertEquals(password, source.getPassword());
     }
 
@@ -49,7 +49,7 @@ public class DataSourceFactoryTest {
     public void createDataSourceSetsUrl() {
         String path = RandomStringUtils.randomAlphabetic(13);
         when(startupConfiguration.getDatabasePath()).thenReturn(path);
-        BasicDataSource source = (BasicDataSource) dataSourceFactory.createDataSource(startupConfiguration);
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
         assertEquals(expected, source.getUrl());
     }
