@@ -18,8 +18,8 @@ public class StartupConfiguration {
         try {
             InputStream input = FileUtils.openInputStream(fileFactory.create(path));
             properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
@@ -27,8 +27,8 @@ public class StartupConfiguration {
         try {
             OutputStream output = outputStreamFactory.create(path);
             properties.store(output, "");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
