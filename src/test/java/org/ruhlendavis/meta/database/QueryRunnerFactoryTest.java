@@ -26,4 +26,11 @@ public class QueryRunnerFactoryTest {
         QueryRunner queryRunner = queryRunnerFactory.createQueryRunner(dataSource);
         assertSame(dataSource, queryRunner.getDataSource());
     }
+
+    @Test
+    public void createQueryRunnerIsSingleton() {
+        QueryRunner queryRunner1 = queryRunnerFactory.createQueryRunner(dataSource);
+        QueryRunner queryRunner2 = queryRunnerFactory.createQueryRunner(dataSource);
+        assertSame(queryRunner1, queryRunner2);
+    }
 }
