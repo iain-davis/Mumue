@@ -15,9 +15,8 @@ dependencies {
     // Database
     compile 'org.apache.commons:commons-dbcp2:2.0.1'
     compile 'commons-dbutils:commons-dbutils:1.6'
-    compile 'com.j256.ormlite:ormlite-jdbc:4.48'
     compile 'com.h2database:h2:1.4.181'
 
     testCompile 'org.mockito:mockito-core:1.10.8'
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit-dep:4.11'
 }
