@@ -30,7 +30,7 @@ public class Main {
 
     public void run(PrintStream output, Listener listener, CommandLineProvider commandLineProvider) {
         Configuration configuration = getConfiguration(output, commandLineProvider);
-        Thread thread = startListener(listener, configuration.getTelnetPort());
+        Thread thread = startListener(listener, configuration);
 
         //noinspection StatementWithEmptyBody
         while(listener.isRunning() && !configuration.isTest()) {}
@@ -59,9 +59,10 @@ public class Main {
         return new OnlineConfiguration(dao);
     }
 
-    private Thread startListener(Listener listener, int port) {
+    private Thread startListener(Listener listener, Configuration configuration) {
         Thread thread = new Thread(listener);
-        listener.setPort(port);
+        listener.setPort(configuration.getTelnetPort());
+        listener.setConfiguration(configuration);
         thread.start();
         return thread;
     }

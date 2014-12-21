@@ -1,49 +1,36 @@
 package org.ruhlendavis.meta.listener;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 
-import org.ruhlendavis.meta.interpreter.CommandInterpreter;
-import org.ruhlendavis.meta.interpreter.commands.CommandConnect;
+import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.text.TextName;
 
-public class Connection implements Runnable {
-//    private StartupConfiguration startupConfiguration = new StartupConfiguration();
+public class Connection extends CleanCloser implements Runnable {
+    private Configuration configuration;
     private Socket socket;
-    private CommandInterpreter interpreter = new CommandInterpreter();
 
     @Override
     public void run() {
-//        DataStore dataStore = new DataStore();
-//        OutputStream output;
-//        try {
-//            output = socket.getOutputStream();
-//            String welcomeText = dataStore.getText(startupConfiguration, "welcome-screen");
-//            output.write(welcomeText.getBytes());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            closeSocket();
-//        }
-        interpreter.putCommand("@c", new CommandConnect());
-        interpreter.putCommand("c", new CommandConnect());
-        // display welcome
-        // respond to a command valid for unauthenticated connections.
-        // @connect/@authenticate/@login/login/connect/authenticate <playername> <password>
-        // @register/@signup/@create/register/signup/create <playername> ...
+        String welcomeText = configuration.getText(configuration.getServerLocale(), TextName.Welcome);
+        OutputStream output;
+        try {
+            output = socket.getOutputStream();
+            output.write(welcomeText.getBytes());
+        } catch (IOException exception) {
+            close(socket);
+            throw new RuntimeException(exception);
+        }
     }
-//
-//    private void closeSocket() {
-//        try {
-//            socket.close();
-//        } catch (IOException exception) {
-//            exception.printStackTrace();
-//        }
-//    }
+
+    public Connection withConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+        return this;
+    }
 
     public Connection withSocket(Socket socket) {
         this.socket = socket;
         return this;
-    }
-
-    public CommandInterpreter getInterpreter() {
-        return interpreter;
     }
 }

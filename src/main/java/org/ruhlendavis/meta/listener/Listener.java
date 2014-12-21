@@ -1,20 +1,20 @@
 package org.ruhlendavis.meta.listener;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
-import org.apache.commons.io.IOUtils;
+import org.ruhlendavis.meta.configuration.Configuration;
 
-public class Listener implements Runnable {
+public class Listener extends CleanCloser implements Runnable {
     private SocketFactory socketFactory = new SocketFactory();
     private ThreadFactory threadFactory = new ThreadFactory();
     private ServerSocket serverSocket;
     private int port = 9999;
     private boolean running = true;
     private Vector<Thread> connections = new Vector<>();
+    private Configuration configuration;
 
     @Override
     public void run() {
@@ -22,24 +22,14 @@ public class Listener implements Runnable {
         while (isRunning()) {
             waitForConnection();
         }
-        closeSocket(serverSocket);
-    }
-
-    private void closeSocket(Closeable socket) {
-        try {
-            socket.close();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        } finally {
-            IOUtils.closeQuietly(serverSocket);
-        }
+        close(serverSocket);
     }
 
     protected void waitForConnection() {
         Socket clientSocket = null;
         try {
             clientSocket = serverSocket.accept();
-            Connection connection = new Connection().withSocket(clientSocket);
+            Connection connection = new Connection().withSocket(clientSocket).withConfiguration(configuration);
             Thread client = threadFactory.createThread(connection, "client connection");
             connections.add(client);
             client.start();
@@ -64,5 +54,9 @@ public class Listener implements Runnable {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
     }
 }

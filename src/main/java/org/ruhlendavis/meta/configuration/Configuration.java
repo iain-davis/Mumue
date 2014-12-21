@@ -3,6 +3,7 @@ package org.ruhlendavis.meta.configuration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
+import org.ruhlendavis.meta.text.TextName;
 
 public class Configuration {
     private CommandLineConfiguration commandLineConfiguration;
@@ -25,5 +26,9 @@ public class Configuration {
 
     public int getTelnetPort() {
         return startupConfiguration.getTelnetPort();
+    }
+
+    public String getText(String serverLocale, TextName textName) {
+        return null;
     }
 }

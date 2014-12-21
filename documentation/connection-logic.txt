@@ -1,3 +1,9 @@
+//        interpreter.putCommand("@c", new CommandConnect());
+//        interpreter.putCommand("c", new CommandConnect());
+// display welcome
+// respond to a command valid for unauthenticated connections.
+// @connect/@authenticate/@login/login/connect/authenticate <playername> <password>
+// @register/@signup/@create/register/signup/create <playername> ...
 //        try {
 //            PrintWriter output = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 //            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
