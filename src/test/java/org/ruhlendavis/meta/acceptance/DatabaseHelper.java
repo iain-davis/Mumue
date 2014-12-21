@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.acceptance;
 
 import java.sql.SQLException;
 

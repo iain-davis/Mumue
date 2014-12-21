@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.apache.commons.dbutils.QueryRunner;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.DatabaseHelper;
+import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 
 public class DatabaseInitializerDaoTest {
     @Test

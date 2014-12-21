@@ -10,7 +10,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.DatabaseHelper;
+import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 
 public class TextDaoTest {
     @Test
