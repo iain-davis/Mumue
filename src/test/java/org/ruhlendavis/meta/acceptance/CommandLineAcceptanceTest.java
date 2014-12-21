@@ -1,7 +1,6 @@
 package org.ruhlendavis.meta.acceptance;
 
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;

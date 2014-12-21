@@ -1,9 +1,7 @@
 package org.ruhlendavis.meta.listener;
 
-import java.io.IOException;
 import java.net.Socket;
 
-import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.interpreter.CommandInterpreter;
 import org.ruhlendavis.meta.interpreter.commands.CommandConnect;
 
