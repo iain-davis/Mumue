@@ -15,6 +15,8 @@ import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationNotFound;
 import org.ruhlendavis.meta.database.DataSourceFactory;
+import org.ruhlendavis.meta.database.DatabaseInitializer;
+import org.ruhlendavis.meta.database.DatabaseInitializerDao;
 import org.ruhlendavis.meta.database.QueryRunnerFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -28,7 +30,6 @@ public class Main {
 
     public void run(PrintStream output, Listener listener, CommandLineProvider commandLineProvider) {
         Configuration configuration = getConfiguration(output, commandLineProvider);
-
         Thread thread = startListener(listener, configuration.getTelnetPort());
 
         //noinspection StatementWithEmptyBody
@@ -53,6 +54,7 @@ public class Main {
     private OnlineConfiguration getOnlineConfiguration(StartupConfiguration startupConfiguration) {
         DataSource dataSource = new DataSourceFactory().createDataSource(startupConfiguration);
         QueryRunner queryRunner = new QueryRunnerFactory().createQueryRunner(dataSource);
+        new DatabaseInitializer(new DatabaseInitializerDao(queryRunner)).initialize();
         OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
         return new OnlineConfiguration(dao);
     }

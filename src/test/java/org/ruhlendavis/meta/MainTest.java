@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 
+import com.google.common.io.Resources;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
+import org.ruhlendavis.meta.configuration.TestConstants;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
@@ -32,8 +35,10 @@ public class MainTest {
     @InjectMocks Main main;
 
     @Before
-    public void beforeEach() {
+    public void beforeEach() throws URISyntaxException {
         when(startupConfigurationFactory.create(anyString())).thenReturn(startupConfiguration);
+        String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_FILE_PATH).toURI().getPath();
+        when(startupConfiguration.getDatabasePath()).thenReturn(path);
     }
 
     @Test

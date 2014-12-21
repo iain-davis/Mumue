@@ -5,15 +5,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.sql.SQLException;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.configuration.TestConstants;
-import org.ruhlendavis.meta.database.QueryRunnerFactory;
-import org.ruhlendavis.meta.database.SqlConstants;
+import org.ruhlendavis.meta.DatabaseHelper;
 
 public class OnlineConfigurationDaoTest {
     private OnlineConfigurationDao dao;
@@ -21,16 +18,8 @@ public class OnlineConfigurationDaoTest {
 
     @Before
     public void beforeEach() throws SQLException {
-        BasicDataSource source = new BasicDataSource();
-        source.setDriverClassName(SqlConstants.DRIVER_CLASS_NAME);
-        source.setUsername("user");
-        source.setPassword("password");
-        source.setUrl(TestConstants.MEMORY_DATABASE);
-        QueryRunnerFactory queryRunnerFactory = new QueryRunnerFactory();
-        queryRunner = queryRunnerFactory.createQueryRunner(source);
+        queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
         dao = new OnlineConfigurationDao(queryRunner);
-        queryRunner.update(TestConstants.QUERY_PURGE_DATABASE);
-        queryRunner.update(SqlConstants.SCHEMA_SCRIPT);
     }
 
     @Test

@@ -16,28 +16,6 @@ public class DataStore {
     private DataSourceFactory dataSourceFactory = new DataSourceFactory();
     private QueryRunnerFactory queryRunnerFactory = new QueryRunnerFactory();
 
-    public boolean isDatabaseEmpty(StartupConfiguration startupConfiguration) {
-        QueryRunner queryRunner = getQueryRunner(getDataSource(startupConfiguration));
-        ResultSetHandler rsh = new ScalarHandler<>(1);
-        try {
-            long found = (long) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, rsh);
-            return found == 0;
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            return false;
-        }
-    }
-
-    public void populateDatabase(StartupConfiguration startupConfiguration) {
-        QueryRunner queryRunner = getQueryRunner(getDataSource(startupConfiguration));
-        try {
-            queryRunner.update(SqlConstants.SCHEMA_SCRIPT);
-            queryRunner.update(SqlConstants.DEFAULT_DATA_SCRIPT);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-    }
-
     private DataSource getDataSource(StartupConfiguration startupConfiguration) {
         return dataSourceFactory.createDataSource(startupConfiguration);
     }
@@ -56,13 +34,5 @@ public class DataStore {
             exception.printStackTrace();
         }
         return text;
-    }
-
-    public String getText(StartupConfiguration startupConfiguration, String key) {
-        return getText(startupConfiguration, getDefaultLocale(), key);
-    }
-
-    private String getDefaultLocale() {
-        return null;
     }
 }

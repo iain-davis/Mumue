@@ -9,12 +9,13 @@ import com.google.common.io.Resources;
 import org.junit.Test;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
+import org.ruhlendavis.meta.configuration.TestConstants;
 
 public class FileFactoryTest {
     @Test
     public void createFileReturnsFile() throws URISyntaxException {
         FileFactory fileFactory = new FileFactory();
-        String path = Resources.getResource("org/ruhlendavis/meta/configuration/startup/" + ConfigurationDefaults.CONFIGURATION_PATH).toURI().getPath();
+        String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_FILE_PATH).toURI().getPath();
         File file = fileFactory.create(path);
         assertEquals(ConfigurationDefaults.CONFIGURATION_PATH, file.getName());
     }
