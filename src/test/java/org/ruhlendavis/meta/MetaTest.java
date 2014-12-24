@@ -28,11 +28,12 @@ import org.ruhlendavis.meta.configuration.startup.StartupConfigurationNotFound;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MainTest {
+public class MetaTest {
     @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
     @Mock Listener listener;
-    @InjectMocks Main main;
+    @InjectMocks
+    Meta meta;
 
     @Before
     public void beforeEach() throws URISyntaxException {
@@ -43,12 +44,12 @@ public class MainTest {
 
     @Test
     public void doNotRunForeverInTest() {
-        main.run(System.out, listener, new CommandLineProvider("--test"));
+        meta.run(System.out, listener, new CommandLineProvider("--test"));
     }
 
     @Test
     public void loadStartupConfiguration() {
-        main.run(System.out, listener, new CommandLineProvider("--test"));
+        meta.run(System.out, listener, new CommandLineProvider("--test"));
         verify(startupConfiguration).load(ConfigurationDefaults.CONFIGURATION_PATH);
     }
 
@@ -57,7 +58,7 @@ public class MainTest {
     {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         doThrow(new StartupConfigurationNotFound("")).when(startupConfiguration).load(ConfigurationDefaults.CONFIGURATION_PATH);
-        main.run(new PrintStream(output), listener, new CommandLineProvider("--test"));
+        meta.run(new PrintStream(output), listener, new CommandLineProvider("--test"));
         String expected = "CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found." + System.lineSeparator();
         assertThat(output.toString(), equalTo(expected));
     }

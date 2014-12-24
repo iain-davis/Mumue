@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.Main;
+import org.ruhlendavis.meta.Meta;
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.TestConstants;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
@@ -27,7 +27,7 @@ public class CommandLineAcceptanceTest {
     @Mock Listener listener;
     @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
-    @InjectMocks Main main;
+    @InjectMocks Meta meta;
 
     @Before
     public void beforeEach() throws URISyntaxException {
@@ -39,6 +39,6 @@ public class CommandLineAcceptanceTest {
 
     @Test
     public void doNotRunForeverInTestMode() {
-        main.run(System.out, listener, new CommandLineProvider("--test"));
+        meta.run(System.out, listener, new CommandLineProvider("--test"));
     }
 }
