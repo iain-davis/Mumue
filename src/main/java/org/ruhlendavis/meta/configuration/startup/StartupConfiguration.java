@@ -1,44 +1,15 @@
 package org.ruhlendavis.meta.configuration.startup;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Properties;
-
-import org.apache.commons.io.FileUtils;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 public class StartupConfiguration {
     private Properties properties = new Properties();
-    private FileFactory fileFactory = new FileFactory();
-    private OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
-
-    public void load(String path) {
-        try {
-            InputStream input = FileUtils.openInputStream(fileFactory.create(path));
-            properties.load(input);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    public void save(String path) {
-        try {
-            OutputStream output = outputStreamFactory.create(path);
-            properties.store(output, "");
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
 
     public int getTelnetPort() {
         String port = properties.getProperty(StartupConfigurationOptionName.TELNET_PORT, String.valueOf(ConfigurationDefaults.TELNET_PORT));
         return Integer.parseInt(port);
-    }
-
-    public void setTelnetPort(int port) {
-        properties.setProperty(StartupConfigurationOptionName.TELNET_PORT, String.valueOf(port));
     }
 
     public String getDatabasePath() {

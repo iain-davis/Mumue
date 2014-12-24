@@ -1,6 +1,5 @@
 package org.ruhlendavis.meta.acceptance;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 import org.ruhlendavis.meta.Main;
