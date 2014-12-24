@@ -2,7 +2,6 @@ package org.ruhlendavis.meta.configuration.startup;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 import org.apache.commons.io.FileUtils;

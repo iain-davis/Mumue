@@ -1,9 +1,6 @@
 package org.ruhlendavis.meta;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;

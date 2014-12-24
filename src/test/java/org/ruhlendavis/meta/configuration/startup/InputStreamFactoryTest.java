@@ -1,10 +1,7 @@
 package org.ruhlendavis.meta.configuration.startup;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -13,8 +10,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
