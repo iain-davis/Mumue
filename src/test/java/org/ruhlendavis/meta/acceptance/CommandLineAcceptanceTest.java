@@ -12,10 +12,4 @@ public class CommandLineAcceptanceTest {
     public void doNotRunForeverInTestMode() {
         main.run("--test");
     }
-//
-//    @Test
-//    public void useSpecifiedStartupConfiguration() {
-//        String path = RandomStringUtils.randomAlphabetic(13);
-//        main.run("-s", path ,"--test");
-//    }
 }

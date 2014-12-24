@@ -8,10 +8,6 @@ import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 
 public class DataSourceFactory {
     public DataSource create(StartupConfiguration startupConfiguration) {
-        return createDataSourceFor(startupConfiguration);
-    }
-
-    private BasicDataSource createDataSourceFor(StartupConfiguration startupConfiguration) {
         BasicDataSource source = new BasicDataSource();
         source.setDriverClassName(SqlConstants.DRIVER_CLASS_NAME);
         source.setUsername(startupConfiguration.getDatabaseUsername());
