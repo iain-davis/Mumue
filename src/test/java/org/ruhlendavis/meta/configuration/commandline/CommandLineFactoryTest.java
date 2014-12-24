@@ -13,14 +13,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class CommandLineProviderTest {
+public class CommandLineFactoryTest {
     @Rule public ExpectedException thrown= ExpectedException.none();
 
     @Test
     public void supportTestOption() {
-        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.TEST));
+        CommandLineFactory commandLineFactory = new CommandLineFactory(getSwitch(CommandLineOptionName.TEST));
 
-        CommandLine commandLine = commandLineProvider.get();
+        CommandLine commandLine = commandLineFactory.create();
 
         assertTrue(commandLine.hasOption(CommandLineOptionName.TEST));
     }
@@ -28,9 +28,9 @@ public class CommandLineProviderTest {
     @Test
     public void supportSOption() {
         String path = RandomStringUtils.randomAlphabetic(13);
-        CommandLineProvider commandLineProvider = new CommandLineProvider("-s", path);
+        CommandLineFactory commandLineFactory = new CommandLineFactory("-s", path);
 
-        CommandLine commandLine = commandLineProvider.get();
+        CommandLine commandLine = commandLineFactory.create();
 
         assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
@@ -38,9 +38,9 @@ public class CommandLineProviderTest {
     @Test
     public void supportStartupConfigurationOption() {
         String path = RandomStringUtils.randomAlphabetic(13);
-        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), path);
+        CommandLineFactory commandLineFactory = new CommandLineFactory(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), path);
 
-        CommandLine commandLine = commandLineProvider.get();
+        CommandLine commandLine = commandLineFactory.create();
 
         assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
@@ -49,8 +49,8 @@ public class CommandLineProviderTest {
     public void startupConfigurationOptionRequiresArgument() {
         thrown.expect(RuntimeException.class);
         thrown.expectCause(new CauseMatcher(MissingArgumentException.class));
-        CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
-        commandLineProvider.get();
+        CommandLineFactory commandLineFactory = new CommandLineFactory(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
+        commandLineFactory.create();
     }
 
     private String getSwitch(String option) {

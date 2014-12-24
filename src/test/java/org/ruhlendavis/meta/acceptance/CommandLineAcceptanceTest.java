@@ -14,16 +14,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.Meta;
-import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.TestConstants;
-import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
+import org.ruhlendavis.meta.configuration.commandline.CommandLineFactory;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommandLineAcceptanceTest {
-    public static final String MISSING_STARTUP_CONFIGURATION_MESSAGE = "CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found." + System.lineSeparator();
     @Mock Listener listener;
     @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
@@ -39,6 +37,6 @@ public class CommandLineAcceptanceTest {
 
     @Test
     public void doNotRunForeverInTestMode() {
-        meta.run(System.out, listener, new CommandLineProvider("--test"));
+        meta.run(System.out, listener, new CommandLineFactory("--test"));
     }
 }

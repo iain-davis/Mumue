@@ -8,7 +8,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
-import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
+import org.ruhlendavis.meta.configuration.commandline.CommandLineFactory;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfigurationDao;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
@@ -26,11 +26,11 @@ public class Meta {
 
     public static void main(String... arguments) {
         Meta meta = new Meta();
-        meta.run(System.out, new Listener(), new CommandLineProvider(arguments));
+        meta.run(System.out, new Listener(), new CommandLineFactory(arguments));
     }
 
-    public void run(PrintStream output, Listener listener, CommandLineProvider commandLineProvider) {
-        Configuration configuration = getConfiguration(output, commandLineProvider);
+    public void run(PrintStream output, Listener listener, CommandLineFactory commandLineFactory) {
+        Configuration configuration = getConfiguration(output, commandLineFactory);
         Thread thread = startListener(listener, configuration);
 
         //noinspection StatementWithEmptyBody
@@ -39,8 +39,8 @@ public class Meta {
         stopListener(listener, thread);
     }
 
-    private Configuration getConfiguration(PrintStream output, CommandLineProvider commandLineProvider) {
-        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineProvider.get());
+    private Configuration getConfiguration(PrintStream output, CommandLineFactory commandLineFactory) {
+        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineFactory.create());
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         try {
             startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());

@@ -7,14 +7,14 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-public class CommandLineProvider {
+public class CommandLineFactory {
     private final String[] arguments;
 
-    public CommandLineProvider(String... arguments) {
+    public CommandLineFactory(String... arguments) {
         this.arguments = arguments;
     }
 
-    public CommandLine get() {
+    public CommandLine create() {
         Options options = new Options();
         options.addOption(getLongOption(CommandLineOptionName.TEST));
         options.addOption(getOptionWithArgument(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));

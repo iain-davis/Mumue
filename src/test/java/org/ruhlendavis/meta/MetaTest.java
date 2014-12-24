@@ -21,7 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.configuration.TestConstants;
-import org.ruhlendavis.meta.configuration.commandline.CommandLineProvider;
+import org.ruhlendavis.meta.configuration.commandline.CommandLineFactory;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationNotFound;
@@ -44,12 +44,12 @@ public class MetaTest {
 
     @Test
     public void doNotRunForeverInTest() {
-        meta.run(System.out, listener, new CommandLineProvider("--test"));
+        meta.run(System.out, listener, new CommandLineFactory("--test"));
     }
 
     @Test
     public void loadStartupConfiguration() {
-        meta.run(System.out, listener, new CommandLineProvider("--test"));
+        meta.run(System.out, listener, new CommandLineFactory("--test"));
         verify(startupConfiguration).load(ConfigurationDefaults.CONFIGURATION_PATH);
     }
 
@@ -58,7 +58,7 @@ public class MetaTest {
     {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         doThrow(new StartupConfigurationNotFound("")).when(startupConfiguration).load(ConfigurationDefaults.CONFIGURATION_PATH);
-        meta.run(new PrintStream(output), listener, new CommandLineProvider("--test"));
+        meta.run(new PrintStream(output), listener, new CommandLineFactory("--test"));
         String expected = "CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found." + System.lineSeparator();
         assertThat(output.toString(), equalTo(expected));
     }
