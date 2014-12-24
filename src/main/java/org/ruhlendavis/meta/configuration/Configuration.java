@@ -19,6 +19,12 @@ public class Configuration {
         this.textDao = textDao;
     }
 
+    public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration) {
+        this.commandLineConfiguration = commandLineConfiguration;
+        this.onlineConfiguration = onlineConfiguration;
+        this.startupConfiguration = startupConfiguration;
+    }
+
     public boolean isTest() {
         return commandLineConfiguration.isTest();
     }

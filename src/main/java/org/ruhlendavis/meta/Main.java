@@ -9,8 +9,13 @@ import org.ruhlendavis.meta.listener.Listener;
 
 public class Main {
     public static void main(String... arguments) {
+        Main main = new Main();
+        main.run(arguments);
+    }
+
+    public void run(String... arguments) {
         Injector injector = Guice.createInjector(new MetaModule());
         Meta meta = injector.getInstance(Meta.class);
-        meta.run(System.out, new Listener(), new CommandLineFactory(arguments));
+        meta.run(System.out, new Listener(), new CommandLineFactory(), arguments);
     }
 }

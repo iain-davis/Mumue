@@ -15,12 +15,11 @@ import org.junit.rules.ExpectedException;
 
 public class CommandLineFactoryTest {
     @Rule public ExpectedException thrown= ExpectedException.none();
+    private final CommandLineFactory commandLineFactory = new CommandLineFactory();
 
     @Test
     public void supportTestOption() {
-        CommandLineFactory commandLineFactory = new CommandLineFactory(getSwitch(CommandLineOptionName.TEST));
-
-        CommandLine commandLine = commandLineFactory.create();
+        CommandLine commandLine = commandLineFactory.create(getSwitch(CommandLineOptionName.TEST));
 
         assertTrue(commandLine.hasOption(CommandLineOptionName.TEST));
     }
@@ -28,9 +27,7 @@ public class CommandLineFactoryTest {
     @Test
     public void supportSOption() {
         String path = RandomStringUtils.randomAlphabetic(13);
-        CommandLineFactory commandLineFactory = new CommandLineFactory("-s", path);
-
-        CommandLine commandLine = commandLineFactory.create();
+        CommandLine commandLine = commandLineFactory.create("-s", path);
 
         assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
@@ -38,9 +35,7 @@ public class CommandLineFactoryTest {
     @Test
     public void supportStartupConfigurationOption() {
         String path = RandomStringUtils.randomAlphabetic(13);
-        CommandLineFactory commandLineFactory = new CommandLineFactory(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), path);
-
-        CommandLine commandLine = commandLineFactory.create();
+        CommandLine commandLine = commandLineFactory.create(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), path);
 
         assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
@@ -49,8 +44,8 @@ public class CommandLineFactoryTest {
     public void startupConfigurationOptionRequiresArgument() {
         thrown.expect(RuntimeException.class);
         thrown.expectCause(new CauseMatcher(MissingArgumentException.class));
-        CommandLineFactory commandLineFactory = new CommandLineFactory(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
-        commandLineFactory.create();
+
+        commandLineFactory.create(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
     }
 
     private String getSwitch(String option) {

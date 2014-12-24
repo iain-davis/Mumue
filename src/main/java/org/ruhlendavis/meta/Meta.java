@@ -26,11 +26,11 @@ public class Meta {
 
     public static void main(String... arguments) {
         Meta meta = new Meta();
-        meta.run(System.out, new Listener(), new CommandLineFactory(arguments));
+        meta.run(System.out, new Listener(), new CommandLineFactory(), "--test");
     }
 
-    public void run(PrintStream output, Listener listener, CommandLineFactory commandLineFactory) {
-        Configuration configuration = getConfiguration(output, commandLineFactory);
+    public void run(PrintStream output, Listener listener, CommandLineFactory commandLineFactory, String... arguments) {
+        Configuration configuration = getConfiguration(output, commandLineFactory, arguments);
         Thread thread = startListener(listener, configuration);
 
         //noinspection StatementWithEmptyBody
@@ -39,8 +39,8 @@ public class Meta {
         stopListener(listener, thread);
     }
 
-    private Configuration getConfiguration(PrintStream output, CommandLineFactory commandLineFactory) {
-        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineFactory.create());
+    private Configuration getConfiguration(PrintStream output, CommandLineFactory commandLineFactory, String... arguments) {
+        CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLineFactory.create(arguments));
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         try {
             startupConfiguration.load(commandLineConfiguration.getStartupConfigurationPath());

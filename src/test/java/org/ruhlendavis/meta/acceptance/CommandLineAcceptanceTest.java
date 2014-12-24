@@ -1,42 +1,21 @@
 package org.ruhlendavis.meta.acceptance;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.net.URISyntaxException;
-
-import com.google.common.io.Resources;
-import org.junit.Before;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.Meta;
-import org.ruhlendavis.meta.configuration.TestConstants;
-import org.ruhlendavis.meta.configuration.commandline.CommandLineFactory;
-import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
-import org.ruhlendavis.meta.listener.Listener;
+import org.ruhlendavis.meta.Main;
 
-@RunWith(MockitoJUnitRunner.class)
 public class CommandLineAcceptanceTest {
-    @Mock Listener listener;
-    @Mock StartupConfigurationFactory startupConfigurationFactory;
-    @Mock StartupConfiguration startupConfiguration;
-    @InjectMocks Meta meta;
-
-    @Before
-    public void beforeEach() throws URISyntaxException {
-        when(startupConfigurationFactory.create(anyString())).thenReturn(startupConfiguration);
-        String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_FILE_PATH).toURI().getPath();
-        when(startupConfiguration.getDatabasePath()).thenReturn(path);
-
-    }
+    Main main = new Main();
 
     @Test
     public void doNotRunForeverInTestMode() {
-        meta.run(System.out, listener, new CommandLineFactory("--test"));
+        main.run("--test");
     }
+//
+//    @Test
+//    public void useSpecifiedStartupConfiguration() {
+//        String path = RandomStringUtils.randomAlphabetic(13);
+//        main.run("-s", path ,"--test");
+//    }
 }

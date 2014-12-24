@@ -44,21 +44,20 @@ public class MetaTest {
 
     @Test
     public void doNotRunForeverInTest() {
-        meta.run(System.out, listener, new CommandLineFactory("--test"));
+        meta.run(System.out, listener, new CommandLineFactory(), "--test");
     }
 
     @Test
     public void loadStartupConfiguration() {
-        meta.run(System.out, listener, new CommandLineFactory("--test"));
+        meta.run(System.out, listener, new CommandLineFactory(), "--test");
         verify(startupConfiguration).load(ConfigurationDefaults.CONFIGURATION_PATH);
     }
 
     @Test
-    public void handleLoadException()
-    {
+    public void handleLoadException() {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         doThrow(new StartupConfigurationNotFound("")).when(startupConfiguration).load(ConfigurationDefaults.CONFIGURATION_PATH);
-        meta.run(new PrintStream(output), listener, new CommandLineFactory("--test"));
+        meta.run(new PrintStream(output), listener, new CommandLineFactory(), "--test");
         String expected = "CRITICAL: Configuration file '" + ConfigurationDefaults.CONFIGURATION_PATH + "' not found." + System.lineSeparator();
         assertThat(output.toString(), equalTo(expected));
     }

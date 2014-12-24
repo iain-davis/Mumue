@@ -8,13 +8,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class CommandLineFactory {
-    private final String[] arguments;
-
-    public CommandLineFactory(String... arguments) {
-        this.arguments = arguments;
-    }
-
-    public CommandLine create() {
+    public CommandLine create(String... arguments) {
         Options options = new Options();
         options.addOption(getLongOption(CommandLineOptionName.TEST));
         options.addOption(getOptionWithArgument(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
