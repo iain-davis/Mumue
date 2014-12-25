@@ -35,15 +35,15 @@ public class Meta {
     private Configuration getConfiguration(String... arguments) {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
-        OnlineConfiguration onlineConfiguration = getOnlineConfiguration(startupConfiguration);
-        TextDao textDao = new TextDao(new QueryRunnerProvider(new DataSourceProvider(startupConfiguration).get()).get());
-        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration, textDao);
-    }
-
-    private OnlineConfiguration getOnlineConfiguration(StartupConfiguration startupConfiguration) {
         DataSource dataSource = new DataSourceProvider(startupConfiguration).get();
         QueryRunner queryRunner = new QueryRunnerProvider(dataSource).get();
         new DatabaseInitializer(new DatabaseInitializerDao(queryRunner)).initialize();
+        OnlineConfiguration onlineConfiguration = getOnlineConfiguration(queryRunner);
+        TextDao textDao = new TextDao(queryRunner);
+        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration, textDao);
+    }
+
+    private OnlineConfiguration getOnlineConfiguration(QueryRunner queryRunner) {
         OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
         return new OnlineConfiguration(dao);
     }
