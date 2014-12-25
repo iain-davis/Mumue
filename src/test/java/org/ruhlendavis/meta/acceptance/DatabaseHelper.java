@@ -33,7 +33,7 @@ public class DatabaseHelper {
 
     public static QueryRunner setupTestDatabaseWithoutSchema() {
         DataSource source = setupDataSource();
-        QueryRunner queryRunner = QueryRunnerProvider.create(source);
+        QueryRunner queryRunner = new QueryRunnerProvider().create(source);
         try {
             queryRunner.update(TestConstants.QUERY_PURGE_DATABASE);
         } catch (SQLException exception) {

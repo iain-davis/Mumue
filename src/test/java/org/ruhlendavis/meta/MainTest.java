@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import javax.sql.DataSource;
 
 import com.google.common.io.Resources;
+import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,8 @@ import org.ruhlendavis.meta.acceptance.TestConstants;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.database.DataSourceFactory;
+import org.ruhlendavis.meta.database.DatabaseInitializer;
+import org.ruhlendavis.meta.database.QueryRunnerProvider;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,15 +32,19 @@ public class MainTest {
     @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
     @Mock DataSourceFactory dataSourceFactory;
+    @Mock QueryRunnerProvider queryRunnerProvider;
+    @Mock DatabaseInitializer databaseInitializer;
     @Mock Listener listener;
-    @InjectMocks
-    Main main;
+    @InjectMocks Main main;
+
+    private DataSource dataSource = DatabaseHelper.setupDataSource();
 
     @Before
     public void beforeEach() throws URISyntaxException {
-        DataSource dataSource = DatabaseHelper.setupDataSource();
+        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithoutSchema();
         when(startupConfigurationFactory.create(anyString())).thenReturn(startupConfiguration);
         when(dataSourceFactory.create(startupConfiguration)).thenReturn(dataSource);
+        when(queryRunnerProvider.create(dataSource)).thenReturn(queryRunner);
         String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_FILE_PATH).toURI().getPath();
         when(startupConfiguration.getDatabasePath()).thenReturn(path);
     }
@@ -65,5 +72,17 @@ public class MainTest {
     public void createDataSourceFromStartupConfiguration() {
         main.run("--test");
         verify(dataSourceFactory).create(startupConfiguration);
+    }
+
+    @Test
+    public void createQueryRunnerFromDataSource() {
+        main.run("--test");
+        verify(queryRunnerProvider).create(dataSource);
+    }
+
+    @Test
+    public void initializeDatabase() {
+        main.run("--test");
+        verify(databaseInitializer).initialize();
     }
 }

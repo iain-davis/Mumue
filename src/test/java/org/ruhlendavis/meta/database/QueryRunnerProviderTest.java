@@ -17,25 +17,26 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class QueryRunnerProviderTest {
     @Mock DataSource dataSource;
+    private final QueryRunnerProvider queryRunnerProvider = new QueryRunnerProvider();
 
     @Test
     public void createQueryRunner() {
-        QueryRunner queryRunner = QueryRunnerProvider.create(dataSource);
+        QueryRunner queryRunner = queryRunnerProvider.create(dataSource);
         assertNotNull(queryRunner);
         assertThat(queryRunner, is(instanceOf(QueryRunner.class)));
     }
 
     @Test
     public void secondCallToCreateReturnsSameQueryRunner() {
-        QueryRunner queryRunner1 = QueryRunnerProvider.create(dataSource);
-        QueryRunner queryRunner2 = QueryRunnerProvider.create(dataSource);
+        QueryRunner queryRunner1 = queryRunnerProvider.create(dataSource);
+        QueryRunner queryRunner2 = queryRunnerProvider.create(dataSource);
 
         assertThat(queryRunner1, is(sameInstance(queryRunner2)));
     }
 
     @Test
     public void getQueryRunner() {
-        QueryRunnerProvider.create(dataSource);
+        queryRunnerProvider.create(dataSource);
         QueryRunner queryRunner = QueryRunnerProvider.get();
         assertNotNull(queryRunner);
         assertThat(queryRunner, is(instanceOf(QueryRunner.class)));
@@ -43,7 +44,7 @@ public class QueryRunnerProviderTest {
 
     @Test
     public void getQueryRunnerReturnsSameAsCreate() {
-        QueryRunner queryRunner1 = QueryRunnerProvider.create(dataSource);
+        QueryRunner queryRunner1 = queryRunnerProvider.create(dataSource);
         QueryRunner queryRunner2 = QueryRunnerProvider.get();
 
         assertThat(queryRunner1, is(sameInstance(queryRunner2)));

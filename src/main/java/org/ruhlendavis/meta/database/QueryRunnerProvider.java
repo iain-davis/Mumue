@@ -7,7 +7,7 @@ import org.apache.commons.dbutils.QueryRunner;
 public class QueryRunnerProvider {
     private static QueryRunner queryRunner;
 
-    public static QueryRunner create(DataSource source) {
+    public QueryRunner create(DataSource source) {
         if (queryRunner == null) {
             queryRunner = new QueryRunner(source);
         }

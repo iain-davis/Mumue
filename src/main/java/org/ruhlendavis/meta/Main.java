@@ -20,6 +20,8 @@ public class Main {
     private CommandLineConfigurationFactory commandLineConfigurationFactory = new CommandLineConfigurationFactory();
     private StartupConfigurationFactory startupConfigurationFactory = new StartupConfigurationFactory();
     private DataSourceFactory dataSourceFactory = new DataSourceFactory();
+    private QueryRunnerProvider queryRunnerProvider = new QueryRunnerProvider();
+    private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
 
     public static void main(String... arguments) {
         Main main = new Main();
@@ -28,6 +30,7 @@ public class Main {
 
     public void run(String... arguments) {
         Configuration configuration = getConfiguration(arguments);
+        databaseInitializer.initialize();
         Listener listener = new Listener();
         Thread thread = startListener(listener, configuration);
 
@@ -41,8 +44,7 @@ public class Main {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         DataSource dataSource = dataSourceFactory.create(startupConfiguration);
-        QueryRunner queryRunner = QueryRunnerProvider.create(dataSource);
-        new DatabaseInitializer().initialize();
+        QueryRunner queryRunner = queryRunnerProvider.create(dataSource);
         TextDao textDao = new TextDao(queryRunner);
         return new Configuration(commandLineConfiguration, new OnlineConfiguration(), startupConfiguration, textDao);
     }
