@@ -19,14 +19,16 @@ import org.ruhlendavis.meta.text.TextDao;
 public class Main {
     private CommandLineConfigurationFactory commandLineConfigurationFactory = new CommandLineConfigurationFactory();
     private StartupConfigurationFactory startupConfigurationFactory = new StartupConfigurationFactory();
+    private DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
     public static void main(String... arguments) {
         Main main = new Main();
-        main.run(new Listener(), arguments);
+        main.run(arguments);
     }
 
-    public void run(Listener listener, String... arguments) {
+    public void run(String... arguments) {
         Configuration configuration = getConfiguration(arguments);
+        Listener listener = new Listener();
         Thread thread = startListener(listener, configuration);
 
         //noinspection StatementWithEmptyBody
@@ -38,7 +40,7 @@ public class Main {
     private Configuration getConfiguration(String... arguments) {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
-        DataSource dataSource = new DataSourceFactory().create(startupConfiguration);
+        DataSource dataSource = dataSourceFactory.create(startupConfiguration);
         QueryRunner queryRunner = QueryRunnerProvider.create(dataSource);
         new DatabaseInitializer().initialize();
         TextDao textDao = new TextDao(queryRunner);
