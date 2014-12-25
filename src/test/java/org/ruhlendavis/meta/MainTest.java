@@ -19,11 +19,12 @@ import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.listener.Listener;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MetaTest {
+public class MainTest {
     @Mock StartupConfigurationFactory startupConfigurationFactory;
     @Mock StartupConfiguration startupConfiguration;
     @Mock Listener listener;
-    @InjectMocks Meta meta;
+    @InjectMocks
+    Main main;
 
     @Before
     public void beforeEach() throws URISyntaxException {
@@ -34,6 +35,6 @@ public class MetaTest {
 
     @Test
     public void doNotRunForeverInTest() {
-        meta.run(listener, "--test");
+        main.run(listener, "--test");
     }
 }
