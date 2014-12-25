@@ -15,13 +15,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class QueryRunnerProviderTest {
+public class QueryRunnerFactoryTest {
     @Mock DataSource dataSource;
-    @InjectMocks QueryRunnerProvider queryRunnerProvider;
+    @InjectMocks QueryRunnerFactory queryRunnerFactory;
 
     @Test
     public void createQueryRunner() {
-        QueryRunner queryRunner = queryRunnerProvider.get();
+        QueryRunner queryRunner = queryRunnerFactory.create(dataSource);
         assertNotNull(queryRunner);
         assertThat(queryRunner, is(instanceOf(QueryRunner.class)));
     }

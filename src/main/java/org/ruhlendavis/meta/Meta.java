@@ -11,10 +11,10 @@ import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfigurationDao;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
-import org.ruhlendavis.meta.database.DataSourceProvider;
+import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.DatabaseInitializerDao;
-import org.ruhlendavis.meta.database.QueryRunnerProvider;
+import org.ruhlendavis.meta.database.QueryRunnerFactory;
 import org.ruhlendavis.meta.listener.Listener;
 import org.ruhlendavis.meta.text.TextDao;
 
@@ -35,8 +35,8 @@ public class Meta {
     private Configuration getConfiguration(String... arguments) {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
-        DataSource dataSource = new DataSourceProvider(startupConfiguration).get();
-        QueryRunner queryRunner = new QueryRunnerProvider(dataSource).get();
+        DataSource dataSource = new DataSourceFactory().create(startupConfiguration);
+        QueryRunner queryRunner = new QueryRunnerFactory().create(dataSource);
         new DatabaseInitializer(new DatabaseInitializerDao(queryRunner)).initialize();
         OnlineConfiguration onlineConfiguration = getOnlineConfiguration(queryRunner);
         TextDao textDao = new TextDao(queryRunner);

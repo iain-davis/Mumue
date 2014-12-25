@@ -2,7 +2,6 @@ package org.ruhlendavis.meta.database;
 
 import java.sql.SQLException;
 
-import com.google.inject.Inject;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -11,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 public class DatabaseInitializerDao {
     private final QueryRunner queryRunner;
 
-    @Inject
     public DatabaseInitializerDao(QueryRunner queryRunner) {
         this.queryRunner = queryRunner;
     }

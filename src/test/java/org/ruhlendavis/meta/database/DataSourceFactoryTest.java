@@ -20,20 +20,20 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DataSourceProviderTest {
+public class DataSourceFactoryTest {
     @Mock StartupConfiguration startupConfiguration;
-    @InjectMocks DataSourceProvider dataSourceProvider;
+    @InjectMocks DataSourceFactory dataSourceFactory;
 
     @Test
     public void createDataSourceReturnsDataSource() {
-        DataSource source = dataSourceProvider.get();
+        DataSource source = dataSourceFactory.create(startupConfiguration);
         assertNotNull(source);
         assertThat(source, is(instanceOf(DataSource.class)));
     }
 
     @Test
     public void createDataSourceSetsDriver() {
-        BasicDataSource source = (BasicDataSource) dataSourceProvider.get();
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         assertEquals("org.h2.Driver", source.getDriverClassName());
     }
 
@@ -41,7 +41,7 @@ public class DataSourceProviderTest {
     public void createDataSourceSetsUsername() {
         String username = RandomStringUtils.randomAlphabetic(13);
         when(startupConfiguration.getDatabaseUsername()).thenReturn(username);
-        BasicDataSource source = (BasicDataSource) dataSourceProvider.get();
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         assertEquals(username, source.getUsername());
     }
 
@@ -49,7 +49,7 @@ public class DataSourceProviderTest {
     public void createDataSourceSetsPassword() {
         String password = RandomStringUtils.randomAlphabetic(13);
         when(startupConfiguration.getDatabasePassword()).thenReturn(password);
-        BasicDataSource source = (BasicDataSource) dataSourceProvider.get();
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         assertEquals(password, source.getPassword());
     }
 
@@ -57,7 +57,7 @@ public class DataSourceProviderTest {
     public void createDataSourceSetsUrl() {
         String path = RandomStringUtils.randomAlphabetic(13);
         when(startupConfiguration.getDatabasePath()).thenReturn(path);
-        BasicDataSource source = (BasicDataSource) dataSourceProvider.get();
+        BasicDataSource source = (BasicDataSource) dataSourceFactory.create(startupConfiguration);
         String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
         assertEquals(expected, source.getUrl());
     }

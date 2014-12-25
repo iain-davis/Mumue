@@ -6,7 +6,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
 import org.ruhlendavis.meta.configuration.TestConstants;
-import org.ruhlendavis.meta.database.QueryRunnerProvider;
+import org.ruhlendavis.meta.database.QueryRunnerFactory;
 import org.ruhlendavis.meta.database.SqlConstants;
 
 public class DatabaseHelper {
@@ -36,8 +36,8 @@ public class DatabaseHelper {
         source.setUsername("user");
         source.setPassword("password");
         source.setUrl(TestConstants.MEMORY_DATABASE);
-        QueryRunnerProvider queryRunnerProvider = new QueryRunnerProvider(source);
-        QueryRunner queryRunner = queryRunnerProvider.get();
+        QueryRunnerFactory queryRunnerFactory = new QueryRunnerFactory();
+        QueryRunner queryRunner = queryRunnerFactory.create(source);
         try {
             queryRunner.update(TestConstants.QUERY_PURGE_DATABASE);
         } catch (SQLException exception) {

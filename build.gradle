@@ -11,7 +11,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'commons-io:commons-io:2.4'
     compile 'com.google.guava:guava:18.0'
-    compile 'com.google.inject:guice:3.0'
 
     // Database
     compile 'org.apache.commons:commons-dbcp2:2.0.1'
