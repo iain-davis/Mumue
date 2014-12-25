@@ -10,7 +10,7 @@ public class Configuration {
     private OnlineConfiguration onlineConfiguration;
     private StartupConfiguration startupConfiguration;
 
-    public Configuration(CommandLineConfiguration commandLineConfiguration, OnlineConfiguration onlineConfiguration, StartupConfiguration startupConfiguration) {
+    public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration) {
         this.commandLineConfiguration = commandLineConfiguration;
         this.onlineConfiguration = onlineConfiguration;
         this.startupConfiguration = startupConfiguration;

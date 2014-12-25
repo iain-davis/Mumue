@@ -1,11 +1,12 @@
 package org.ruhlendavis.meta;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;
-
 import javax.sql.DataSource;
 
 import com.google.common.io.Resources;
@@ -20,6 +21,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 import org.ruhlendavis.meta.acceptance.TestConstants;
+import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.configuration.ConfigurationProvider;
+import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
+import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.database.DataSourceFactory;
@@ -34,6 +39,8 @@ public class MainTest {
     @Mock DataSourceFactory dataSourceFactory;
     @Mock QueryRunnerProvider queryRunnerProvider;
     @Mock DatabaseInitializer databaseInitializer;
+    @Mock ConfigurationProvider configurationProvider;
+    @Mock Configuration configuration;
     @Mock Listener listener;
     @InjectMocks Main main;
 
@@ -47,6 +54,7 @@ public class MainTest {
         when(queryRunnerProvider.create(dataSource)).thenReturn(queryRunner);
         String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_FILE_PATH).toURI().getPath();
         when(startupConfiguration.getDatabasePath()).thenReturn(path);
+        when(configurationProvider.create(any(CommandLineConfiguration.class), eq(startupConfiguration), any(OnlineConfiguration.class))).thenCallRealMethod();
     }
 
     @Test
@@ -78,6 +86,12 @@ public class MainTest {
     public void createQueryRunnerFromDataSource() {
         main.run("--test");
         verify(queryRunnerProvider).create(dataSource);
+    }
+
+    @Test
+    public void createConfigurationFromConfigurations() {
+        main.run("--test");
+        verify(configurationProvider).create(any(CommandLineConfiguration.class), eq(startupConfiguration), any(OnlineConfiguration.class));
     }
 
     @Test
