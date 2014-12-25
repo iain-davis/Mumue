@@ -44,9 +44,8 @@ public class Main {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         DataSource dataSource = dataSourceFactory.create(startupConfiguration);
-        QueryRunner queryRunner = queryRunnerProvider.create(dataSource);
-        TextDao textDao = new TextDao(queryRunner);
-        return new Configuration(commandLineConfiguration, new OnlineConfiguration(), startupConfiguration, textDao);
+        queryRunnerProvider.create(dataSource);
+        return new Configuration(commandLineConfiguration, new OnlineConfiguration(), startupConfiguration);
     }
 
     private Thread startListener(Listener listener, Configuration configuration) {

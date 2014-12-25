@@ -13,10 +13,10 @@ import org.junit.Test;
 import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 
 public class TextDaoTest {
+    private final TextDao textDao = new TextDao();
     @Test
     public void getTextNeverReturnsNull() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithDefaultData();
-        TextDao textDao = new TextDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithDefaultData();
         assertNotNull(textDao.getText("", TextName.Welcome));
     }
 
@@ -28,7 +28,6 @@ public class TextDaoTest {
         QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithDefaultData();
         queryRunner.update("insert into text (locale, name, text) values (?, ?, ?)", locale, TextName.Welcome.toString(), text);
 
-        TextDao textDao = new TextDao(queryRunner);
         assertThat(textDao.getText(locale, TextName.Welcome), equalTo(text));
     }
 }

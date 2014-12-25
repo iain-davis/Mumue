@@ -14,28 +14,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.text.TextDao;
 import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionTest {
     private final String text = RandomStringUtils.randomAlphabetic(257);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
+    private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-    private ByteArrayOutputStream output = new ByteArrayOutputStream();
     @Mock Socket socket;
     @Mock Configuration configuration;
-    private Connection connection;
+    @Mock TextDao textDao;
+    @InjectMocks Connection connection;
 
     @Before
     public void beforeEach() throws IOException {
         when(socket.getOutputStream()).thenReturn(output);
         when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(configuration.getText(serverLocale, TextName.Welcome)).thenReturn(text);
-        connection = new Connection().withSocket(socket).withConfiguration(configuration);
+        when(textDao.getText(serverLocale, TextName.Welcome)).thenReturn(text);
     }
 
     @Test

@@ -5,15 +5,17 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.text.TextDao;
 import org.ruhlendavis.meta.text.TextName;
 
 public class Connection extends CleanCloser implements Runnable {
     private Configuration configuration;
     private Socket socket;
+    private TextDao textDao = new TextDao();
 
     @Override
     public void run() {
-        String welcomeText = configuration.getText(configuration.getServerLocale(), TextName.Welcome);
+        String welcomeText = textDao.getText(configuration.getServerLocale(), TextName.Welcome);
         OutputStream output;
         try {
             output = socket.getOutputStream();

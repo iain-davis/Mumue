@@ -18,14 +18,12 @@ import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.text.TextDao;
-import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfigurationTest {
     @Mock CommandLineConfiguration commandLineConfiguration;
     @Mock OnlineConfiguration onlineConfiguration;
     @Mock StartupConfiguration startupConfiguration;
-    @Mock TextDao textDao;
     @InjectMocks Configuration configuration;
 
     @Test
@@ -52,13 +50,5 @@ public class ConfigurationTest {
         String serverLocale = RandomStringUtils.randomAlphabetic(5);
         when(onlineConfiguration.getServerLocale()).thenReturn(serverLocale);
         assertThat(configuration.getServerLocale(), equalTo(serverLocale));
-    }
-
-    @Test
-    public void getText() {
-        String serverLocale = RandomStringUtils.randomAlphabetic(5);
-        String text = RandomStringUtils.randomAlphabetic(256);
-        when(textDao.getText(serverLocale, TextName.Welcome)).thenReturn(text);
-        assertThat(configuration.getText(serverLocale, TextName.Welcome), equalTo(text));
     }
 }
