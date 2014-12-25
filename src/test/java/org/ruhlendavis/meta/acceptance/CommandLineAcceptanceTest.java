@@ -2,12 +2,9 @@ package org.ruhlendavis.meta.acceptance;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.Main;
-import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommandLineAcceptanceTest {

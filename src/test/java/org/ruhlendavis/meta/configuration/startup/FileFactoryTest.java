@@ -8,8 +8,8 @@ import java.net.URISyntaxException;
 import com.google.common.io.Resources;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 import org.ruhlendavis.meta.acceptance.TestConstants;
+import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 public class FileFactoryTest {
     @Test

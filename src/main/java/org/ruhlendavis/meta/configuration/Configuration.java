@@ -3,7 +3,6 @@ package org.ruhlendavis.meta.configuration;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.meta.text.TextDao;
 
 public class Configuration {
     private CommandLineConfiguration commandLineConfiguration;

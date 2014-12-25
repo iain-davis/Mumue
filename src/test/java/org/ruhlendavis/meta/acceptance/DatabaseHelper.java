@@ -1,7 +1,6 @@
 package org.ruhlendavis.meta.acceptance;
 
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;

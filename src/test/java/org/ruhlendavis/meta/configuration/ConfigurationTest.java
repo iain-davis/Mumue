@@ -17,7 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.meta.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.meta.text.TextDao;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfigurationTest {
