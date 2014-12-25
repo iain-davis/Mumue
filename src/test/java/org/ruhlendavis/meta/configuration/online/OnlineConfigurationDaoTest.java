@@ -19,7 +19,7 @@ public class OnlineConfigurationDaoTest {
     @Before
     public void beforeEach() throws SQLException {
         queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-        dao = new OnlineConfigurationDao(queryRunner);
+        dao = new OnlineConfigurationDao();
     }
 
     @Test

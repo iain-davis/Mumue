@@ -8,13 +8,8 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 
 public class DatabaseInitializerDao {
-    private final QueryRunner queryRunner;
-
-    public DatabaseInitializerDao(QueryRunner queryRunner) {
-        this.queryRunner = queryRunner;
-    }
-
     public boolean hasSchema() {
+        QueryRunner queryRunner = QueryRunnerProvider.get();
         ResultSetHandler resultSetHandler = new ScalarHandler<>(1);
         try {
             long found = (long) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, resultSetHandler);
@@ -25,6 +20,7 @@ public class DatabaseInitializerDao {
     }
 
     public boolean hasData() {
+        QueryRunner queryRunner = QueryRunnerProvider.get();
         ResultSetHandler resultSetHandler = new ScalarHandler<>(1);
         try {
             String version = (String) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_VERSION, resultSetHandler);
@@ -35,6 +31,7 @@ public class DatabaseInitializerDao {
     }
 
     public void loadSchema() {
+        QueryRunner queryRunner = QueryRunnerProvider.get();
         try {
             queryRunner.update(SqlConstants.SCHEMA_SCRIPT);
         } catch (SQLException exception) {
@@ -43,6 +40,7 @@ public class DatabaseInitializerDao {
     }
 
     public void loadDefaultData() {
+        QueryRunner queryRunner = QueryRunnerProvider.get();
         try {
             queryRunner.update(SqlConstants.DEFAULT_DATA_SCRIPT);
         } catch (SQLException exception) {

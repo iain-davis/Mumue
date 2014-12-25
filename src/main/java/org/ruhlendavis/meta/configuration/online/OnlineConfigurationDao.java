@@ -7,16 +7,14 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 
+import org.ruhlendavis.meta.database.QueryRunnerProvider;
+
 public class OnlineConfigurationDao {
     private static final String CONFIGURATION_OPTION_QUERY = "select value from configuration_options where name = ?";
     private static final String CONFIGURATION_OPTION_VALUE_COLUMN = "value";
-    private final QueryRunner queryRunner;
-
-    public OnlineConfigurationDao(QueryRunner queryRunner) {
-        this.queryRunner = queryRunner;
-    }
 
     public String getConfigurationOption(String optionName) {
+        QueryRunner queryRunner = QueryRunnerProvider.get();
         ResultSetHandler resultSetHandler = new ScalarHandler<>(CONFIGURATION_OPTION_VALUE_COLUMN);
         try {
             return StringUtils.defaultString((String) queryRunner.query(CONFIGURATION_OPTION_QUERY, resultSetHandler, optionName));

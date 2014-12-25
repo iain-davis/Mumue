@@ -5,11 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 public class OnlineConfiguration {
-    private final OnlineConfigurationDao dao;
-
-    public OnlineConfiguration(OnlineConfigurationDao dao) {
-        this.dao = dao;
-    }
+    private OnlineConfigurationDao dao = new OnlineConfigurationDao();
 
     public String getServerLocale() {
         String value = dao.getConfigurationOption(OnlineConfigurationOptionName.SERVER_LOCALE);

@@ -13,8 +13,7 @@ import org.ruhlendavis.meta.configuration.startup.StartupConfiguration;
 import org.ruhlendavis.meta.configuration.startup.StartupConfigurationFactory;
 import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
-import org.ruhlendavis.meta.database.DatabaseInitializerDao;
-import org.ruhlendavis.meta.database.QueryRunnerFactory;
+import org.ruhlendavis.meta.database.QueryRunnerProvider;
 import org.ruhlendavis.meta.listener.Listener;
 import org.ruhlendavis.meta.text.TextDao;
 
@@ -36,16 +35,10 @@ public class Meta {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         DataSource dataSource = new DataSourceFactory().create(startupConfiguration);
-        QueryRunner queryRunner = new QueryRunnerFactory().create(dataSource);
-        new DatabaseInitializer(new DatabaseInitializerDao(queryRunner)).initialize();
-        OnlineConfiguration onlineConfiguration = getOnlineConfiguration(queryRunner);
+        QueryRunner queryRunner = QueryRunnerProvider.create(dataSource);
+        new DatabaseInitializer().initialize();
         TextDao textDao = new TextDao(queryRunner);
-        return new Configuration(commandLineConfiguration, onlineConfiguration, startupConfiguration, textDao);
-    }
-
-    private OnlineConfiguration getOnlineConfiguration(QueryRunner queryRunner) {
-        OnlineConfigurationDao dao = new OnlineConfigurationDao(queryRunner);
-        return new OnlineConfiguration(dao);
+        return new Configuration(commandLineConfiguration, new OnlineConfiguration(), startupConfiguration, textDao);
     }
 
     private Thread startListener(Listener listener, Configuration configuration) {

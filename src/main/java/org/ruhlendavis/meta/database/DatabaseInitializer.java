@@ -1,11 +1,7 @@
 package org.ruhlendavis.meta.database;
 
 public class DatabaseInitializer {
-    private final DatabaseInitializerDao dao;
-
-    public DatabaseInitializer(DatabaseInitializerDao dao) {
-        this.dao = dao;
-    }
+    private DatabaseInitializerDao dao = new DatabaseInitializerDao();
 
     public void initialize() {
         if (dao.hasSchema()) {

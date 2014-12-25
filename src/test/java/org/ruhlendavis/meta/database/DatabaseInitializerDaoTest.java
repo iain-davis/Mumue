@@ -3,52 +3,46 @@ package org.ruhlendavis.meta.database;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.dbutils.QueryRunner;
 import org.junit.Test;
 
 import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 
 public class DatabaseInitializerDaoTest {
+    private final DatabaseInitializerDao dao = new DatabaseInitializerDao();
     @Test
     public void hasSchemaReturnsTrue() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-        DatabaseInitializerDao dao = new DatabaseInitializerDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithSchema();
         assertTrue(dao.hasSchema());
     }
 
     @Test
     public void hasSchemaReturnsFalse() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithoutSchema();
-        DatabaseInitializerDao dao = new DatabaseInitializerDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithoutSchema();
         assertFalse(dao.hasSchema());
     }
 
     @Test
     public void hasDataReturnsTrue() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithDefaultData();
-        DatabaseInitializerDao dao = new DatabaseInitializerDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithDefaultData();
         assertTrue(dao.hasData());
     }
 
     @Test
     public void hasDataReturnsFalse() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-        DatabaseInitializerDao dao = new DatabaseInitializerDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithSchema();
         assertFalse(dao.hasData());
     }
 
     @Test
     public void loadSchema() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithoutSchema();
-        DatabaseInitializerDao dao = new DatabaseInitializerDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithoutSchema();
         dao.loadSchema();
         assertTrue(dao.hasSchema());
     }
 
     @Test
     public void loadDefaultData() {
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-        DatabaseInitializerDao dao = new DatabaseInitializerDao(queryRunner);
+        DatabaseHelper.setupTestDatabaseWithSchema();
         dao.loadDefaultData();
         assertTrue(dao.hasData());
     }
