@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.text;
 
 public enum TextName {
+    LoginPrompt("login prompt"),
     Welcome("welcome screen"),
     ;
 

@@ -1,7 +1,8 @@
 insert into configuration_options (id, name, value) values (0, 'database schema version', '0.0');
 insert into configuration_options (id, name, value) values (1, 'server locale', 'en-US');
 
-insert into text (id, locale, name, text) values (0, 'en-US', 'welcome screen', 'Welcome to MetaMUCK!');
+insert into text (id, locale, name, text) values (0, 'en-US', 'welcome screen', 'Welcome to MetaMUCK!\n');
+insert into text (id, locale, name, text) values (1, 'en-US', 'login prompt', 'Enter your login ID: ');
 
 insert into universes (id, name, type) values (0, 'Player universe', 'player');
 

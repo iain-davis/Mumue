@@ -24,7 +24,8 @@ import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionTest {
-    private final String text = RandomStringUtils.randomAlphabetic(257);
+    private final String welcomeText = RandomStringUtils.randomAlphabetic(257);
+    private final String loginPromptText = RandomStringUtils.randomAlphabetic(13);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
@@ -37,7 +38,8 @@ public class ConnectionTest {
     public void beforeEach() throws IOException {
         when(socket.getOutputStream()).thenReturn(output);
         when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textDao.getText(serverLocale, TextName.Welcome)).thenReturn(text);
+        when(textDao.getText(serverLocale, TextName.Welcome)).thenReturn(welcomeText);
+        when(textDao.getText(serverLocale, TextName.LoginPrompt)).thenReturn(loginPromptText);
     }
 
     @Test
@@ -49,6 +51,6 @@ public class ConnectionTest {
     @Test
     public void sendWelcomeToSocket() {
         connection.run();
-        assertThat(output.toString(), equalTo(text));
+        assertThat(output.toString(), equalTo(welcomeText + loginPromptText));
     }
 }

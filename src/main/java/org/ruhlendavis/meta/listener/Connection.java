@@ -16,10 +16,13 @@ public class Connection extends CleanCloser implements Runnable {
     @Override
     public void run() {
         String welcomeText = textDao.getText(configuration.getServerLocale(), TextName.Welcome);
+        String loginPrompt = textDao.getText(configuration.getServerLocale(), TextName.LoginPrompt);
+        
         OutputStream output;
         try {
             output = socket.getOutputStream();
             output.write(welcomeText.getBytes());
+            output.write(loginPrompt.getBytes());
         } catch (IOException exception) {
             close(socket);
             throw new RuntimeException(exception);
