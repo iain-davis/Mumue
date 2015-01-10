@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.player;
 
 import java.util.ArrayList;
 import java.util.List;

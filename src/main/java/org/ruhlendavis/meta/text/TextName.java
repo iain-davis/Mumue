@@ -1,8 +1,10 @@
 package org.ruhlendavis.meta.text;
 
 public enum TextName {
-    LoginPrompt("login prompt"),
     Welcome("welcome screen"),
+    LoginPrompt("login prompt"),
+    PasswordPrompt("password prompt"),
+    LoginFailed("login failed"),
     ;
 
     private final String name;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import org.ruhlendavis.meta.Player;
 import org.ruhlendavis.meta.components.Artifact;
 import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.components.GameCharacter;
@@ -15,6 +14,7 @@ import org.ruhlendavis.meta.components.LinkSource;
 import org.ruhlendavis.meta.components.Ownable;
 import org.ruhlendavis.meta.components.Program;
 import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.player.Player;
 
 public class ImporterStageTestHelper {
     protected void addOneDatabaseItemToList(List<String> list, String id, String flags, int propLines, int codaLines) {

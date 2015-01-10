@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ruhlendavis.meta.Player;
 import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.player.Player;
 
 public class ImportBucket {
     private String file = "";

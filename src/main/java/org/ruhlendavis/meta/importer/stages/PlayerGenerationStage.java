@@ -3,11 +3,11 @@ package org.ruhlendavis.meta.importer.stages;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.ruhlendavis.meta.Player;
 import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.components.GameCharacter;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStage;
+import org.ruhlendavis.meta.player.Player;
 
 public class PlayerGenerationStage extends ImporterStage{
     @Override
