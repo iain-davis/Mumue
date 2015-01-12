@@ -20,6 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ListenerTest {
     private ServerSocket serverSocket = mock(ServerSocket.class);
@@ -32,7 +34,7 @@ public class ListenerTest {
     @Before
     public void beforeEach() {
         when(socketFactory.createSocket(anyInt())).thenReturn(serverSocket);
-        when(threadFactory.createThread(any(Connection.class), anyString())).thenReturn(clientThread);
+        when(threadFactory.createThread(any(ConnectionInputReceiver.class), anyString())).thenReturn(clientThread);
     }
 
     @Test

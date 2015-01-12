@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.Vector;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.connection.CleanCloser;
+import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
 
 public class Listener extends CleanCloser implements Runnable {
     private SocketFactory socketFactory = new SocketFactory();
@@ -29,8 +31,8 @@ public class Listener extends CleanCloser implements Runnable {
         Socket clientSocket = null;
         try {
             clientSocket = serverSocket.accept();
-            Connection connection = new Connection().withSocket(clientSocket).withConfiguration(configuration);
-            Thread client = threadFactory.createThread(connection, "client connection");
+            ConnectionInputReceiver connectionInputReceiver = new ConnectionInputReceiver().withSocket(clientSocket).withConfiguration(configuration);
+            Thread client = threadFactory.createThread(connectionInputReceiver, "client connection");
             connections.add(client);
             client.start();
         } catch (IOException exception) {

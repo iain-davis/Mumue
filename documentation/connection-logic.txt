@@ -1,3 +1,41 @@
+    private void oldCode() {
+        String welcomeText = textMaker.getText(configuration.getServerLocale(), TextName.Welcome);
+        String loginPrompt = textMaker.getText(configuration.getServerLocale(), TextName.LoginPrompt);
+        String passwordPrompt = textMaker.getText(configuration.getServerLocale(), TextName.PasswordPrompt);
+        String loginFailed = textMaker.getText(configuration.getServerLocale(), TextName.LoginFailed);
+        BufferedReader input;
+        OutputStream output;
+        try {
+            output = socket.getOutputStream();
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            sendText(output, welcomeText);
+            boolean unauthenticated = true;
+            do {
+                sendText(output, loginPrompt);
+
+                String login = input.readLine();
+                sendText(output, passwordPrompt);
+                String password = input.readLine();
+
+                if (dao.authenticate(login, password)) {
+                    unauthenticated = false;
+                } else {
+                    sendText(output, loginFailed);
+                }
+            }  while (unauthenticated);
+        } catch (IOException exception) {
+            close(socket);
+            throw new RuntimeException(exception);
+        }
+
+    }
+
+    private void sendText(OutputStream output, String text) throws IOException {
+        output.write(text.getBytes());
+        output.flush();
+    }
+
 //        interpreter.putCommand("@c", new CommandConnect());
 //        interpreter.putCommand("c", new CommandConnect());
 // display welcome

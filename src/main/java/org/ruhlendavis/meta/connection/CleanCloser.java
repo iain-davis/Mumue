@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.listener;
+package org.ruhlendavis.meta.connection;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -6,13 +6,13 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 
 public abstract class CleanCloser {
-    protected void close(Closeable socket) {
+    protected void close(Closeable closeable) {
         try {
-            socket.close();
+            closeable.close();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         } finally {
-            IOUtils.closeQuietly(socket);
+            IOUtils.closeQuietly(closeable);
         }
     }
 }
