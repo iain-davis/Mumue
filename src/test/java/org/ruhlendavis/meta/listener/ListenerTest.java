@@ -29,7 +29,7 @@ public class ListenerTest {
 
     @Mock private SocketFactory socketFactory;
     @Mock private ThreadFactory threadFactory;
-    @InjectMocks private Listener listener = new Listener();
+    @InjectMocks private Listener listener;
 
     @Before
     public void beforeEach() {
@@ -38,38 +38,35 @@ public class ListenerTest {
     }
 
     @Test
-    public void runUsesDefaultPort() {
-        listener.stop();
-        listener.run();
+    public void prepareUsesDefaultPort() {
+        listener.prepare();
         verify(socketFactory).createSocket(9999);
     }
 
     @Test
-    public void runUsesSpecifiedPort() {
+    public void prepareUsesSpecifiedPort() {
         int port = RandomUtils.nextInt(2048, 4096);
         listener.setPort(port);
-        listener.stop();
-        listener.run();
+        listener.prepare();
         verify(socketFactory).createSocket(port);
     }
 
     @Test
-    public void waitForConnectionCreatesThread() throws IOException {
+    public void runCreatesThread() throws IOException {
         when(serverSocket.accept()).thenReturn(new Socket());
-        listener.waitForConnection();
+        listener.run();
         assertEquals(1, listener.getConnectionCount());
     }
 
     @Test
-    public void waitForConnectionHandlesIOExceptionWhileRunning() throws IOException {
+    public void runHandlesIOExceptionWhileRunning() throws IOException {
         when(serverSocket.accept()).thenThrow(new IOException());
         assertEquals(0, listener.getConnectionCount());
     }
 
     @Test
-    public void waitForConnectionHandlesIOExceptionWhileStopped() throws IOException {
+    public void runHandlesIOExceptionWhileStopped() throws IOException {
         when(serverSocket.accept()).thenThrow(new IOException());
-        listener.stop();
         assertEquals(0, listener.getConnectionCount());
     }
 }

@@ -5,11 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
+import org.ruhlendavis.meta.runner.PerpetualRunnable;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.CleanCloser;
 import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
 
-public class Listener extends CleanCloser implements Runnable {
+public class Listener extends CleanCloser implements PerpetualRunnable {
     private SocketFactory socketFactory = new SocketFactory();
     private ThreadFactory threadFactory = new ThreadFactory();
     private ServerSocket serverSocket;
@@ -19,15 +20,12 @@ public class Listener extends CleanCloser implements Runnable {
     private Configuration configuration;
 
     @Override
-    public void run() {
+    public void prepare() {
         serverSocket = socketFactory.createSocket(port);
-        while (isRunning()) {
-            waitForConnection();
-        }
-        close(serverSocket);
     }
 
-    protected void waitForConnection() {
+    @Override
+    public void run() {
         Socket clientSocket = null;
         try {
             clientSocket = serverSocket.accept();
@@ -42,12 +40,9 @@ public class Listener extends CleanCloser implements Runnable {
         }
     }
 
-    public synchronized boolean isRunning() {
-        return running;
-    }
-
-    public synchronized void stop() {
-        running = false;
+    @Override
+    public void cleanup() {
+        close(serverSocket);
     }
 
     public int getConnectionCount() {
