@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.listener;
 
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,8 +22,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ListenerTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
 
-    @Mock ServerSocket serverSocket = mock(ServerSocket.class);
-    @Mock SocketFactory socketFactory = mock(SocketFactory.class);
+    @Mock ServerSocket serverSocket;
+    @Mock SocketFactory socketFactory;
 
     @Before
     public void beforeEach() {
@@ -61,5 +62,15 @@ public class ListenerTest {
         thrown.expect(RuntimeException.class);
 
         listener.execute();
+    }
+
+    @Test
+    public void cleanupClosesServerSocket() throws IOException {
+        Listener listener = new Listener(socketFactory);
+
+        listener.prepare();
+        listener.cleanup();
+
+        verify(serverSocket, atLeastOnce()).close();
     }
 }

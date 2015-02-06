@@ -3,7 +3,6 @@ package org.ruhlendavis.meta.listener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Vector;
 
 import org.ruhlendavis.meta.connection.CleanCloser;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
