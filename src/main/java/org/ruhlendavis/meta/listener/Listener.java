@@ -15,7 +15,6 @@ public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable 
     private ThreadFactory threadFactory = new ThreadFactory();
     private ServerSocket serverSocket;
     private int port = 9999;
-    private boolean running = true;
     private Vector<Thread> connections = new Vector<>();
     private Configuration configuration;
 
@@ -34,9 +33,7 @@ public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable 
             connections.add(client);
             client.start();
         } catch (IOException exception) {
-            if (running) {
-                throw new RuntimeException("Error accepting client connection", exception);
-            }
+            throw new RuntimeException("Error accepting client connection", exception);
         }
     }
 
