@@ -16,10 +16,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.Configuration;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PerpetualRunnerTest {
-    @Mock PerpetualRunnable runnable;
+public class InfiniteLoopRunnerTest {
+    @Mock
+    InfiniteLoopRunnerRunnable runnable;
     @Mock Configuration configuration;
-    @InjectMocks PerpetualRunner perpetualRunner;
+    @InjectMocks
+    InfiniteLoopRunner infiniteLoopRunner;
 
     @Before
     public void beforeEach() {
@@ -28,42 +30,42 @@ public class PerpetualRunnerTest {
 
     @Test
     public void doNotRunForeverInTest() {
-        perpetualRunner.run();
+        infiniteLoopRunner.run();
     }
 
     @Test
     public void useRunnablePrepare() {
-        perpetualRunner.run();
+        infiniteLoopRunner.run();
         verify(runnable).prepare();
     }
 
     @Test
     public void useRunnableCleanup() {
-        perpetualRunner.run();
+        infiniteLoopRunner.run();
         verify(runnable).cleanup();
     }
 
     @Test
     public void runGivenRunnable() {
-        perpetualRunner.run();
-        verify(runnable).run();
+        infiniteLoopRunner.run();
+        verify(runnable).execute();
     }
 
     @Test
     public void doNotRunRunnableIfStopped() {
-        perpetualRunner.stop();
-        perpetualRunner.run();
-        verify(runnable, never()).run();
+        infiniteLoopRunner.stop();
+        infiniteLoopRunner.run();
+        verify(runnable, never()).execute();
     }
 
     @Test
     public void isRunningReturnsTrue() {
-        assertTrue(perpetualRunner.isRunning());
+        assertTrue(infiniteLoopRunner.isRunning());
     }
 
     @Test
     public void isRunningReturnsFalse() {
-        perpetualRunner.stop();
-        assertFalse(perpetualRunner.isRunning());
+        infiniteLoopRunner.stop();
+        assertFalse(infiniteLoopRunner.isRunning());
     }
 }

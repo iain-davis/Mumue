@@ -3,12 +3,12 @@ package org.ruhlendavis.meta.runner;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.CleanCloser;
 
-public class PerpetualRunner extends CleanCloser implements Runnable {
+public class InfiniteLoopRunner extends CleanCloser implements Runnable {
     private final Configuration configuration;
-    private final PerpetualRunnable runnable;
+    private final InfiniteLoopRunnerRunnable runnable;
     private boolean running = true;
 
-    public PerpetualRunner(Configuration configuration, PerpetualRunnable runnable) {
+    public InfiniteLoopRunner(Configuration configuration, InfiniteLoopRunnerRunnable runnable) {
         this.configuration = configuration;
         this.runnable = runnable;
     }
@@ -17,7 +17,7 @@ public class PerpetualRunner extends CleanCloser implements Runnable {
     public void run() {
         runnable.prepare();
         while (running) {
-            runnable.run();
+            runnable.execute();
             if (configuration.isTest()) {
                 break;
             }

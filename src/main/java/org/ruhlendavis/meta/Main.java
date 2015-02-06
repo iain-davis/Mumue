@@ -13,7 +13,7 @@ import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerProvider;
 import org.ruhlendavis.meta.listener.Listener;
-import org.ruhlendavis.meta.runner.PerpetualRunner;
+import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 
 public class Main {
     private CommandLineConfigurationFactory commandLineConfigurationFactory = new CommandLineConfigurationFactory();
@@ -32,13 +32,13 @@ public class Main {
         initialize(arguments);
         Configuration configuration = ConfigurationProvider.get();
         Listener listener = new Listener();
-        PerpetualRunner perpetualRunner = new PerpetualRunner(configuration, listener);
-        Thread thread = startListener(perpetualRunner, listener, configuration);
+        InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(configuration, listener);
+        Thread thread = startListener(infiniteLoopRunner, listener, configuration);
 
         //noinspection StatementWithEmptyBody
-        while(perpetualRunner.isRunning() && !configuration.isTest()) {}
+        while(infiniteLoopRunner.isRunning() && !configuration.isTest()) {}
 
-        stopListener(perpetualRunner, thread);
+        stopListener(infiniteLoopRunner, thread);
     }
 
     private void initialize(String... arguments) {
@@ -50,16 +50,16 @@ public class Main {
         databaseInitializer.initialize();
     }
 
-    private Thread startListener(PerpetualRunner perpetualRunner, Listener listener, Configuration configuration) {
+    private Thread startListener(InfiniteLoopRunner infiniteLoopRunner, Listener listener, Configuration configuration) {
         listener.setPort(configuration.getTelnetPort());
         listener.setConfiguration(configuration);
-        Thread thread = new Thread(perpetualRunner);
+        Thread thread = new Thread(infiniteLoopRunner);
         thread.start();
         return thread;
     }
 
-    private void stopListener(PerpetualRunner perpetualRunner, Thread thread) {
-        perpetualRunner.stop();
+    private void stopListener(InfiniteLoopRunner infiniteLoopRunner, Thread thread) {
+        infiniteLoopRunner.stop();
         try {
             thread.join();
         } catch (InterruptedException exception) {

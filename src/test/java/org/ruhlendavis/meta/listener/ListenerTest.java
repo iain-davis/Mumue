@@ -54,7 +54,7 @@ public class ListenerTest {
     @Test
     public void runCreatesThread() throws IOException {
         when(serverSocket.accept()).thenReturn(new Socket());
-        listener.run();
+        listener.execute();
         assertEquals(1, listener.getConnectionCount());
     }
 

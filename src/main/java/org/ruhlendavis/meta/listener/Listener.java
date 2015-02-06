@@ -5,12 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
-import org.ruhlendavis.meta.runner.PerpetualRunnable;
+import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.CleanCloser;
 import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
 
-public class Listener extends CleanCloser implements PerpetualRunnable {
+public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable {
     private SocketFactory socketFactory = new SocketFactory();
     private ThreadFactory threadFactory = new ThreadFactory();
     private ServerSocket serverSocket;
@@ -25,7 +25,7 @@ public class Listener extends CleanCloser implements PerpetualRunnable {
     }
 
     @Override
-    public void run() {
+    public void execute() {
         Socket clientSocket = null;
         try {
             clientSocket = serverSocket.accept();
