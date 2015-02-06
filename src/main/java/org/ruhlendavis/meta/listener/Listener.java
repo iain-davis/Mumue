@@ -5,18 +5,26 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
 
-import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
-import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.CleanCloser;
-import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
+import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
 public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable {
-    private SocketFactory socketFactory = new SocketFactory();
-    private ThreadFactory threadFactory = new ThreadFactory();
+    private final int port;
+    private final SocketFactory socketFactory;
     private ServerSocket serverSocket;
-    private int port = 9999;
-    private Vector<Thread> connections = new Vector<>();
-    private Configuration configuration;
+
+    public Listener(int port) {
+        this(port, new SocketFactory());
+    }
+
+    Listener(SocketFactory socketFactory) {
+        this(9999, socketFactory);
+    }
+
+    Listener(int port, SocketFactory socketFactory) {
+        this.port = port;
+        this.socketFactory = socketFactory;
+    }
 
     @Override
     public void prepare() {
@@ -25,32 +33,15 @@ public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable 
 
     @Override
     public void execute() {
-        Socket clientSocket = null;
         try {
-            clientSocket = serverSocket.accept();
-            ConnectionInputReceiver connectionInputReceiver = new ConnectionInputReceiver().withSocket(clientSocket).withConfiguration(configuration);
-            Thread client = threadFactory.createThread(connectionInputReceiver, "client connection");
-            connections.add(client);
-            client.start();
+            Socket clientSocket = serverSocket.accept();
         } catch (IOException exception) {
-            throw new RuntimeException("Error accepting client connection", exception);
+            throw new RuntimeException("Error accepting client connection on port " + port, exception);
         }
     }
 
     @Override
     public void cleanup() {
         close(serverSocket);
-    }
-
-    public int getConnectionCount() {
-        return connections.size();
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
     }
 }

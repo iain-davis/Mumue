@@ -29,11 +29,14 @@ public class Main {
     }
 
     public void run(String... arguments) {
-        initialize(arguments);
+        initializeConfiguration(arguments);
+        databaseInitializer.initialize();
+
         Configuration configuration = ConfigurationProvider.get();
-        Listener listener = new Listener();
+        Listener listener = new Listener(configuration.getTelnetPort());
         InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(configuration, listener);
-        Thread thread = startListener(infiniteLoopRunner, listener, configuration);
+        Thread thread = new Thread(infiniteLoopRunner);
+        thread.start();
 
         //noinspection StatementWithEmptyBody
         while(infiniteLoopRunner.isRunning() && !configuration.isTest()) {}
@@ -41,21 +44,12 @@ public class Main {
         stopListener(infiniteLoopRunner, thread);
     }
 
-    private void initialize(String... arguments) {
+    private void initializeConfiguration(String... arguments) {
         CommandLineConfiguration commandLineConfiguration = commandLineConfigurationFactory.create(arguments);
         StartupConfiguration startupConfiguration = startupConfigurationFactory.create(commandLineConfiguration.getStartupConfigurationPath());
         DataSource dataSource = dataSourceFactory.create(startupConfiguration);
         queryRunnerProvider.create(dataSource);
         configurationProvider.create(commandLineConfiguration, startupConfiguration, new OnlineConfiguration());
-        databaseInitializer.initialize();
-    }
-
-    private Thread startListener(InfiniteLoopRunner infiniteLoopRunner, Listener listener, Configuration configuration) {
-        listener.setPort(configuration.getTelnetPort());
-        listener.setConfiguration(configuration);
-        Thread thread = new Thread(infiniteLoopRunner);
-        thread.start();
-        return thread;
     }
 
     private void stopListener(InfiniteLoopRunner infiniteLoopRunner, Thread thread) {
