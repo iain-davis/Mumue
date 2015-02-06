@@ -26,4 +26,16 @@ public class Configuration {
     public int getTelnetPort() {
         return startupConfiguration.getTelnetPort();
     }
+
+    public String getDatabaseUsername() {
+        return startupConfiguration.getDatabaseUsername();
+    }
+
+    public String getDatabasePassword() {
+        return startupConfiguration.getDatabasePassword();
+    }
+
+    public String getDatabasePath() {
+        return startupConfiguration.getDatabasePath();
+    }
 }

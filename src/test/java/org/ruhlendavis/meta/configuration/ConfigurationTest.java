@@ -50,4 +50,25 @@ public class ConfigurationTest {
         when(onlineConfiguration.getServerLocale()).thenReturn(serverLocale);
         assertThat(configuration.getServerLocale(), equalTo(serverLocale));
     }
+
+    @Test
+    public void getDatabaseUsername() {
+        String databaseUsername = RandomStringUtils.randomAlphabetic(5);
+        when(startupConfiguration.getDatabaseUsername()).thenReturn(databaseUsername);
+        assertThat(configuration.getDatabaseUsername(), equalTo(databaseUsername));
+    }
+
+    @Test
+    public void getDatabasePassword() {
+        String databasePassword = RandomStringUtils.randomAlphabetic(5);
+        when(startupConfiguration.getDatabasePassword()).thenReturn(databasePassword);
+        assertThat(configuration.getDatabasePassword(), equalTo(databasePassword));
+    }
+
+    @Test
+    public void getDatabasePath() {
+        String databasePath = RandomStringUtils.randomAlphabetic(5);
+        when(startupConfiguration.getDatabasePath()).thenReturn(databasePath);
+        assertThat(configuration.getDatabasePath(), equalTo(databasePath));
+    }
 }
