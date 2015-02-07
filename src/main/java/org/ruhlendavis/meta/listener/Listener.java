@@ -4,24 +4,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.ruhlendavis.meta.ConnectionManager;
 import org.ruhlendavis.meta.connection.CleanCloser;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
 public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable {
     private final int port;
+    private final ConnectionManager connectionManager;
     private final SocketFactory socketFactory;
     private ServerSocket serverSocket;
 
-    public Listener(int port) {
-        this(port, new SocketFactory());
+    public Listener(int port, ConnectionManager connectionManager) {
+        this(port, connectionManager, new SocketFactory());
     }
 
-    Listener(SocketFactory socketFactory) {
-        this(9999, socketFactory);
-    }
-
-    Listener(int port, SocketFactory socketFactory) {
+    Listener(int port, ConnectionManager connectionManager, SocketFactory socketFactory) {
         this.port = port;
+        this.connectionManager = connectionManager;
         this.socketFactory = socketFactory;
     }
 
@@ -34,6 +33,7 @@ public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable 
     public void execute() {
         try {
             Socket clientSocket = serverSocket.accept();
+            connectionManager.add(clientSocket);
         } catch (IOException exception) {
             throw new RuntimeException("Error accepting client connection on port " + port, exception);
         }

@@ -1,13 +1,9 @@
 package org.ruhlendavis.meta;
 
-import javax.sql.DataSource;
-
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
-import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
-import org.ruhlendavis.meta.database.QueryRunnerProvider;
 import org.ruhlendavis.meta.listener.Listener;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 
@@ -26,7 +22,7 @@ public class Main {
         queryRunnerInitializer.initialize(configuration);
         databaseInitializer.initialize();
 
-        Listener listener = new Listener(configuration.getTelnetPort());
+        Listener listener = new Listener(configuration.getTelnetPort(), new ConnectionManager());
         InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(configuration, listener);
         Thread thread = new Thread(infiniteLoopRunner);
         thread.start();
