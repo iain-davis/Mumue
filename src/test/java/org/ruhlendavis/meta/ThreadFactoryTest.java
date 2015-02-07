@@ -12,15 +12,21 @@ public class ThreadFactoryTest {
     private final ThreadFactory factory = new ThreadFactory();
 
     @Test
-    public void createThreadReturnsThread() {
-        Thread thread = factory.createThread(new ConnectionInputReceiver(), RandomStringUtils.randomAlphabetic(13));
+    public void createReturnsThread() {
+        Thread thread = factory.create(new MockRunnable());
         assertNotNull(thread);
     }
 
     @Test
-    public void createThreadSetsName() {
+    public void createSetsName() {
         String name = RandomStringUtils.randomAlphabetic(13);
-        Thread thread = factory.createThread(new ConnectionInputReceiver(), name);
+        Thread thread = factory.create(new MockRunnable(), name);
+        assertNotNull(thread);
         assertEquals(name, thread.getName());
+    }
+
+    private class MockRunnable implements Runnable {
+        @Override
+        public void run() {}
     }
 }

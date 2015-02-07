@@ -12,6 +12,7 @@ public class Main {
     private ConfigurationInitializer configurationInitializer = new ConfigurationInitializer();
     private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
     private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
+    private ThreadFactory threadFactory = new ThreadFactory();
 
     public static void main(String... arguments) {
         Main main = new Main();
@@ -24,14 +25,14 @@ public class Main {
         databaseInitializer.initialize();
 
         ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(configuration.getTelnetPort(), new ConnectionManager());
-        InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(configuration, connectionAcceptor);
-        Thread thread = new Thread(infiniteLoopRunner);
+        InfiniteLoopRunner connectionAcceptorLoop = new InfiniteLoopRunner(configuration, connectionAcceptor);
+        Thread thread = threadFactory.create(connectionAcceptorLoop);
         thread.start();
 
         //noinspection StatementWithEmptyBody
-        while(infiniteLoopRunner.isRunning() && !configuration.isTest()) {}
+        while(connectionAcceptorLoop.isRunning() && !configuration.isTest()) {}
 
-        stopListener(infiniteLoopRunner, thread);
+        stopListener(connectionAcceptorLoop, thread);
     }
 
     private void stopListener(InfiniteLoopRunner infiniteLoopRunner, Thread thread) {
