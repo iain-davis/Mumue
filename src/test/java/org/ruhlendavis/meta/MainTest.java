@@ -29,12 +29,7 @@ public class MainTest {
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
 
-    @Mock
-    ConnectionAcceptor connectionAcceptor;
-
     @InjectMocks Main main;
-
-    private DataSource dataSource = DatabaseHelper.setupDataSource();
 
     @Before
     public void beforeEach() throws URISyntaxException {
