@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
-public class ConnectionInputReceiver extends CleanCloser implements InfiniteLoopRunnerRunnable {
+public class ConnectionInputReceiver implements InfiniteLoopRunnerRunnable {
     private final Collection<String> inputQueue;
     private final Socket socket;
 
