@@ -4,7 +4,7 @@ import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
-import org.ruhlendavis.meta.listener.Listener;
+import org.ruhlendavis.meta.listener.ConnectionAcceptor;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 
 public class Main {
@@ -22,8 +22,8 @@ public class Main {
         queryRunnerInitializer.initialize(configuration);
         databaseInitializer.initialize();
 
-        Listener listener = new Listener(configuration.getTelnetPort(), new ConnectionManager());
-        InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(configuration, listener);
+        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(configuration.getTelnetPort(), new ConnectionManager());
+        InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(configuration, connectionAcceptor);
         Thread thread = new Thread(infiniteLoopRunner);
         thread.start();
 

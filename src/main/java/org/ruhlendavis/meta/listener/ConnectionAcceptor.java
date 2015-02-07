@@ -8,17 +8,17 @@ import org.ruhlendavis.meta.ConnectionManager;
 import org.ruhlendavis.meta.connection.CleanCloser;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
-public class Listener extends CleanCloser implements InfiniteLoopRunnerRunnable {
+public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopRunnerRunnable {
     private final int port;
     private final ConnectionManager connectionManager;
     private final SocketFactory socketFactory;
     private ServerSocket serverSocket;
 
-    public Listener(int port, ConnectionManager connectionManager) {
+    public ConnectionAcceptor(int port, ConnectionManager connectionManager) {
         this(port, connectionManager, new SocketFactory());
     }
 
-    Listener(int port, ConnectionManager connectionManager, SocketFactory socketFactory) {
+    ConnectionAcceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory) {
         this.port = port;
         this.connectionManager = connectionManager;
         this.socketFactory = socketFactory;

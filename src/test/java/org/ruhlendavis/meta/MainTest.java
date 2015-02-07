@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.net.URISyntaxException;
 import javax.sql.DataSource;
 
-import org.apache.commons.dbutils.QueryRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +17,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
-import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
-import org.ruhlendavis.meta.database.QueryRunnerProvider;
-import org.ruhlendavis.meta.listener.Listener;
+import org.ruhlendavis.meta.listener.ConnectionAcceptor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainTest {
@@ -32,7 +29,8 @@ public class MainTest {
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
 
-    @Mock Listener listener;
+    @Mock
+    ConnectionAcceptor connectionAcceptor;
 
     @InjectMocks Main main;
 
