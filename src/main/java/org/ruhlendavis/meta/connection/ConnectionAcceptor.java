@@ -1,11 +1,9 @@
-package org.ruhlendavis.meta.listener;
+package org.ruhlendavis.meta.connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.ruhlendavis.meta.ConnectionManager;
-import org.ruhlendavis.meta.connection.CleanCloser;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
 public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopRunnerRunnable {

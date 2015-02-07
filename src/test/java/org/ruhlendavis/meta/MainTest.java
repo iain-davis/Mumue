@@ -19,7 +19,7 @@ import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
-import org.ruhlendavis.meta.listener.ConnectionAcceptor;
+import org.ruhlendavis.meta.connection.ConnectionAcceptor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainTest {

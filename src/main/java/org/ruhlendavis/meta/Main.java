@@ -2,9 +2,10 @@ package org.ruhlendavis.meta;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
+import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
-import org.ruhlendavis.meta.listener.ConnectionAcceptor;
+import org.ruhlendavis.meta.connection.ConnectionAcceptor;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 
 public class Main {

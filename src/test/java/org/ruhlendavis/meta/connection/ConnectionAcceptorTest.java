@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.listener;
+package org.ruhlendavis.meta.connection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -19,8 +19,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.ruhlendavis.meta.ConnectionManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionAcceptorTest {

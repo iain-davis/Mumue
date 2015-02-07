@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.listener;
+package org.ruhlendavis.meta;
 
 import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
 

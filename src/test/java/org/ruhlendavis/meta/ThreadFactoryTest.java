@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.listener;
+package org.ruhlendavis.meta;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

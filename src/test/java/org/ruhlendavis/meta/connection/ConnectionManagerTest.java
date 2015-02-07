@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta;
+package org.ruhlendavis.meta.connection;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;
