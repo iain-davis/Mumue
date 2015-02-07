@@ -20,6 +20,7 @@ import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
+import org.ruhlendavis.meta.database.QueryRunnerInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerProvider;
 import org.ruhlendavis.meta.listener.Listener;
 
@@ -28,10 +29,11 @@ public class MainTest {
     @Mock Configuration configuration;
 
     @Mock ConfigurationInitializer configurationInitializer;
+    @Mock QueryRunnerInitializer queryRunnerInitializer;
+    @Mock DatabaseInitializer databaseInitializer;
 
     @Mock DataSourceFactory dataSourceFactory;
     @Mock QueryRunnerProvider queryRunnerProvider;
-    @Mock DatabaseInitializer databaseInitializer;
     @Mock Listener listener;
 
     @InjectMocks Main main;
@@ -60,20 +62,14 @@ public class MainTest {
     }
 
     @Test
+    public void initializeQueryRunner() {
+        main.run();
+        verify(queryRunnerInitializer).initialize(configuration);
+    }
+
+    @Test
     public void initializeDatabase() {
         main.run();
         verify(databaseInitializer).initialize();
-    }
-
-    @Test
-    public void createDataSourceFromStartupConfiguration() {
-        main.run();
-        verify(dataSourceFactory).create(configuration);
-    }
-
-    @Test
-    public void createQueryRunnerFromDataSource() {
-        main.run();
-        verify(queryRunnerProvider).create(dataSource);
     }
 }

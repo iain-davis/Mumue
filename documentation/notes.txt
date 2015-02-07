@@ -1,6 +1,5 @@
-1. Create configuration initializer class
-2. I think we need something like a Listener factory that separates the socket preparation from the Listener class.
-3. Implement execute for Listener class.
+* I think we need something like a Listener factory that separates the socket preparation from the Listener class.
+* Implement execute for Listener class.
 
 
 

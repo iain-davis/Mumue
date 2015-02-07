@@ -6,16 +6,18 @@ import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.database.DataSourceFactory;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
+import org.ruhlendavis.meta.database.QueryRunnerInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerProvider;
 import org.ruhlendavis.meta.listener.Listener;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 
 public class Main {
     private ConfigurationInitializer configurationInitializer = new ConfigurationInitializer();
+    private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
+    private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
 
     private DataSourceFactory dataSourceFactory = new DataSourceFactory();
     private QueryRunnerProvider queryRunnerProvider = new QueryRunnerProvider();
-    private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
 
     public static void main(String... arguments) {
         Main main = new Main();
@@ -24,9 +26,7 @@ public class Main {
 
     public void run(String... arguments) {
         Configuration configuration = configurationInitializer.initialize(arguments);
-
-        DataSource dataSource = dataSourceFactory.create(configuration);
-        queryRunnerProvider.create(dataSource);
+        queryRunnerInitializer.initialize(configuration);
         databaseInitializer.initialize();
 
         Listener listener = new Listener(configuration.getTelnetPort());
