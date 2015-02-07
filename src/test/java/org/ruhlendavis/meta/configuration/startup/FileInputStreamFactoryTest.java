@@ -18,12 +18,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class FileInputStreamFactoryTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
     private final FileInputStreamFactory factory = new FileInputStreamFactory();
-    private final OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
+    private final FileOutputStreamFactory fileOutputStreamFactory = new FileOutputStreamFactory();
 
     @Test
     public void createInputStreamCreatesStream() {
         String path = RandomStringUtils.randomAlphabetic(13);
-        OutputStream output = outputStreamFactory.create(path);
+        OutputStream output = fileOutputStreamFactory.create(path);
         InputStream input = factory.create(path);
         assertNotNull(input);
         IOUtils.closeQuietly(input);

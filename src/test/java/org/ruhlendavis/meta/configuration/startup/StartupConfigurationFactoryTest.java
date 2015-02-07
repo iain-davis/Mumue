@@ -18,7 +18,9 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,15 +30,19 @@ import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StartupConfigurationFactoryTest {
+    @Rule public ExpectedException thrown = ExpectedException.none();
+
     private final String path = RandomStringUtils.randomAlphabetic(13);
+
     @Mock File file;
     @Mock Properties properties;
     @Mock InputStream input;
     @Mock OutputStream output;
+
     @Mock FileFactory fileFactory;
-    @Mock
-    FileInputStreamFactory fileInputStreamFactory;
-    @Mock OutputStreamFactory outputStreamFactory;
+    @Mock FileInputStreamFactory fileInputStreamFactory;
+    @Mock FileOutputStreamFactory fileOutputStreamFactory;
+
     @InjectMocks StartupConfigurationFactory startupConfigurationFactory;
 
     @Before
@@ -71,18 +77,18 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createSavesConfigurationWhenFileDoesNotExist() throws URISyntaxException, IOException {
-        when(outputStreamFactory.create(anyString())).thenReturn(output);
+        when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
         doNothing().when(properties).store(output, path);
 
         startupConfigurationFactory.create(path);
 
-        verify(outputStreamFactory).create(path);
+        verify(fileOutputStreamFactory).create(path);
         verify(properties).store(output, "");
     }
 
     @Test
     public void createSetsDefaultPropertiesWhenFileDoesNotExist() throws URISyntaxException, IOException {
-        when(outputStreamFactory.create(anyString())).thenReturn(output);
+        when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
         doNothing().when(properties).store(output, path);
 
         startupConfigurationFactory.create(path);
@@ -91,5 +97,26 @@ public class StartupConfigurationFactoryTest {
         verify(properties).setProperty(StartupConfigurationOptionName.DATABASE_PATH, ConfigurationDefaults.DATABASE_PATH);
         verify(properties).setProperty(StartupConfigurationOptionName.DATABASE_USERNAME, ConfigurationDefaults.DATABASE_USERNAME);
         verify(properties).setProperty(StartupConfigurationOptionName.TELNET_PORT, String.valueOf(ConfigurationDefaults.TELNET_PORT));
+    }
+
+    @Test
+    public void createHandlesInputException() {
+        when(file.isFile()).thenReturn(true);
+        when(fileInputStreamFactory.create(path)).thenThrow(IOException.class);
+
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Exception while opening configuration properties file for input");
+
+        startupConfigurationFactory.create(path);
+    }
+
+    @Test
+    public void createHandlesOutputException() {
+        when(fileOutputStreamFactory.create(path)).thenThrow(IOException.class);
+
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Exception while opening configuration properties file for output");
+
+        startupConfigurationFactory.create(path);
     }
 }

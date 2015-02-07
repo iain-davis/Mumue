@@ -12,7 +12,7 @@ public class StartupConfigurationFactory {
     private Properties properties = new Properties();
     private FileFactory fileFactory = new FileFactory();
     private FileInputStreamFactory fileInputStreamFactory = new FileInputStreamFactory();
-    private OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
+    private FileOutputStreamFactory fileOutputStreamFactory = new FileOutputStreamFactory();
 
     public StartupConfiguration create(String path) {
         StartupConfiguration startupConfiguration = new StartupConfiguration();
@@ -32,16 +32,16 @@ public class StartupConfigurationFactory {
             InputStream input = fileInputStreamFactory.create(path);
             properties.load(input);
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("Exception while opening configuration properties file for input", exception);
         }
     }
 
     private void writeStartupConfiguration(String path, Properties properties) {
         try {
-            OutputStream output = outputStreamFactory.create(path);
+            OutputStream output = fileOutputStreamFactory.create(path);
             properties.store(output, "");
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("Exception while opening configuration properties file for output", exception);
         }
     }
 
