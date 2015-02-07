@@ -24,28 +24,19 @@ public class Main {
         queryRunnerInitializer.initialize(configuration);
         databaseInitializer.initialize();
 
-        InfiniteLoopRunner connectionAcceptorLoop = startConnectionAcceptor(configuration);
+        InfiniteLoopRunner acceptorLoop = startAcceptorLoop(configuration);
 
         //noinspection StatementWithEmptyBody
-        while(connectionAcceptorLoop.isRunning() && !configuration.isTest()) {}
+        while(acceptorLoop.isRunning() && !configuration.isTest()) {}
 
-        connectionAcceptorLoop.stop();
+        acceptorLoop.stop();
     }
 
-    private InfiniteLoopRunner startConnectionAcceptor(Configuration configuration) {
+    private InfiniteLoopRunner startAcceptorLoop(Configuration configuration) {
         Acceptor acceptor = new Acceptor(configuration.getTelnetPort(), new ConnectionManager());
         InfiniteLoopRunner connectionAcceptorLoop = new InfiniteLoopRunner(configuration, acceptor);
         Thread thread = threadFactory.create(connectionAcceptorLoop);
         thread.start();
         return connectionAcceptorLoop;
-    }
-
-    private void stopListener(InfiniteLoopRunner infiniteLoopRunner, Thread thread) {
-        infiniteLoopRunner.stop();
-        try {
-            thread.join();
-        } catch (InterruptedException exception) {
-            throw new RuntimeException(exception);
-        }
     }
 }
