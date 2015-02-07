@@ -34,7 +34,8 @@ public class StartupConfigurationFactoryTest {
     @Mock InputStream input;
     @Mock OutputStream output;
     @Mock FileFactory fileFactory;
-    @Mock InputStreamFactory inputStreamFactory;
+    @Mock
+    FileInputStreamFactory fileInputStreamFactory;
     @Mock OutputStreamFactory outputStreamFactory;
     @InjectMocks StartupConfigurationFactory startupConfigurationFactory;
 
@@ -47,7 +48,7 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createReturnsStartupConfiguration() throws IOException {
-        when(inputStreamFactory.create(path)).thenReturn(input);
+        when(fileInputStreamFactory.create(path)).thenReturn(input);
         doNothing().when(properties).load(input);
         when(file.isFile()).thenReturn(true);
 
@@ -59,7 +60,7 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createLoadsConfiguration() throws IOException {
-        when(inputStreamFactory.create(path)).thenReturn(input);
+        when(fileInputStreamFactory.create(path)).thenReturn(input);
         doNothing().when(properties).load(input);
         when(file.isFile()).thenReturn(true);
 

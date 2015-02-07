@@ -8,13 +8,16 @@ import java.io.OutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InputStreamFactoryTest {
-    private final InputStreamFactory factory = new InputStreamFactory();
+public class FileInputStreamFactoryTest {
+    @Rule public ExpectedException thrown = ExpectedException.none();
+    private final FileInputStreamFactory factory = new FileInputStreamFactory();
     private final OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
 
     @Test
@@ -26,5 +29,12 @@ public class InputStreamFactoryTest {
         IOUtils.closeQuietly(input);
         IOUtils.closeQuietly(output);
         FileUtils.deleteQuietly(FileUtils.getFile(path));
+    }
+
+    @Test
+    public void createInputStreamHandlesException() {
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Exception while creating file input stream");
+        factory.create("*");
     }
 }

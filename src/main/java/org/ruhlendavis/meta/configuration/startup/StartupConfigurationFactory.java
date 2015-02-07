@@ -11,7 +11,7 @@ import org.ruhlendavis.meta.configuration.ConfigurationDefaults;
 public class StartupConfigurationFactory {
     private Properties properties = new Properties();
     private FileFactory fileFactory = new FileFactory();
-    private InputStreamFactory inputStreamFactory = new InputStreamFactory();
+    private FileInputStreamFactory fileInputStreamFactory = new FileInputStreamFactory();
     private OutputStreamFactory outputStreamFactory = new OutputStreamFactory();
 
     public StartupConfiguration create(String path) {
@@ -29,7 +29,7 @@ public class StartupConfigurationFactory {
 
     private void loadStartupConfiguration(String path, Properties properties) {
         try {
-            InputStream input = inputStreamFactory.create(path);
+            InputStream input = fileInputStreamFactory.create(path);
             properties.load(input);
         } catch (IOException exception) {
             throw new RuntimeException(exception);

@@ -5,14 +5,14 @@ import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 
-public class InputStreamFactory {
+public class FileInputStreamFactory {
     private FileFactory fileFactory = new FileFactory();
 
     public InputStream create(String path) {
         try {
             return FileUtils.openInputStream(FileUtils.getFile(fileFactory.create(path)));
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("Exception while creating file input stream", exception);
         }
     }
 }
