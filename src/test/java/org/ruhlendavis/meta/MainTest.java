@@ -5,7 +5,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.net.URISyntaxException;
-import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
-import org.ruhlendavis.meta.connection.ConnectionAcceptor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainTest {
