@@ -16,9 +16,6 @@ public class Main {
     private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
     private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
 
-    private DataSourceFactory dataSourceFactory = new DataSourceFactory();
-    private QueryRunnerProvider queryRunnerProvider = new QueryRunnerProvider();
-
     public static void main(String... arguments) {
         Main main = new Main();
         main.run(arguments);

@@ -32,8 +32,6 @@ public class MainTest {
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
 
-    @Mock DataSourceFactory dataSourceFactory;
-    @Mock QueryRunnerProvider queryRunnerProvider;
     @Mock Listener listener;
 
     @InjectMocks Main main;
@@ -44,15 +42,11 @@ public class MainTest {
     public void beforeEach() throws URISyntaxException {
         when(configurationInitializer.initialize(anyVararg())).thenReturn(configuration);
         when(configuration.isTest()).thenReturn(true);
-
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithoutSchema();
-        when(dataSourceFactory.create(configuration)).thenReturn(dataSource);
-        when(queryRunnerProvider.create(dataSource)).thenReturn(queryRunner);
     }
 
     @Test
     public void doNotRunForeverInTest() {
-        main.run("--test");
+        Main.main("--test");
     }
 
     @Test
