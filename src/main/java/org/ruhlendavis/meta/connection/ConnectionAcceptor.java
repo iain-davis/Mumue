@@ -6,17 +6,17 @@ import java.net.Socket;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
-public class Acceptor extends CleanCloser implements InfiniteLoopRunnerRunnable {
+public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopRunnerRunnable {
     private final int port;
     private final ConnectionManager connectionManager;
     private final SocketFactory socketFactory;
     private ServerSocket serverSocket;
 
-    public Acceptor(int port, ConnectionManager connectionManager) {
+    public ConnectionAcceptor(int port, ConnectionManager connectionManager) {
         this(port, connectionManager, new SocketFactory());
     }
 
-    Acceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory) {
+    ConnectionAcceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory) {
         this.port = port;
         this.connectionManager = connectionManager;
         this.socketFactory = socketFactory;

@@ -1,56 +1,50 @@
 package org.ruhlendavis.meta.connection;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.ruhlendavis.meta.configuration.Configuration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionInputReceiverTest {
-    private Connection connection = new Connection() {
-        @Override
-        public void run() {
-
-        }
-    };
-
-    @Mock Socket socket;
-    @Mock Configuration configuration;
-    @InjectMocks ConnectionInputReceiver connectionInputReceiver;
-
-    @Before
-    public void beforeEach() throws IOException {
-        when(configuration.isTest()).thenReturn(true);
-        connectionInputReceiver.withConnection(connection).withSocket(socket);
-    }
-
-    @Test
-    public void doNotRunForeverInTest() throws IOException {
-        String empty = "";
-        ByteArrayInputStream input = new ByteArrayInputStream(empty.getBytes());
-        when(socket.getInputStream()).thenReturn(input);
-        connectionInputReceiver.run();
-    }
+    @Rule public ExpectedException thrown = ExpectedException.none();
+    private final Socket socket = mock(Socket.class);
+    private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
+    private final ConnectionInputReceiver connectionInputReceiver = new ConnectionInputReceiver(socket, inputQueue);
 
     @Test
     public void putReceivedLineOnInputQueue() throws IOException {
         String line = RandomStringUtils.randomAlphabetic(13);
         ByteArrayInputStream input = new ByteArrayInputStream(line.getBytes());
         when(socket.getInputStream()).thenReturn(input);
-        connectionInputReceiver.run();
-        assertThat(connection.getLinesReceived().get(0), equalTo(line));
+        connectionInputReceiver.prepare();
+        connectionInputReceiver.execute();
+        connectionInputReceiver.cleanup();
+
+        assertThat(inputQueue, contains(line));
+    }
+
+    @Test
+    public void executeHandlesException() throws IOException {
+        //noinspection unchecked
+        when(socket.getInputStream()).thenThrow(IOException.class);
+
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Exception while reading input from socket");
+
+        connectionInputReceiver.execute();
     }
 }

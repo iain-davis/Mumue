@@ -4,39 +4,32 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Collection;
 
-import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
 
-public class ConnectionInputReceiver extends CleanCloser implements Runnable {
-    private Configuration configuration;
-    private Socket socket;
-    private Connection connection;
+public class ConnectionInputReceiver extends CleanCloser implements InfiniteLoopRunnerRunnable {
+    private final Collection<String> inputQueue;
+    private final Socket socket;
+
+    public ConnectionInputReceiver(Socket socket, Collection<String> inputQueue) {
+        this.socket = socket;
+        this.inputQueue = inputQueue;
+    }
 
     @Override
-    public void run() {
-        do {
-            try {
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String line = input.readLine();
-                connection.getLinesReceived().add(line);
-            } catch (IOException exception) {
-                throw new RuntimeException(exception);
-            }
-        } while (!configuration.isTest());
+    public void prepare() {}
+
+    @Override
+    public void execute() {
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            inputQueue.add(input.readLine());
+        } catch (IOException exception) {
+            throw new RuntimeException("Exception while reading input from socket", exception);
+        }
     }
 
-    public ConnectionInputReceiver withConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-        return this;
-    }
-
-    public ConnectionInputReceiver withSocket(Socket socket) {
-        this.socket = socket;
-        return this;
-    }
-
-    public ConnectionInputReceiver withConnection(Connection connection) {
-        this.connection = connection;
-        return this;
-    }
+    @Override
+    public void cleanup() {}
 }

@@ -2,7 +2,7 @@ package org.ruhlendavis.meta;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
-import org.ruhlendavis.meta.connection.Acceptor;
+import org.ruhlendavis.meta.connection.ConnectionAcceptor;
 import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
@@ -33,8 +33,8 @@ public class Main {
     }
 
     private InfiniteLoopRunner startAcceptorLoop(Configuration configuration) {
-        Acceptor acceptor = new Acceptor(configuration.getTelnetPort(), new ConnectionManager());
-        InfiniteLoopRunner connectionAcceptorLoop = new InfiniteLoopRunner(configuration, acceptor);
+        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(configuration.getTelnetPort(), new ConnectionManager());
+        InfiniteLoopRunner connectionAcceptorLoop = new InfiniteLoopRunner(configuration, connectionAcceptor);
         Thread thread = threadFactory.create(connectionAcceptorLoop);
         thread.start();
         return connectionAcceptorLoop;
