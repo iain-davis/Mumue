@@ -5,24 +5,24 @@ import org.ruhlendavis.meta.connection.CleanCloser;
 
 public class InfiniteLoopRunner extends CleanCloser implements Runnable {
     private final Configuration configuration;
-    private final InfiniteLoopRunnerRunnable runnable;
+    private final InfiniteLoopBody body;
     private boolean running = true;
 
-    public InfiniteLoopRunner(Configuration configuration, InfiniteLoopRunnerRunnable runnable) {
+    public InfiniteLoopRunner(Configuration configuration, InfiniteLoopBody body) {
         this.configuration = configuration;
-        this.runnable = runnable;
+        this.body = body;
     }
 
     @Override
     public void run() {
-        runnable.prepare();
+        body.prepare();
         while (running) {
-            runnable.execute();
+            body.execute();
             if (configuration.isTest()) {
                 break;
             }
         }
-        runnable.cleanup();
+        body.cleanup();
     }
 
     public synchronized boolean isRunning() {

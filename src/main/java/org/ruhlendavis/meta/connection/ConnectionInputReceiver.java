@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Collection;
 
-import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
+import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class ConnectionInputReceiver implements InfiniteLoopRunnerRunnable {
+public class ConnectionInputReceiver implements InfiniteLoopBody {
     private final Collection<String> inputQueue;
     private final Socket socket;
 

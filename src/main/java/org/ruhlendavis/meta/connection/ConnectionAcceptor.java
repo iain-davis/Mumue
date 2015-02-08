@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.ruhlendavis.meta.runner.InfiniteLoopRunnerRunnable;
+import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopRunnerRunnable {
+public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopBody {
     private final int port;
     private final ConnectionManager connectionManager;
     private final SocketFactory socketFactory;
