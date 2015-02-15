@@ -18,7 +18,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.connection.AcceptorLoopRunnerBuilder;
-import org.ruhlendavis.meta.connection.ConnectionAcceptorBuilder;
 import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
@@ -32,7 +31,6 @@ public class MainTest {
     @Mock ConfigurationInitializer configurationInitializer;
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
-    @Mock ConnectionAcceptorBuilder connectionAcceptorBuilder;
     @Mock AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
 
     @InjectMocks Main main;

@@ -3,8 +3,6 @@ package org.ruhlendavis.meta;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.connection.AcceptorLoopRunnerBuilder;
-import org.ruhlendavis.meta.connection.ConnectionAcceptor;
-import org.ruhlendavis.meta.connection.ConnectionAcceptorBuilder;
 import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
@@ -14,7 +12,6 @@ public class Main {
     private ConfigurationInitializer configurationInitializer = new ConfigurationInitializer();
     private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
     private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
-    private ConnectionAcceptorBuilder connectionAcceptorBuilder = new ConnectionAcceptorBuilder();
     private AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder = new AcceptorLoopRunnerBuilder();
     private ThreadFactory threadFactory = new ThreadFactory();
 
@@ -31,7 +28,8 @@ public class Main {
         InfiniteLoopRunner acceptorLoop = startAcceptorLoop(configuration);
 
         //noinspection StatementWithEmptyBody
-        while(acceptorLoop.isRunning() && !configuration.isTest()) {}
+        while (acceptorLoop.isRunning() && !configuration.isTest()) {
+        }
 
         acceptorLoop.stop();
     }
