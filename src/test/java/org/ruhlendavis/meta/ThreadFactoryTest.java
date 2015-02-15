@@ -1,12 +1,12 @@
 package org.ruhlendavis.meta;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-
-import org.ruhlendavis.meta.connection.ConnectionInputReceiver;
 
 public class ThreadFactoryTest {
     private final ThreadFactory factory = new ThreadFactory();
@@ -25,8 +25,23 @@ public class ThreadFactoryTest {
         assertEquals(name, thread.getName());
     }
 
+    @Test
+    public void createHandlesNullName() {
+        Thread thread = factory.create(new MockRunnable(), null);
+        assertNotNull(thread);
+        assertThat(thread.getName(), startsWith("Thread-"));
+    }
+
+    @Test
+    public void createHandlesBlankName() {
+        Thread thread = factory.create(new MockRunnable(), "");
+        assertNotNull(thread);
+        assertThat(thread.getName(), startsWith("Thread-"));
+    }
+
     private class MockRunnable implements Runnable {
         @Override
-        public void run() {}
+        public void run() {
+        }
     }
 }
