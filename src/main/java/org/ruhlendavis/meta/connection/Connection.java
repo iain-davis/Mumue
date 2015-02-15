@@ -4,18 +4,14 @@ import java.net.Socket;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.ruhlendavis.meta.ThreadFactory;
-import org.ruhlendavis.meta.configuration.ConfigurationProvider;
-import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
+import org.ruhlendavis.meta.runner.InfiniteLoopRunnerStarter;
 
 public class Connection {
-    private ThreadFactory threadFactory = new ThreadFactory();
+    private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();
 
     public void initialize(Socket socket) {
         Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-
-        InfiniteLoopRunner inputReceiverLoop = new InfiniteLoopRunner(ConfigurationProvider.get(), new ConnectionInputReceiver(socket, inputQueue));
-        Thread thread = threadFactory.create(inputReceiverLoop);
-        thread.start();
+        ConnectionInputReceiver inputReceiver = new ConnectionInputReceiver(socket, inputQueue);
+        infiniteLoopRunnerStarter.start(inputReceiver);
     }
 }
