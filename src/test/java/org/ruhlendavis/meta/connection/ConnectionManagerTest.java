@@ -4,8 +4,6 @@ package org.ruhlendavis.meta.connection;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
-import java.net.Socket;
-
 import org.junit.Test;
 
 public class ConnectionManagerTest {
@@ -13,9 +11,9 @@ public class ConnectionManagerTest {
 
     @Test
     public void addSocket() {
-        Socket socket = new Socket();
-        connectionManager.add(socket);
+        Connection connection = new Connection();
+        connectionManager.add(connection);
 
-        assertThat(connectionManager.getConnections(), contains(socket));
+        assertThat(connectionManager.getConnections(), contains(connection));
     }
 }

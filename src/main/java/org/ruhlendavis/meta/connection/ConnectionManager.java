@@ -1,16 +1,15 @@
 package org.ruhlendavis.meta.connection;
 
-import java.net.Socket;
 import java.util.Vector;
 
 public class ConnectionManager {
-    Vector<Socket> connections = new Vector<>();
+    Vector<Connection> connections = new Vector<>();
 
-    public void add(Socket socket) {
-        connections.add(socket);
+    public void add(Connection connection) {
+        connections.add(connection);
     }
 
-    public Vector<Socket> getConnections() {
+    public Vector<Connection> getConnections() {
         return connections;
     }
 }

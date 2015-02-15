@@ -22,22 +22,26 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionAcceptorTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
-
     private final ConnectionManager connectionManager = new ConnectionManager();
+    @Rule public ExpectedException thrown = ExpectedException.none();
     @Mock Socket socket;
+    @Mock Connection connection;
+
     @Mock ServerSocket serverSocket;
     @Mock SocketFactory socketFactory;
+    @Mock ConnectionFactory connectionFactory;
 
     @Before
-    public void beforeEach() {
+    public void beforeEach() throws IOException {
         when(socketFactory.createSocket(anyInt())).thenReturn(serverSocket);
+        when(serverSocket.accept()).thenReturn(socket);
+        when(connectionFactory.create(socket)).thenReturn(connection);
     }
 
     @Test
     public void prepareUsesSpecifiedPort() {
         int port = RandomUtils.nextInt(2048, 4096);
-        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(port, connectionManager, socketFactory);
+        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(port, connectionManager, socketFactory, connectionFactory);
 
         connectionAcceptor.prepare();
 
@@ -45,23 +49,20 @@ public class ConnectionAcceptorTest {
     }
 
     @Test
-    public void executeGivesAcceptedSocketToConnectionManager() throws IOException {
+    public void executeGivesConnectionToConnectionManager() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(port, connectionManager, socketFactory);
+        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(port, connectionManager, socketFactory, connectionFactory);
 
         connectionAcceptor.prepare();
-
-        when(serverSocket.accept()).thenReturn(socket);
-
         connectionAcceptor.execute();
 
-        assertThat(connectionManager.getConnections(), contains(socket));
+        assertThat(connectionManager.getConnections(), contains(connection));
     }
 
     @Test
     public void executeHandlesIOException() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(port, connectionManager, socketFactory);
+        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(port, connectionManager, socketFactory, connectionFactory);
 
         connectionAcceptor.prepare();
 
@@ -75,7 +76,7 @@ public class ConnectionAcceptorTest {
 
     @Test
     public void cleanupClosesServerSocket() throws IOException {
-        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(9999, connectionManager, socketFactory);
+        ConnectionAcceptor connectionAcceptor = new ConnectionAcceptor(9999, connectionManager, socketFactory, connectionFactory);
 
         connectionAcceptor.prepare();
         connectionAcceptor.cleanup();

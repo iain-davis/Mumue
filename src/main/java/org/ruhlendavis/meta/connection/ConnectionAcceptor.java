@@ -10,16 +10,18 @@ public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopBody 
     private final int port;
     private final ConnectionManager connectionManager;
     private final SocketFactory socketFactory;
+    private final ConnectionFactory connectionFactory;
     private ServerSocket serverSocket;
 
     public ConnectionAcceptor(int port, ConnectionManager connectionManager) {
-        this(port, connectionManager, new SocketFactory());
+        this(port, connectionManager, new SocketFactory(), new ConnectionFactory());
     }
 
-    ConnectionAcceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory) {
+    ConnectionAcceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory, ConnectionFactory connectionFactory) {
         this.port = port;
         this.connectionManager = connectionManager;
         this.socketFactory = socketFactory;
+        this.connectionFactory = connectionFactory;
     }
 
     @Override
@@ -31,7 +33,8 @@ public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopBody 
     public void execute() {
         try {
             Socket clientSocket = serverSocket.accept();
-            connectionManager.add(clientSocket);
+            Connection connection = connectionFactory.create(clientSocket);
+            connectionManager.add(connection);
         } catch (IOException exception) {
             throw new RuntimeException("Error accepting client connection on port " + port, exception);
         }
