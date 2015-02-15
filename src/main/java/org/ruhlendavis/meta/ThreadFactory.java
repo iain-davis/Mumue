@@ -11,6 +11,6 @@ public class ThreadFactory {
     }
 
     public Thread create(Runnable runnable) {
-        return new Thread(runnable);
+        return create(runnable, "");
     }
 }
