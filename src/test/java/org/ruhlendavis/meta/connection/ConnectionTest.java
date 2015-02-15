@@ -1,7 +1,6 @@
 package org.ruhlendavis.meta.connection;
 
-
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 
 import java.net.Socket;
@@ -17,7 +16,6 @@ import org.ruhlendavis.meta.runner.InfiniteLoopRunnerStarter;
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionTest {
     @Mock Socket socket;
-    @Mock Thread thread;
 
     @Mock InfiniteLoopRunnerStarter infiniteLoopRunnerStarter;
 
@@ -26,6 +24,18 @@ public class ConnectionTest {
     @Test
     public void startsLoopRunnerForInputReceiver() {
         connection.initialize(socket);
-        verify(infiniteLoopRunnerStarter).start(any(ConnectionInputReceiver.class));
+        verify(infiniteLoopRunnerStarter).start(isA(ConnectionInputReceiver.class));
+    }
+
+    @Test
+    public void startsLoopRunnerForOutputSender() {
+        connection.initialize(socket);
+        verify(infiniteLoopRunnerStarter).start(isA(ConnectionOutputSender.class));
+    }
+
+    @Test
+    public void startsLoopRunnerForInputProcessor() {
+        connection.initialize(socket);
+        verify(infiniteLoopRunnerStarter).start(isA(ConnectionInputProcessor.class));
     }
 }

@@ -11,7 +11,15 @@ public class Connection {
 
     public void initialize(Socket socket) {
         Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
+        Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
+
         ConnectionInputReceiver inputReceiver = new ConnectionInputReceiver(socket, inputQueue);
         infiniteLoopRunnerStarter.start(inputReceiver);
+
+        ConnectionInputProcessor connectionInputProcessor = new ConnectionInputProcessor(inputQueue, outputQueue);
+        infiniteLoopRunnerStarter.start(connectionInputProcessor);
+
+        ConnectionOutputSender outputSender = new ConnectionOutputSender(socket, outputQueue);
+        infiniteLoopRunnerStarter.start(outputSender);
     }
 }
