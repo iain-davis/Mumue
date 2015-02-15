@@ -2,6 +2,7 @@ package org.ruhlendavis.meta;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyVararg;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,25 +17,32 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
+import org.ruhlendavis.meta.connection.AcceptorLoopRunnerBuilder;
 import org.ruhlendavis.meta.connection.ConnectionAcceptorBuilder;
 import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
+import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainTest {
     @Mock Configuration configuration;
+    @Mock InfiniteLoopRunner acceptorLoop;
 
     @Mock ConfigurationInitializer configurationInitializer;
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
     @Mock ConnectionAcceptorBuilder connectionAcceptorBuilder;
+    @Mock AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
+
     @InjectMocks Main main;
 
     @Before
     public void beforeEach() throws URISyntaxException {
         when(configurationInitializer.initialize(anyVararg())).thenReturn(configuration);
         when(configuration.isTest()).thenReturn(true);
+        when(acceptorLoopRunnerBuilder.build(eq(configuration), any(ConnectionManager.class))).thenReturn(acceptorLoop);
+        when(acceptorLoop.isRunning()).thenReturn(true);
     }
 
     @Test
@@ -61,8 +69,8 @@ public class MainTest {
     }
 
     @Test
-    public void buildConnectionAcceptor() {
+    public void buildConnectionAcceptorLoopRunner() {
         main.run();
-        verify(connectionAcceptorBuilder).build(any(Integer.class), any(ConnectionManager.class));
+        verify(acceptorLoopRunnerBuilder).build(eq(configuration), any(ConnectionManager.class));
     }
 }

@@ -2,6 +2,7 @@ package org.ruhlendavis.meta;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
+import org.ruhlendavis.meta.connection.AcceptorLoopRunnerBuilder;
 import org.ruhlendavis.meta.connection.ConnectionAcceptor;
 import org.ruhlendavis.meta.connection.ConnectionAcceptorBuilder;
 import org.ruhlendavis.meta.connection.ConnectionManager;
@@ -14,6 +15,7 @@ public class Main {
     private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
     private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
     private ConnectionAcceptorBuilder connectionAcceptorBuilder = new ConnectionAcceptorBuilder();
+    private AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder = new AcceptorLoopRunnerBuilder();
     private ThreadFactory threadFactory = new ThreadFactory();
 
     public static void main(String... arguments) {
@@ -36,8 +38,8 @@ public class Main {
 
     private InfiniteLoopRunner startAcceptorLoop(Configuration configuration) {
         ConnectionManager connectionManager = new ConnectionManager();
-        ConnectionAcceptor connectionAcceptor = connectionAcceptorBuilder.build(configuration.getTelnetPort(), connectionManager);
-        InfiniteLoopRunner connectionAcceptorLoop = new InfiniteLoopRunner(configuration, connectionAcceptor);
+        InfiniteLoopRunner connectionAcceptorLoop = acceptorLoopRunnerBuilder.build(configuration, connectionManager);
+
         Thread thread = threadFactory.create(connectionAcceptorLoop, "Connection Acceptor Thread");
         thread.start();
         return connectionAcceptorLoop;
