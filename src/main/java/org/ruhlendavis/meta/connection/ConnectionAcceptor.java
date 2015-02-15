@@ -41,4 +41,12 @@ public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopBody 
     public void cleanup() {
         close(serverSocket);
     }
+
+    public int getPort() {
+        return port;
+    }
+
+    public ConnectionManager getConnectionManager() {
+        return connectionManager;
+    }
 }

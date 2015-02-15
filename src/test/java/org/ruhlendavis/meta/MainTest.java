@@ -1,5 +1,6 @@
 package org.ruhlendavis.meta;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,6 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
+import org.ruhlendavis.meta.connection.ConnectionAcceptorBuilder;
+import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
 
@@ -25,7 +28,7 @@ public class MainTest {
     @Mock ConfigurationInitializer configurationInitializer;
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
-
+    @Mock ConnectionAcceptorBuilder connectionAcceptorBuilder;
     @InjectMocks Main main;
 
     @Before
@@ -55,5 +58,11 @@ public class MainTest {
     public void initializeDatabase() {
         main.run();
         verify(databaseInitializer).initialize();
+    }
+
+    @Test
+    public void buildConnectionAcceptor() {
+        main.run();
+        verify(connectionAcceptorBuilder).build(any(Integer.class), any(ConnectionManager.class));
     }
 }
