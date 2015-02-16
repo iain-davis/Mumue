@@ -23,23 +23,23 @@ import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginPromptStageTest {
+public class PasswordPromptStageTest {
     private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
     private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks LoginPromptStage stage;
+    @InjectMocks PasswordPromptStage stage;
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(anyString(), eq(TextName.LoginPrompt))).thenReturn(prompt);
+        when(textMaker.getText(anyString(), eq(TextName.PasswordPrompt))).thenReturn(prompt);
     }
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(WaitForLoginIdStage.class));
+        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(ConnectionStage.class));
     }
 
     @Test

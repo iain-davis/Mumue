@@ -38,6 +38,6 @@ public class WaitForLoginIdStageTest {
 
         ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
 
-        assertThat(next, instanceOf(NoOperationStage.class));
+        assertThat(next, instanceOf(PasswordPromptStage.class));
     }
 }

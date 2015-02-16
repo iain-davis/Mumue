@@ -10,6 +10,6 @@ public class WaitForLoginIdStage implements ConnectionStage {
         if (inputQueue.isEmpty()) {
             return new WaitForLoginIdStage();
         }
-        return new NoOperationStage();
+        return new PasswordPromptStage();
     }
 }

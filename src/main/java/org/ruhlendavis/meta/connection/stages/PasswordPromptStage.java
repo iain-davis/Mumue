@@ -6,13 +6,13 @@ import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
-public class LoginPromptStage implements ConnectionStage {
+public class PasswordPromptStage implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
 
     @Override
     public ConnectionStage execute(Collection<String> inputQueue, Collection<String> outputQueue, Configuration configuration) {
-        String text = textMaker.getText(configuration.getServerLocale(), TextName.LoginPrompt);
+        String text = textMaker.getText(configuration.getServerLocale(), TextName.PasswordPrompt);
         outputQueue.add(text);
-        return new WaitForLoginIdStage();
+        return new NoOperationStage();
     }
 }
