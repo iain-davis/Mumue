@@ -1,5 +1,9 @@
 package org.ruhlendavis.meta.connection;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Collection;
 
@@ -21,7 +25,19 @@ public class OutputSender implements InfiniteLoopBody {
 
     @Override
     public void execute() {
-
+        if (outputQueue.isEmpty()) {
+            return;
+        }
+        try {
+            OutputStream outputStream = socket.getOutputStream();
+            BufferedWriter output = new BufferedWriter(new OutputStreamWriter(outputStream));
+            String line = outputQueue.stream().findAny().get();
+            output.write(line);
+            output.flush();
+            outputQueue.remove(line);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @Override
