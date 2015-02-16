@@ -16,8 +16,8 @@ public class Connection {
         InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
         infiniteLoopRunnerStarter.start(inputReceiver);
 
-        InputProcessor inputProcessor = new InputProcessor(inputQueue, outputQueue);
-        infiniteLoopRunnerStarter.start(inputProcessor);
+        InputInterpreter inputInterpreter = new InputInterpreter(inputQueue, outputQueue);
+        infiniteLoopRunnerStarter.start(inputInterpreter);
 
         OutputSender outputSender = new OutputSender(socket, outputQueue);
         infiniteLoopRunnerStarter.start(outputSender);

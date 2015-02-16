@@ -34,8 +34,8 @@ public class ConnectionTest {
     }
 
     @Test
-    public void startsLoopRunnerForInputProcessor() {
+    public void startsLoopRunnerForInputInterpreter() {
         connection.initialize(socket);
-        verify(infiniteLoopRunnerStarter).start(isA(InputProcessor.class));
+        verify(infiniteLoopRunnerStarter).start(isA(InputInterpreter.class));
     }
 }

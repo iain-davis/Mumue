@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class InputProcessor implements InfiniteLoopBody {
+public class InputInterpreter implements InfiniteLoopBody {
     private final Collection<String> inputQueue;
     private final Collection<String> outputQueue;
 
-    public InputProcessor(Collection<String> inputQueue, Collection<String> outputQueue) {
+    public InputInterpreter(Collection<String> inputQueue, Collection<String> outputQueue) {
         this.inputQueue = inputQueue;
         this.outputQueue = outputQueue;
     }

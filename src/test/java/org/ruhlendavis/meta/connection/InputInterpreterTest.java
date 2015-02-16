@@ -11,20 +11,20 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-public class InputProcessorTest {
+public class InputInterpreterTest {
     Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
     Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
 
-    private final InputProcessor inputProcessor = new InputProcessor(inputQueue, outputQueue);
+    private final InputInterpreter inputInterpreter = new InputInterpreter(inputQueue, outputQueue);
 
     @Test
     public void copyLineToOutput() {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.add(line);
 
-        inputProcessor.prepare();
-        inputProcessor.execute();
-        inputProcessor.cleanup();
+        inputInterpreter.prepare();
+        inputInterpreter.execute();
+        inputInterpreter.cleanup();
 
         assertThat(outputQueue, contains(line));
     }
@@ -34,7 +34,7 @@ public class InputProcessorTest {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.add(line);
 
-        inputProcessor.execute();
+        inputInterpreter.execute();
 
         assertThat(inputQueue, not(contains(line)));
     }
@@ -46,7 +46,7 @@ public class InputProcessorTest {
         inputQueue.add(line1);
         inputQueue.add(line2);
 
-        inputProcessor.execute();
+        inputInterpreter.execute();
 
         assertThat(outputQueue, contains(line1));
         assertThat(inputQueue, not(contains(line1)));
@@ -58,7 +58,7 @@ public class InputProcessorTest {
     public void doNotHaveDifficultyWithEmptyInput() {
         inputQueue.clear();
 
-        inputProcessor.execute();
+        inputInterpreter.execute();
 
         assertTrue(outputQueue.isEmpty());
     }
