@@ -49,6 +49,17 @@ public class AcceptorTest {
     }
 
     @Test
+    public void executeCreatesConnectionUsingSocket() {
+        int port = RandomUtils.nextInt(2048, 4096);
+        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory);
+
+        acceptor.prepare();
+        acceptor.execute();
+
+        verify(connectionFactory).create(socket);
+    }
+
+    @Test
     public void executeGivesConnectionToConnectionManager() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
         Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory);
