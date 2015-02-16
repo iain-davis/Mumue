@@ -4,12 +4,12 @@ import java.util.Collection;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 
-public class WaitForLoginIdStage implements ConnectionStage {
+public class WaitForPasswordStage implements ConnectionStage {
     @Override
     public ConnectionStage execute(Collection<String> inputQueue, Collection<String> outputQueue, Configuration configuration) {
-        if (inputQueue.isEmpty()) {
+        if (inputQueue.size() < 2) {
             return this;
         }
-        return new PasswordPromptStage();
+        return new NoOperationStage();
     }
 }
