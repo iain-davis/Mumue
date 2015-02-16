@@ -29,14 +29,13 @@ public class OutputSender implements InfiniteLoopBody {
             return;
         }
         try {
-            OutputStream outputStream = socket.getOutputStream();
-            BufferedWriter output = new BufferedWriter(new OutputStreamWriter(outputStream));
+            BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             String line = outputQueue.stream().findAny().get();
             output.write(line);
             output.flush();
             outputQueue.remove(line);
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            throw new RuntimeException("Exception when accessing output stream for client socket", exception);
         }
     }
 

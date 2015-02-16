@@ -22,7 +22,9 @@ public class InputProcessorTest {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.add(line);
 
+        inputProcessor.prepare();
         inputProcessor.execute();
+        inputProcessor.cleanup();
 
         assertThat(outputQueue, contains(line));
     }
