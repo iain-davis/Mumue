@@ -1,6 +1,7 @@
 package org.ruhlendavis.meta.connection;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
@@ -20,7 +21,12 @@ public class ConnectionInputProcessor implements InfiniteLoopBody {
 
     @Override
     public void execute() {
-
+        if (inputQueue.isEmpty()) {
+            return;
+        }
+        String line = inputQueue.stream().findFirst().get();
+        inputQueue.remove(line);
+        outputQueue.add(line);
     }
 
     @Override
