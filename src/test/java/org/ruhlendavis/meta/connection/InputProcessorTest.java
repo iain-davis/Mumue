@@ -11,18 +11,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-public class ConnectionInputProcessorTest {
+public class InputProcessorTest {
     Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
     Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
 
-    private final ConnectionInputProcessor connectionInputProcessor = new ConnectionInputProcessor(inputQueue, outputQueue);
+    private final InputProcessor inputProcessor = new InputProcessor(inputQueue, outputQueue);
 
     @Test
     public void copyLineToOutput() {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.add(line);
 
-        connectionInputProcessor.execute();
+        inputProcessor.execute();
 
         assertThat(outputQueue, contains(line));
     }
@@ -32,7 +32,7 @@ public class ConnectionInputProcessorTest {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.add(line);
 
-        connectionInputProcessor.execute();
+        inputProcessor.execute();
 
         assertThat(inputQueue, not(contains(line)));
     }
@@ -44,7 +44,7 @@ public class ConnectionInputProcessorTest {
         inputQueue.add(line1);
         inputQueue.add(line2);
 
-        connectionInputProcessor.execute();
+        inputProcessor.execute();
 
         assertThat(outputQueue, contains(line1));
         assertThat(inputQueue, not(contains(line1)));
@@ -56,7 +56,7 @@ public class ConnectionInputProcessorTest {
     public void doNotHaveDifficultyWithEmptyInput() {
         inputQueue.clear();
 
-        connectionInputProcessor.execute();
+        inputProcessor.execute();
 
         assertTrue(outputQueue.isEmpty());
     }

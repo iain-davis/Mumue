@@ -6,18 +6,18 @@ import java.net.Socket;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class ConnectionAcceptor extends CleanCloser implements InfiniteLoopBody {
+public class Acceptor extends CleanCloser implements InfiniteLoopBody {
     private final int port;
     private final ConnectionManager connectionManager;
     private final SocketFactory socketFactory;
     private final ConnectionFactory connectionFactory;
     private ServerSocket serverSocket;
 
-    public ConnectionAcceptor(int port, ConnectionManager connectionManager) {
+    public Acceptor(int port, ConnectionManager connectionManager) {
         this(port, connectionManager, new SocketFactory(), new ConnectionFactory());
     }
 
-    ConnectionAcceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory, ConnectionFactory connectionFactory) {
+    Acceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory, ConnectionFactory connectionFactory) {
         this.port = port;
         this.connectionManager = connectionManager;
         this.socketFactory = socketFactory;

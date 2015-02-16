@@ -18,11 +18,11 @@ import org.ruhlendavis.meta.runner.InfiniteLoopRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AcceptorLoopRunnerBuilderTest {
     private static final int PORT = RandomUtils.nextInt(1024, 2048);
-    @Mock ConnectionAcceptor connectionAcceptor;
+    @Mock Acceptor acceptor;
     @Mock ConnectionManager connectionManager;
     @Mock Configuration configuration;
 
-    @Mock ConnectionAcceptorBuilder connectionAcceptorBuilder;
+    @Mock AcceptorBuilder acceptorBuilder;
     @InjectMocks AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
 
     @Test
@@ -33,8 +33,8 @@ public class AcceptorLoopRunnerBuilderTest {
     @Test
     public void buildBuildsConnectionAcceptor() {
         when(configuration.getTelnetPort()).thenReturn(PORT);
-        when(connectionAcceptorBuilder.build(PORT, connectionManager)).thenReturn(connectionAcceptor);
+        when(acceptorBuilder.build(PORT, connectionManager)).thenReturn(acceptor);
         acceptorLoopRunnerBuilder.build(configuration, connectionManager);
-        verify(connectionAcceptorBuilder).build(PORT, connectionManager);
+        verify(acceptorBuilder).build(PORT, connectionManager);
     }
 }

@@ -11,31 +11,31 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConnectionAcceptorBuilderTest {
-    private final ConnectionAcceptorBuilder connectionAcceptorBuilder = new ConnectionAcceptorBuilder();
+public class AcceptorBuilderTest {
+    private final AcceptorBuilder acceptorBuilder = new AcceptorBuilder();
 
     @Test
     public void buildConnectionAcceptor() {
-        ConnectionAcceptor connectionAcceptor = connectionAcceptorBuilder.build(0, null);
+        Acceptor acceptor = acceptorBuilder.build(0, null);
 
-        assertThat(connectionAcceptor, instanceOf(ConnectionAcceptor.class));
+        assertThat(acceptor, instanceOf(Acceptor.class));
     }
 
     @Test
     public void buildConnectionAcceptorWithGivenPort() {
         int port = RandomUtils.nextInt(1024, 2048);
 
-        ConnectionAcceptor connectionAcceptor = connectionAcceptorBuilder.build(port, null);
+        Acceptor acceptor = acceptorBuilder.build(port, null);
 
-        assertThat(port, equalTo(connectionAcceptor.getPort()));
+        assertThat(port, equalTo(acceptor.getPort()));
     }
 
     @Test
     public void buildConnectionAcceptorWithGiveConnectionManager() {
         ConnectionManager connectionManager = new ConnectionManager();
 
-        ConnectionAcceptor connectionAcceptor = connectionAcceptorBuilder.build(0, connectionManager);
+        Acceptor acceptor = acceptorBuilder.build(0, connectionManager);
 
-        assertThat(connectionManager, sameInstance(connectionAcceptor.getConnectionManager()));
+        assertThat(connectionManager, sameInstance(acceptor.getConnectionManager()));
     }
 }

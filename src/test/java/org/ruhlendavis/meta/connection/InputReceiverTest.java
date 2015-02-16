@@ -19,20 +19,20 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConnectionInputReceiverTest {
+public class InputReceiverTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
     private final Socket socket = mock(Socket.class);
     private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-    private final ConnectionInputReceiver connectionInputReceiver = new ConnectionInputReceiver(socket, inputQueue);
+    private final InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
 
     @Test
     public void putReceivedLineOnInputQueue() throws IOException {
         String line = RandomStringUtils.randomAlphabetic(13);
         ByteArrayInputStream input = new ByteArrayInputStream(line.getBytes());
         when(socket.getInputStream()).thenReturn(input);
-        connectionInputReceiver.prepare();
-        connectionInputReceiver.execute();
-        connectionInputReceiver.cleanup();
+        inputReceiver.prepare();
+        inputReceiver.execute();
+        inputReceiver.cleanup();
 
         assertThat(inputQueue, contains(line));
     }
@@ -45,6 +45,6 @@ public class ConnectionInputReceiverTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while reading input from socket");
 
-        connectionInputReceiver.execute();
+        inputReceiver.execute();
     }
 }

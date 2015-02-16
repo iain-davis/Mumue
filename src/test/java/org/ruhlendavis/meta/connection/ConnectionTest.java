@@ -24,18 +24,18 @@ public class ConnectionTest {
     @Test
     public void startsLoopRunnerForInputReceiver() {
         connection.initialize(socket);
-        verify(infiniteLoopRunnerStarter).start(isA(ConnectionInputReceiver.class));
+        verify(infiniteLoopRunnerStarter).start(isA(InputReceiver.class));
     }
 
     @Test
     public void startsLoopRunnerForOutputSender() {
         connection.initialize(socket);
-        verify(infiniteLoopRunnerStarter).start(isA(ConnectionOutputSender.class));
+        verify(infiniteLoopRunnerStarter).start(isA(OutputSender.class));
     }
 
     @Test
     public void startsLoopRunnerForInputProcessor() {
         connection.initialize(socket);
-        verify(infiniteLoopRunnerStarter).start(isA(ConnectionInputProcessor.class));
+        verify(infiniteLoopRunnerStarter).start(isA(InputProcessor.class));
     }
 }

@@ -13,13 +13,13 @@ public class Connection {
         Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
         Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
 
-        ConnectionInputReceiver inputReceiver = new ConnectionInputReceiver(socket, inputQueue);
+        InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
         infiniteLoopRunnerStarter.start(inputReceiver);
 
-        ConnectionInputProcessor connectionInputProcessor = new ConnectionInputProcessor(inputQueue, outputQueue);
-        infiniteLoopRunnerStarter.start(connectionInputProcessor);
+        InputProcessor inputProcessor = new InputProcessor(inputQueue, outputQueue);
+        infiniteLoopRunnerStarter.start(inputProcessor);
 
-        ConnectionOutputSender outputSender = new ConnectionOutputSender(socket, outputQueue);
+        OutputSender outputSender = new OutputSender(socket, outputQueue);
         infiniteLoopRunnerStarter.start(outputSender);
     }
 }

@@ -8,11 +8,11 @@ import java.util.Collection;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class ConnectionInputReceiver implements InfiniteLoopBody {
+public class InputReceiver implements InfiniteLoopBody {
     private final Collection<String> inputQueue;
     private final Socket socket;
 
-    public ConnectionInputReceiver(Socket socket, Collection<String> inputQueue) {
+    public InputReceiver(Socket socket, Collection<String> inputQueue) {
         this.socket = socket;
         this.inputQueue = inputQueue;
     }

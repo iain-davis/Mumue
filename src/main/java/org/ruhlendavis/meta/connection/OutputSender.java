@@ -5,11 +5,11 @@ import java.util.Collection;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class ConnectionOutputSender implements InfiniteLoopBody {
+public class OutputSender implements InfiniteLoopBody {
     private final Socket socket;
     private final Collection<String> outputQueue;
 
-    public ConnectionOutputSender(Socket socket, Collection<String> outputQueue) {
+    public OutputSender(Socket socket, Collection<String> outputQueue) {
         this.socket = socket;
         this.outputQueue = outputQueue;
     }
