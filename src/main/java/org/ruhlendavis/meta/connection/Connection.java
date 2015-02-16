@@ -4,15 +4,18 @@ import java.net.Socket;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.connection.stages.WelcomeStage;
+import org.ruhlendavis.meta.connection.stages.ConnectionStage;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerStarter;
 
 public class Connection {
+    private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
+    private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
     private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();
+    private ConnectionStage stage = new WelcomeStage();
 
     public void initialize(Socket socket) {
-        Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-        Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
-
         InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
         infiniteLoopRunnerStarter.start(inputReceiver);
 
@@ -21,5 +24,17 @@ public class Connection {
 
         OutputSender outputSender = new OutputSender(socket, outputQueue);
         infiniteLoopRunnerStarter.start(outputSender);
+    }
+
+    public void update(Configuration configuration) {
+        stage = stage.execute(inputQueue, outputQueue, configuration);
+    }
+
+    public ConnectionStage getStage() {
+        return stage;
+    }
+
+    public void setStage(ConnectionStage stage) {
+        this.stage = stage;
     }
 }
