@@ -23,29 +23,29 @@ import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WelcomeStageTest {
+public class LoginPromptStageTest {
     private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
     private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
-    private final String welcome = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks WelcomeStage stage;
+    @InjectMocks LoginPromptStage stage;
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(anyString(), eq(TextName.Welcome))).thenReturn(welcome);
+        when(textMaker.getText(anyString(), eq(TextName.LoginPrompt))).thenReturn(prompt);
     }
 
     @Test
-    public void executeReturnsLoginPromptStage() {
-        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(LoginPromptStage.class));
+    public void executeReturnsNextStage() {
+        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(ConnectionStage.class));
     }
 
     @Test
-    public void executePutsWelcomeOnOutputQueue() {
+    public void executePutsLoginPromptOnOutputQueue() {
         stage.execute(inputQueue, outputQueue, configuration);
 
-        assertThat(outputQueue, contains(welcome));
+        assertThat(outputQueue, contains(prompt));
     }
 }
