@@ -7,9 +7,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-import java.util.Collection;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +25,8 @@ import org.ruhlendavis.meta.text.TextName;
 public class PlayerAuthenticationStageTest {
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
     private final String password = RandomStringUtils.randomAlphanumeric(17);
-    private final String message = RandomStringUtils.randomAlphanumeric(16);
+    private final String loginFailed = RandomStringUtils.randomAlphanumeric(16);
+    private final String loginSuccess = RandomStringUtils.randomAlphanumeric(16);
 
     private final TextQueue inputQueue = new TextQueue();
     private final TextQueue outputQueue = new TextQueue();
@@ -42,7 +40,8 @@ public class PlayerAuthenticationStageTest {
     public void beforeEach() {
         inputQueue.push(loginId);
         inputQueue.push(password);
-        when(textMaker.getText(anyString(), eq(TextName.LoginFailed))).thenReturn(message);
+        when(textMaker.getText(anyString(), eq(TextName.LoginFailed))).thenReturn(loginFailed);
+        when(textMaker.getText(anyString(), eq(TextName.LoginSuccess))).thenReturn(loginSuccess);
     }
 
     @Test
@@ -52,6 +51,15 @@ public class PlayerAuthenticationStageTest {
         ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
 
         assertThat(next, instanceOf(NoOperationStage.class));
+    }
+
+    @Test
+    public void executeWithValidCredentialsPutsLoginSuccessMessageOnOutputQueue() {
+        when(dao.authenticate(loginId, password)).thenReturn(true);
+
+        stage.execute(inputQueue, outputQueue, configuration);
+
+        assertThat(outputQueue, contains(loginSuccess));
     }
 
     @Test
@@ -67,6 +75,6 @@ public class PlayerAuthenticationStageTest {
     public void executeWithInvalidCredentialsPutsLoginFailedMessageOnOutputQueue() {
         stage.execute(inputQueue, outputQueue, configuration);
 
-        assertThat(outputQueue, contains(message));
+        assertThat(outputQueue, contains(loginFailed));
     }
 }

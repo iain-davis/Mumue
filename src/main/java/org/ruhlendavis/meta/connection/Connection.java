@@ -1,25 +1,25 @@
 package org.ruhlendavis.meta.connection;
 
-import java.net.Socket;
-
-import org.ruhlendavis.meta.configuration.Configuration;
-import org.ruhlendavis.meta.connection.stages.ConnectionStage;
-import org.ruhlendavis.meta.connection.stages.WelcomeStage;
-import org.ruhlendavis.meta.runner.InfiniteLoopRunnerStarter;
+import org.ruhlendavis.meta.player.Player;
 
 public class Connection {
-    private final TextQueue inputQueue = new TextQueue();
-    private final TextQueue outputQueue = new TextQueue();
-    private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();
+    private TextQueue inputQueue = new TextQueue();
+    private TextQueue outputQueue = new TextQueue();
+    private Player player;
 
-    public void initialize(Socket socket, Configuration configuration) {
-        InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
-        infiniteLoopRunnerStarter.start(inputReceiver);
+    public TextQueue getInputQueue() {
+        return inputQueue;
+    }
 
-        ConnectionController connectionController = new ConnectionController(inputQueue, outputQueue, configuration);
-        infiniteLoopRunnerStarter.start(connectionController);
+    public TextQueue getOutputQueue() {
+        return outputQueue;
+    }
 
-        OutputSender outputSender = new OutputSender(socket, outputQueue);
-        infiniteLoopRunnerStarter.start(outputSender);
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
