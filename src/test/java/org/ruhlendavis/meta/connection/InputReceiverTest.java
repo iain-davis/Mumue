@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
@@ -20,10 +18,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InputReceiverTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
     private final Socket socket = mock(Socket.class);
-    private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
+    private final TextQueue inputQueue = new TextQueue();
     private final InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void putReceivedLineOnInputQueue() throws IOException {

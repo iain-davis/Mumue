@@ -1,17 +1,15 @@
 package org.ruhlendavis.meta.connection;
 
 import java.net.Socket;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.ruhlendavis.meta.configuration.Configuration;
-import org.ruhlendavis.meta.connection.stages.WelcomeStage;
 import org.ruhlendavis.meta.connection.stages.ConnectionStage;
+import org.ruhlendavis.meta.connection.stages.WelcomeStage;
 import org.ruhlendavis.meta.runner.InfiniteLoopRunnerStarter;
 
 public class Connection {
-    private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-    private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
+    private final TextQueue inputQueue = new TextQueue();
+    private final TextQueue outputQueue = new TextQueue();
     private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();
     private ConnectionStage stage = new WelcomeStage();
 

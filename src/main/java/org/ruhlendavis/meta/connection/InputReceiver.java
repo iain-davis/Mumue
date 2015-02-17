@@ -4,32 +4,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Collection;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
 public class InputReceiver implements InfiniteLoopBody {
-    private final Collection<String> inputQueue;
+    private final TextQueue inputQueue;
     private final Socket socket;
 
-    public InputReceiver(Socket socket, Collection<String> inputQueue) {
+    public InputReceiver(Socket socket, TextQueue inputQueue) {
         this.socket = socket;
         this.inputQueue = inputQueue;
     }
 
     @Override
-    public void prepare() {}
+    public void prepare() {
+    }
 
     @Override
     public void execute() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            inputQueue.add(input.readLine());
+            inputQueue.push(input.readLine());
         } catch (IOException exception) {
             throw new RuntimeException("Exception while reading input from socket", exception);
         }
     }
 
     @Override
-    public void cleanup() {}
+    public void cleanup() {
+    }
 }

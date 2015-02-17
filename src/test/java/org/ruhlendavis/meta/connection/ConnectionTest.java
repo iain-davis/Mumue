@@ -54,14 +54,14 @@ public class ConnectionTest {
 
     private class TestStageOne implements ConnectionStage {
         @Override
-        public ConnectionStage execute(Collection<String> inputQueue, Collection<String> outputQueue, Configuration configuration) {
+        public ConnectionStage execute(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration) {
             return new TestStageTwo();
         }
     }
 
     private class TestStageTwo implements ConnectionStage {
         @Override
-        public ConnectionStage execute(Collection<String> inputQueue, Collection<String> outputQueue, Configuration configuration) {
+        public ConnectionStage execute(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration) {
             return null;
         }
     }

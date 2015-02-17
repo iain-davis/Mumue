@@ -7,9 +7,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-import java.util.Collection;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,13 +16,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.connection.TextQueue;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PasswordPromptStageTest {
-    private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-    private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
+    private final TextQueue inputQueue = new TextQueue();
+    private final TextQueue outputQueue = new TextQueue();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;

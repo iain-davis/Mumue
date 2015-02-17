@@ -9,8 +9,6 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -22,12 +20,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OutputSenderTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
-
     private final Socket socket = mock(Socket.class);
-    private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
+    private final TextQueue outputQueue = new TextQueue();
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
     private final OutputSender outputSender = new OutputSender(socket, outputQueue);
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void beforeEach() throws IOException {
@@ -36,7 +33,7 @@ public class OutputSenderTest {
 
     @Test
     public void executeRemovesLineFromQueue() {
-        outputQueue.add(RandomStringUtils.randomAlphabetic(17));
+        outputQueue.push(RandomStringUtils.randomAlphabetic(17));
 
         outputSender.prepare();
         outputSender.execute();
@@ -48,7 +45,7 @@ public class OutputSenderTest {
     @Test
     public void executeWritesLineToOutput() {
         String line = RandomStringUtils.randomAlphabetic(17);
-        outputQueue.add(line);
+        outputQueue.push(line);
 
         outputSender.execute();
 
@@ -57,8 +54,6 @@ public class OutputSenderTest {
 
     @Test
     public void doNothingWithEmptyQueue() {
-        outputQueue.clear();
-
         outputSender.execute();
 
         assertThat(new String(output.toByteArray()), equalTo(""));
@@ -66,7 +61,7 @@ public class OutputSenderTest {
 
     @Test
     public void executeHandlesException() throws IOException {
-        outputQueue.add(RandomStringUtils.randomAlphabetic(14));
+        outputQueue.push(RandomStringUtils.randomAlphabetic(14));
 
         when(socket.getOutputStream()).thenThrow(new IOException());
 

@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.connection.TextQueue;
 import org.ruhlendavis.meta.player.PlayerAuthenticationDao;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
@@ -29,8 +30,8 @@ public class PlayerAuthenticationStageTest {
     private final String password = RandomStringUtils.randomAlphanumeric(17);
     private final String message = RandomStringUtils.randomAlphanumeric(16);
 
-    private final Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-    private final Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
+    private final TextQueue inputQueue = new TextQueue();
+    private final TextQueue outputQueue = new TextQueue();
 
     @Mock Configuration configuration;
     @Mock PlayerAuthenticationDao dao;
@@ -39,8 +40,8 @@ public class PlayerAuthenticationStageTest {
 
     @Before
     public void beforeEach() {
-        inputQueue.add(loginId);
-        inputQueue.add(password);
+        inputQueue.push(loginId);
+        inputQueue.push(password);
         when(textMaker.getText(anyString(), eq(TextName.LoginFailed))).thenReturn(message);
     }
 

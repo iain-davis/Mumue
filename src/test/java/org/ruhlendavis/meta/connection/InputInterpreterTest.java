@@ -12,15 +12,15 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class InputInterpreterTest {
-    Collection<String> inputQueue = new ConcurrentLinkedQueue<>();
-    Collection<String> outputQueue = new ConcurrentLinkedQueue<>();
+    TextQueue inputQueue = new TextQueue();
+    TextQueue outputQueue = new TextQueue();
 
     private final InputInterpreter inputInterpreter = new InputInterpreter(inputQueue, outputQueue);
 
     @Test
     public void copyLineToOutput() {
         String line = RandomStringUtils.randomAlphabetic(17);
-        inputQueue.add(line);
+        inputQueue.push(line);
 
         inputInterpreter.prepare();
         inputInterpreter.execute();
@@ -32,7 +32,7 @@ public class InputInterpreterTest {
     @Test
     public void removeLineFromInput() {
         String line = RandomStringUtils.randomAlphabetic(17);
-        inputQueue.add(line);
+        inputQueue.push(line);
 
         inputInterpreter.execute();
 
@@ -43,8 +43,8 @@ public class InputInterpreterTest {
     public void copyOnlyTheFirst() {
         String line1 = RandomStringUtils.randomAlphabetic(17);
         String line2 = RandomStringUtils.randomAlphabetic(13);
-        inputQueue.add(line1);
-        inputQueue.add(line2);
+        inputQueue.push(line1);
+        inputQueue.push(line2);
 
         inputInterpreter.execute();
 
@@ -56,8 +56,6 @@ public class InputInterpreterTest {
 
     @Test
     public void doNotHaveDifficultyWithEmptyInput() {
-        inputQueue.clear();
-
         inputInterpreter.execute();
 
         assertTrue(outputQueue.isEmpty());

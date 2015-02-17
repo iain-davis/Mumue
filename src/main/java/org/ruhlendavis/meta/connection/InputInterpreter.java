@@ -1,14 +1,12 @@
 package org.ruhlendavis.meta.connection;
 
-import java.util.Collection;
-
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
 public class InputInterpreter implements InfiniteLoopBody {
-    private final Collection<String> inputQueue;
-    private final Collection<String> outputQueue;
+    private final TextQueue inputQueue;
+    private final TextQueue outputQueue;
 
-    public InputInterpreter(Collection<String> inputQueue, Collection<String> outputQueue) {
+    public InputInterpreter(TextQueue inputQueue, TextQueue outputQueue) {
         this.inputQueue = inputQueue;
         this.outputQueue = outputQueue;
     }
@@ -23,9 +21,8 @@ public class InputInterpreter implements InfiniteLoopBody {
         if (inputQueue.isEmpty()) {
             return;
         }
-        String line = inputQueue.stream().findFirst().get();
-        inputQueue.remove(line);
-        outputQueue.add(line);
+        String text = inputQueue.pop();
+        outputQueue.push(text);
     }
 
     @Override
