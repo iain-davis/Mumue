@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.components;
+package org.ruhlendavis.meta.componentsold;
 
 public class Universe {
     private int id = 0;

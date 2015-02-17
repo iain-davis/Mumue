@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.components.properties;
+package org.ruhlendavis.meta.componentsold.properties;
 
 public class FloatProperty extends Property {
     private Double value = 0.0;

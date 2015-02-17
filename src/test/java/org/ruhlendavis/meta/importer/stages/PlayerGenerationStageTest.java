@@ -7,8 +7,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.components.GameCharacter;
-import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.componentsold.GameCharacter;
+import org.ruhlendavis.meta.componentsold.Space;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStageTestHelper;
 import org.ruhlendavis.meta.player.Player;

@@ -2,9 +2,9 @@ package org.ruhlendavis.meta.importer.stages;
 
 import java.util.Map.Entry;
 
-import org.ruhlendavis.meta.components.Component;
-import org.ruhlendavis.meta.components.Link;
-import org.ruhlendavis.meta.components.LinkSource;
+import org.ruhlendavis.meta.componentsold.Component;
+import org.ruhlendavis.meta.componentsold.Link;
+import org.ruhlendavis.meta.componentsold.LinkSource;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStage;
 

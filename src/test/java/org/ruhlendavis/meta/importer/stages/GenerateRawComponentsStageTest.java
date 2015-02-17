@@ -10,12 +10,12 @@ import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.components.Artifact;
-import org.ruhlendavis.meta.components.Component;
-import org.ruhlendavis.meta.components.GameCharacter;
-import org.ruhlendavis.meta.components.Link;
-import org.ruhlendavis.meta.components.Program;
-import org.ruhlendavis.meta.components.Space;
+import org.ruhlendavis.meta.componentsold.Artifact;
+import org.ruhlendavis.meta.componentsold.Component;
+import org.ruhlendavis.meta.componentsold.GameCharacter;
+import org.ruhlendavis.meta.componentsold.Link;
+import org.ruhlendavis.meta.componentsold.Program;
+import org.ruhlendavis.meta.componentsold.Space;
 import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStageTestHelper;
 

@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.components.properties;
+package org.ruhlendavis.meta.componentsold.properties;
 
 public class IntegerProperty extends Property {
     private Long value = 0L;

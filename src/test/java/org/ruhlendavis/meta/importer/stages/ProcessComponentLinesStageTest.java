@@ -12,16 +12,16 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.components.Artifact;
-import org.ruhlendavis.meta.components.Component;
-import org.ruhlendavis.meta.components.GameCharacter;
-import org.ruhlendavis.meta.components.Link;
-import org.ruhlendavis.meta.components.Program;
-import org.ruhlendavis.meta.components.Space;
-import org.ruhlendavis.meta.components.properties.IntegerProperty;
-import org.ruhlendavis.meta.components.properties.LockProperty;
-import org.ruhlendavis.meta.components.properties.ReferenceProperty;
-import org.ruhlendavis.meta.components.properties.StringProperty;
+import org.ruhlendavis.meta.componentsold.Artifact;
+import org.ruhlendavis.meta.componentsold.Component;
+import org.ruhlendavis.meta.componentsold.GameCharacter;
+import org.ruhlendavis.meta.componentsold.Link;
+import org.ruhlendavis.meta.componentsold.Program;
+import org.ruhlendavis.meta.componentsold.Space;
+import org.ruhlendavis.meta.componentsold.properties.IntegerProperty;
+import org.ruhlendavis.meta.componentsold.properties.LockProperty;
+import org.ruhlendavis.meta.componentsold.properties.ReferenceProperty;
+import org.ruhlendavis.meta.componentsold.properties.StringProperty;
 import org.ruhlendavis.meta.importer.ImportBucket;
 
 public class ProcessComponentLinesStageTest {

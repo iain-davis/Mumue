@@ -1,4 +1,4 @@
-package org.ruhlendavis.meta.components;
+package org.ruhlendavis.meta.componentsold;
 
 public interface Homeable {
     public Component getHome();

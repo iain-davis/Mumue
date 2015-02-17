@@ -3,7 +3,7 @@ package org.ruhlendavis.meta.player;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruhlendavis.meta.components.GameCharacter;
+import org.ruhlendavis.meta.componentsold.GameCharacter;
 
 public class Player {
     String name = "";

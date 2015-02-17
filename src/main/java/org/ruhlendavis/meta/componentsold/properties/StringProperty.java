@@ -1,6 +1,6 @@
-package org.ruhlendavis.meta.components.properties;
+package org.ruhlendavis.meta.componentsold.properties;
 
-public class LockProperty extends Property {
+public class StringProperty extends Property {
     private String value = "";
 
     public String getValue() {
@@ -11,7 +11,7 @@ public class LockProperty extends Property {
         this.value = value;
     }
 
-    public LockProperty withValue(String value) {
+    public StringProperty withValue(String value) {
         this.value = value;
         return this;
     }

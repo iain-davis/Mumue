@@ -1,10 +1,10 @@
-package org.ruhlendavis.meta.components;
+package org.ruhlendavis.meta.componentsold;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruhlendavis.meta.components.properties.PropertyTree;
+import org.ruhlendavis.meta.componentsold.properties.PropertyTree;
 import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class Component {
