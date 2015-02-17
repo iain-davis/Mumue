@@ -9,7 +9,7 @@ insert into text (id, locale, name, text) values (4, 'en-US', 'login success', '
 
 insert into universes (id, name, type) values (0, 'Player universe', 'player');
 
-insert into players (id, login, name, password) values (0, 'first', 'First Player', 'firstword');
+insert into players (id, login, name, password) values (0, 'first', 'First Player', 'firstword', 0);
 
 insert into components (id, universe_id, reference, name, description, created, last_used, modified, use_count, location_id)
                 values (0, 0, 0, 'Waiting Room', 'White nothingness everywhere.', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, -1);
