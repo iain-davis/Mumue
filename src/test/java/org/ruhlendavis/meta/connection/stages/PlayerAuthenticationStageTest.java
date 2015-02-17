@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
-import org.ruhlendavis.meta.connection.TextQueue;
+import org.ruhlendavis.meta.connection.Connection;
 import org.ruhlendavis.meta.player.PlayerAuthenticationDao;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
@@ -28,8 +28,7 @@ public class PlayerAuthenticationStageTest {
     private final String loginFailed = RandomStringUtils.randomAlphanumeric(16);
     private final String loginSuccess = RandomStringUtils.randomAlphanumeric(16);
 
-    private final TextQueue inputQueue = new TextQueue();
-    private final TextQueue outputQueue = new TextQueue();
+    private final Connection connection = new Connection();
 
     @Mock Configuration configuration;
     @Mock PlayerAuthenticationDao dao;
@@ -38,8 +37,8 @@ public class PlayerAuthenticationStageTest {
 
     @Before
     public void beforeEach() {
-        inputQueue.push(loginId);
-        inputQueue.push(password);
+        connection.getInputQueue().push(loginId);
+        connection.getInputQueue().push(password);
         when(textMaker.getText(anyString(), eq(TextName.LoginFailed))).thenReturn(loginFailed);
         when(textMaker.getText(anyString(), eq(TextName.LoginSuccess))).thenReturn(loginSuccess);
     }
@@ -48,7 +47,7 @@ public class PlayerAuthenticationStageTest {
     public void executeWithValidCredentialsReturnsNextStage() {
         when(dao.authenticate(loginId, password)).thenReturn(true);
 
-        ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
+        ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(NoOperationStage.class));
     }
@@ -57,24 +56,24 @@ public class PlayerAuthenticationStageTest {
     public void executeWithValidCredentialsPutsLoginSuccessMessageOnOutputQueue() {
         when(dao.authenticate(loginId, password)).thenReturn(true);
 
-        stage.execute(inputQueue, outputQueue, configuration);
+        stage.execute(connection, configuration);
 
-        assertThat(outputQueue, contains(loginSuccess));
+        assertThat(connection.getOutputQueue(), contains(loginSuccess));
     }
 
     @Test
     public void executeWithInvalidCredentialsReturnsLoginPromptStage() {
         when(dao.authenticate(loginId, password)).thenReturn(false);
 
-        ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
+        ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(LoginPromptStage.class));
     }
 
     @Test
     public void executeWithInvalidCredentialsPutsLoginFailedMessageOnOutputQueue() {
-        stage.execute(inputQueue, outputQueue, configuration);
+        stage.execute(connection, configuration);
 
-        assertThat(outputQueue, contains(loginFailed));
+        assertThat(connection.getOutputQueue(), contains(loginFailed));
     }
 }

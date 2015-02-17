@@ -6,18 +6,16 @@ import org.ruhlendavis.meta.connection.stages.WelcomeStage;
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
 public class ConnectionController implements InfiniteLoopBody {
-    private final TextQueue inputQueue;
-    private final TextQueue outputQueue;
+    private final Connection connection;
     private final Configuration configuration;
     private ConnectionStage stage;
 
-    public ConnectionController(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration) {
-        this(inputQueue, outputQueue, configuration, new WelcomeStage());
+    public ConnectionController(Connection connection, Configuration configuration) {
+        this(connection, configuration, new WelcomeStage());
     }
 
-    public ConnectionController(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration, ConnectionStage stage) {
-        this.inputQueue = inputQueue;
-        this.outputQueue = outputQueue;
+    public ConnectionController(Connection connection, Configuration configuration, ConnectionStage stage) {
+        this.connection = connection;
         this.configuration = configuration;
         this.stage = stage;
     }
@@ -29,7 +27,7 @@ public class ConnectionController implements InfiniteLoopBody {
 
     @Override
     public void execute() {
-        stage = stage.execute(inputQueue, outputQueue, configuration);
+        stage = stage.execute(connection, configuration);
     }
 
     @Override

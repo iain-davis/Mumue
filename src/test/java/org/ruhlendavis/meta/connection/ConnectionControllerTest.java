@@ -16,27 +16,25 @@ import org.ruhlendavis.meta.connection.stages.NoOperationStage;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionControllerTest {
-    private final TextQueue inputQueue = new TextQueue();
-    private final TextQueue outputQueue = new TextQueue();
-
+    private final Connection connection = new Connection();
     private final Configuration configuration = mock(Configuration.class);
     private final ConnectionStage stage = mock(ConnectionStage.class);
 
     @Test
     public void executeExecutesStage() {
-        ConnectionController controller = new ConnectionController(inputQueue, outputQueue, configuration, stage);
+        ConnectionController controller = new ConnectionController(connection, configuration, stage);
         controller.prepare();
         controller.execute();
         controller.cleanup();
 
-        verify(stage).execute(inputQueue, outputQueue, configuration);
+        verify(stage).execute(connection, configuration);
     }
 
     @Test
     public void executeMovesToNextStage() {
-        ConnectionController controller = new ConnectionController(inputQueue, outputQueue, configuration, stage);
+        ConnectionController controller = new ConnectionController(connection, configuration, stage);
         NoOperationStage next = new NoOperationStage();
-        when(stage.execute(inputQueue, outputQueue, configuration)).thenReturn(next);
+        when(stage.execute(connection, configuration)).thenReturn(next);
 
         controller.execute();
 

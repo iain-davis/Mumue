@@ -11,28 +11,28 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.connection.Connection;
 import org.ruhlendavis.meta.connection.TextQueue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WaitForLoginIdStageTest {
-    private final TextQueue inputQueue = new TextQueue();
-    private final TextQueue outputQueue = new TextQueue();
+    private final Connection connection = new Connection();
 
     @Mock Configuration configuration;
     @InjectMocks WaitForLoginIdStage stage;
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {
-        ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
+        ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(WaitForLoginIdStage.class));
     }
 
     @Test
     public void executeWithOneInputReturnsPasswordPromptStage() {
-        inputQueue.push(RandomStringUtils.randomAlphabetic(17));
+        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
 
-        ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
+        ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(PasswordPromptStage.class));
     }

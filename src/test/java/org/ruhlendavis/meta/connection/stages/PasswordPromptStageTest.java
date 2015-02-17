@@ -16,14 +16,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
+import org.ruhlendavis.meta.connection.Connection;
 import org.ruhlendavis.meta.connection.TextQueue;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PasswordPromptStageTest {
-    private final TextQueue inputQueue = new TextQueue();
-    private final TextQueue outputQueue = new TextQueue();
+    private final Connection connection = new Connection();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;
@@ -37,13 +37,13 @@ public class PasswordPromptStageTest {
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(WaitForPasswordStage.class));
+        assertThat(stage.execute(connection, configuration), instanceOf(WaitForPasswordStage.class));
     }
 
     @Test
     public void executePutsLoginPromptOnOutputQueue() {
-        stage.execute(inputQueue, outputQueue, configuration);
+        stage.execute(connection, configuration);
 
-        assertThat(outputQueue, contains(prompt));
+        assertThat(connection.getOutputQueue(), contains(prompt));
     }
 }

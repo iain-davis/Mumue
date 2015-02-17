@@ -1,10 +1,8 @@
 package org.ruhlendavis.meta.connection.stages;
 
-import java.util.Collection;
-
 import org.ruhlendavis.meta.configuration.Configuration;
-import org.ruhlendavis.meta.connection.TextQueue;
+import org.ruhlendavis.meta.connection.Connection;
 
 public interface ConnectionStage {
-    public ConnectionStage execute(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration);
+    public ConnectionStage execute(Connection connection, Configuration configuration);
 }
