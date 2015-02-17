@@ -12,6 +12,6 @@ public class PasswordPromptStage implements ConnectionStage {
     public ConnectionStage execute(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration) {
         String text = textMaker.getText(configuration.getServerLocale(), TextName.PasswordPrompt);
         outputQueue.push(text);
-        return new NoOperationStage();
+        return new WaitForPasswordStage();
     }
 }

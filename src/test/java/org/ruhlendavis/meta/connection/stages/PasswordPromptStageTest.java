@@ -37,7 +37,7 @@ public class PasswordPromptStageTest {
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(ConnectionStage.class));
+        assertThat(stage.execute(inputQueue, outputQueue, configuration), instanceOf(WaitForPasswordStage.class));
     }
 
     @Test

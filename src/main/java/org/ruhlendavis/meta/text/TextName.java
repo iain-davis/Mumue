@@ -5,7 +5,7 @@ public enum TextName {
     LoginPrompt("login prompt"),
     PasswordPrompt("password prompt"),
     LoginFailed("login failed"),
-    ;
+    LoginSuccess("login success");
 
     private final String name;
 
