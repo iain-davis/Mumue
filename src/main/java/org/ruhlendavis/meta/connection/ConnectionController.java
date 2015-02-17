@@ -2,11 +2,11 @@ package org.ruhlendavis.meta.connection;
 
 import org.ruhlendavis.meta.runner.InfiniteLoopBody;
 
-public class InputInterpreter implements InfiniteLoopBody {
+public class ConnectionController implements InfiniteLoopBody {
     private final TextQueue inputQueue;
     private final TextQueue outputQueue;
 
-    public InputInterpreter(TextQueue inputQueue, TextQueue outputQueue) {
+    public ConnectionController(TextQueue inputQueue, TextQueue outputQueue) {
         this.inputQueue = inputQueue;
         this.outputQueue = outputQueue;
     }

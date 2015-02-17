@@ -6,7 +6,6 @@ import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 
 import java.net.Socket;
-import java.util.Collection;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +37,9 @@ public class ConnectionTest {
     }
 
     @Test
-    public void startsLoopRunnerForInputInterpreter() {
+    public void startsLoopRunnerForConnectionController() {
         connection.initialize(socket);
-        verify(infiniteLoopRunnerStarter).start(isA(InputInterpreter.class));
+        verify(infiniteLoopRunnerStarter).start(isA(ConnectionController.class));
     }
 
     @Test

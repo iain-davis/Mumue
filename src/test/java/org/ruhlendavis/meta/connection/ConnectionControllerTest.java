@@ -5,26 +5,23 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-public class InputInterpreterTest {
+public class ConnectionControllerTest {
     TextQueue inputQueue = new TextQueue();
     TextQueue outputQueue = new TextQueue();
 
-    private final InputInterpreter inputInterpreter = new InputInterpreter(inputQueue, outputQueue);
+    private final ConnectionController connectionController = new ConnectionController(inputQueue, outputQueue);
 
     @Test
     public void copyLineToOutput() {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.push(line);
 
-        inputInterpreter.prepare();
-        inputInterpreter.execute();
-        inputInterpreter.cleanup();
+        connectionController.prepare();
+        connectionController.execute();
+        connectionController.cleanup();
 
         assertThat(outputQueue, contains(line));
     }
@@ -34,7 +31,7 @@ public class InputInterpreterTest {
         String line = RandomStringUtils.randomAlphabetic(17);
         inputQueue.push(line);
 
-        inputInterpreter.execute();
+        connectionController.execute();
 
         assertThat(inputQueue, not(contains(line)));
     }
@@ -46,7 +43,7 @@ public class InputInterpreterTest {
         inputQueue.push(line1);
         inputQueue.push(line2);
 
-        inputInterpreter.execute();
+        connectionController.execute();
 
         assertThat(outputQueue, contains(line1));
         assertThat(inputQueue, not(contains(line1)));
@@ -56,7 +53,7 @@ public class InputInterpreterTest {
 
     @Test
     public void doNotHaveDifficultyWithEmptyInput() {
-        inputInterpreter.execute();
+        connectionController.execute();
 
         assertTrue(outputQueue.isEmpty());
     }
