@@ -7,7 +7,7 @@ public class AcceptorLoopRunnerBuilder {
     private AcceptorBuilder acceptorBuilder = new AcceptorBuilder();
 
     public InfiniteLoopRunner build(Configuration configuration, ConnectionManager connectionManager) {
-        Acceptor acceptor = acceptorBuilder.build(configuration.getTelnetPort(), connectionManager);
+        Acceptor acceptor = acceptorBuilder.build(configuration.getTelnetPort(), connectionManager, configuration);
         return new InfiniteLoopRunner(configuration, acceptor);
     }
 }

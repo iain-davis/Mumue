@@ -3,7 +3,6 @@ package org.ruhlendavis.meta;
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.configuration.ConfigurationInitializer;
 import org.ruhlendavis.meta.connection.AcceptorLoopRunnerBuilder;
-import org.ruhlendavis.meta.connection.Connection;
 import org.ruhlendavis.meta.connection.ConnectionManager;
 import org.ruhlendavis.meta.database.DatabaseInitializer;
 import org.ruhlendavis.meta.database.QueryRunnerInitializer;
@@ -31,9 +30,9 @@ public class Main {
         InfiniteLoopRunner acceptorLoop = startAcceptorLoop(configuration);
 
         while (acceptorLoop.isRunning() && !configuration.isTest()) {
-            for (Connection connection : connectionManager.getConnections()) {
-                connection.update(configuration);
-            }
+//            for (Connection connection : connectionManager.getConnections()) {
+//                connection.update(configuration);
+//            }
         }
 
         acceptorLoop.stop();

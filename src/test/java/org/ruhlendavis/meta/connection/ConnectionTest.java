@@ -26,19 +26,19 @@ public class ConnectionTest {
 
     @Test
     public void startsLoopRunnerForInputReceiver() {
-        connection.initialize(socket);
+        connection.initialize(socket, configuration);
         verify(infiniteLoopRunnerStarter).start(isA(InputReceiver.class));
     }
 
     @Test
     public void startsLoopRunnerForOutputSender() {
-        connection.initialize(socket);
+        connection.initialize(socket, configuration);
         verify(infiniteLoopRunnerStarter).start(isA(OutputSender.class));
     }
 
     @Test
     public void startsLoopRunnerForConnectionController() {
-        connection.initialize(socket);
+        connection.initialize(socket, configuration);
         verify(infiniteLoopRunnerStarter).start(isA(ConnectionController.class));
     }
 

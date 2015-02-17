@@ -33,8 +33,8 @@ public class AcceptorLoopRunnerBuilderTest {
     @Test
     public void buildBuildsConnectionAcceptor() {
         when(configuration.getTelnetPort()).thenReturn(PORT);
-        when(acceptorBuilder.build(PORT, connectionManager)).thenReturn(acceptor);
+        when(acceptorBuilder.build(PORT, connectionManager, configuration)).thenReturn(acceptor);
         acceptorLoopRunnerBuilder.build(configuration, connectionManager);
-        verify(acceptorBuilder).build(PORT, connectionManager);
+        verify(acceptorBuilder).build(PORT, connectionManager, configuration);
     }
 }

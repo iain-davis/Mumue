@@ -17,11 +17,9 @@ import org.ruhlendavis.meta.configuration.Configuration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfiniteLoopRunnerTest {
-    @Mock
-    InfiniteLoopBody runnable;
+    @Mock InfiniteLoopBody runnable;
     @Mock Configuration configuration;
-    @InjectMocks
-    InfiniteLoopRunner infiniteLoopRunner;
+    @InjectMocks InfiniteLoopRunner infiniteLoopRunner;
 
     @Before
     public void beforeEach() {

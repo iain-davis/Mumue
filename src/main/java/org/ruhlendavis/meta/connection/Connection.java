@@ -13,11 +13,11 @@ public class Connection {
     private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();
     private ConnectionStage stage = new WelcomeStage();
 
-    public void initialize(Socket socket) {
+    public void initialize(Socket socket, Configuration configuration) {
         InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
         infiniteLoopRunnerStarter.start(inputReceiver);
 
-        ConnectionController connectionController = new ConnectionController(inputQueue, outputQueue);
+        ConnectionController connectionController = new ConnectionController(inputQueue, outputQueue, configuration);
         infiniteLoopRunnerStarter.start(connectionController);
 
         OutputSender outputSender = new OutputSender(socket, outputQueue);
