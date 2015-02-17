@@ -29,11 +29,8 @@ public class Main {
 
         InfiniteLoopRunner acceptorLoop = startAcceptorLoop(configuration);
 
-        while (acceptorLoop.isRunning() && !configuration.isTest()) {
-//            for (Connection connection : connectionManager.getConnections()) {
-//                connection.update(configuration);
-//            }
-        }
+        //noinspection StatementWithEmptyBody
+        while (acceptorLoop.isRunning() && !configuration.isTest()) ;
 
         acceptorLoop.stop();
     }

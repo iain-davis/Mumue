@@ -11,7 +11,6 @@ public class Connection {
     private final TextQueue inputQueue = new TextQueue();
     private final TextQueue outputQueue = new TextQueue();
     private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();
-    private ConnectionStage stage = new WelcomeStage();
 
     public void initialize(Socket socket, Configuration configuration) {
         InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
@@ -22,17 +21,5 @@ public class Connection {
 
         OutputSender outputSender = new OutputSender(socket, outputQueue);
         infiniteLoopRunnerStarter.start(outputSender);
-    }
-
-    public void update(Configuration configuration) {
-        stage = stage.execute(inputQueue, outputQueue, configuration);
-    }
-
-    public ConnectionStage getStage() {
-        return stage;
-    }
-
-    public void setStage(ConnectionStage stage) {
-        this.stage = stage;
     }
 }

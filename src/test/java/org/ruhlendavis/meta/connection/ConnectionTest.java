@@ -41,27 +41,4 @@ public class ConnectionTest {
         connection.initialize(socket, configuration);
         verify(infiniteLoopRunnerStarter).start(isA(ConnectionController.class));
     }
-
-    @Test
-    public void updateSetsStageToNext() {
-        connection.setStage(new TestStageOne());
-
-        connection.update(configuration);
-
-        assertThat(connection.getStage(), instanceOf(TestStageTwo.class));
-    }
-
-    private class TestStageOne implements ConnectionStage {
-        @Override
-        public ConnectionStage execute(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration) {
-            return new TestStageTwo();
-        }
-    }
-
-    private class TestStageTwo implements ConnectionStage {
-        @Override
-        public ConnectionStage execute(TextQueue inputQueue, TextQueue outputQueue, Configuration configuration) {
-            return null;
-        }
-    }
 }
