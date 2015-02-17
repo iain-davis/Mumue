@@ -10,6 +10,6 @@ public class WaitForPasswordStage implements ConnectionStage {
         if (inputQueue.size() < 2) {
             return this;
         }
-        return new NoOperationStage();
+        return new PlayerAuthenticationStage();
     }
 }

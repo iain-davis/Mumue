@@ -39,6 +39,6 @@ public class WaitForPasswordStageTest {
 
         ConnectionStage next = stage.execute(inputQueue, outputQueue, configuration);
 
-        assertThat(next, instanceOf(NoOperationStage.class));
+        assertThat(next, instanceOf(PlayerAuthenticationStage.class));
     }
 }
