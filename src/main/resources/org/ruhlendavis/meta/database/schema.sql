@@ -3,8 +3,8 @@ create table text(id int primary key auto_increment, locale varchar(15), name va
 create table commands(id int primary key auto_increment, display varchar(255), minimum_partial varchar(255),
                       command_class varchar(255), is_token tinyint, available_unauthenticated tinyint);
 create table universes(id int primary key auto_increment, name varchar(255), type varchar(255));
-create table players(id int primary key auto_increment, login varchar(255), name varchar(255), password varchar(255),
-                     location_component_id int);
+create table players(id int primary key auto_increment, loginId varchar(255), name varchar(255), password varchar(255),
+                     locationId int);
 create table components(id int primary key auto_increment, universe_id int, reference long unique, name varchar(255),
                         description varchar(255), created timestamp, last_used timestamp, modified timestamp,
                         use_count long, location_id int);

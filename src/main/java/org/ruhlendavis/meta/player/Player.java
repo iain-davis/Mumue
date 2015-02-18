@@ -1,14 +1,36 @@
 package org.ruhlendavis.meta.player;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.ruhlendavis.meta.componentsold.GameCharacter;
+import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class Player {
+    long id = GlobalConstants.REFERENCE_UNKNOWN;
+    String loginId = "";
     String name = "";
-    String password = "";
-    List<GameCharacter> characters = new ArrayList<>();
+    long locationId = GlobalConstants.REFERENCE_UNKNOWN;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
+    public long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(long locationId) {
+        this.locationId = locationId;
+    }
 
     public String getName() {
         return name;
@@ -16,17 +38,5 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<GameCharacter> getCharacters() {
-        return characters;
     }
 }

@@ -69,7 +69,7 @@ public class ImporterStageTestHelper {
                 lines.add(((LinkSource) component).getLinks().get(0).getReference().toString());
             }
             lines.add(((GameCharacter) component).getWealth().toString());
-            lines.add(player.getPassword());
+//            lines.add(player.getPassword());
         } else if (component instanceof Link) {
             lines.add(String.valueOf(((Link)component).getDestinations().size()));
             for (Component destination : ((Link)component).getDestinations()) {

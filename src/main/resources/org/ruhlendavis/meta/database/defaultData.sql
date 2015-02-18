@@ -9,7 +9,7 @@ insert into text (id, locale, name, text) values (4, 'en-US', 'login success', '
 
 insert into universes (id, name, type) values (0, 'Player universe', 'player');
 
-insert into players (id, login, name, password, location_component_id)
+insert into players (id, loginId, name, password, locationId)
              values (0, 'first', 'First Player', 'firstword', 0);
 
 insert into components (id, universe_id, reference, name, description, created, last_used, modified, use_count, location_id)

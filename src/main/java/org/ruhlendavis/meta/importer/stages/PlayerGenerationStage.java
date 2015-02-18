@@ -9,7 +9,7 @@ import org.ruhlendavis.meta.importer.ImportBucket;
 import org.ruhlendavis.meta.importer.ImporterStage;
 import org.ruhlendavis.meta.player.Player;
 
-public class PlayerGenerationStage extends ImporterStage{
+public class PlayerGenerationStage extends ImporterStage {
     @Override
     public void run(ImportBucket bucket) {
         for (Entry<Long, Component> entry : bucket.getComponents().entrySet()) {
@@ -21,9 +21,9 @@ public class PlayerGenerationStage extends ImporterStage{
                 String name = entry.getValue().getName();
                 String password = lines.get(lines.size() - 1);
                 player.setName(name);
-                player.setPassword(password);
+//                player.setPassword(password);
                 bucket.getPlayers().add(player);
-                player.getCharacters().add((GameCharacter)entry.getValue());
+//                player.getCharacters().add((GameCharacter)entry.getValue());
             }
         }
     }

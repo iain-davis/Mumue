@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.Connection;
-import org.ruhlendavis.meta.player.PlayerAuthenticationDao;
+import org.ruhlendavis.meta.player.PlayerDao;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
@@ -31,7 +31,7 @@ public class PlayerAuthenticationStageTest {
     private final Connection connection = new Connection();
 
     @Mock Configuration configuration;
-    @Mock PlayerAuthenticationDao dao;
+    @Mock PlayerDao dao;
     @Mock TextMaker textMaker;
     @InjectMocks PlayerAuthenticationStage stage;
 

@@ -20,11 +20,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OutputSenderTest {
+    @Rule public ExpectedException thrown = ExpectedException.none();
+
     private final Socket socket = mock(Socket.class);
     private final TextQueue outputQueue = new TextQueue();
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
     private final OutputSender outputSender = new OutputSender(socket, outputQueue);
-    @Rule public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void beforeEach() throws IOException {
