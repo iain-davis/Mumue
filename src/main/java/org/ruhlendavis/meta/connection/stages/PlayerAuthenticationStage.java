@@ -14,11 +14,14 @@ public class PlayerAuthenticationStage implements ConnectionStage {
     public ConnectionStage execute(Connection connection, Configuration configuration) {
         String loginId = connection.getInputQueue().pop();
         String password = connection.getInputQueue().pop();
+
         if (dao.authenticate(loginId, password)) {
             String text = textMaker.getText(configuration.getServerLocale(), TextName.LoginSuccess);
             connection.getOutputQueue().push(text);
+            connection.setPlayer(dao.getPlayer(loginId, password));
             return new NoOperationStage();
         }
+
         String text = textMaker.getText(configuration.getServerLocale(), TextName.LoginFailed);
         connection.getOutputQueue().push(text);
         return new LoginPromptStage();
