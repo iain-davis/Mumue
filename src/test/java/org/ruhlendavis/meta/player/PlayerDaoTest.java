@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
-import java.util.Random;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -14,6 +13,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
 import org.ruhlendavis.meta.acceptance.DatabaseHelper;
+import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class PlayerDaoTest {
     private final QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
@@ -65,14 +65,26 @@ public class PlayerDaoTest {
         assertThat(player.getLocationId(), equalTo(locationId));
     }
 
+    @Test
+    public void invalidPasswordReturnsNotFound() {
+        String login = RandomStringUtils.randomAlphabetic(17);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        String otherPassword = RandomStringUtils.randomAlphabetic(15);
+        insertPlayer(login, password);
+
+        Player player = dao.getPlayer(login, otherPassword);
+
+        assertThat(player.getId(), equalTo(GlobalConstants.REFERENCE_NOTFOUND));
+    }
+
     private void insertPlayer(String login, String password) {
         insertPlayer(RandomUtils.nextInt(100, 200), login, password,
-                     RandomStringUtils.randomAlphabetic(4), RandomUtils.nextInt(200, 300));
+                RandomStringUtils.randomAlphabetic(4), RandomUtils.nextInt(200, 300));
     }
 
     private void insertPlayer(long id, String login, String password, String name, long locationId) {
         String sql = "insert into players (id, loginId, name, password, locationId)"
-                + " values (" + id + ", '" + login + "', '" + name + "', '" + password + "', " + locationId +");";
+                + " values (" + id + ", '" + login + "', '" + name + "', '" + password + "', " + locationId + ");";
         try {
             queryRunner.update(sql);
         } catch (SQLException e) {
