@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.componentsold.Component;
 import org.ruhlendavis.meta.componentsold.Artifact;
 import org.ruhlendavis.meta.componentsold.GameCharacter;
 import org.ruhlendavis.meta.componentsold.Homeable;

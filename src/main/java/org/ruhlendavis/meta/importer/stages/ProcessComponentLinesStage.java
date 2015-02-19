@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.componentsold.Component;
 import org.ruhlendavis.meta.componentsold.Artifact;
 import org.ruhlendavis.meta.componentsold.GameCharacter;
 import org.ruhlendavis.meta.componentsold.Link;

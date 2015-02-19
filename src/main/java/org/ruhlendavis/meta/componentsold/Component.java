@@ -1,12 +1,14 @@
-package org.ruhlendavis.meta.components;
+package org.ruhlendavis.meta.componentsold;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.ruhlendavis.meta.componentsold.properties.PropertyTree;
 import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;
-
     private String name = "";
     private String description = "";
 
@@ -14,29 +16,16 @@ public class Component {
     private Instant lastUsed = Instant.now();
     private Instant lastModified = Instant.now();
     private long useCount = 0;
-
-    private long universeId = GlobalConstants.REFERENCE_UNKNOWN;
-    private long locationId = GlobalConstants.REFERENCE_UNKNOWN;
+    private Component location;
+    private List<Component> contents = new ArrayList<>();
+    private PropertyTree properties = new PropertyTree();
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public Component withId(Long id) {
-        setId(id);
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -45,6 +34,14 @@ public class Component {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Instant getCreated() {
@@ -79,19 +76,24 @@ public class Component {
         this.useCount = useCount;
     }
 
-    public long getUniverseId() {
-        return universeId;
+    public PropertyTree getProperties() {
+        return properties;
     }
 
-    public void setUniverseId(long universeId) {
-        this.universeId = universeId;
+    public Component getLocation() {
+        return location;
     }
 
-    public long getLocationId() {
-        return locationId;
+    public void setLocation(Component location) {
+        this.location = location;
     }
 
-    public void setLocationId(long locationId) {
-        this.locationId = locationId;
+    public List<Component> getContents() {
+        return contents;
+    }
+
+    public Component withId(Long id) {
+        setId(id);
+        return this;
     }
 }

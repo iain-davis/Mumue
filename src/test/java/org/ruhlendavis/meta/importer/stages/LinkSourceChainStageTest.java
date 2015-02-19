@@ -9,7 +9,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.components.Component;
+import org.ruhlendavis.meta.componentsold.Component;
 import org.ruhlendavis.meta.componentsold.Artifact;
 import org.ruhlendavis.meta.componentsold.GameCharacter;
 import org.ruhlendavis.meta.componentsold.Link;

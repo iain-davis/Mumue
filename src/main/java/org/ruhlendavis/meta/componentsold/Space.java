@@ -3,8 +3,6 @@ package org.ruhlendavis.meta.componentsold;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruhlendavis.meta.components.Component;
-
 public class Space extends Component implements LinkSource, Ownable {
     private Component dropTo;
     private Component owner;
