@@ -74,7 +74,7 @@ public class PlayerDaoTest {
 
         Player player = dao.getPlayer(login, otherPassword);
 
-        assertThat(player.getId(), equalTo(GlobalConstants.REFERENCE_NOTFOUND));
+        assertThat(player.getId(), equalTo(GlobalConstants.REFERENCE_NOT_FOUND));
     }
 
     private void insertPlayer(String login, String password) {

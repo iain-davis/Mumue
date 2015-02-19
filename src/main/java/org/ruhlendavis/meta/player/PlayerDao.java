@@ -32,8 +32,7 @@ public class PlayerDao {
         try {
             Player player = database.query(GET_QUERY, resultSetHandler, login, password);
             if (player == null) {
-                player = new Player();
-                player.setId(GlobalConstants.REFERENCE_NOTFOUND);
+                return new Player().withId(GlobalConstants.REFERENCE_NOT_FOUND);
             }
             return player;
         } catch (SQLException exception) {

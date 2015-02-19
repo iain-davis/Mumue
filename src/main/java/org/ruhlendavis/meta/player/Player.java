@@ -31,4 +31,9 @@ public class Player extends IdAble {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Player withId(long id) {
+        setId(id);
+        return this;
+    }
 }
