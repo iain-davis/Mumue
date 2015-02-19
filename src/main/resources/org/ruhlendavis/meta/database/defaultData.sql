@@ -12,7 +12,7 @@ insert into universes (id, name, type) values (0, 'Player universe', 'player');
 insert into players (id, loginId, name, password, locationId)
              values (0, 'first', 'First Player', 'firstword', 0);
 
-insert into components (id, universe_id, reference, name, description, created, last_used, modified, use_count, location_id)
-                values (0, 0, 0, 'Waiting Room', 'White nothingness everywhere.', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, -1);
+insert into components (id, name, description, created, last_used, modified, use_count, universe_id, location_id)
+                values (0, 'Waiting Room', 'White nothingness everywhere.', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, -1);
 
 insert into spaces (id, component_id, drop_to_id, owner_id) values (0, 0, -1, -1);
