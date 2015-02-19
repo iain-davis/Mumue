@@ -15,19 +15,13 @@ import org.ruhlendavis.meta.acceptance.DatabaseHelper;
 public class TextDaoTest {
     private final TextDao textDao = new TextDao();
     @Test
-    public void getTextNeverReturnsNull() {
-        DatabaseHelper.setupTestDatabaseWithDefaultData();
-        assertNotNull(textDao.getText("", TextName.Welcome));
-    }
-
-    @Test
     public void getText() throws SQLException {
         String locale = RandomStringUtils.randomAlphabetic(5);
         String text = RandomStringUtils.randomAlphabetic(25);
 
-        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithDefaultData();
+        QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
         queryRunner.update("insert into text (locale, name, text) values (?, ?, ?)", locale, TextName.Welcome.toString(), text);
 
-        assertThat(textDao.getText(locale, TextName.Welcome), equalTo(text));
+        assertThat(textDao.getText(TextName.Welcome, locale), equalTo(text));
     }
 }

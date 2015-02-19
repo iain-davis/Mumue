@@ -17,7 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.Connection;
-import org.ruhlendavis.meta.connection.TextQueue;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
@@ -32,7 +31,7 @@ public class LoginPromptStageTest {
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(anyString(), eq(TextName.LoginPrompt))).thenReturn(prompt);
+        when(textMaker.getText(eq(TextName.LoginPrompt), anyString())).thenReturn(prompt);
     }
 
     @Test

@@ -42,8 +42,8 @@ public class PlayerAuthenticationStageTest {
     public void beforeEach() {
         connection.getInputQueue().push(loginId);
         connection.getInputQueue().push(password);
-        when(textMaker.getText(anyString(), eq(TextName.LoginFailed))).thenReturn(loginFailed);
-        when(textMaker.getText(anyString(), eq(TextName.LoginSuccess))).thenReturn(loginSuccess);
+        when(textMaker.getText(eq(TextName.LoginFailed), anyString())).thenReturn(loginFailed);
+        when(textMaker.getText(eq(TextName.LoginSuccess), anyString())).thenReturn(loginSuccess);
         when(dao.getPlayer(loginId, password)).thenReturn(player);
     }
 

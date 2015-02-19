@@ -20,25 +20,61 @@ public class TextMakerTest {
     public void getReturnsText() {
         String locale = RandomStringUtils.randomAlphabetic(5);
         String text = RandomStringUtils.randomAlphabetic(257);
-        when(textDao.getText(locale, TextName.Welcome)).thenReturn(text);
-        assertThat(textMaker.getText(locale, TextName.Welcome), equalTo(text));
+        when(textDao.getText(TextName.Welcome, locale)).thenReturn(text);
+        assertThat(textMaker.getText(TextName.Welcome, locale), equalTo(text));
+    }
+
+    @Test
+    public void getFallsBackOnTextNameWhenTextDaoReturnsNull() {
+        String otherLocale = RandomStringUtils.randomAlphabetic(4);
+        when(textMaker.getText(TextName.Welcome, otherLocale)).thenReturn(null);
+        assertThat(textMaker.getText(TextName.Welcome, otherLocale), equalTo(TextName.Welcome.toString()));
+    }
+
+    @Test
+    public void getFallsBackOnTextNameWhenTextDaoReturnsBlank() {
+        String otherLocale = RandomStringUtils.randomAlphabetic(4);
+        when(textMaker.getText(TextName.Welcome, otherLocale)).thenReturn("");
+        assertThat(textMaker.getText(TextName.Welcome, otherLocale), equalTo(TextName.Welcome.toString()));
+    }
+
+    @Test
+    public void getFallsBackOnAlternateLocaleWhenNotFoundTextDaoReturnsNull() {
+        String locale = RandomStringUtils.randomAlphabetic(5);
+        String alternateLocale = RandomStringUtils.randomAlphabetic(4);
+        String text = RandomStringUtils.randomAlphabetic(50);
+        when(textDao.getText(TextName.Welcome, locale)).thenReturn(null);
+        when(textDao.getText(TextName.Welcome, alternateLocale)).thenReturn(text);
+
+        assertThat(textMaker.getText(TextName.Welcome, locale, alternateLocale), equalTo(text));
+    }
+
+    @Test
+    public void getFallsBackOnAlternateLocaleWhenTextDaoReturnsBlank() {
+        String locale = RandomStringUtils.randomAlphabetic(5);
+        String alternateLocale = RandomStringUtils.randomAlphabetic(4);
+        String text = RandomStringUtils.randomAlphabetic(50);
+        when(textDao.getText(TextName.Welcome, locale)).thenReturn("");
+        when(textDao.getText(TextName.Welcome, alternateLocale)).thenReturn(text);
+
+        assertThat(textMaker.getText(TextName.Welcome, locale, alternateLocale), equalTo(text));
     }
 
     @Test
     public void replaceSlashNWithNewLine() {
         String locale = RandomStringUtils.randomAlphabetic(5);
         String text = RandomStringUtils.randomAlphabetic(27);
-        when(textDao.getText(locale, TextName.Welcome)).thenReturn(text + "\\n");
+        when(textDao.getText(TextName.Welcome, locale)).thenReturn(text + "\\n");
         String expected = text + "\n";
-        assertThat(textMaker.getText(locale, TextName.Welcome), equalTo(expected));
+        assertThat(textMaker.getText(TextName.Welcome, locale), equalTo(expected));
     }
 
     @Test
     public void replaceSlashRWithCarriageReturn() {
         String locale = RandomStringUtils.randomAlphabetic(5);
         String text = RandomStringUtils.randomAlphabetic(27);
-        when(textDao.getText(locale, TextName.Welcome)).thenReturn(text + "\\r");
+        when(textDao.getText(TextName.Welcome, locale)).thenReturn(text + "\\r");
         String expected = text + "\r";
-        assertThat(textMaker.getText(locale, TextName.Welcome), equalTo(expected));
+        assertThat(textMaker.getText(TextName.Welcome, locale), equalTo(expected));
     }
 }

@@ -3,7 +3,6 @@ package org.ruhlendavis.meta.connection.stages;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -17,32 +16,39 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.meta.configuration.Configuration;
 import org.ruhlendavis.meta.connection.Connection;
+import org.ruhlendavis.meta.player.Player;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PasswordPromptStageTest {
-    private final Connection connection = new Connection();
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+public class DisplayPlayerMenuStageTest {
+    private final String menu = RandomStringUtils.randomAlphanumeric(17);
+    private final String locale = RandomStringUtils.randomAlphabetic(15);
+    private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
+    private final Player player = new Player().withLocale(locale);
+    private final Connection connection = new Connection().withPlayer(player);
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks PasswordPromptStage stage;
+    @InjectMocks DisplayPlayerMenuStage stage;
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(eq(TextName.PasswordPrompt), anyString())).thenReturn(prompt);
+        when(configuration.getServerLocale()).thenReturn(serverLocale);
+        when(textMaker.getText(eq(TextName.PlayerMainMenu), eq(locale), eq(serverLocale))).thenReturn(menu);
     }
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(connection, configuration), instanceOf(WaitForPasswordStage.class));
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, instanceOf(ConnectionStage.class));
     }
 
     @Test
-    public void executePutsLoginPromptOnOutputQueue() {
+    public void executePutsMainMenuOnOutputQueue() {
         stage.execute(connection, configuration);
 
-        assertThat(connection.getOutputQueue(), contains(prompt));
+        assertThat(connection.getOutputQueue(), contains(menu));
     }
 }

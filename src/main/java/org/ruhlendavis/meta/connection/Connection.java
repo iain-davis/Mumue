@@ -22,4 +22,13 @@ public class Connection {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public Connection withPlayer(Player player) {
+        setPlayer(player);
+        return this;
+    }
+
+    public String getLocale() {
+        return player.getLocale();
+    }
 }

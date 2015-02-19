@@ -31,7 +31,7 @@ public class WelcomeStageTest {
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(anyString(), eq(TextName.Welcome))).thenReturn(welcome);
+        when(textMaker.getText(eq(TextName.Welcome), anyString())).thenReturn(welcome);
     }
 
     @Test

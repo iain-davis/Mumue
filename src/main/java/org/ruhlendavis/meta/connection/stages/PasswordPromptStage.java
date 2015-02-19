@@ -10,7 +10,7 @@ public class PasswordPromptStage implements ConnectionStage {
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
-        String text = textMaker.getText(configuration.getServerLocale(), TextName.PasswordPrompt);
+        String text = textMaker.getText(TextName.PasswordPrompt, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
         return new WaitForPasswordStage();
     }

@@ -5,13 +5,13 @@ import org.ruhlendavis.meta.connection.Connection;
 import org.ruhlendavis.meta.text.TextMaker;
 import org.ruhlendavis.meta.text.TextName;
 
-public class LoginPromptStage implements ConnectionStage {
+public class DisplayPlayerMenuStage implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
-        String text = textMaker.getText(TextName.LoginPrompt, configuration.getServerLocale());
-        connection.getOutputQueue().push(text);
-        return new WaitForLoginIdStage();
+        String menu = textMaker.getText(TextName.PlayerMainMenu, connection.getLocale(), configuration.getServerLocale());
+        connection.getOutputQueue().push(menu);
+        return this;
     }
 }

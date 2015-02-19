@@ -10,7 +10,7 @@ public class WelcomeStage implements ConnectionStage {
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
-        String text = textMaker.getText(configuration.getServerLocale(), TextName.Welcome);
+        String text = textMaker.getText(TextName.Welcome, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
         return new LoginPromptStage();
     }
