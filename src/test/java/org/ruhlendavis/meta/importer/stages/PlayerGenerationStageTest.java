@@ -1,7 +1,6 @@
 package org.ruhlendavis.meta.importer.stages;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -95,8 +94,8 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
         mockCharacterData(bucket, name, password, RandomUtils.nextLong(2, 100));
 
         Space space = new Space().withId(RandomUtils.nextLong(100,200));
-        bucket.getComponentLines().put(space.getReference(), mockComponentLines(space, null));
-        bucket.getComponents().put(space.getReference(), space);
+        bucket.getComponentLines().put(space.getId(), mockComponentLines(space, null));
+        bucket.getComponents().put(space.getId(), space);
 
         stage.run(bucket);
 
@@ -107,8 +106,8 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
     public void runWithoutCharactersDoesNotMakePlayers() {
         ImportBucket bucket = new ImportBucket();
         Space space = new Space().withId(RandomUtils.nextLong(100,200));
-        bucket.getComponentLines().put(space.getReference(), mockComponentLines(space, null));
-        bucket.getComponents().put(space.getReference(), space);
+        bucket.getComponentLines().put(space.getId(), mockComponentLines(space, null));
+        bucket.getComponents().put(space.getId(), space);
 
         stage.run(bucket);
 
@@ -128,7 +127,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
         Player player = new Player();
         player.setName(name);
 //        player.setPassword(password);
-        bucket.getComponentLines().put(character.getReference(), mockComponentLines(character, player));
-        bucket.getComponents().put(character.getReference(), character);
+        bucket.getComponentLines().put(character.getId(), mockComponentLines(character, player));
+        bucket.getComponents().put(character.getId(), character);
     }
 }

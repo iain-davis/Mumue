@@ -3,6 +3,8 @@ package org.ruhlendavis.meta.componentsold;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ruhlendavis.meta.components.Component;
+
 public class Artifact extends Component implements Homeable, LinkSource, Ownable {
     private Component home = new Component();
     private Long value = 0L;
@@ -39,7 +41,7 @@ public class Artifact extends Component implements Homeable, LinkSource, Ownable
 
     @Override
     public Artifact withId(Long reference) {
-        setReference(reference);
+        setId(reference);
         return this;
     }
 }

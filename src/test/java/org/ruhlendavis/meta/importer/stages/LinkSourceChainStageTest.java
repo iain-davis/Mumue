@@ -9,8 +9,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
+import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.componentsold.Artifact;
-import org.ruhlendavis.meta.componentsold.Component;
 import org.ruhlendavis.meta.componentsold.GameCharacter;
 import org.ruhlendavis.meta.componentsold.Link;
 import org.ruhlendavis.meta.componentsold.Program;
@@ -26,33 +26,33 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
         ImportBucket bucket = new ImportBucket();
 
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
-        bucket.getComponents().put(space.getReference(), space);
+        bucket.getComponents().put(space.getId(), space);
         List<String> lines = setupLines(space);
-        bucket.getComponentLines().put(space.getReference(), lines);
+        bucket.getComponentLines().put(space.getId(), lines);
 
         Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
         space.getLinks().add(firstLink);
         lines = setupLines(firstLink);
-        bucket.getComponents().put(firstLink.getReference(), firstLink);
-        bucket.getComponentLines().put(firstLink.getReference(), lines);
+        bucket.getComponents().put(firstLink.getId(), firstLink);
+        bucket.getComponentLines().put(firstLink.getId(), lines);
 
         List<Link> links = new ArrayList<>();
         links.add(firstLink);
         for (int i = 0; i < 3; i++) {
             Link link = new Link().withId(200L + i);
             links.add(link);
-            lines.set(4, link.getReference().toString());
+            lines.set(4, link.getId().toString());
             lines = setupLines(link);
-            bucket.getComponents().put(link.getReference(), link);
-            bucket.getComponentLines().put(link.getReference(), lines);
+            bucket.getComponents().put(link.getId(), link);
+            bucket.getComponentLines().put(link.getId(), lines);
         }
-        bucket.getComponentLines().get(links.get(links.size() -1).getReference()).set(4, "-1");
+        bucket.getComponentLines().get(links.get(links.size() -1).getId()).set(4, "-1");
 
         stage.run(bucket);
 
         assertEquals(4, space.getLinks().size());
         for (int i = 0; i < 4; i++) {
-            assertEquals(links.get(i).getReference(), space.getLinks().get(i).getReference());
+            assertEquals(links.get(i).getId(), space.getLinks().get(i).getId());
         }
     }
 
@@ -61,20 +61,20 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
         ImportBucket bucket = new ImportBucket();
 
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
-        bucket.getComponents().put(space.getReference(), space);
+        bucket.getComponents().put(space.getId(), space);
         List<String> lines = setupLines(space);
-        bucket.getComponentLines().put(space.getReference(), lines);
+        bucket.getComponentLines().put(space.getId(), lines);
 
         Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
         space.getLinks().add(firstLink);
         lines = setupLines(firstLink);
-        bucket.getComponents().put(firstLink.getReference(), firstLink);
-        bucket.getComponentLines().put(firstLink.getReference(), lines);
+        bucket.getComponents().put(firstLink.getId(), firstLink);
+        bucket.getComponentLines().put(firstLink.getId(), lines);
 
         stage.run(bucket);
 
         assertEquals(1, space.getLinks().size());
-        assertEquals(firstLink.getReference(), space.getLinks().get(0).getReference());
+        assertEquals(firstLink.getId(), space.getLinks().get(0).getId());
     }
 
     @Test
@@ -82,9 +82,9 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
         ImportBucket bucket = new ImportBucket();
 
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
-        bucket.getComponents().put(space.getReference(), space);
+        bucket.getComponents().put(space.getId(), space);
         List<String> lines = setupLines(space);
-        bucket.getComponentLines().put(space.getReference(), lines);
+        bucket.getComponentLines().put(space.getId(), lines);
 
         stage.run(bucket);
 
@@ -96,33 +96,33 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
         ImportBucket bucket = new ImportBucket();
 
         Artifact artifact = new Artifact().withId(RandomUtils.nextLong(2, 100));
-        bucket.getComponents().put(artifact.getReference(), artifact);
+        bucket.getComponents().put(artifact.getId(), artifact);
         List<String> lines = setupLines(artifact);
-        bucket.getComponentLines().put(artifact.getReference(), lines);
+        bucket.getComponentLines().put(artifact.getId(), lines);
 
         Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
         artifact.getLinks().add(firstLink);
         lines = setupLines(firstLink);
-        bucket.getComponents().put(firstLink.getReference(), firstLink);
-        bucket.getComponentLines().put(firstLink.getReference(), lines);
+        bucket.getComponents().put(firstLink.getId(), firstLink);
+        bucket.getComponentLines().put(firstLink.getId(), lines);
 
         List<Link> links = new ArrayList<>();
         links.add(firstLink);
         for (int i = 0; i < 3; i++) {
             Link link = new Link().withId(200L + i);
             links.add(link);
-            lines.set(4, link.getReference().toString());
+            lines.set(4, link.getId().toString());
             lines = setupLines(link);
-            bucket.getComponents().put(link.getReference(), link);
-            bucket.getComponentLines().put(link.getReference(), lines);
+            bucket.getComponents().put(link.getId(), link);
+            bucket.getComponentLines().put(link.getId(), lines);
         }
-        bucket.getComponentLines().get(links.get(links.size() -1).getReference()).set(4, "-1");
+        bucket.getComponentLines().get(links.get(links.size() -1).getId()).set(4, "-1");
 
         stage.run(bucket);
 
         assertEquals(4, artifact.getLinks().size());
         for (int i = 0; i < 4; i++) {
-            assertEquals(links.get(i).getReference(), artifact.getLinks().get(i).getReference());
+            assertEquals(links.get(i).getId(), artifact.getLinks().get(i).getId());
         }
     }
 
@@ -131,39 +131,39 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
         ImportBucket bucket = new ImportBucket();
 
         GameCharacter character = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
-        bucket.getComponents().put(character.getReference(), character);
+        bucket.getComponents().put(character.getId(), character);
         List<String> lines = setupLines(character);
-        bucket.getComponentLines().put(character.getReference(), lines);
+        bucket.getComponentLines().put(character.getId(), lines);
 
         Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
         character.getLinks().add(firstLink);
         lines = setupLines(firstLink);
-        bucket.getComponents().put(firstLink.getReference(), firstLink);
-        bucket.getComponentLines().put(firstLink.getReference(), lines);
+        bucket.getComponents().put(firstLink.getId(), firstLink);
+        bucket.getComponentLines().put(firstLink.getId(), lines);
 
         List<Link> links = new ArrayList<>();
         links.add(firstLink);
         for (int i = 0; i < 3; i++) {
             Link link = new Link().withId(200L + i);
             links.add(link);
-            lines.set(4, link.getReference().toString());
+            lines.set(4, link.getId().toString());
             lines = setupLines(link);
-            bucket.getComponents().put(link.getReference(), link);
-            bucket.getComponentLines().put(link.getReference(), lines);
+            bucket.getComponents().put(link.getId(), link);
+            bucket.getComponentLines().put(link.getId(), lines);
         }
-        bucket.getComponentLines().get(links.get(links.size() -1).getReference()).set(4, "-1");
+        bucket.getComponentLines().get(links.get(links.size() -1).getId()).set(4, "-1");
 
         stage.run(bucket);
 
         assertEquals(4, character.getLinks().size());
         for (int i = 0; i < 4; i++) {
-            assertEquals(links.get(i).getReference(), character.getLinks().get(i).getReference());
+            assertEquals(links.get(i).getId(), character.getLinks().get(i).getId());
         }
     }
 
     private List<String> setupLines(Component component) {
         List<String> lines = new ArrayList<>();
-        lines.add("#" + component.getReference().toString());
+        lines.add("#" + component.getId().toString());
         lines.add(RandomStringUtils.randomAlphabetic(13));
         lines.add("-1");
         lines.add("-1");

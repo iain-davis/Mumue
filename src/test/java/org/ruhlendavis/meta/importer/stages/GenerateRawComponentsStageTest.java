@@ -10,8 +10,8 @@ import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
+import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.componentsold.Artifact;
-import org.ruhlendavis.meta.componentsold.Component;
 import org.ruhlendavis.meta.componentsold.GameCharacter;
 import org.ruhlendavis.meta.componentsold.Link;
 import org.ruhlendavis.meta.componentsold.Program;
@@ -38,7 +38,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         Component component = bucket.getComponents().get(Long.parseLong(id));
         assertNotNull(component);
         assertTrue(component instanceof Space);
-        assertEquals(Long.parseLong(id), bucket.getComponents().get(Long.parseLong(id)).getReference(), 0);
+        assertEquals(Long.parseLong(id), bucket.getComponents().get(Long.parseLong(id)).getId(), 0);
     }
 
     @Test
@@ -54,11 +54,11 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         Component component = bucket.getComponents().get(Long.parseLong(id1));
         assertNotNull(component);
         assertTrue(component instanceof Space);
-        assertEquals(Long.parseLong(id1), component.getReference(), 0);
+        assertEquals(Long.parseLong(id1), component.getId(), 0);
         component = bucket.getComponents().get(Long.parseLong(id2));
         assertNotNull(component);
         assertTrue(component instanceof Artifact);
-        assertEquals(Long.parseLong(id2), component.getReference(), 0);
+        assertEquals(Long.parseLong(id2), component.getId(), 0);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         Component component = bucket.getComponents().get(Long.parseLong(id));
         assertNotNull(component);
         assertTrue(component instanceof Artifact);
-        assertEquals(Long.parseLong(id), component.getReference(), 0);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         Component component = bucket.getComponents().get(Long.parseLong(id));
         assertNotNull(component);
         assertTrue(component instanceof Link);
-        assertEquals(Long.parseLong(id), component.getReference(), 0);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         Component component = bucket.getComponents().get(Long.parseLong(id));
         assertNotNull(component);
         assertTrue(component instanceof GameCharacter);
-        assertEquals(Long.parseLong(id), component.getReference(), 0);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
         Component component = bucket.getComponents().get(Long.parseLong(id));
         assertNotNull(component);
         assertTrue(component instanceof Program);
-        assertEquals(Long.parseLong(id), component.getReference(), 0);
+        assertEquals(Long.parseLong(id), component.getId(), 0);
     }
 
     private ImportBucket setupImportBucket(String flags, String id) {

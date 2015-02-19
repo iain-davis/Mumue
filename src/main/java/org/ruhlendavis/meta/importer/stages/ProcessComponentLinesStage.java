@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.componentsold.Artifact;
-import org.ruhlendavis.meta.componentsold.Component;
 import org.ruhlendavis.meta.componentsold.GameCharacter;
 import org.ruhlendavis.meta.componentsold.Link;
 import org.ruhlendavis.meta.componentsold.LinkSource;
@@ -28,7 +28,7 @@ public class ProcessComponentLinesStage extends ImporterStage {
     }
 
     private void processComponent(ImportBucket bucket, Component component) {
-        List<String> lines = bucket.getComponentLines().get(component.getReference());
+        List<String> lines = bucket.getComponentLines().get(component.getId());
         component.setName(lines.get(NAME_INDEX));
         component.setLocation(getComponent(bucket, lines.get(LOCATION_INDEX)));
         component.getContents().add(getComponent(bucket, lines.get(CONTENTS_INDEX)));

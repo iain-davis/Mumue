@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.meta.componentsold.Component;
+import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.importer.GlobalConstants;
 import org.ruhlendavis.meta.importer.ImportBucket;
 
@@ -38,7 +38,7 @@ public class ContentsChainStageTest {
         buildNext(bucket, contentId, GlobalConstants.REFERENCE_UNKNOWN);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().get(id).getContents().size());
-        assertEquals(contentId, bucket.getComponents().get(id).getContents().get(0).getReference());
+        assertEquals(contentId, bucket.getComponents().get(id).getContents().get(0).getId());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ContentsChainStageTest {
         stage.run(bucket);
         assertEquals(count, bucket.getComponents().get(id).getContents().size());
         for (int i = 0; i < count; i++) {
-            assertEquals(contentIds.get(i), bucket.getComponents().get(id).getContents().get(i).getReference());
+            assertEquals(contentIds.get(i), bucket.getComponents().get(id).getContents().get(i).getId());
         }
     }
 

@@ -3,6 +3,8 @@ package org.ruhlendavis.meta.componentsold;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ruhlendavis.meta.components.Component;
+
 public class GameCharacter extends Component implements Homeable, LinkSource {
     private Component home = new Component();
     private Long wealth = 0L;
@@ -30,7 +32,7 @@ public class GameCharacter extends Component implements Homeable, LinkSource {
 
     @Override
     public GameCharacter withId(Long reference) {
-        setReference(reference);
+        setId(reference);
         return this;
     }
 }

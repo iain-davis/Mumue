@@ -1,20 +1,12 @@
 package org.ruhlendavis.meta.player;
 
+import org.ruhlendavis.meta.components.IdAble;
 import org.ruhlendavis.meta.importer.GlobalConstants;
 
-public class Player {
-    long id = GlobalConstants.REFERENCE_UNKNOWN;
+public class Player extends IdAble {
     String loginId = "";
     String name = "";
     long locationId = GlobalConstants.REFERENCE_UNKNOWN;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getLoginId() {
         return loginId;

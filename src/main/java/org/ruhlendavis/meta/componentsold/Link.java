@@ -3,6 +3,8 @@ package org.ruhlendavis.meta.componentsold;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ruhlendavis.meta.components.Component;
+
 public class Link extends Component implements Ownable {
     private List<Component> destinations = new ArrayList<>();
     private Component owner;
@@ -21,7 +23,7 @@ public class Link extends Component implements Ownable {
 
     @Override
     public Link withId(Long reference) {
-        setReference(reference);
+        setId(reference);
         return this;
     }
 }

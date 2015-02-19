@@ -2,7 +2,7 @@ package org.ruhlendavis.meta.importer;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.ruhlendavis.meta.componentsold.Component;
+import org.ruhlendavis.meta.components.Component;
 
 public abstract class ImporterStage {
     protected static final int ITEM_FLAGS_INDEX = 5;

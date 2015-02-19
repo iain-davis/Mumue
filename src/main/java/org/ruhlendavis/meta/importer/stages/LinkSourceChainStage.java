@@ -2,7 +2,7 @@ package org.ruhlendavis.meta.importer.stages;
 
 import java.util.Map.Entry;
 
-import org.ruhlendavis.meta.componentsold.Component;
+import org.ruhlendavis.meta.components.Component;
 import org.ruhlendavis.meta.componentsold.Link;
 import org.ruhlendavis.meta.componentsold.LinkSource;
 import org.ruhlendavis.meta.importer.ImportBucket;
@@ -24,13 +24,13 @@ public class LinkSourceChainStage extends ImporterStage {
         }
         Link current = component.getLinks().get(0);
         while (hasNext(bucket, current)) {
-            String id = bucket.getComponentLines().get(current.getReference()).get(4);
+            String id = bucket.getComponentLines().get(current.getId()).get(4);
             current = (Link)getComponent(bucket, id);
             component.getLinks().add(current);
         }
     }
 
     private boolean hasNext(ImportBucket bucket, Link current) {
-        return !bucket.getComponentLines().get(current.getReference()).get(4).equals("-1");
+        return !bucket.getComponentLines().get(current.getId()).get(4).equals("-1");
     }
 }

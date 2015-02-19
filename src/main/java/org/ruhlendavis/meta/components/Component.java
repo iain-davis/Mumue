@@ -1,15 +1,12 @@
-package org.ruhlendavis.meta.componentsold;
+package org.ruhlendavis.meta.components;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.ruhlendavis.meta.componentsold.properties.PropertyTree;
-import org.ruhlendavis.meta.importer.GlobalConstants;
 
-public class Component {
-    private Long id = -1L;
-    private Long reference = GlobalConstants.REFERENCE_UNKNOWN;
+public class Component extends IdAble {
     private String name = "";
     private Component location;
     private List<Component> contents = new ArrayList<>();
@@ -26,14 +23,6 @@ public class Component {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Long getReference() {
-        return reference;
-    }
-
-    public void setReference(Long reference) {
-        this.reference = reference;
     }
 
     public String getName() {
@@ -92,16 +81,8 @@ public class Component {
         return contents;
     }
 
-    public Component withId(Long reference) {
-        this.reference = reference;
+    public Component withId(Long id) {
+        setId(id);
         return this;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
