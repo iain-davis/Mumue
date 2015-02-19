@@ -8,7 +8,6 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import org.ruhlendavis.meta.database.QueryRunnerProvider;
-import org.ruhlendavis.meta.importer.GlobalConstants;
 
 public class PlayerDao {
     private static final String AUTHENTICATION_QUERY = "select count(*) from players where loginId = ? and password = ?";
@@ -32,7 +31,7 @@ public class PlayerDao {
         try {
             Player player = database.query(GET_QUERY, resultSetHandler, login, password);
             if (player == null) {
-                return new Player().withId(GlobalConstants.REFERENCE_NOT_FOUND);
+                return new Player();
             }
             return player;
         } catch (SQLException exception) {
