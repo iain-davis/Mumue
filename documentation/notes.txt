@@ -1,17 +1,1 @@
-* I think we need something like a Listener factory that separates the socket preparation from the Listener class.
-* Implement execute for Listener class.
-
-
-
-
-
-
 * What if all the functionality of a mu* client was available from the server itself?
-
-
-Connection States
-1. Before Welcome + Login Prompt
-2. Waiting for Login Id
-3. Waiting for Password
-4. PlayerConnection (e.g. authenticated, but not on a specific character)
-5. CharacterConnection (playing a character)
