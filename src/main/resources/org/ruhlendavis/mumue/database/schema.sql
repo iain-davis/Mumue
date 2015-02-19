@@ -3,7 +3,10 @@ create table text(id int primary key auto_increment, locale varchar(15), name va
 create table commands(id int primary key auto_increment, display varchar(255), minimum_partial varchar(255),
                       command_class varchar(255), is_token tinyint, available_unauthenticated tinyint);
 
-create table players(loginId varchar(255) primary key, password varchar(255), locale varchar(15));
+create table players(
+                     loginId varchar(255) primary key, password varchar(255), locale varchar(15),
+                     created timestamp, lastUsed timestamp, lastModified timestamp, useCount long
+                    );
 
 
 create table universes(id int primary key auto_increment, name varchar(255), type varchar(255));

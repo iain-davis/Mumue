@@ -1,6 +1,8 @@
 package org.ruhlendavis.mumue.player;
 
-public class Player {
+import org.ruhlendavis.mumue.components.TimestampAble;
+
+public class Player extends TimestampAble {
     String loginId = "";
     String locale = "";
 

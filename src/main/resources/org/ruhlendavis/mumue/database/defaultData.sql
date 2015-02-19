@@ -9,11 +9,15 @@ insert into text (id, locale, name, text) values (4, 'en-US', 'login success', '
 insert into text (id, locale, name, text) values (5, 'en-US', 'administrator main menu', 'A) Administer\r\n');
 insert into text (id, locale, name, text) values (6, 'en-US', 'player main menu', 'C) Create a character\r\nP) Play a character\r\nQ) Quit\r\n');
 
-insert into players (loginId, password, locale) values ('first', 'first password', 'en-US');
+insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount)
+            values  ('first', 'first password', 'en-US',
+                     timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0,
+            );
 
 insert into universes (id, name, type) values (0, 'Player universe', 'player');
 
 insert into components (id, name, description, created, lastUsed, lastModified, useCount, universeId, locationId)
-                values (0, 'Waiting Room', 'White nothingness everywhere.', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, -1);
+                values (0, 'Waiting Room', 'White nothingness everywhere.',
+                        timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, -1);
 
 insert into spaces (id, component_id, drop_to_id, owner_id) values (0, 0, -1, -1);
