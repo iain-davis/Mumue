@@ -15,10 +15,17 @@ insert into players (loginId, password, locale, created, lastUsed, lastModified,
                      true
             );
 
-insert into universes (id, name, type) values (0, 'Player universe', 'player');
+insert into universes (id, name, description, created, lastUsed, lastModified, useCount)
+            values    (0, 'First Universe', 'First Universe',
+                       timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0
+                      );
 
-insert into components (id, name, description, created, lastUsed, lastModified, useCount, universeId, locationId)
-                values (0, 'Waiting Room', 'White nothingness everywhere.',
-                        timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, -1);
-
-insert into spaces (id, component_id, drop_to_id, owner_id) values (0, 0, -1, -1);
+insert into spaces (id, name, description,
+                    created, lastUsed, lastModified, useCount,
+                    universeId, locationId,
+                    drop_to_id, owner_id)
+            values (0, 'Waiting Room', 'White nothingness everywhere.',
+                    timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0,
+                     0, -1,
+                    -1, -1
+                   );
