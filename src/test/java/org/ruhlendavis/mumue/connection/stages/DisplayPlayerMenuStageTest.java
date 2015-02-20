@@ -23,6 +23,7 @@ import org.ruhlendavis.mumue.text.TextName;
 @RunWith(MockitoJUnitRunner.class)
 public class DisplayPlayerMenuStageTest {
     private final String menu = RandomStringUtils.randomAlphanumeric(17);
+    private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
     private final String locale = RandomStringUtils.randomAlphabetic(15);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
     private final Player player = new Player().withLocale(locale);
@@ -36,6 +37,7 @@ public class DisplayPlayerMenuStageTest {
     public void beforeEach() {
         when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(textMaker.getText(eq(TextName.PlayerMainMenu), eq(locale), eq(serverLocale))).thenReturn(menu);
+        when(textMaker.getText(eq(TextName.AdministratorMainMenu), eq(locale), eq(serverLocale))).thenReturn(administratorMenu);
     }
 
     @Test
@@ -50,5 +52,15 @@ public class DisplayPlayerMenuStageTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(menu));
+    }
+
+    @Test
+    public void executeForAdministratorPlayerPutsAdministratorMainMenuOnOutputQueue() {
+        player.setAdministrator(true);
+
+        stage.execute(connection, configuration);
+
+        String expected = administratorMenu + menu;
+        assertThat(connection.getOutputQueue(), contains(expected));
     }
 }

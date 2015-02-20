@@ -5,6 +5,7 @@ import org.ruhlendavis.mumue.components.TimestampAble;
 public class Player extends TimestampAble {
     String loginId = "";
     String locale = "";
+    boolean administrator = false;
 
     public String getLoginId() {
         return loginId;
@@ -25,5 +26,13 @@ public class Player extends TimestampAble {
     public Player withLocale(String locale) {
         setLocale(locale);
         return this;
+    }
+
+    public boolean isAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(boolean administrator) {
+        this.administrator = administrator;
     }
 }

@@ -5,9 +5,9 @@ create table commands(id int primary key auto_increment, display varchar(255), m
 
 create table players(
                      loginId varchar(255) primary key, password varchar(255), locale varchar(15),
-                     created timestamp, lastUsed timestamp, lastModified timestamp, useCount long
+                     created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
+                     administrator boolean
                     );
-
 
 create table universes(id int primary key auto_increment, name varchar(255), type varchar(255));
 create table components(id int primary key auto_increment, name varchar(255),

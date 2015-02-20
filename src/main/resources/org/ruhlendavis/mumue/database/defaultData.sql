@@ -9,9 +9,10 @@ insert into text (id, locale, name, text) values (4, 'en-US', 'login success', '
 insert into text (id, locale, name, text) values (5, 'en-US', 'administrator main menu', 'A) Administer\r\n');
 insert into text (id, locale, name, text) values (6, 'en-US', 'player main menu', 'C) Create a character\r\nP) Play a character\r\nQ) Quit\r\n');
 
-insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount)
+insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  ('first', 'first password', 'en-US',
                      timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0,
+                     true
             );
 
 insert into universes (id, name, type) values (0, 'Player universe', 'player');

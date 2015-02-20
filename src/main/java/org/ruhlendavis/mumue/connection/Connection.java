@@ -27,8 +27,4 @@ public class Connection {
         setPlayer(player);
         return this;
     }
-
-    public String getLocale() {
-        return player.getLocale();
-    }
 }

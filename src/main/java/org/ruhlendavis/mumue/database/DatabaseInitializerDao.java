@@ -21,9 +21,9 @@ public class DatabaseInitializerDao {
 
     public boolean hasData() {
         QueryRunner queryRunner = QueryRunnerProvider.get();
-        ResultSetHandler resultSetHandler = new ScalarHandler<>(1);
+        ResultSetHandler<String> resultSetHandler = new ScalarHandler<>(1);
         try {
-            String version = (String) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_VERSION, resultSetHandler);
+            String version = queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_VERSION, resultSetHandler);
             return StringUtils.isNotBlank(version);
         } catch (SQLException exception) {
             throw new RuntimeException(exception);

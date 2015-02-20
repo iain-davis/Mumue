@@ -6,7 +6,8 @@ public enum TextName {
     PasswordPrompt("password prompt"),
     LoginFailed("login failed"),
     LoginSuccess("login success"),
-    PlayerMainMenu("player main menu");
+    PlayerMainMenu("player main menu"),
+    AdministratorMainMenu("administrator main menu");
 
     private final String name;
 
