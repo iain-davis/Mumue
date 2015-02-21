@@ -8,3 +8,4 @@
 - ComponentCollection idea
 - Generalize UniverseRowProcessor
 - Invert relationship between ConnectionFactory and ConnectionInitializer.
+- ConnectionInitializer needs better testing
