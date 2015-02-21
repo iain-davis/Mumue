@@ -1,23 +1,31 @@
 package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.ruhlendavis.mumue.components.Universe;
+import org.ruhlendavis.mumue.components.UniverseDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
+import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WaitForUniverseSelectionTest {
@@ -28,7 +36,16 @@ public class WaitForUniverseSelectionTest {
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
+    @Mock UniverseDao dao;
     @InjectMocks WaitForUniverseSelection stage;
+
+    @Before
+    public void beforeEach() {
+        Universe universe = new Universe();
+        universe.setId(RandomUtils.nextLong(100, 200));
+        when(dao.getUniverse(anyLong())).thenReturn(universe);
+        when(configuration.getServerLocale()).thenReturn(serverLocale);
+    }
 
     @Test
     public void neverReturnNull() {
@@ -61,5 +78,28 @@ public class WaitForUniverseSelectionTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getCharacter().getUniverseId(), equalTo(Long.parseLong(selection)));
+    }
+
+    @Test
+    public void rePromptOnInvalidSelection() {
+        connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
+        when(dao.getUniverse(anyLong())).thenReturn(new Universe());
+        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn("");
+
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, instanceOf(UniverseSelectionPrompt.class));
+    }
+
+    @Test
+    public void displayUnknownUniverseOnInvalidSelection () {
+        String message = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
+        when(dao.getUniverse(anyLong())).thenReturn(new Universe());
+        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn(message);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getOutputQueue(), hasItem(message));
     }
 }
