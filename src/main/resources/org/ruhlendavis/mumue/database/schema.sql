@@ -8,11 +8,16 @@ create table players(loginId varchar(255) primary key, password varchar(255), lo
                      administrator boolean
                     );
 
-create table universes(id int primary key auto_increment, name varchar(255), description varchar(255),
+create table universes(id int, name varchar(255), description varchar(255),
                        created timestamp, lastUsed timestamp, lastModified timestamp, useCount long
                       );
 
-create table spaces(id int primary key auto_increment, name varchar(255), description varchar(255),
+create table characters(id int, name varchar(255), description varchar(255),
+                       created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
+                       locationId int, universeId int
+                      );
+
+create table spaces(id int, name varchar(255), description varchar(255),
                     created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
                     universeId int, locationId int,
                     drop_to_id int, owner_id int

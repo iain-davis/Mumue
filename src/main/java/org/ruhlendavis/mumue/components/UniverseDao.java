@@ -38,6 +38,5 @@ public class UniverseDao {
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
         }
-
     }
 }
