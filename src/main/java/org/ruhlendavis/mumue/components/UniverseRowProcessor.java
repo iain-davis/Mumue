@@ -8,14 +8,11 @@ import java.util.List;
 import org.apache.commons.dbutils.BasicRowProcessor;
 
 public class UniverseRowProcessor extends BasicRowProcessor {
-    private TimestampAbleResultSetProcessor processor = new TimestampAbleResultSetProcessor();
+    private ComponentResultSetProcessor processor = new ComponentResultSetProcessor();
 
     @Override
     public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {
         Universe universe = new Universe();
-        universe.setId(resultSet.getLong("id"));
-        universe.setName(resultSet.getString("name"));
-        universe.setDescription(resultSet.getString("description"));
         processor.process(resultSet, universe);
 
         return type.cast(universe);
