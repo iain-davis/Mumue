@@ -1,10 +1,12 @@
 package org.ruhlendavis.mumue.connection;
 
+import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.player.Player;
 
 public class Connection {
     private TextQueue inputQueue = new TextQueue();
     private TextQueue outputQueue = new TextQueue();
+    private GameCharacter character = new GameCharacter();
     private Player player;
 
     public TextQueue getInputQueue() {
@@ -26,5 +28,13 @@ public class Connection {
     public Connection withPlayer(Player player) {
         setPlayer(player);
         return this;
+    }
+
+    public GameCharacter getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(GameCharacter character) {
+        this.character = character;
     }
 }
