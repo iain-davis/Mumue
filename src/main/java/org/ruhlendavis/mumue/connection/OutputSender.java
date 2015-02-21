@@ -6,14 +6,17 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import org.ruhlendavis.mumue.runner.InfiniteLoopBody;
+import org.ruhlendavis.mumue.texttransformer.TransformerEngine;
 
 public class OutputSender implements InfiniteLoopBody {
     private final Socket socket;
     private final TextQueue outputQueue;
+    private final TransformerEngine transformerEngine;
 
-    public OutputSender(Socket socket, TextQueue outputQueue) {
+    public OutputSender(Socket socket, TextQueue outputQueue, TransformerEngine transformerEngine) {
         this.socket = socket;
         this.outputQueue = outputQueue;
+        this.transformerEngine = transformerEngine;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class OutputSender implements InfiniteLoopBody {
         }
         try {
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            String text = outputQueue.pop();
+            String text = transformerEngine.transform(outputQueue.pop());
             output.write(text);
             output.flush();
         } catch (IOException exception) {
