@@ -8,7 +8,8 @@ public enum TextName {
     LoginSuccess("login success"),
     PlayerMainMenu("player main menu"),
     AdministratorMainMenu("administrator main menu"),
-    InvalidOption("invalid option");
+    InvalidOption("invalid option"),
+    CharacterNamePrompt("character name prompt");
 
     private final String name;
 

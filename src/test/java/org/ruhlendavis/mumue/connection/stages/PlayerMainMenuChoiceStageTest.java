@@ -48,7 +48,7 @@ public class PlayerMainMenuChoiceStageTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CreateCharacterStage.class));
+        assertThat(next, instanceOf(CharacterNamePromptStage.class));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class PlayerMainMenuChoiceStageTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CreateCharacterStage.class));
+        assertThat(next, instanceOf(CharacterNamePromptStage.class));
     }
 
     @Test

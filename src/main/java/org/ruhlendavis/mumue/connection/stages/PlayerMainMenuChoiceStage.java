@@ -18,7 +18,7 @@ public class PlayerMainMenuChoiceStage implements ConnectionStage {
             case "P":
                 return new PlayCharacterStage();
             case "C":
-                return new CreateCharacterStage();
+                return new CharacterNamePromptStage();
             default:
                 String locale = connection.getPlayer().getLocale();
                 String serverLocale = configuration.getServerLocale();
