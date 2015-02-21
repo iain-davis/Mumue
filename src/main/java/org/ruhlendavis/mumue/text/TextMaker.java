@@ -18,6 +18,6 @@ public class TextMaker {
                 return getText(textName, alternateLocale, alternateLocale);
             }
         }
-        return text.replaceAll("\\\\n", "\n").replaceAll("\\\\r", "\r");
+        return text;
     }
 }

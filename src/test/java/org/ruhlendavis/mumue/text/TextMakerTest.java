@@ -59,22 +59,4 @@ public class TextMakerTest {
 
         assertThat(textMaker.getText(TextName.Welcome, locale, alternateLocale), equalTo(text));
     }
-
-    @Test
-    public void replaceSlashNWithNewLine() {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String text = RandomStringUtils.randomAlphabetic(27);
-        when(textDao.getText(TextName.Welcome, locale)).thenReturn(text + "\\n");
-        String expected = text + "\n";
-        assertThat(textMaker.getText(TextName.Welcome, locale), equalTo(expected));
-    }
-
-    @Test
-    public void replaceSlashRWithCarriageReturn() {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String text = RandomStringUtils.randomAlphabetic(27);
-        when(textDao.getText(TextName.Welcome, locale)).thenReturn(text + "\\r");
-        String expected = text + "\r";
-        assertThat(textMaker.getText(TextName.Welcome, locale), equalTo(expected));
-    }
 }
