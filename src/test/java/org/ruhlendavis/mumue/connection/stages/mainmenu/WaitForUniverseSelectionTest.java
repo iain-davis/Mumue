@@ -1,5 +1,6 @@
 package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
@@ -45,11 +46,20 @@ public class WaitForUniverseSelectionTest {
 
     @Test
     public void nextStageOnValidSelection() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
+        connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
 
         ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(CharacterNamePrompt.class));
     }
 
+    @Test
+    public void setUniverseIdOnCharacter() {
+        String selection = RandomStringUtils.randomNumeric(2);
+        connection.getInputQueue().push(selection);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getCharacter().getUniverseId(), equalTo(Long.parseLong(selection)));
+    }
 }

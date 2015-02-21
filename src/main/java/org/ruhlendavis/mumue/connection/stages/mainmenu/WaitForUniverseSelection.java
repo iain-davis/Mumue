@@ -10,6 +10,8 @@ public class WaitForUniverseSelection implements ConnectionStage {
         if (connection.getInputQueue().isEmpty()) {
             return this;
         }
+        String selection = connection.getInputQueue().pop();
+        connection.getCharacter().setUniverseId(Long.parseLong(selection));
         return new CharacterNamePrompt();
     }
 }
