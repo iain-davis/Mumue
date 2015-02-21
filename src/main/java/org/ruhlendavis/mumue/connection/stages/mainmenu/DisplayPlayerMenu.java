@@ -1,12 +1,13 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
+import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-public class DisplayPlayerMenuStage implements ConnectionStage {
+public class DisplayPlayerMenu implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
 
     @Override
@@ -17,6 +18,6 @@ public class DisplayPlayerMenuStage implements ConnectionStage {
             menu = textMaker.getText(TextName.AdministratorMainMenu, player.getLocale(), configuration.getServerLocale()) + menu;
         }
         connection.getOutputQueue().push(menu);
-        return this;
+        return new WaitForPlayerMenuChoice();
     }
 }

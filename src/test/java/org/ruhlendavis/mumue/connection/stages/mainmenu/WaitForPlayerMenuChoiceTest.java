@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
@@ -16,19 +16,21 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
+import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.PlayCharacterStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PlayerMainMenuChoiceStageTest {
+public class WaitForPlayerMenuChoiceTest {
     String locale = RandomStringUtils.randomAlphabetic(16);
     String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final Connection connection = new Connection().withPlayer(new Player().withLocale(locale));
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks PlayerMainMenuChoiceStage stage;
+    @InjectMocks WaitForPlayerMenuChoice stage;
 
     @Test
     public void neverReturnNull() {
@@ -43,12 +45,12 @@ public class PlayerMainMenuChoiceStageTest {
     }
 
     @Test
-    public void goToCreateCharacterOnCInput() {
+    public void goToUniverseSelectionOnCInput() {
         connection.getInputQueue().push("C");
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CharacterNamePromptStage.class));
+        assertThat(next, instanceOf(UniverseSelectionPrompt.class));
     }
 
     @Test
@@ -57,7 +59,7 @@ public class PlayerMainMenuChoiceStageTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CharacterNamePromptStage.class));
+        assertThat(next, instanceOf(UniverseSelectionPrompt.class));
     }
 
     @Test
@@ -77,7 +79,7 @@ public class PlayerMainMenuChoiceStageTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(DisplayPlayerMenuStage.class));
+        assertThat(next, instanceOf(DisplayPlayerMenu.class));
 
     }
 

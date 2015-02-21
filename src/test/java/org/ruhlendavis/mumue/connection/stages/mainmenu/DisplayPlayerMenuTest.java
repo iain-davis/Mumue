@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
@@ -16,12 +16,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
+import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DisplayPlayerMenuStageTest {
+public class DisplayPlayerMenuTest {
     private final String menu = RandomStringUtils.randomAlphanumeric(17);
     private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
     private final String locale = RandomStringUtils.randomAlphabetic(15);
@@ -31,7 +32,7 @@ public class DisplayPlayerMenuStageTest {
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks DisplayPlayerMenuStage stage;
+    @InjectMocks DisplayPlayerMenu stage;
 
     @Before
     public void beforeEach() {
@@ -44,7 +45,7 @@ public class DisplayPlayerMenuStageTest {
     public void executeReturnsNextStage() {
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(ConnectionStage.class));
+        assertThat(next, instanceOf(WaitForPlayerMenuChoice.class));
     }
 
     @Test

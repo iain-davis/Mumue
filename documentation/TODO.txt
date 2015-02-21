@@ -1,0 +1,13 @@
+- UniverseRowProcessor needs tests
+- Place Character on Connection. This will either be the Character being created or character in play.
+- Handle out of range values for Universe selection
+- Determine how a component id is generated
+- Set component id of character on connection when create is selected
+- Set universe id of character on connection after prompt
+- Set name of character on connection after prompt
+- Determine how to require character name be unique for a given universe
+- Determine how to require that a character name only be used by one player
+- Release component id if character is abandoned
+- ComponentCollection idea
+- Generalize UniverseRowProcessor
+- Invert relationship between ConnectionFactory and ConnectionInitializer.
