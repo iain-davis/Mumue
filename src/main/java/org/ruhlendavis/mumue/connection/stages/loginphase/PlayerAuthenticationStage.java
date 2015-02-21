@@ -1,8 +1,10 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.loginphase;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.CurrentTimestampProvider;
+import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.player.PlayerDao;
 import org.ruhlendavis.mumue.text.TextMaker;

@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.loginphase;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
@@ -21,22 +21,22 @@ import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PasswordPromptStageTest {
+public class LoginPromptStageTest {
     private final Connection connection = new Connection();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks PasswordPromptStage stage;
+    @InjectMocks LoginPromptStage stage;
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(eq(TextName.PasswordPrompt), anyString())).thenReturn(prompt);
+        when(textMaker.getText(eq(TextName.LoginPrompt), anyString())).thenReturn(prompt);
     }
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(connection, configuration), instanceOf(WaitForPasswordStage.class));
+        assertThat(stage.execute(connection, configuration), instanceOf(WaitForLoginIdStage.class));
     }
 
     @Test

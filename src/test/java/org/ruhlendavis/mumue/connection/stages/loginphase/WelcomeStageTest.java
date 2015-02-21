@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.loginphase;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
@@ -21,28 +21,28 @@ import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginPromptStageTest {
+public class WelcomeStageTest {
     private final Connection connection = new Connection();
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String welcome = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks LoginPromptStage stage;
+    @InjectMocks WelcomeStage stage;
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(eq(TextName.LoginPrompt), anyString())).thenReturn(prompt);
+        when(textMaker.getText(eq(TextName.Welcome), anyString())).thenReturn(welcome);
     }
 
     @Test
-    public void executeReturnsNextStage() {
-        assertThat(stage.execute(connection, configuration), instanceOf(WaitForLoginIdStage.class));
+    public void executeReturnsLoginPromptStage() {
+        assertThat(stage.execute(connection, configuration), instanceOf(LoginPromptStage.class));
     }
 
     @Test
-    public void executePutsLoginPromptOnOutputQueue() {
+    public void executePutsWelcomeOnOutputQueue() {
         stage.execute(connection, configuration);
 
-        assertThat(connection.getOutputQueue(), contains(prompt));
+        assertThat(connection.getOutputQueue(), contains(welcome));
     }
 }
