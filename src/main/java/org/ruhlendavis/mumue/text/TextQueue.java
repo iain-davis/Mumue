@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection;
+package org.ruhlendavis.mumue.text;
 
 import java.util.Collection;
 import java.util.Iterator;

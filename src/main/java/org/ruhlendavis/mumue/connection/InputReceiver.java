@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 import org.ruhlendavis.mumue.runner.InfiniteLoopBody;
+import org.ruhlendavis.mumue.text.TextQueue;
 
 public class InputReceiver implements InfiniteLoopBody {
     private final TextQueue inputQueue;

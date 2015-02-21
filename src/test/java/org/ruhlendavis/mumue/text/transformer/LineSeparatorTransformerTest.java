@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.texttransformer;
+package org.ruhlendavis.mumue.text.transformer;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;

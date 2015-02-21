@@ -2,6 +2,7 @@ package org.ruhlendavis.mumue.connection;
 
 import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.player.Player;
+import org.ruhlendavis.mumue.text.TextQueue;
 
 public class Connection {
     private TextQueue inputQueue = new TextQueue();

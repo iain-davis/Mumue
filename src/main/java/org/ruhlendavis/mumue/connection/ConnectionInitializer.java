@@ -4,8 +4,8 @@ import java.net.Socket;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.runner.InfiniteLoopRunnerStarter;
-import org.ruhlendavis.mumue.texttransformer.LineSeparatorTransformer;
-import org.ruhlendavis.mumue.texttransformer.TransformerEngine;
+import org.ruhlendavis.mumue.text.transformer.LineSeparatorTransformer;
+import org.ruhlendavis.mumue.text.transformer.TransformerEngine;
 
 public class ConnectionInitializer {
     private InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = new InfiniteLoopRunnerStarter();

@@ -20,7 +20,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.mumue.texttransformer.TransformerEngine;
+import org.ruhlendavis.mumue.text.TextQueue;
+import org.ruhlendavis.mumue.text.transformer.TransformerEngine;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OutputSenderTest {

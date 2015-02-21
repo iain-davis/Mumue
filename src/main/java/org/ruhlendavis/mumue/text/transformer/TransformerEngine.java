@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.texttransformer;
+package org.ruhlendavis.mumue.text.transformer;
 
 import java.util.ArrayList;
 import java.util.List;

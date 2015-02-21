@@ -16,6 +16,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.ruhlendavis.mumue.text.TextQueue;
+
 @RunWith(MockitoJUnitRunner.class)
 public class InputReceiverTest {
     private final Socket socket = mock(Socket.class);

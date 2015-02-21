@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.texttransformer;
+package org.ruhlendavis.mumue.text.transformer;
 
 public class LineSeparatorTransformer implements TextTransformer {
     @Override
