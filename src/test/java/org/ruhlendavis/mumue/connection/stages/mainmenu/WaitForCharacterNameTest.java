@@ -74,6 +74,16 @@ public class WaitForCharacterNameTest {
     }
 
     @Test
+    public void nextStageOnValidNameNoMatchingName() {
+        when(dao.getCharacter(name)).thenReturn(new GameCharacter());
+        connection.getInputQueue().push(name);
+
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, instanceOf(CreateCharacter.class));
+    }
+
+    @Test
     public void setCharacterName() {
         connection.getInputQueue().push(name);
 
@@ -117,7 +127,8 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerDisplayMessage() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new GameCharacter().withPlayerId(RandomStringUtils.randomAlphabetic(7));
+        GameCharacter characterThatExists = new GameCharacter().withId(RandomUtils.nextLong(200, 300))
+                .withPlayerId(RandomStringUtils.randomAlphabetic(7));
 
         connection.getInputQueue().push(name);
 
@@ -132,7 +143,8 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new GameCharacter().withPlayerId(RandomStringUtils.randomAlphabetic(7));
+        GameCharacter characterThatExists = new GameCharacter().withId(RandomUtils.nextLong(200, 300))
+                .withPlayerId(RandomStringUtils.randomAlphabetic(7));
         connection.getInputQueue().push(name);
 
         when(dao.getCharacter(name)).thenReturn(characterThatExists);

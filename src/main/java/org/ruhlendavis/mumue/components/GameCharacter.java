@@ -11,6 +11,12 @@ public class GameCharacter extends LocatableComponent {
         this.playerId = playerId;
     }
 
+    @Override
+    public GameCharacter withId(Long id) {
+        setId(id);
+        return this;
+    }
+
     public GameCharacter withPlayerId(String playerId) {
         setPlayerId(playerId);
         return this;

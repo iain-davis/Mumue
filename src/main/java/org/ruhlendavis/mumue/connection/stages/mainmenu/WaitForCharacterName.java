@@ -38,12 +38,13 @@ public class WaitForCharacterName implements ConnectionStage {
     }
 
     private boolean nameTakenByOtherPlayer(String name, String loginId) {
-        return !loginId.equals(dao.getCharacter(name).getPlayerId());
+        GameCharacter character = dao.getCharacter(name);
+        return character.getId() != GlobalConstants.REFERENCE_UNKNOWN && !loginId.equals(character.getPlayerId());
     }
 
     private boolean nameTakenInUniverse(String name, long universeId) {
         GameCharacter character = dao.getCharacter(name, universeId);
-        return !(character.getId() == GlobalConstants.REFERENCE_UNKNOWN);
+        return character.getId() != GlobalConstants.REFERENCE_UNKNOWN;
 
     }
 }
