@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
-public class LocationalComponentTest {
-    private final LocationalComponent component = new LocationalComponent() {};
+public class LocatableComponentTest {
+    private final LocatableComponent component = new LocatableComponent() {};
 
     @Test
     public void componentHasUnknownDefaultLocationId() {

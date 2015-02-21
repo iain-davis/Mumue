@@ -2,7 +2,7 @@ package org.ruhlendavis.mumue.components;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
-public abstract class LocationalComponent extends Component {
+public abstract class LocatableComponent extends Component {
     private long locationId = GlobalConstants.REFERENCE_UNKNOWN;
     private long universeId = GlobalConstants.REFERENCE_UNKNOWN;
 
