@@ -14,4 +14,14 @@ public class ComponentTest {
     public void componentHasUnknownDefaultId() {
         assertThat(component.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
+
+    @Test
+    public void componentHasEmptyNameByDefault() {
+        assertThat(component.getName(), equalTo(""));
+    }
+
+    @Test
+    public void componentHasEmptyDescriptionByDefault() {
+        assertThat(component.getDescription(), equalTo(""));
+    }
 }
