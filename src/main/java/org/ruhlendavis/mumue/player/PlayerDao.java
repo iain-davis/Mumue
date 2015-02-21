@@ -27,7 +27,7 @@ public class PlayerDao {
 
     public Player getPlayer(String login, String password) {
         QueryRunner database = QueryRunnerProvider.get();
-        ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class);
+        ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class, new PlayerRowProcessor());
         try {
             Player player = database.query(GET_QUERY, resultSetHandler, login, password);
             if (player == null) {

@@ -71,8 +71,9 @@ public class PlayerDaoTest {
     }
 
     private void insertPlayer(String loginId, String password) {
-        String sql = "insert into players (loginId, password)"
-                + " values ('" + loginId + "','" + password + "');";
+        String sql = "insert into players (loginId, password, created, lastModified, lastUsed, useCount)"
+                + " values ('" + loginId + "','" + password + "', "
+                + "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0);";
         try {
             queryRunner.update(sql);
         } catch (SQLException e) {
