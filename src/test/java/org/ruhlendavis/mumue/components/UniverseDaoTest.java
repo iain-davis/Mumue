@@ -19,6 +19,22 @@ public class UniverseDaoTest {
     private UniverseDao dao = new UniverseDao();
 
     @Test
+    public void getUniverseNeverReturnsNull() {
+        assertNotNull(dao.getUniverse(-1L));
+    }
+
+    @Test
+    public void getUniverseReturnsUniverse() {
+        long universeId = RandomUtils.nextLong(100, 200);
+        String name = RandomStringUtils.randomAlphabetic(17);
+        insertUniverse(universeId, name, "");
+
+        Universe universe = dao.getUniverse(universeId);
+
+        assertThat(universe.getName(), equalTo(name));
+    }
+
+    @Test
     public void getUniversesNeverReturnsNull() {
         assertNotNull(dao.getUniverses());
     }
@@ -27,7 +43,7 @@ public class UniverseDaoTest {
     public void getUniversesReturnsOne() {
         String name = RandomStringUtils.randomAlphabetic(13);
         String description = RandomStringUtils.randomAlphabetic(25);
-        insertUniverse(100, name, description);
+        insertUniverse(100L, name, description);
 
         Collection<Universe> universes = dao.getUniverses();
 
@@ -41,16 +57,16 @@ public class UniverseDaoTest {
         String name2 = RandomStringUtils.randomAlphabetic(13);
         String name3 = RandomStringUtils.randomAlphabetic(13);
         String description = RandomStringUtils.randomAlphabetic(25);
-        insertUniverse(100, name1, description);
-        insertUniverse(101, name2, description);
-        insertUniverse(102, name3, description);
+        insertUniverse(100L, name1, description);
+        insertUniverse(101L, name2, description);
+        insertUniverse(102L, name3, description);
 
         Collection<Universe> universes = dao.getUniverses();
 
         assertThat(universes.size(), equalTo(3));
     }
 
-    private void insertUniverse(int id, String name, String description) {
+    private void insertUniverse(long id, String name, String description) {
         String sql = "insert into universes (id, name, description, created, lastUsed, lastModified, useCount) " +
                 "values (" + id + ", '" + name + "', '" + description + "', " +
                 "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0);";
