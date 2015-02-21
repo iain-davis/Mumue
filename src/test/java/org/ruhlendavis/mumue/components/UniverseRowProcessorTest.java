@@ -1,5 +1,6 @@
 package org.ruhlendavis.mumue.components;
 
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -23,5 +24,11 @@ public class UniverseRowProcessorTest {
     public void useComponentResultSetProcessor() throws SQLException {
         processor.toBean(resultSet, Universe.class);
         verify(componentProcessor).process(eq(resultSet), any(Universe.class));
+    }
+
+    @Test
+    public void returnUniverse() throws SQLException {
+        Universe universe = processor.toBean(resultSet, Universe.class);
+        assertNotNull(universe);
     }
 }
