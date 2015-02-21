@@ -5,7 +5,7 @@ import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-public class WaitForMainMenuChoiceStage implements ConnectionStage {
+public class PlayerMainMenuChoiceStage implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
 
     @Override

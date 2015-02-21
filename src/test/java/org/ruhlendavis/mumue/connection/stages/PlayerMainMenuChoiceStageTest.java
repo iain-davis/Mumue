@@ -21,14 +21,14 @@ import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WaitForMainMenuChoiceStageTest {
+public class PlayerMainMenuChoiceStageTest {
     String locale = RandomStringUtils.randomAlphabetic(16);
     String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final Connection connection = new Connection().withPlayer(new Player().withLocale(locale));
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks WaitForMainMenuChoiceStage stage;
+    @InjectMocks PlayerMainMenuChoiceStage stage;
 
     @Test
     public void neverReturnNull() {
