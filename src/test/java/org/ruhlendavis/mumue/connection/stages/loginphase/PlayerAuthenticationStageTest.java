@@ -23,6 +23,7 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.CurrentTimestampProvider;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.DisplayPlayerMenuStage;
 import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.player.PlayerDao;
@@ -62,7 +63,7 @@ public class PlayerAuthenticationStageTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(NoOperationStage.class));
+        assertThat(next, instanceOf(DisplayPlayerMenuStage.class));
     }
 
     @Test

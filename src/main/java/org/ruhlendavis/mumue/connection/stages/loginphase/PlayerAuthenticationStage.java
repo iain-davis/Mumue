@@ -4,6 +4,7 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.CurrentTimestampProvider;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.DisplayPlayerMenuStage;
 import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.player.PlayerDao;
@@ -27,7 +28,7 @@ public class PlayerAuthenticationStage implements ConnectionStage {
             player.setLastModified(currentTimestampProvider.get());
             player.countUse();
             connection.setPlayer(player);
-            return new NoOperationStage();
+            return new DisplayPlayerMenuStage();
         }
 
         String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
