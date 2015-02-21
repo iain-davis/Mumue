@@ -10,7 +10,9 @@ public enum TextName {
     AdministratorMainMenu("administrator main menu"),
     InvalidOption("invalid option"),
     CharacterNamePrompt("character name prompt"),
-    UniverseSelectionPrompt("universe selection prompt");
+    UniverseSelectionPrompt("universe selection prompt"),
+    CharacterNameAlreadyExists("character name already exists"),
+    CharacterNameTakenByOtherPlayer("character name taken by other player");
 
     private final String name;
 

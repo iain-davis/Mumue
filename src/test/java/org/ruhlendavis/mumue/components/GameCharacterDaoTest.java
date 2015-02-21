@@ -19,7 +19,7 @@ public class GameCharacterDaoTest {
     private GameCharacterDao dao = new GameCharacterDao();
 
     @Test
-    public void getUniverseNeverReturnsNull() {
+    public void getCharacterNeverReturnsNull() {
         assertNotNull(dao.getCharacter(RandomStringUtils.randomAlphabetic(17), GlobalConstants.REFERENCE_UNKNOWN));
     }
 
@@ -31,6 +31,23 @@ public class GameCharacterDaoTest {
         insertCharacter(characterId, universeId, name);
 
         GameCharacter character = dao.getCharacter(name, universeId);
+
+        assertThat(character.getName(), equalTo(name));
+    }
+
+    @Test
+    public void getCharacterByNameNeverReturnsNull() {
+        assertNotNull(dao.getCharacter(RandomStringUtils.randomAlphabetic(17)));
+    }
+
+    @Test
+    public void getCharacterByNameReturnsCharacter() {
+        long characterId = RandomUtils.nextLong(200, 300);
+        long universeId = RandomUtils.nextLong(100, 200);
+        String name = RandomStringUtils.randomAlphabetic(17);
+        insertCharacter(characterId, universeId, name);
+
+        GameCharacter character = dao.getCharacter(name);
 
         assertThat(character.getName(), equalTo(name));
     }

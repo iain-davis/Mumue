@@ -1,16 +1,18 @@
 insert into configuration_options (id, name, value) values (0, 'database schema version', '0.0');
 insert into configuration_options (id, name, value) values (1, 'server locale', 'en-US');
 
-insert into text (id, locale, name, text) values (0, 'en-US', 'welcome screen', 'Welcome to Mumue!\r\n');
-insert into text (id, locale, name, text) values (1, 'en-US', 'login prompt', '\r\nEnter your login ID: ');
-insert into text (id, locale, name, text) values (2, 'en-US', 'password prompt', 'Enter your password: ');
-insert into text (id, locale, name, text) values (3, 'en-US', 'login failed', '\r\nLogin failed. Please try again.\r\n');
-insert into text (id, locale, name, text) values (4, 'en-US', 'login success', '\r\nLogin succeeded. Welcome back!\r\n');
-insert into text (id, locale, name, text) values (5, 'en-US', 'administrator main menu', 'A) Administer\r\n');
-insert into text (id, locale, name, text) values (6, 'en-US', 'player main menu', 'C) Create a character\r\nP) Play a character\r\nQ) Quit\r\n');
-insert into text (id, locale, name, text) values (7, 'en-US', 'invalid option', 'Invalid option selected. Try again:\r\n');
-insert into text (id, locale, name, text) values (8, 'en-US', 'character name prompt', 'Enter a name for your character: ');
-insert into text (id, locale, name, text) values (9, 'en-US', 'universe selection prompt', 'Select a universe for your character: ');
+insert into text (id, locale, name, text) values ( 0, 'en-US', 'welcome screen', 'Welcome to Mumue!\r\n');
+insert into text (id, locale, name, text) values ( 1, 'en-US', 'login prompt', '\r\nEnter your login ID: ');
+insert into text (id, locale, name, text) values ( 2, 'en-US', 'password prompt', 'Enter your password: ');
+insert into text (id, locale, name, text) values ( 3, 'en-US', 'login failed', '\r\nLogin failed. Please try again.\r\n');
+insert into text (id, locale, name, text) values ( 4, 'en-US', 'login success', '\r\nLogin succeeded. Welcome back!\r\n');
+insert into text (id, locale, name, text) values ( 5, 'en-US', 'administrator main menu', 'A) Administer\r\n');
+insert into text (id, locale, name, text) values ( 6, 'en-US', 'player main menu', 'C) Create a character\r\nP) Play a character\r\nQ) Quit\r\n');
+insert into text (id, locale, name, text) values ( 7, 'en-US', 'invalid option', 'Invalid option selected. Try again:\r\n');
+insert into text (id, locale, name, text) values ( 8, 'en-US', 'character name prompt', 'Enter a name for your character: ');
+insert into text (id, locale, name, text) values ( 9, 'en-US', 'universe selection prompt', 'Select a universe for your character: ');
+insert into text (id, locale, name, text) values (10, 'en-US', 'character name already exists', 'Character name already exists in that universe.');
+insert into text (id, locale, name, text) values (11, 'en-US', 'character name taken by other player', 'Character name taken by another player.');
 
 insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  ('first', 'first password', 'en-US',

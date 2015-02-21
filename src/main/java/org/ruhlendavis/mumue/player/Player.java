@@ -10,7 +10,6 @@ public class Player extends TimestampAble {
     String loginId = "";
     String locale = "";
     boolean administrator = false;
-    private Collection<GameCharacter> characters = new ArrayList<>();
 
     public String getLoginId() {
         return loginId;
@@ -41,11 +40,8 @@ public class Player extends TimestampAble {
         this.administrator = administrator;
     }
 
-    public Collection<GameCharacter> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(Collection<GameCharacter> characters) {
-        this.characters = characters;
+    public Player withLoginId(String loginId) {
+        setLoginId(loginId);
+        return this;
     }
 }

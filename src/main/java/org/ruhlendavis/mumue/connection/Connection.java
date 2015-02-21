@@ -37,4 +37,9 @@ public class Connection {
     public void setCharacter(GameCharacter character) {
         this.character = character;
     }
+
+    public Connection withCharacter(GameCharacter character) {
+        setCharacter(character);
+        return this;
+    }
 }

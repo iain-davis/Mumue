@@ -50,26 +50,4 @@ public class CreateCharacterTest {
 
         assertThat(next, instanceOf(NoOperationStage.class));
     }
-
-    @Test
-    public void createCharacter() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
-
-        stage.execute(connection, configuration);
-
-        assertThat(player.getCharacters().size(), equalTo(1));
-    }
-
-    @Test
-    public void createdCharacterShouldBeNamed() {
-        String name = RandomStringUtils.randomAlphabetic(17);
-        connection.getInputQueue().push(name);
-
-        stage.execute(connection, configuration);
-
-        Collection<GameCharacter> characters = player.getCharacters();
-
-        assertThat(characters.size(), equalTo(1));
-        assertThat(characters.stream().findFirst().get().getName(), equalTo(name));
-    }
 }

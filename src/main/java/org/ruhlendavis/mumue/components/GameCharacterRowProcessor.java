@@ -10,6 +10,7 @@ public class GameCharacterRowProcessor extends BasicRowProcessor {
     @Override
     public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {
         GameCharacter character = new GameCharacter();
+        character.setPlayerId(resultSet.getString("playerId"));
         componentResultSetProcessor.process(resultSet, character);
         return type.cast(character);
     }

@@ -1,5 +1,3 @@
-- Determine how to require character name be unique for a given universe
-- Determine how to require that a character name only be used by one player
 - Determine how a component id is generated
 - Set component id of character
 - ComponentCollection idea
