@@ -10,6 +10,7 @@ public class WaitForCharacterName implements ConnectionStage {
         if (connection.getInputQueue().isEmpty()) {
             return this;
         }
+        connection.getCharacter().setName(connection.getInputQueue().pop());
         return new CreateCharacter();
     }
 }

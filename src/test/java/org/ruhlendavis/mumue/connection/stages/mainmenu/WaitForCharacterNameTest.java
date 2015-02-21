@@ -1,5 +1,6 @@
     package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
@@ -51,5 +52,15 @@ public class WaitForCharacterNameTest {
         ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(CreateCharacter.class));
+    }
+
+    @Test
+    public void setCharacterName() {
+        String name = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(name);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getCharacter().getName(), equalTo(name));
     }
 }

@@ -1,8 +1,6 @@
-- Fix issue with timestamps and PlayerDao
 - UniverseRowProcessor needs tests
 - Determine how a component id is generated
 - Set component id of character on connection when create is selected
-- Set name of character on connection after prompt
 - Determine how to require character name be unique for a given universe
 - Determine how to require that a character name only be used by one player
 - Release component id if character is abandoned
