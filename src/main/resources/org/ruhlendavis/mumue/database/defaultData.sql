@@ -8,6 +8,7 @@ insert into text (id, locale, name, text) values (3, 'en-US', 'login failed', '\
 insert into text (id, locale, name, text) values (4, 'en-US', 'login success', '\r\nLogin succeeded. Welcome back!\r\n');
 insert into text (id, locale, name, text) values (5, 'en-US', 'administrator main menu', 'A) Administer\r\n');
 insert into text (id, locale, name, text) values (6, 'en-US', 'player main menu', 'C) Create a character\r\nP) Play a character\r\nQ) Quit\r\n');
+insert into text (id, locale, name, text) values (7, 'en-US', 'invalid option', 'Invalid option selected. Try again:\r\n');
 
 insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  ('first', 'first password', 'en-US',
