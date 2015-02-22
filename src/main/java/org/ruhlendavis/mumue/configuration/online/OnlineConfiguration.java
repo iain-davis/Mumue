@@ -12,8 +12,8 @@ public class OnlineConfiguration {
         return StringUtils.isBlank(value) ? ConfigurationDefaults.SERVER_LOCALE : value;
     }
 
-    public long getNextComponentId() {
-        String value = dao.getConfigurationOption(OnlineConfigurationOptionName.NEXT_COMPONENT_ID);
-        return StringUtils.isBlank(value) ? ConfigurationDefaults.NEXT_COMPONENT_ID : Long.parseLong(value);
+    public long getLastComponentId() {
+        String value = dao.getConfigurationOption(OnlineConfigurationOptionName.LAST_COMPONENT_ID);
+        return StringUtils.isBlank(value) ? ConfigurationDefaults.LAST_COMPONENT_ID : Long.parseLong(value);
     }
 }

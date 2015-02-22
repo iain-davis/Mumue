@@ -45,6 +45,6 @@ public class Configuration {
     }
 
     public long getNewComponentId() {
-        return componentIdManager.getNewComponentId(onlineConfiguration.getNextComponentId());
+        return componentIdManager.getNewComponentId(onlineConfiguration);
     }
 }

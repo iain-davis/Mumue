@@ -34,6 +34,7 @@ public class WaitForCharacterName implements ConnectionStage {
         }
 
         connection.getCharacter().setName(name);
+        connection.getCharacter().setId(configuration.getNewComponentId());
         return new CreateCharacter();
     }
 

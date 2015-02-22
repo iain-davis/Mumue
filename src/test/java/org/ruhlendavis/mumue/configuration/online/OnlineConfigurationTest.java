@@ -33,14 +33,14 @@ public class OnlineConfigurationTest {
 
     @Test
     public void getLastComponentIdReturnsDefault() {
-        assertThat(onlineConfiguration.getNextComponentId(), equalTo(ConfigurationDefaults.NEXT_COMPONENT_ID));
+        assertThat(onlineConfiguration.getLastComponentId(), equalTo(ConfigurationDefaults.LAST_COMPONENT_ID));
 
     }
 
     @Test
     public void getLastComponentIdReturnsLastComponentId() {
         Long lastComponentId = RandomUtils.nextLong(100, 200);
-        when(dao.getConfigurationOption(OnlineConfigurationOptionName.NEXT_COMPONENT_ID)).thenReturn(lastComponentId.toString());
-        assertThat(onlineConfiguration.getNextComponentId(), equalTo(lastComponentId));
+        when(dao.getConfigurationOption(OnlineConfigurationOptionName.LAST_COMPONENT_ID)).thenReturn(lastComponentId.toString());
+        assertThat(onlineConfiguration.getLastComponentId(), equalTo(lastComponentId));
     }
 }

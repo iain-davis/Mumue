@@ -12,5 +12,5 @@ public interface ConfigurationDefaults {
 
     // Primary configuration section
     String SERVER_LOCALE = "en-US";
-    long NEXT_COMPONENT_ID = 0L;
+    long LAST_COMPONENT_ID = 0L;
 }
