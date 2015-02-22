@@ -23,6 +23,7 @@ public class ConfigurationTest {
     @Mock CommandLineConfiguration commandLineConfiguration;
     @Mock OnlineConfiguration onlineConfiguration;
     @Mock StartupConfiguration startupConfiguration;
+    @Mock ComponentIdManager componentIdManager;
     @InjectMocks Configuration configuration;
 
     @Test
@@ -55,7 +56,7 @@ public class ConfigurationTest {
     public void getLastComponentId() {
         long lastComponentId = RandomUtils.nextLong(100, 200);
         when(onlineConfiguration.getNextComponentId()).thenReturn(lastComponentId);
-        assertThat(configuration.getNextComponentId(), equalTo(lastComponentId));
+        assertThat(configuration.getNewComponentId(), equalTo(lastComponentId));
     }
 
     @Test

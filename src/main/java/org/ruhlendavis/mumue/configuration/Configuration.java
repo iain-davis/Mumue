@@ -5,14 +5,19 @@ import org.ruhlendavis.mumue.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.mumue.configuration.startup.StartupConfiguration;
 
 public class Configuration {
-    private CommandLineConfiguration commandLineConfiguration;
-    private OnlineConfiguration onlineConfiguration;
-    private StartupConfiguration startupConfiguration;
+    private final CommandLineConfiguration commandLineConfiguration;
+    private final OnlineConfiguration onlineConfiguration;
+    private final StartupConfiguration startupConfiguration;
+    private final ComponentIdManager componentIdManager;
 
     public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration) {
+        this(commandLineConfiguration, startupConfiguration, onlineConfiguration, new ComponentIdManager());
+    }
+    public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration, ComponentIdManager componentIdManager) {
         this.commandLineConfiguration = commandLineConfiguration;
         this.onlineConfiguration = onlineConfiguration;
         this.startupConfiguration = startupConfiguration;
+        this.componentIdManager = componentIdManager;
     }
 
     public boolean isTest() {
@@ -39,7 +44,7 @@ public class Configuration {
         return startupConfiguration.getDatabasePath();
     }
 
-    public long getNextComponentId() {
-        return onlineConfiguration.getNextComponentId();
+    public long getNewComponentId() {
+        return componentIdManager.getNewComponentId(onlineConfiguration.getNextComponentId());
     }
 }
