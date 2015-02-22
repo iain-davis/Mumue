@@ -52,6 +52,13 @@ public class ConfigurationTest {
     }
 
     @Test
+    public void getLastComponentId() {
+        long lastComponentId = RandomUtils.nextLong(100, 200);
+        when(onlineConfiguration.getNextComponentId()).thenReturn(lastComponentId);
+        assertThat(configuration.getNextComponentId(), equalTo(lastComponentId));
+    }
+
+    @Test
     public void getDatabaseUsername() {
         String databaseUsername = RandomStringUtils.randomAlphabetic(5);
         when(startupConfiguration.getDatabaseUsername()).thenReturn(databaseUsername);

@@ -38,4 +38,8 @@ public class Configuration {
     public String getDatabasePath() {
         return startupConfiguration.getDatabasePath();
     }
+
+    public long getNextComponentId() {
+        return onlineConfiguration.getNextComponentId();
+    }
 }

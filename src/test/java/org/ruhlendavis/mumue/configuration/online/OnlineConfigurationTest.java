@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -28,5 +29,18 @@ public class OnlineConfigurationTest {
         String serverLocale = RandomStringUtils.randomAlphabetic(13);
         when(dao.getConfigurationOption(OnlineConfigurationOptionName.SERVER_LOCALE)).thenReturn(serverLocale);
         assertThat(onlineConfiguration.getServerLocale(), equalTo(serverLocale));
+    }
+
+    @Test
+    public void getLastComponentIdReturnsDefault() {
+        assertThat(onlineConfiguration.getNextComponentId(), equalTo(ConfigurationDefaults.NEXT_COMPONENT_ID));
+
+    }
+
+    @Test
+    public void getLastComponentIdReturnsLastComponentId() {
+        Long lastComponentId = RandomUtils.nextLong(100, 200);
+        when(dao.getConfigurationOption(OnlineConfigurationOptionName.NEXT_COMPONENT_ID)).thenReturn(lastComponentId.toString());
+        assertThat(onlineConfiguration.getNextComponentId(), equalTo(lastComponentId));
     }
 }
