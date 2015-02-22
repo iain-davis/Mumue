@@ -70,7 +70,7 @@ public class UniverseSelectionPromptTest {
         when(universeDao.getUniverses()).thenReturn(universes);
         stage.execute(connection, configuration);
 
-        String expected = universe.getId() + ") " + universe.getName() + "\\r\\n";
+        String expected = "\\r\\n" + universe.getId() + ") " + universe.getName() + "\\r\\n";
 
         assertThat(connection.getOutputQueue(), hasItem(expected));
     }

@@ -53,10 +53,10 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void getLastComponentId() {
-        long lastComponentId = RandomUtils.nextLong(100, 200);
-        when(onlineConfiguration.getLastComponentId()).thenReturn(lastComponentId);
-        assertThat(configuration.getNewComponentId(), equalTo(lastComponentId));
+    public void getNewComponentId() {
+        long id = RandomUtils.nextLong(100, 200);
+        when(componentIdManager.getNewComponentId(onlineConfiguration)).thenReturn(id);
+        assertThat(configuration.getNewComponentId(), equalTo(id));
     }
 
     @Test

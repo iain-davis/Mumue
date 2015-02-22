@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -22,6 +23,7 @@ import org.ruhlendavis.mumue.components.GameCharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -70,7 +72,7 @@ public class WaitForCharacterNameTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CreateCharacter.class));
+        assertThat(next, instanceOf(NoOperationStage.class));
     }
 
     @Test
@@ -80,7 +82,7 @@ public class WaitForCharacterNameTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CreateCharacter.class));
+        assertThat(next, instanceOf(NoOperationStage.class));
     }
 
     @Test
@@ -90,6 +92,26 @@ public class WaitForCharacterNameTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getCharacter().getName(), equalTo(name));
+    }
+
+    @Test
+    public void addCharacterToDatabase() {
+        connection.getInputQueue().push(name);
+
+        stage.execute(connection, configuration);
+
+        verify(dao).addCharacter(character);
+    }
+
+    @Test
+    public void setComponentId() {
+        long id = RandomUtils.nextLong(100, 200);
+        connection.getInputQueue().push(name);
+        when(configuration.getNewComponentId()).thenReturn(id);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getCharacter().getId(), equalTo(id));
     }
 
     @Test

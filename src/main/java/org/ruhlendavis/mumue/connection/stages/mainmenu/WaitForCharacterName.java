@@ -5,6 +5,7 @@ import org.ruhlendavis.mumue.components.GameCharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -35,7 +36,8 @@ public class WaitForCharacterName implements ConnectionStage {
 
         connection.getCharacter().setName(name);
         connection.getCharacter().setId(configuration.getNewComponentId());
-        return new CreateCharacter();
+        dao.addCharacter(connection.getCharacter());
+        return new NoOperationStage();
     }
 
     private boolean nameTakenByOtherPlayer(String name, String loginId) {
