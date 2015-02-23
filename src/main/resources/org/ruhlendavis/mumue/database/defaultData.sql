@@ -14,6 +14,7 @@ insert into text (id, locale, name, text) values ( 8, 'en-US', 'character name p
 insert into text (id, locale, name, text) values ( 9, 'en-US', 'universe selection prompt', 'Select a universe for your character: ');
 insert into text (id, locale, name, text) values (10, 'en-US', 'character name already exists', 'Character name already exists in that universe.\r\n');
 insert into text (id, locale, name, text) values (11, 'en-US', 'character name taken by other player', 'Character name taken by another player.\r\n');
+insert into text (id, locale, name, text) values (12, 'en-US', 'character selection prompt', 'Select a character to play: ');
 
 insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  ('first', 'first password', 'en-US',

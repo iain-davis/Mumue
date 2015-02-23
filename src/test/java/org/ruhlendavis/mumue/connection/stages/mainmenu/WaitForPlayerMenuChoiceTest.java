@@ -17,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.PlayCharacterStage;
+import org.ruhlendavis.mumue.connection.stages.PlayCharacter;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -68,7 +68,7 @@ public class WaitForPlayerMenuChoiceTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayCharacterStage.class));
+        assertThat(next, instanceOf(PlayCharacter.class));
     }
 
     @Test

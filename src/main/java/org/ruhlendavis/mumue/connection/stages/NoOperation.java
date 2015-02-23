@@ -3,9 +3,9 @@ package org.ruhlendavis.mumue.connection.stages;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 
-public class PlayCharacterStage implements ConnectionStage {
+public class NoOperation implements ConnectionStage {
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
-        return null;
+        return this;
     }
 }

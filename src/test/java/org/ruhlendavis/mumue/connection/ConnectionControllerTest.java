@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
+import org.ruhlendavis.mumue.connection.stages.NoOperation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionControllerTest {
@@ -33,7 +33,7 @@ public class ConnectionControllerTest {
     @Test
     public void executeMovesToNextStage() {
         ConnectionController controller = new ConnectionController(connection, configuration, stage);
-        NoOperationStage next = new NoOperationStage();
+        NoOperation next = new NoOperation();
         when(stage.execute(connection, configuration)).thenReturn(next);
 
         controller.execute();

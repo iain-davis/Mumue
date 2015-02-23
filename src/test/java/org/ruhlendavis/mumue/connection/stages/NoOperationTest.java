@@ -12,13 +12,13 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 
 @RunWith(MockitoJUnitRunner.class)
-public class NoOperationStageTest {
+public class NoOperationTest {
     private final Connection connection = new Connection();
     @Mock Configuration configuration;
 
     @Test
     public void returnSame() {
-        NoOperationStage stage = new NoOperationStage();
+        NoOperation stage = new NoOperation();
         assertThat(stage.execute(connection, configuration), sameInstance(stage));
     }
 }

@@ -1,12 +1,8 @@
 package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-
-import java.util.Collection;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
@@ -15,11 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
+import org.ruhlendavis.mumue.connection.stages.NoOperation;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 
@@ -48,6 +43,6 @@ public class CreateCharacterTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(NoOperationStage.class));
+        assertThat(next, instanceOf(NoOperation.class));
     }
 }

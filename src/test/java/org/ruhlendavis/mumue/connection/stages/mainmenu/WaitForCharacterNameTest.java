@@ -23,7 +23,7 @@ import org.ruhlendavis.mumue.components.GameCharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.NoOperationStage;
+import org.ruhlendavis.mumue.connection.stages.NoOperation;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -72,7 +72,7 @@ public class WaitForCharacterNameTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(NoOperationStage.class));
+        assertThat(next, instanceOf(NoOperation.class));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class WaitForCharacterNameTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(NoOperationStage.class));
+        assertThat(next, instanceOf(NoOperation.class));
     }
 
     @Test
