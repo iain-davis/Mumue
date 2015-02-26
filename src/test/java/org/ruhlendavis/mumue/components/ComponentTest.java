@@ -7,15 +7,9 @@ import static org.junit.Assert.assertThat;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.mumue.importer.GlobalConstants;
-
 public class ComponentTest {
-    Component component = new Component() {};
-
-    @Test
-    public void componentHasUnknownDefaultId() {
-        assertThat(component.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
-    }
+    Component component = new Component() {
+    };
 
     @Test
     public void componentHasEmptyNameByDefault() {

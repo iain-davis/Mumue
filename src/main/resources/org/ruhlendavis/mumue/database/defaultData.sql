@@ -16,8 +16,8 @@ insert into text (id, locale, name, text) values (10, 'en-US', 'character name a
 insert into text (id, locale, name, text) values (11, 'en-US', 'character name taken by other player', 'Character name taken by another player.\r\n');
 insert into text (id, locale, name, text) values (12, 'en-US', 'character selection prompt', 'Select a character to play: ');
 
-insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
-            values  ('first', 'first password', 'en-US',
+insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
+            values  (0, 'first', 'first password', 'en-US',
                      timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0,
                      true
             );

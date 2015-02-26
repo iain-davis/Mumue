@@ -21,7 +21,7 @@ public class PlayerDaoTest {
     public void successfulAuthentication() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(16);
-        insertPlayer(loginId, password);
+        insertPlayer(1, loginId, password);
 
         assertTrue(dao.authenticate(loginId, password));
     }
@@ -31,7 +31,7 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(16);
         String otherLogin = RandomStringUtils.randomAlphabetic(15);
-        insertPlayer(loginId, password);
+        insertPlayer(1, loginId, password);
 
         assertFalse(dao.authenticate(otherLogin, password));
     }
@@ -41,7 +41,7 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         String otherPassword = RandomStringUtils.randomAlphabetic(15);
-        insertPlayer(loginId, password);
+        insertPlayer(1, loginId, password);
 
         assertFalse(dao.authenticate(loginId, otherPassword));
     }
@@ -51,7 +51,7 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(3);
         String password = RandomStringUtils.randomAlphabetic(4);
         String name = RandomStringUtils.randomAlphabetic(17);
-        insertPlayer(loginId, password);
+        insertPlayer(1, loginId, password);
 
         Player player = dao.getPlayer(loginId, password);
 
@@ -63,16 +63,16 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         String otherPassword = RandomStringUtils.randomAlphabetic(15);
-        insertPlayer(loginId, password);
+        insertPlayer(1, loginId, password);
 
         Player player = dao.getPlayer(loginId, otherPassword);
 
         assertThat(player.getLoginId(), equalTo(""));
     }
 
-    private void insertPlayer(String loginId, String password) {
-        String sql = "insert into players (loginId, password, locale, created, lastModified, lastUsed, useCount)"
-                + " values ('" + loginId + "','" + password + "', '" + RandomStringUtils.randomAlphabetic(5) + "', "
+    private void insertPlayer(long id, String loginId, String password) {
+        String sql = "insert into players (id, loginId, password, locale, created, lastModified, lastUsed, useCount)"
+                + " values (" + id + ", '" + loginId + "','" + password + "', '" + RandomStringUtils.randomAlphabetic(5) + "', "
                 + "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0);";
         try {
             queryRunner.update(sql);

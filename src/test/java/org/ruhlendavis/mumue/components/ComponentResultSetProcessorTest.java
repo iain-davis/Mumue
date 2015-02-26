@@ -24,7 +24,8 @@ public class ComponentResultSetProcessorTest {
     private final Long id = RandomUtils.nextLong(100, 200);
     private final String name = RandomStringUtils.randomAlphabetic(17);
     private final String description = RandomStringUtils.randomAlphabetic(17);
-    private final Component component = new Component() {};
+    private final Component component = new Component() {
+    };
 
     @Mock ResultSet resultSet;
     @Mock TimestampAbleResultSetProcessor timestampProcessor;
@@ -32,16 +33,8 @@ public class ComponentResultSetProcessorTest {
 
     @Before
     public void beforeEach() throws SQLException {
-        when(resultSet.getLong("id")).thenReturn(id);
         when(resultSet.getString("name")).thenReturn(name);
         when(resultSet.getString("description")).thenReturn(description);
-    }
-
-    @Test
-    public void convertId() throws SQLException {
-        processor.process(resultSet, component);
-
-        assertThat(component.getId(), equalTo(id));
     }
 
     @Test

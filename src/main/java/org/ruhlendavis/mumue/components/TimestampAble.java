@@ -2,11 +2,27 @@ package org.ruhlendavis.mumue.components;
 
 import java.time.Instant;
 
+import org.ruhlendavis.mumue.importer.GlobalConstants;
+
 public abstract class TimestampAble {
+    private long id = GlobalConstants.REFERENCE_UNKNOWN;
     private Instant created = Instant.now();
     private Instant lastUsed = Instant.now();
     private Instant lastModified = Instant.now();
     private long useCount = 0;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TimestampAble withId(Long id) {
+        setId(id);
+        return this;
+    }
 
     public Instant getCreated() {
         return created;

@@ -20,6 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class TimestampAbleResultSetProcessorTest {
     private final Instant instant = Instant.EPOCH;
     private final long useCount = RandomUtils.nextLong(100, 200);
+    private final long id = RandomUtils.nextLong(200, 1000);
 
     @Mock ResultSet resultSet;
     private final TimestampAble timestampAble = new TimestampAble() {};
@@ -28,10 +29,18 @@ public class TimestampAbleResultSetProcessorTest {
     @Before
     public void beforeEach() throws SQLException {
         Timestamp timestamp = Timestamp.from(instant);
+        when(resultSet.getLong("id")).thenReturn(id);
         when(resultSet.getTimestamp("created")).thenReturn(timestamp);
         when(resultSet.getTimestamp("lastModified")).thenReturn(timestamp);
         when(resultSet.getTimestamp("lastUsed")).thenReturn(timestamp);
         when(resultSet.getLong("useCount")).thenReturn(useCount);
+    }
+
+    @Test
+    public void convertId() throws SQLException {
+        processor.process(resultSet, timestampAble);
+
+        assertThat(timestampAble.getId(), equalTo(id));
     }
 
     @Test
