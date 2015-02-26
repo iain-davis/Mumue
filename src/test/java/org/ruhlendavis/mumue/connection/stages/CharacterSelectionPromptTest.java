@@ -64,16 +64,42 @@ public class CharacterSelectionPromptTest {
     public void displayCharacterList() {
         String name1 = RandomStringUtils.randomAlphabetic(17);
         String name2 = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter character1 = new GameCharacter().withId(RandomUtils.nextLong(1, 100)).withName(name1);
-        GameCharacter character2 = new GameCharacter().withId(RandomUtils.nextLong(100, 200)).withName(name2);
-        List<GameCharacter> characters = new ArrayList<>();
-        characters.add(character1);
-        characters.add(character2);
+        List<GameCharacter> characters = setupCharacters(name1, name2);
         when(dao.getCharacters(player.getId())).thenReturn(characters);
 
         stage.execute(connection, configuration);
 
-        String expected = "\\r\\n" + name1 + "\\r\\n" + name2 + "\\r\\n\\r\\n";
+        String expected = "\\r\\n1) " + name1 + "\\r\\n2) " + name2 + "\\r\\n\\r\\n";
         assertThat(connection.getOutputQueue(), hasItem(expected));
+    }
+
+    @Test
+    public void storeCharacterIdsByMenuOption() {
+        long id1 = RandomUtils.nextLong(100, 200);
+        long id2 = RandomUtils.nextLong(200, 300);
+        List<GameCharacter> characters = setupCharacters(id1, id2);
+        when(dao.getCharacters(player.getId())).thenReturn(characters);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getMenuOptionIds().values(), hasItem(id1));
+        assertThat(connection.getMenuOptionIds().values(), hasItem(id2));
+    }
+
+    private List<GameCharacter> setupCharacters(long id1, long id2) {
+        return setupCharacters(id1, id2, RandomStringUtils.randomAlphabetic(7), RandomStringUtils.randomAlphabetic(8));
+    }
+
+    private List<GameCharacter> setupCharacters(String name1, String name2) {
+        return setupCharacters(RandomUtils.nextLong(1, 100), RandomUtils.nextLong(100, 200), name1, name2);
+    }
+
+    private List<GameCharacter> setupCharacters(long id1, long id2, String name1, String name2) {
+        GameCharacter character1 = new GameCharacter().withId(id1).withName(name1);
+        GameCharacter character2 = new GameCharacter().withId(id2).withName(name2);
+        List<GameCharacter> characters = new ArrayList<>();
+        characters.add(character1);
+        characters.add(character2);
+        return characters;
     }
 }

@@ -1,5 +1,8 @@
 package org.ruhlendavis.mumue.connection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextQueue;
@@ -9,6 +12,7 @@ public class Connection {
     private TextQueue outputQueue = new TextQueue();
     private GameCharacter character = new GameCharacter();
     private Player player;
+    private Map<String, Long> menuOptionIds = new HashMap<>();
 
     public TextQueue getInputQueue() {
         return inputQueue;
@@ -42,5 +46,9 @@ public class Connection {
     public Connection withCharacter(GameCharacter character) {
         setCharacter(character);
         return this;
+    }
+
+    public Map<String, Long> getMenuOptionIds() {
+        return menuOptionIds;
     }
 }
