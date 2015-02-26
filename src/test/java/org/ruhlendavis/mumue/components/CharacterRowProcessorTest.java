@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
@@ -19,19 +20,19 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GameCharacterRowProcessorTest {
+public class CharacterRowProcessorTest {
     @Mock ResultSet resultSet;
     @Mock LocatableComponentResultSetProcessor componentProcessor;
-    @InjectMocks GameCharacterRowProcessor processor;
+    @InjectMocks CharacterRowProcessor processor;
 
     @Test
-    public void returnCharacter() throws SQLException {
+    public void toBeanReturnsCharacter() throws SQLException {
         GameCharacter character = processor.toBean(resultSet, GameCharacter.class);
         assertNotNull(character);
     }
 
     @Test
-    public void setPlayerId() throws SQLException {
+    public void toBeanSetsPlayerId() throws SQLException {
         String playerId = RandomStringUtils.randomAlphabetic(17);
         when(resultSet.getString("playerId")).thenReturn(playerId);
 
@@ -41,8 +42,28 @@ public class GameCharacterRowProcessorTest {
     }
 
     @Test
-    public void useComponentResultSetProcessor() throws SQLException {
+    public void toBeanUsesComponentResultSetProcessor() throws SQLException {
         processor.toBean(resultSet, GameCharacter.class);
+
         verify(componentProcessor).process(eq(resultSet), any(GameCharacter.class));
+    }
+
+    @Test
+    public void toBeanListNeverReturnsNull() throws SQLException {
+        List<GameCharacter> characters = processor.toBeanList(resultSet, GameCharacter.class);
+
+        assertNotNull(characters);
+    }
+
+    @Test
+    public void toBeanListReturnsCharacters() throws SQLException {
+        String playerId1 = RandomStringUtils.randomAlphabetic(6);
+        String playerId2 = RandomStringUtils.randomAlphabetic(5);
+        when(resultSet.next()).thenReturn(true, true, false);
+        when(resultSet.getString("playerId")).thenReturn(playerId1, playerId2);
+
+        List<GameCharacter> characters = processor.toBeanList(resultSet, GameCharacter.class);
+
+        assertThat(characters.size(), equalTo(2));
     }
 }

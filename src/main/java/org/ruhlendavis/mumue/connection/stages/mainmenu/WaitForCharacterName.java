@@ -1,7 +1,7 @@
 package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import org.ruhlendavis.mumue.components.GameCharacter;
-import org.ruhlendavis.mumue.components.GameCharacterDao;
+import org.ruhlendavis.mumue.components.CharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
@@ -12,7 +12,7 @@ import org.ruhlendavis.mumue.text.TextName;
 
 public class WaitForCharacterName implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
-    private GameCharacterDao dao = new GameCharacterDao();
+    private CharacterDao dao = new CharacterDao();
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {

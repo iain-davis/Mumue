@@ -21,4 +21,10 @@ public class GameCharacter extends LocatableComponent {
         setPlayerId(playerId);
         return this;
     }
+
+    @Override
+    public GameCharacter withName(String name) {
+        setName(name);
+        return this;
+    }
 }

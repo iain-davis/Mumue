@@ -2,9 +2,8 @@ package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
-import org.ruhlendavis.mumue.connection.stages.CharacterSelection;
+import org.ruhlendavis.mumue.connection.stages.CharacterSelectionPrompt;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.PlayCharacter;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
@@ -19,7 +18,7 @@ public class WaitForPlayerMenuChoice implements ConnectionStage {
         String input = connection.getInputQueue().pop();
         switch (input.toUpperCase()) {
             case "P":
-                return new CharacterSelection();
+                return new CharacterSelectionPrompt();
             case "C":
                 return new UniverseSelectionPrompt();
             default:

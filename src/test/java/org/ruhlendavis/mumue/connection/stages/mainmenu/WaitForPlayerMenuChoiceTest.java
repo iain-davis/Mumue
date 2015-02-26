@@ -16,8 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
+import org.ruhlendavis.mumue.connection.stages.CharacterSelectionPrompt;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.PlayCharacter;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -63,12 +63,12 @@ public class WaitForPlayerMenuChoiceTest {
     }
 
     @Test
-    public void goToPlayerCharacterOnPInput() {
+    public void goToCharacterSelectionPromptOnPInput() {
         connection.getInputQueue().push("P");
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayCharacter.class));
+        assertThat(next, instanceOf(CharacterSelectionPrompt.class));
     }
 
     @Test
@@ -80,7 +80,6 @@ public class WaitForPlayerMenuChoiceTest {
         ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(DisplayPlayerMenu.class));
-
     }
 
     @Test
