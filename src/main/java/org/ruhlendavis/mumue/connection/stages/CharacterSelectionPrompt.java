@@ -14,7 +14,7 @@ public class CharacterSelectionPrompt implements ConnectionStage {
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
         StringBuilder builder = new StringBuilder("\\r\\n");
-        for (GameCharacter character : dao.getCharacters(connection.getPlayer().getLoginId())) {
+        for (GameCharacter character : dao.getCharacters(connection.getPlayer().getId())) {
             builder.append(character.getName()).append("\\r\\n");
         }
         builder.append("\\r\\n");

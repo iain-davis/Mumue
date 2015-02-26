@@ -60,7 +60,7 @@ public class CharacterDao {
 
     private static final String GET_BY_PLAYER_ID_QUERY = "select * from characters where playerId = ?";
 
-    public List<GameCharacter> getCharacters(String playerId) {
+    public List<GameCharacter> getCharacters(long playerId) {
         QueryRunner database = QueryRunnerProvider.get();
         ResultSetHandler<List<GameCharacter>> resultSetHandler = new BeanListHandler<>(GameCharacter.class, new CharacterRowProcessor());
         try {

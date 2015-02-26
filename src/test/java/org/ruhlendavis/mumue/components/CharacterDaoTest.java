@@ -55,12 +55,13 @@ public class CharacterDaoTest {
 
     @Test
     public void getCharactersNeverReturnsNull() {
-        assertNotNull(dao.getCharacters(RandomStringUtils.randomAlphabetic(9)));
+        long playerId = RandomUtils.nextLong(100, 200);
+        assertNotNull(dao.getCharacters(playerId));
     }
 
     @Test
     public void getCharactersByPlayerId() {
-        String playerId = RandomStringUtils.randomAlphabetic(7);
+        long playerId = RandomUtils.nextLong(100, 200);
         long characterId = RandomUtils.nextLong(200, 300);
 
         insertCharacter(characterId, playerId);
@@ -72,9 +73,9 @@ public class CharacterDaoTest {
 
     @Test
     public void getCharactersByPlayerIdReturnsMultipleCharacters() {
-        String playerId = RandomStringUtils.randomAlphabetic(7);
+        long playerId = RandomUtils.nextLong(100, 200);
         long characterId1 = RandomUtils.nextLong(200, 300);
-        long characterId2 = RandomUtils.nextLong(200, 300);
+        long characterId2 = RandomUtils.nextLong(300, 400);
 
         insertCharacter(characterId1, playerId);
         insertCharacter(characterId2, playerId);
@@ -83,15 +84,15 @@ public class CharacterDaoTest {
         assertThat(characters.size(), equalTo(2));
     }
 
-    private void insertCharacter(long characterId, String playerId) {
+    private void insertCharacter(long characterId, long playerId) {
         insertCharacter(characterId, RandomUtils.nextLong(100, 200), RandomStringUtils.randomAlphabetic(17), playerId);
     }
 
     private void insertCharacter(long characterId, long universeId, String name) {
-        insertCharacter(characterId, universeId, name, RandomStringUtils.randomAlphabetic(7));
+        insertCharacter(characterId, universeId, name, RandomUtils.nextLong(100, 200));
     }
 
-    private void insertCharacter(long characterId, long universeId, String name, String playerId) {
+    private void insertCharacter(long characterId, long universeId, String name, long playerId) {
         String sql = "insert into characters (id, name, description, created, lastUsed, lastModified, useCount, locationId, universeId, playerId) "
                 + "values (" + characterId + ", '" + name + "', '" + RandomStringUtils.randomAlphabetic(16) + "', "
                 + "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, "

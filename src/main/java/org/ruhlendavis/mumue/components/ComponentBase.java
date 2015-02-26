@@ -11,15 +11,15 @@ public abstract class ComponentBase {
     private Instant lastModified = Instant.now();
     private long useCount = 0;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public ComponentBase withId(Long id) {
+    public ComponentBase withId(long id) {
         setId(id);
         return this;
     }

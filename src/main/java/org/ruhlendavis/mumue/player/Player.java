@@ -40,4 +40,9 @@ public class Player extends ComponentBase {
         setLoginId(loginId);
         return this;
     }
+
+    public Player withId(long id) {
+        setId(id);
+        return this;
+    }
 }

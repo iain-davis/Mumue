@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -33,8 +34,8 @@ public class CharacterRowProcessorTest {
 
     @Test
     public void toBeanSetsPlayerId() throws SQLException {
-        String playerId = RandomStringUtils.randomAlphabetic(17);
-        when(resultSet.getString("playerId")).thenReturn(playerId);
+        long playerId = RandomUtils.nextLong(100, 200);
+        when(resultSet.getLong("playerId")).thenReturn(playerId);
 
         GameCharacter character = processor.toBean(resultSet, GameCharacter.class);
 

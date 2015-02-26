@@ -1,23 +1,25 @@
 package org.ruhlendavis.mumue.components;
 
-public class GameCharacter extends LocatableComponent {
-    String playerId = "";
+import org.ruhlendavis.mumue.importer.GlobalConstants;
 
-    public String getPlayerId() {
+public class GameCharacter extends LocatableComponent {
+    long playerId = GlobalConstants.REFERENCE_UNKNOWN;
+
+    public long getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerId(String playerId) {
+    public void setPlayerId(long playerId) {
         this.playerId = playerId;
     }
 
     @Override
-    public GameCharacter withId(Long id) {
+    public GameCharacter withId(long id) {
         setId(id);
         return this;
     }
 
-    public GameCharacter withPlayerId(String playerId) {
+    public GameCharacter withPlayerId(long playerId) {
         setPlayerId(playerId);
         return this;
     }

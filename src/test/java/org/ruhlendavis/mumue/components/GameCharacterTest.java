@@ -7,12 +7,14 @@ import static org.junit.Assert.assertThat;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
+import org.ruhlendavis.mumue.importer.GlobalConstants;
+
 public class GameCharacterTest {
     private final GameCharacter character = new GameCharacter();
 
     @Test
-    public void playerIdDefaultsToEmptyString() {
-        assertThat(character.getPlayerId(), equalTo(""));
+    public void playerIdDefaultsToUnknown() {
+        assertThat(character.getPlayerId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test

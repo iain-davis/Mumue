@@ -5,7 +5,7 @@ public abstract class Component extends ComponentBase {
     private String description = "";
 
     @Override
-    public Component withId(Long id) {
+    public Component withId(long id) {
         setId(id);
         return this;
     }

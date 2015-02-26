@@ -34,8 +34,9 @@ public class WaitForCharacterNameTest {
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final String loginId = RandomStringUtils.randomAlphabetic(14);
-    private final Player player = new Player().withLocale(locale).withLoginId(loginId);
-    private final GameCharacter character = new GameCharacter().withPlayerId(loginId);
+    private final long playerId = RandomUtils.nextLong(100, 200);
+    private final Player player = new Player().withId(playerId).withLocale(locale).withLoginId(loginId);
+    private final GameCharacter character = new GameCharacter().withPlayerId(playerId);
 
     private final Connection connection = new Connection().withPlayer(player).withCharacter(character);
 
@@ -150,7 +151,7 @@ public class WaitForCharacterNameTest {
     public void nameTakenByOtherPlayerDisplayMessage() {
         String message = RandomStringUtils.randomAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter().withId(RandomUtils.nextLong(200, 300))
-                .withPlayerId(RandomStringUtils.randomAlphabetic(7));
+                .withPlayerId(RandomUtils.nextLong(100, 200));
 
         connection.getInputQueue().push(name);
 
@@ -166,7 +167,7 @@ public class WaitForCharacterNameTest {
     public void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.randomAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter().withId(RandomUtils.nextLong(200, 300))
-                .withPlayerId(RandomStringUtils.randomAlphabetic(7));
+                .withPlayerId(RandomUtils.nextLong(100, 200));
         connection.getInputQueue().push(name);
 
         when(dao.getCharacter(name)).thenReturn(characterThatExists);

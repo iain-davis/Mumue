@@ -43,7 +43,7 @@ public class CharacterSelectionPromptTest {
     public void beforeEach() {
         when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(textMaker.getText(TextName.CharacterSelectionPrompt, locale, serverLocale)).thenReturn(prompt);
-        when(dao.getCharacters(player.getLoginId())).thenReturn(new ArrayList<GameCharacter>());
+        when(dao.getCharacters(player.getId())).thenReturn(new ArrayList<>());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class CharacterSelectionPromptTest {
         List<GameCharacter> characters = new ArrayList<>();
         characters.add(character1);
         characters.add(character2);
-        when(dao.getCharacters(player.getLoginId())).thenReturn(characters);
+        when(dao.getCharacters(player.getId())).thenReturn(characters);
 
         stage.execute(connection, configuration);
 

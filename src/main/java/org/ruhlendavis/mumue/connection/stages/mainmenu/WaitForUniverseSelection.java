@@ -23,7 +23,7 @@ public class WaitForUniverseSelection implements ConnectionStage {
         long universeId = Long.parseLong(selection);
 
         Universe universe = dao.getUniverse(universeId);
-        if (universe.getId().equals(GlobalConstants.REFERENCE_UNKNOWN)) {
+        if (universe.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
             return promptForUniverseAgain(connection, configuration);
         }
 

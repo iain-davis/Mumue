@@ -15,7 +15,7 @@ create table universes(id int primary key, name varchar(255), description varcha
 create table characters(id int primary key, name varchar(255), description varchar(255),
                        created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
                        locationId int, universeId int,
-                       playerId varchar(255)
+                       playerId int
                       );
 
 create table spaces(id int primary key, name varchar(255), description varchar(255),
