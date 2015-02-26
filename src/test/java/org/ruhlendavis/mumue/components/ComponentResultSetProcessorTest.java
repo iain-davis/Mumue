@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,14 +20,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComponentResultSetProcessorTest {
-    private final Long id = RandomUtils.nextLong(100, 200);
     private final String name = RandomStringUtils.randomAlphabetic(17);
     private final String description = RandomStringUtils.randomAlphabetic(17);
     private final Component component = new Component() {
     };
 
     @Mock ResultSet resultSet;
-    @Mock TimestampAbleResultSetProcessor timestampProcessor;
+    @Mock ComponentBaseResultSetProcessor componentBaseProcessor;
     @InjectMocks ComponentResultSetProcessor processor;
 
     @Before
@@ -55,6 +53,6 @@ public class ComponentResultSetProcessorTest {
     public void convertTimestamps() throws SQLException {
         processor.process(resultSet, component);
 
-        verify(timestampProcessor).process(eq(resultSet), any(Component.class));
+        verify(componentBaseProcessor).process(eq(resultSet), any(Component.class));
     }
 }

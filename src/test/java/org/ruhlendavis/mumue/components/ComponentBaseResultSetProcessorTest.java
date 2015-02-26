@@ -17,14 +17,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TimestampAbleResultSetProcessorTest {
+public class ComponentBaseResultSetProcessorTest {
     private final Instant instant = Instant.EPOCH;
     private final long useCount = RandomUtils.nextLong(100, 200);
     private final long id = RandomUtils.nextLong(200, 1000);
 
     @Mock ResultSet resultSet;
-    private final TimestampAble timestampAble = new TimestampAble() {};
-    private final TimestampAbleResultSetProcessor processor = new TimestampAbleResultSetProcessor() {};
+    private final ComponentBase timestampAble = new ComponentBase() {};
+    private final ComponentBaseResultSetProcessor processor = new ComponentBaseResultSetProcessor() {};
 
     @Before
     public void beforeEach() throws SQLException {

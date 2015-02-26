@@ -1,12 +1,8 @@
 package org.ruhlendavis.mumue.player;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import org.ruhlendavis.mumue.components.ComponentBase;
 
-import org.ruhlendavis.mumue.components.GameCharacter;
-import org.ruhlendavis.mumue.components.TimestampAble;
-
-public class Player extends TimestampAble {
+public class Player extends ComponentBase {
     String loginId = "";
     String locale = "";
     boolean administrator = false;

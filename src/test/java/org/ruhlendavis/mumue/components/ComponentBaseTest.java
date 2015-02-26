@@ -8,32 +8,32 @@ import org.junit.Test;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
-public class TimestampAbleTest {
-    private final TimestampAble timestampAble = new TimestampAble() {
+public class ComponentBaseTest {
+    private final ComponentBase componentBase = new ComponentBase() {
     };
 
     @Test
     public void componentHasUnknownDefaultId() {
-        assertThat(timestampAble.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+        assertThat(componentBase.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test
     public void createdHasDefault() {
-        assertNotNull(timestampAble.getCreated());
+        assertNotNull(componentBase.getCreated());
     }
 
     @Test
     public void modifiedHasDefault() {
-        assertNotNull(timestampAble.getLastModified());
+        assertNotNull(componentBase.getLastModified());
     }
 
     @Test
     public void usedHasDefault() {
-        assertNotNull(timestampAble.getLastUsed());
+        assertNotNull(componentBase.getLastUsed());
     }
 
     @Test
     public void useCountDefaultsToZero() {
-        assertThat(timestampAble.getUseCount(), equalTo(0L));
+        assertThat(componentBase.getUseCount(), equalTo(0L));
     }
 }

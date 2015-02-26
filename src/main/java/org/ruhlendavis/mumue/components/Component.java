@@ -1,6 +1,6 @@
 package org.ruhlendavis.mumue.components;
 
-public abstract class Component extends TimestampAble {
+public abstract class Component extends ComponentBase {
     private String name = "";
     private String description = "";
 

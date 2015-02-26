@@ -4,11 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ComponentResultSetProcessor {
-    private TimestampAbleResultSetProcessor timestampProcessor = new TimestampAbleResultSetProcessor();
+    private ComponentBaseResultSetProcessor componentBaseProcessor = new ComponentBaseResultSetProcessor();
 
     public void process(ResultSet resultSet, Component component) throws SQLException {
         component.setName(resultSet.getString("name"));
         component.setDescription(resultSet.getString("description"));
-        timestampProcessor.process(resultSet, component);
+        componentBaseProcessor.process(resultSet, component);
     }
 }

@@ -2,14 +2,13 @@ package org.ruhlendavis.mumue.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
 
-import org.ruhlendavis.mumue.components.TimestampAbleResultSetProcessor;
+import org.ruhlendavis.mumue.components.ComponentBaseResultSetProcessor;
 
 public class PlayerRowProcessor extends BasicRowProcessor {
-    private TimestampAbleResultSetProcessor resultSetProcessor = new TimestampAbleResultSetProcessor();
+    private ComponentBaseResultSetProcessor resultSetProcessor = new ComponentBaseResultSetProcessor();
     @Override
     public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {
         Player player = new Player();

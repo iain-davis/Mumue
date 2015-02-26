@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
-public abstract class TimestampAble {
+public abstract class ComponentBase {
     private long id = GlobalConstants.REFERENCE_UNKNOWN;
     private Instant created = Instant.now();
     private Instant lastUsed = Instant.now();
@@ -19,7 +19,7 @@ public abstract class TimestampAble {
         this.id = id;
     }
 
-    public TimestampAble withId(Long id) {
+    public ComponentBase withId(Long id) {
         setId(id);
         return this;
     }
