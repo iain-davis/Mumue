@@ -16,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
-import org.ruhlendavis.mumue.connection.stages.CharacterSelectionPrompt;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;

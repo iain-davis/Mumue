@@ -54,6 +54,23 @@ public class CharacterDaoTest {
     }
 
     @Test
+    public void getCharacterByIdNeverReturnsNull() {
+        assertNotNull(dao.getCharacter(RandomUtils.nextLong(100, 200)));
+    }
+
+    @Test
+    public void getCharacterByIdReturnsCharacter() {
+        long characterId = RandomUtils.nextLong(200, 300);
+        long universeId = RandomUtils.nextLong(100, 200);
+        String name = RandomStringUtils.randomAlphabetic(17);
+        insertCharacter(characterId, universeId, name);
+
+        GameCharacter character = dao.getCharacter(characterId);
+
+        assertThat(character.getId(), equalTo(characterId));
+    }
+
+    @Test
     public void getCharactersNeverReturnsNull() {
         long playerId = RandomUtils.nextLong(100, 200);
         assertNotNull(dao.getCharacters(playerId));

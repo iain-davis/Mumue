@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages;
+package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
@@ -22,6 +22,7 @@ import org.ruhlendavis.mumue.components.CharacterDao;
 import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
+import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
