@@ -13,7 +13,8 @@ public enum TextName {
     UniverseSelectionPrompt("universe selection prompt"),
     CharacterNameAlreadyExists("character name already exists"),
     CharacterNameTakenByOtherPlayer("character name taken by other player"),
-    CharacterSelectionPrompt("character selection prompt");
+    CharacterSelectionPrompt("character selection prompt"),
+    CharacterNeeded("character needed");
 
     private final String name;
 
