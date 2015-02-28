@@ -4,6 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,5 +61,22 @@ public class TextMakerTest {
         when(textDao.getText(TextName.Welcome, alternateLocale)).thenReturn(text);
 
         assertThat(textMaker.getText(TextName.Welcome, locale, alternateLocale), equalTo(text));
+    }
+
+    @Test
+    public void performVariableReplacment() {
+        String locale = RandomStringUtils.randomAlphabetic(5);
+        String textL = RandomStringUtils.randomAlphabetic(25);
+        String textR = RandomStringUtils.randomAlphabetic(25);
+        String variable = RandomStringUtils.randomAlphabetic(7);
+        String replacement = RandomStringUtils.randomAlphabetic(15);
+        Map<String, String> variables = new HashMap<>();
+        variables.put(variable, replacement);
+
+        String text = textL + "${" + variable + "}" + textR;
+
+        String expected = textL + replacement + textR;
+        when(textDao.getText(TextName.Welcome, locale)).thenReturn(text);
+        assertThat(textMaker.getText(TextName.Welcome, locale, "", variables), equalTo(expected));
     }
 }
