@@ -21,32 +21,4 @@ public class LocatableComponentTest {
     public void componentHasUnknownDefaultUniverseId() {
         assertThat(component.getUniverseId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
-
-    @Test
-    public void withUniverseIdReturnsSameInstance() {
-        assertThat(component.withUniverseId(0L), sameInstance(component));
-    }
-
-    @Test
-    public void withUniverseIdSetsLocationId() {
-        long universeId = RandomUtils.nextLong(100, 200);
-
-        component.withUniverseId(universeId);
-
-        assertThat(component.getUniverseId(), equalTo(universeId));
-    }
-
-    @Test
-    public void withLocationIdReturnsSameInstance() {
-        assertThat(component.withLocationId(0L), sameInstance(component));
-    }
-
-    @Test
-    public void withLocationIdSetsLocationId() {
-        long locationId = RandomUtils.nextLong(100, 200);
-
-        component.withLocationId(locationId);
-
-        assertThat(component.getLocationId(), equalTo(locationId));
-    }
 }

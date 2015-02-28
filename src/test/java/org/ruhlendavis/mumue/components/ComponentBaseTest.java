@@ -20,20 +20,6 @@ public class ComponentBaseTest {
     }
 
     @Test
-    public void withIdReturnsSameInstance() {
-        assertThat(componentBase.withId(0L), sameInstance(componentBase));
-    }
-
-    @Test
-    public void withIdSetsId() {
-        long id = RandomUtils.nextLong(200, 300);
-
-        componentBase.withId(id);
-
-        assertThat(componentBase.getId(), equalTo(id));
-    }
-
-    @Test
     public void createdHasDefault() {
         assertNotNull(componentBase.getCreated());
     }

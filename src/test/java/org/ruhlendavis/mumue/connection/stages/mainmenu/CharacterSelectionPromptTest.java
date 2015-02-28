@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.ruhlendavis.mumue.components.CharacterBuilder;
 import org.ruhlendavis.mumue.components.CharacterDao;
 import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
@@ -97,8 +98,8 @@ public class CharacterSelectionPromptTest {
     }
 
     private List<GameCharacter> setupCharacters(long id1, long id2, String name1, String name2) {
-        GameCharacter character1 = new GameCharacter().withName(name1).withId(id1);
-        GameCharacter character2 = new GameCharacter().withName(name2).withId(id2);
+        GameCharacter character1 = new CharacterBuilder().withName(name1).withId(id1).build();
+        GameCharacter character2 = new CharacterBuilder().withName(name2).withId(id2).build();
         List<GameCharacter> characters = new ArrayList<>();
         characters.add(character1);
         characters.add(character2);

@@ -19,9 +19,4 @@ public abstract class Component extends ComponentBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Component withName(String name) {
-        setName(name);
-        return this;
-    }
 }

@@ -21,6 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.mumue.components.CharacterBuilder;
 import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.components.Universe;
+import org.ruhlendavis.mumue.components.UniverseBuilder;
 import org.ruhlendavis.mumue.components.UniverseDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
@@ -37,7 +38,7 @@ public class EnterUniverseTest {
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private long universeId = RandomUtils.nextLong(100, 200);
     private final String universeName = RandomStringUtils.randomAlphabetic(17);
-    private final Universe universe = new Universe().withName(universeName).withId(universeId);
+    private final Universe universe = new UniverseBuilder().withName(universeName).withId(universeId).build();
     private final GameCharacter character = new CharacterBuilder().withUniverseId(universeId).build();
 
     private final Player player = new PlayerBuilder().withLocale(locale).build();

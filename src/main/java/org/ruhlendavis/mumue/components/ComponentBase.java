@@ -19,11 +19,6 @@ public abstract class ComponentBase {
         this.id = id;
     }
 
-    public <T extends ComponentBase> T withId(long id) {
-        setId(id);
-        return (T) this;
-    }
-
     public Instant getCreated() {
         return created;
     }
