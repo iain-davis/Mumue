@@ -29,4 +29,10 @@ public class GameCharacter extends LocatableComponent {
         setName(name);
         return this;
     }
+
+    @Override
+    public GameCharacter withLocationId(long locationId) {
+        setLocationId(locationId);
+        return this;
+    }
 }

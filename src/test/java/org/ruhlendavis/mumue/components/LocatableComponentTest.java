@@ -1,8 +1,10 @@
 package org.ruhlendavis.mumue.components;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
@@ -18,5 +20,20 @@ public class LocatableComponentTest {
     @Test
     public void componentHasUnknownDefaultUniverseId() {
         assertThat(component.getUniverseId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+
+    @Test
+    public void withLocationIdReturnsSameInstance() {
+        assertThat(component.withLocationId(0L), sameInstance(component));
+    }
+
+    @Test
+    public void withLocationIdSetsLocationId() {
+        long locationId = RandomUtils.nextLong(100, 200);
+
+        component.withLocationId(locationId);
+
+        assertThat(component.getLocationId(), equalTo(locationId));
     }
 }

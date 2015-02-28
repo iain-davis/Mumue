@@ -20,7 +20,6 @@ import org.ruhlendavis.mumue.components.CharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.PlayCharacter;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -57,7 +56,7 @@ public class WaitForCharacterSelectionTest {
         connection.getMenuOptionIds().put(text, RandomUtils.nextLong(100, 200));
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayCharacter.class));
+        assertThat(next, instanceOf(EnterUniverse.class));
     }
 
     @Test

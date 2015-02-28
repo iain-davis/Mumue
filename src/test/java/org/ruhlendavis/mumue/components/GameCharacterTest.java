@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
@@ -29,5 +30,19 @@ public class GameCharacterTest {
         character.withName(name);
 
         assertThat(character.getName(), equalTo(name));
+    }
+
+    @Test
+    public void withLocationIdReturnsSameInstance() {
+        assertThat(character.withLocationId(0L), sameInstance(character));
+    }
+
+    @Test
+    public void withLocationIdSetsLocationId() {
+        long locationId = RandomUtils.nextLong(100, 200);
+
+        character.withLocationId(locationId);
+
+        assertThat(character.getLocationId(), equalTo(locationId));
     }
 }
