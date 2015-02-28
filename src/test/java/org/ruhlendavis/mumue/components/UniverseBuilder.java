@@ -1,0 +1,62 @@
+package org.ruhlendavis.mumue.components;
+
+import java.time.Instant;
+
+import org.ruhlendavis.mumue.importer.GlobalConstants;
+
+public class UniverseBuilder {
+    private long id = GlobalConstants.REFERENCE_UNKNOWN;
+    private Instant created = Instant.now();
+    private Instant lastModified = Instant.now();
+    private Instant lastUsed = Instant.now();
+    private long useCount = 0;
+    private String name = "";
+    private String description = "";
+
+    public Universe build() {
+        Universe universe = new Universe();
+        universe.setId(id);
+        universe.setCreated(created);
+        universe.setLastModified(lastModified);
+        universe.setLastUsed(lastUsed);
+        universe.setUseCount(useCount);
+        universe.setName(name);
+        universe.setDescription(description);
+        return universe;
+    }
+
+    public UniverseBuilder withId(long id) {
+        this.id = id;
+        return this;
+    }
+
+    public UniverseBuilder withCreated(Instant created) {
+        this.created = created;
+        return this;
+    }
+
+    public UniverseBuilder withLastModified(Instant lastModified) {
+        this.lastModified = lastModified;
+        return this;
+    }
+
+    public UniverseBuilder withLastUsed(Instant lastUsed) {
+        this.lastUsed = lastUsed;
+        return this;
+    }
+
+    public UniverseBuilder withUseCount(long useCount) {
+        this.useCount = useCount;
+        return this;
+    }
+
+    public UniverseBuilder withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public UniverseBuilder withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+}
