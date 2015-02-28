@@ -19,9 +19,9 @@ public abstract class ComponentBase {
         this.id = id;
     }
 
-    public ComponentBase withId(long id) {
+    public <T extends ComponentBase> T withId(long id) {
         setId(id);
-        return this;
+        return (T) this;
     }
 
     public Instant getCreated() {

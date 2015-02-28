@@ -96,8 +96,8 @@ public class CharacterSelectionPromptTest {
     }
 
     private List<GameCharacter> setupCharacters(long id1, long id2, String name1, String name2) {
-        GameCharacter character1 = new GameCharacter().withId(id1).withName(name1);
-        GameCharacter character2 = new GameCharacter().withId(id2).withName(name2);
+        GameCharacter character1 = new GameCharacter().withName(name1).withId(id1);
+        GameCharacter character2 = new GameCharacter().withName(name2).withId(id2);
         List<GameCharacter> characters = new ArrayList<>();
         characters.add(character1);
         characters.add(character2);

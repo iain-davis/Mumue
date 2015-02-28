@@ -45,4 +45,18 @@ public class GameCharacterTest {
 
         assertThat(character.getLocationId(), equalTo(locationId));
     }
+
+    @Test
+    public void withUniverseIdReturnsSameInstance() {
+        assertThat(character.withUniverseId(0L), sameInstance(character));
+    }
+
+    @Test
+    public void withUniverseIdSetsLocationId() {
+        long universeId = RandomUtils.nextLong(100, 200);
+
+        character.withUniverseId(universeId);
+
+        assertThat(character.getUniverseId(), equalTo(universeId));
+    }
 }

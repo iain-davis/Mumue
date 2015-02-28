@@ -26,4 +26,9 @@ public abstract class LocatableComponent extends Component {
         setLocationId(locationId);
         return this;
     }
+
+    public LocatableComponent withUniverseId(long universeId) {
+        setUniverseId(universeId);
+        return this;
+    }
 }

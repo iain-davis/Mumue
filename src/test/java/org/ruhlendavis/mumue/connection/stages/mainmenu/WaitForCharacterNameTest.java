@@ -161,8 +161,8 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerDisplayMessage() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new GameCharacter().withId(RandomUtils.nextLong(200, 300))
-                .withPlayerId(RandomUtils.nextLong(100, 200));
+        GameCharacter characterThatExists = new GameCharacter().withPlayerId(RandomUtils.nextLong(100, 200))
+                .withId(RandomUtils.nextLong(200, 300));
 
         connection.getInputQueue().push(name);
 
@@ -177,8 +177,8 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new GameCharacter().withId(RandomUtils.nextLong(200, 300))
-                .withPlayerId(RandomUtils.nextLong(100, 200));
+        GameCharacter characterThatExists = new GameCharacter().withPlayerId(RandomUtils.nextLong(100, 200))
+                .withId(RandomUtils.nextLong(200, 300));
         connection.getInputQueue().push(name);
 
         when(dao.getCharacter(name)).thenReturn(characterThatExists);

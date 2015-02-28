@@ -4,12 +4,6 @@ public abstract class Component extends ComponentBase {
     private String name = "";
     private String description = "";
 
-    @Override
-    public Component withId(long id) {
-        setId(id);
-        return this;
-    }
-
     public String getName() {
         return name;
     }
