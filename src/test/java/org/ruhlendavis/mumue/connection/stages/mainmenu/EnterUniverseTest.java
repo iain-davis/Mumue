@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import org.ruhlendavis.mumue.components.CharacterBuilder;
 import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.components.Universe;
 import org.ruhlendavis.mumue.components.UniverseDao;
@@ -37,7 +38,7 @@ public class EnterUniverseTest {
     private long universeId = RandomUtils.nextLong(100, 200);
     private final String universeName = RandomStringUtils.randomAlphabetic(17);
     private final Universe universe = new Universe().withName(universeName).withId(universeId);
-    private final GameCharacter character = new GameCharacter().withUniverseId(universeId);
+    private final GameCharacter character = new CharacterBuilder().withUniverseId(universeId).build();
 
     private final Player player = new PlayerBuilder().withLocale(locale).build();
 

@@ -18,12 +18,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.mumue.components.GameCharacter;
+import org.ruhlendavis.mumue.components.CharacterBuilder;
 import org.ruhlendavis.mumue.components.CharacterDao;
+import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.NoOperation;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
@@ -162,8 +162,8 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerDisplayMessage() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new GameCharacter().withPlayerId(RandomUtils.nextLong(100, 200))
-                .withId(RandomUtils.nextLong(200, 300));
+        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(100, 200))
+                .withId(RandomUtils.nextLong(200, 300)).build();
 
         connection.getInputQueue().push(name);
 
@@ -178,8 +178,8 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new GameCharacter().withPlayerId(RandomUtils.nextLong(100, 200))
-                .withId(RandomUtils.nextLong(200, 300));
+        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(100, 200))
+                .withId(RandomUtils.nextLong(200, 300)).build();
         connection.getInputQueue().push(name);
 
         when(dao.getCharacter(name)).thenReturn(characterThatExists);
