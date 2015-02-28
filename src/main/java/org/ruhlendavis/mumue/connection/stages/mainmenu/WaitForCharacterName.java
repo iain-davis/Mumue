@@ -1,11 +1,10 @@
 package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
-import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.components.CharacterDao;
+import org.ruhlendavis.mumue.components.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.NoOperation;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -28,7 +27,7 @@ public class WaitForCharacterName implements ConnectionStage {
             return new CharacterNamePrompt();
         }
 
-        if (nameTakenByOtherPlayer(name, connection.getPlayer().getLoginId())) {
+        if (nameTakenByOtherPlayer(name, connection.getPlayer().getId())) {
             String text = textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, connection.getPlayer().getLocale(), configuration.getServerLocale());
             connection.getOutputQueue().push(text);
             return new CharacterNamePrompt();
@@ -37,12 +36,12 @@ public class WaitForCharacterName implements ConnectionStage {
         connection.getCharacter().setName(name);
         connection.getCharacter().setId(configuration.getNewComponentId());
         dao.addCharacter(connection.getCharacter());
-        return new NoOperation();
+        return new DisplayPlayerMenu();
     }
 
-    private boolean nameTakenByOtherPlayer(String name, String loginId) {
+    private boolean nameTakenByOtherPlayer(String name, long playerId) {
         GameCharacter character = dao.getCharacter(name);
-        return character.getId() != GlobalConstants.REFERENCE_UNKNOWN && !loginId.equals(character.getPlayerId());
+        return character.getId() != GlobalConstants.REFERENCE_UNKNOWN && character.getPlayerId() != playerId;
     }
 
     private boolean nameTakenInUniverse(String name, long universeId) {
