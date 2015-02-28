@@ -25,6 +25,7 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
+import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
@@ -38,7 +39,7 @@ public class EnterUniverseTest {
     private final Universe universe = new Universe().withName(universeName).withId(universeId);
     private final GameCharacter character = new GameCharacter().withUniverseId(universeId);
 
-    private final Player player = new Player().withLocale(locale);
+    private final Player player = new PlayerBuilder().withLocale(locale).build();
 
     private final Connection connection = new Connection().withPlayer(player).withCharacter(character);
     @Mock Configuration configuration;

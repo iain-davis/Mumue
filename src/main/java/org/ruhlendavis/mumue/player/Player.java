@@ -23,26 +23,11 @@ public class Player extends ComponentBase {
         this.locale = locale;
     }
 
-    public Player withLocale(String locale) {
-        setLocale(locale);
-        return this;
-    }
-
     public boolean isAdministrator() {
         return administrator;
     }
 
     public void setAdministrator(boolean administrator) {
         this.administrator = administrator;
-    }
-
-    public Player withLoginId(String loginId) {
-        setLoginId(loginId);
-        return this;
-    }
-
-    public Player withId(long id) {
-        setId(id);
-        return this;
     }
 }

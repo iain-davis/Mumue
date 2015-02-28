@@ -26,6 +26,7 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
+import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
@@ -34,7 +35,7 @@ public class WaitForPlayerMenuChoiceTest {
     String locale = RandomStringUtils.randomAlphabetic(16);
     String serverLocale = RandomStringUtils.randomAlphabetic(15);
     long id = RandomUtils.nextLong(100, 200);
-    private final Player player = new Player().withId(id).withLocale(locale);
+    private final Player player = new PlayerBuilder().withId(id).withLocale(locale).build();
     private final Connection connection = new Connection().withPlayer(player);
 
     @Mock Configuration configuration;

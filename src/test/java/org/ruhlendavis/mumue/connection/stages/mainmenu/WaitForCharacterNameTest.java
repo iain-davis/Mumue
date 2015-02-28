@@ -25,6 +25,7 @@ import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.connection.stages.NoOperation;
 import org.ruhlendavis.mumue.player.Player;
+import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
@@ -35,7 +36,7 @@ public class WaitForCharacterNameTest {
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final String loginId = RandomStringUtils.randomAlphabetic(14);
     private final long playerId = RandomUtils.nextLong(100, 200);
-    private final Player player = new Player().withId(playerId).withLocale(locale).withLoginId(loginId);
+    private final Player player = new PlayerBuilder().withId(playerId).withLocale(locale).withLoginId(loginId).build();
     private final GameCharacter character = new GameCharacter();
 
     private final Connection connection = new Connection().withPlayer(player).withCharacter(character);

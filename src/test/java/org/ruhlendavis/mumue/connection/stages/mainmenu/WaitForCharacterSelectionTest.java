@@ -21,6 +21,7 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.player.Player;
+import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
@@ -29,7 +30,7 @@ public class WaitForCharacterSelectionTest {
     private final String message = RandomStringUtils.randomAlphabetic(17);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
-    private final Connection connection = new Connection().withPlayer(new Player().withLocale(locale));
+    private final Connection connection = new Connection().withPlayer(new PlayerBuilder().withLocale(locale).build());
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
