@@ -36,7 +36,7 @@ public class WaitForCharacterNameTest {
     private final String loginId = RandomStringUtils.randomAlphabetic(14);
     private final long playerId = RandomUtils.nextLong(100, 200);
     private final Player player = new Player().withId(playerId).withLocale(locale).withLoginId(loginId);
-    private final GameCharacter character = new GameCharacter().withPlayerId(playerId);
+    private final GameCharacter character = new GameCharacter();
 
     private final Connection connection = new Connection().withPlayer(player).withCharacter(character);
 
@@ -113,6 +113,17 @@ public class WaitForCharacterNameTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getCharacter().getId(), equalTo(id));
+    }
+
+    @Test
+    public void setPlayerId() {
+        long id = RandomUtils.nextLong(100, 200);
+        connection.getInputQueue().push(name);
+        when(configuration.getNewComponentId()).thenReturn(id);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getCharacter().getPlayerId(), equalTo(playerId));
     }
 
     @Test

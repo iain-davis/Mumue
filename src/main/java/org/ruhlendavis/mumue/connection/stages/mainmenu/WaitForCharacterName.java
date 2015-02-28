@@ -35,6 +35,7 @@ public class WaitForCharacterName implements ConnectionStage {
 
         connection.getCharacter().setName(name);
         connection.getCharacter().setId(configuration.getNewComponentId());
+        connection.getCharacter().setPlayerId(connection.getPlayer().getId());
         dao.addCharacter(connection.getCharacter());
         return new DisplayPlayerMenu();
     }
