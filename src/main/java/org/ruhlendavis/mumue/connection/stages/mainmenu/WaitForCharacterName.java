@@ -2,6 +2,7 @@ package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
 import org.ruhlendavis.mumue.components.character.CharacterDao;
 import org.ruhlendavis.mumue.components.character.GameCharacter;
+import org.ruhlendavis.mumue.components.universe.UniverseDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
@@ -11,7 +12,8 @@ import org.ruhlendavis.mumue.text.TextName;
 
 public class WaitForCharacterName implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
-    private CharacterDao dao = new CharacterDao();
+    private CharacterDao characterDao = new CharacterDao();
+    private UniverseDao universeDao = new UniverseDao();
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
@@ -20,8 +22,10 @@ public class WaitForCharacterName implements ConnectionStage {
         }
 
         String name = connection.getInputQueue().pop();
+        GameCharacter character = connection.getCharacter();
+        long universeId = character.getUniverseId();
 
-        if (nameTakenInUniverse(name, connection.getCharacter().getUniverseId())) {
+        if (nameTakenInUniverse(name, universeId)) {
             String text = textMaker.getText(TextName.CharacterNameAlreadyExists, connection.getPlayer().getLocale(), configuration.getServerLocale());
             connection.getOutputQueue().push(text);
             return new CharacterNamePrompt();
@@ -33,21 +37,21 @@ public class WaitForCharacterName implements ConnectionStage {
             return new CharacterNamePrompt();
         }
 
-        connection.getCharacter().setName(name);
-        connection.getCharacter().setId(configuration.getNewComponentId());
-        connection.getCharacter().setPlayerId(connection.getPlayer().getId());
-        dao.addCharacter(connection.getCharacter());
+        character.setName(name);
+        character.setId(configuration.getNewComponentId());
+        character.setPlayerId(connection.getPlayer().getId());
+        character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
+        characterDao.addCharacter(character);
         return new DisplayPlayerMenu();
     }
 
     private boolean nameTakenByOtherPlayer(String name, long playerId) {
-        GameCharacter character = dao.getCharacter(name);
+        GameCharacter character = characterDao.getCharacter(name);
         return character.getId() != GlobalConstants.REFERENCE_UNKNOWN && character.getPlayerId() != playerId;
     }
 
     private boolean nameTakenInUniverse(String name, long universeId) {
-        GameCharacter character = dao.getCharacter(name, universeId);
+        GameCharacter character = characterDao.getCharacter(name, universeId);
         return character.getId() != GlobalConstants.REFERENCE_UNKNOWN;
-
     }
 }

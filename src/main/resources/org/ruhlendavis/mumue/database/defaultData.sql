@@ -24,9 +24,10 @@ insert into players (id, loginId, password, locale, created, lastUsed, lastModif
                      true
             );
 
-insert into universes (id, name, description, created, lastUsed, lastModified, useCount)
+insert into universes (id, name, description, created, lastUsed, lastModified, useCount, startingSpaceId)
             values    (0, 'First Universe', 'First Universe',
-                       timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0
+                       timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0,
+                       0
                       );
 
 insert into spaces (id, name, description,
