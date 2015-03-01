@@ -42,6 +42,7 @@ public class WaitForCharacterNameTest {
     private final long locationId = RandomUtils.nextLong(200, 300);
     private final Player player = new PlayerBuilder().withId(playerId).withLocale(locale).withLoginId(loginId).build();
     private final GameCharacter character = new GameCharacter();
+    private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
 
     private final Connection connection = new Connection().withPlayer(player).withCharacter(character);
 
@@ -56,6 +57,8 @@ public class WaitForCharacterNameTest {
         when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(new GameCharacter());
         when(characterDao.getCharacter(name)).thenReturn(character);
+        when(universeDao.getUniverse(character.getUniverseId())).thenReturn(universe);
+
     }
 
     @Test
@@ -124,9 +127,7 @@ public class WaitForCharacterNameTest {
 
     @Test
     public void setLocationId() {
-        Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
         connection.getInputQueue().push(name);
-        when(universeDao.getUniverse(character.getUniverseId())).thenReturn(universe);
 
         stage.execute(connection, configuration);
 
