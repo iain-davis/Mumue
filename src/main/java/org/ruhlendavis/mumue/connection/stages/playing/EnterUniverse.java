@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages.mainmenu;
+package org.ruhlendavis.mumue.connection.stages.playing;
 
 import java.util.HashMap;
 import java.util.Map;

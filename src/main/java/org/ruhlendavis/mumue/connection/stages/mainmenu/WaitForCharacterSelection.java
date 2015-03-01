@@ -4,6 +4,7 @@ import org.ruhlendavis.mumue.components.CharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
+import org.ruhlendavis.mumue.connection.stages.playing.EnterUniverse;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 

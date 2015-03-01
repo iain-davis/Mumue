@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages.mainmenu;
+package org.ruhlendavis.mumue.connection.stages.playing;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
