@@ -6,13 +6,13 @@ import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-public class WelcomeStage implements ConnectionStage {
+public class PasswordPrompt implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
-        String text = textMaker.getText(TextName.Welcome, configuration.getServerLocale());
+        String text = textMaker.getText(TextName.PasswordPrompt, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
-        return new LoginPromptStage();
+        return new WaitForPassword();
     }
 }

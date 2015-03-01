@@ -21,13 +21,13 @@ import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PasswordPromptStageTest {
+public class PasswordPromptTest {
     private final Connection connection = new Connection();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
-    @InjectMocks PasswordPromptStage stage;
+    @InjectMocks PasswordPrompt stage;
 
     @Before
     public void beforeEach() {
@@ -36,7 +36,7 @@ public class PasswordPromptStageTest {
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(connection, configuration), instanceOf(WaitForPasswordStage.class));
+        assertThat(stage.execute(connection, configuration), instanceOf(WaitForPassword.class));
     }
 
     @Test

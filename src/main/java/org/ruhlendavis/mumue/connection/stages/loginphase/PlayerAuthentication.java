@@ -10,7 +10,7 @@ import org.ruhlendavis.mumue.player.PlayerDao;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-public class PlayerAuthenticationStage implements ConnectionStage {
+public class PlayerAuthentication implements ConnectionStage {
     private PlayerDao dao = new PlayerDao();
     private TextMaker textMaker = new TextMaker();
     private CurrentTimestampProvider currentTimestampProvider = new CurrentTimestampProvider();
@@ -32,6 +32,6 @@ public class PlayerAuthenticationStage implements ConnectionStage {
 
         String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
-        return new LoginPromptStage();
+        return new LoginPrompt();
     }
 }

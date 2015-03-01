@@ -30,7 +30,7 @@ import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PlayerAuthenticationStageTest {
+public class PlayerAuthenticationTest {
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
     private final String password = RandomStringUtils.randomAlphanumeric(17);
     private final String loginFailed = RandomStringUtils.randomAlphanumeric(16);
@@ -44,7 +44,7 @@ public class PlayerAuthenticationStageTest {
     @Mock PlayerDao dao;
     @Mock TextMaker textMaker;
     @Mock CurrentTimestampProvider currentTimestampProvider;
-    @InjectMocks PlayerAuthenticationStage stage;
+    @InjectMocks PlayerAuthentication stage;
 
     @Before
     public void beforeEach() {
@@ -109,7 +109,7 @@ public class PlayerAuthenticationStageTest {
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(LoginPromptStage.class));
+        assertThat(next, instanceOf(LoginPrompt.class));
     }
 
     @Test

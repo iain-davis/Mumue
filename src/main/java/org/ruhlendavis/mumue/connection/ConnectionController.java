@@ -2,7 +2,7 @@ package org.ruhlendavis.mumue.connection;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
-import org.ruhlendavis.mumue.connection.stages.loginphase.WelcomeStage;
+import org.ruhlendavis.mumue.connection.stages.loginphase.Welcome;
 import org.ruhlendavis.mumue.runner.InfiniteLoopBody;
 
 public class ConnectionController implements InfiniteLoopBody {
@@ -11,7 +11,7 @@ public class ConnectionController implements InfiniteLoopBody {
     private ConnectionStage stage;
 
     public ConnectionController(Connection connection, Configuration configuration) {
-        this(connection, configuration, new WelcomeStage());
+        this(connection, configuration, new Welcome());
     }
 
     public ConnectionController(Connection connection, Configuration configuration, ConnectionStage stage) {

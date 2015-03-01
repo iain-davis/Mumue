@@ -15,26 +15,25 @@ import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WaitForPasswordStageTest {
+public class WaitForLoginIdTest {
     private final Connection connection = new Connection();
 
     @Mock Configuration configuration;
-    @InjectMocks WaitForPasswordStage stage;
+    @InjectMocks WaitForLoginId stage;
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(WaitForPasswordStage.class));
+        assertThat(next, instanceOf(WaitForLoginId.class));
     }
 
     @Test
-    public void executeWithTwoInputReturnsAuthenticationStage() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
+    public void executeWithOneInputReturnsPasswordPromptStage() {
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayerAuthenticationStage.class));
+        assertThat(next, instanceOf(PasswordPrompt.class));
     }
 }
