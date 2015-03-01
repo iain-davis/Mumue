@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.character;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
@@ -19,6 +19,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import org.ruhlendavis.mumue.components.LocatableComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CharacterRowProcessorTest {

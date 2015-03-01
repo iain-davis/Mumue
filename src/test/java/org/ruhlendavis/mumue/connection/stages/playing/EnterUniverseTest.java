@@ -18,8 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.mumue.components.CharacterBuilder;
-import org.ruhlendavis.mumue.components.GameCharacter;
+import org.ruhlendavis.mumue.components.character.CharacterBuilder;
+import org.ruhlendavis.mumue.components.character.GameCharacter;
 import org.ruhlendavis.mumue.components.Universe;
 import org.ruhlendavis.mumue.components.UniverseBuilder;
 import org.ruhlendavis.mumue.components.UniverseDao;

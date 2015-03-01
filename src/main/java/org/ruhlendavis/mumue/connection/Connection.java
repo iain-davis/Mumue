@@ -3,7 +3,7 @@ package org.ruhlendavis.mumue.connection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ruhlendavis.mumue.components.GameCharacter;
+import org.ruhlendavis.mumue.components.character.GameCharacter;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextQueue;
 

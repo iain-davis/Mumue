@@ -1,7 +1,7 @@
 package org.ruhlendavis.mumue.connection.stages.mainmenu;
 
-import org.ruhlendavis.mumue.components.CharacterDao;
-import org.ruhlendavis.mumue.components.GameCharacter;
+import org.ruhlendavis.mumue.components.character.CharacterDao;
+import org.ruhlendavis.mumue.components.character.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;

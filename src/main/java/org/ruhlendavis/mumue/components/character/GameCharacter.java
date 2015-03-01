@@ -1,5 +1,6 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.character;
 
+import org.ruhlendavis.mumue.components.LocatableComponent;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
 public class GameCharacter extends LocatableComponent {
