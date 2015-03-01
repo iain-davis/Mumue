@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages.loginphase;
+package org.ruhlendavis.mumue.connection.stages.login;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;

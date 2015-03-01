@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages.loginphase;
+package org.ruhlendavis.mumue.connection.stages.login;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
@@ -15,26 +15,25 @@ import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WaitForPasswordTest {
+public class WaitForLoginIdTest {
     private final Connection connection = new Connection();
 
     @Mock Configuration configuration;
-    @InjectMocks WaitForPassword stage;
+    @InjectMocks WaitForLoginId stage;
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(WaitForPassword.class));
+        assertThat(next, instanceOf(WaitForLoginId.class));
     }
 
     @Test
-    public void executeWithTwoInputReturnsAuthenticationStage() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
+    public void executeWithOneInputReturnsPasswordPromptStage() {
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
 
         ConnectionStage next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayerAuthentication.class));
+        assertThat(next, instanceOf(PasswordPrompt.class));
     }
 }

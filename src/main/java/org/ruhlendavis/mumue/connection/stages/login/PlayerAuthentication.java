@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.connection.stages.loginphase;
+package org.ruhlendavis.mumue.connection.stages.login;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
