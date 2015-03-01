@@ -1,9 +1,11 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.space;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
+
+import org.ruhlendavis.mumue.components.LocatableComponentResultSetProcessor;
 
 public class SpaceRowProcessor extends BasicRowProcessor {
     private LocatableComponentResultSetProcessor processor = new LocatableComponentResultSetProcessor();

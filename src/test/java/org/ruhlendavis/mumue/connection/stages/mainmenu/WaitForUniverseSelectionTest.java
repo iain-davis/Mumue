@@ -18,8 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.ruhlendavis.mumue.components.Universe;
-import org.ruhlendavis.mumue.components.UniverseDao;
+import org.ruhlendavis.mumue.components.universe.Universe;
+import org.ruhlendavis.mumue.components.universe.UniverseDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;

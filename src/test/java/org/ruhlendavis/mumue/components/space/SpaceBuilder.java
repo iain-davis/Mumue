@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.space;
 
 import java.time.Instant;
 

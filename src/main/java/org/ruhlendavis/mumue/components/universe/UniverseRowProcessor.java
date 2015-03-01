@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.universe;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
+
+import org.ruhlendavis.mumue.components.ComponentResultSetProcessor;
 
 public class UniverseRowProcessor extends BasicRowProcessor {
     private ComponentResultSetProcessor processor = new ComponentResultSetProcessor();

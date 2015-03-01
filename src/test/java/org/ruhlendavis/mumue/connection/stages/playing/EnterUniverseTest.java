@@ -20,9 +20,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.components.character.CharacterBuilder;
 import org.ruhlendavis.mumue.components.character.GameCharacter;
-import org.ruhlendavis.mumue.components.Universe;
-import org.ruhlendavis.mumue.components.UniverseBuilder;
-import org.ruhlendavis.mumue.components.UniverseDao;
+import org.ruhlendavis.mumue.components.universe.Universe;
+import org.ruhlendavis.mumue.components.universe.UniverseBuilder;
+import org.ruhlendavis.mumue.components.universe.UniverseDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;

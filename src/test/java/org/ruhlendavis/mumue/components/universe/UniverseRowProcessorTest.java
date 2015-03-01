@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.universe;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import org.ruhlendavis.mumue.components.ComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UniverseRowProcessorTest {

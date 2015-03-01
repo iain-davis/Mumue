@@ -3,8 +3,8 @@ package org.ruhlendavis.mumue.connection.stages.playing;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ruhlendavis.mumue.components.Universe;
-import org.ruhlendavis.mumue.components.UniverseDao;
+import org.ruhlendavis.mumue.components.universe.Universe;
+import org.ruhlendavis.mumue.components.universe.UniverseDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;

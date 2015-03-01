@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.components;
+package org.ruhlendavis.mumue.components.universe;
 
 import java.sql.SQLException;
 import java.util.Collection;
