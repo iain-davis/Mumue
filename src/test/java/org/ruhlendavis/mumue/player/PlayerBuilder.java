@@ -12,7 +12,7 @@ public class PlayerBuilder {
     private long useCount = 0;
     private String loginId = "";
     private String locale = "";
-    boolean administrator = false;
+    private boolean administrator = false;
 
     public Player build() {
         Player player = new Player();
