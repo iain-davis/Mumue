@@ -1,11 +1,9 @@
 package org.ruhlendavis.mumue.components;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;

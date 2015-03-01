@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.ruhlendavis.mumue.componentsold.Component;
 import org.ruhlendavis.mumue.componentsold.Artifact;
+import org.ruhlendavis.mumue.componentsold.Component;
 import org.ruhlendavis.mumue.componentsold.GameCharacter;
 import org.ruhlendavis.mumue.componentsold.Link;
 import org.ruhlendavis.mumue.componentsold.LinkSource;

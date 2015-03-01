@@ -12,8 +12,8 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.mumue.componentsold.Component;
 import org.ruhlendavis.mumue.componentsold.Artifact;
+import org.ruhlendavis.mumue.componentsold.Component;
 import org.ruhlendavis.mumue.componentsold.GameCharacter;
 import org.ruhlendavis.mumue.componentsold.Link;
 import org.ruhlendavis.mumue.componentsold.Program;
