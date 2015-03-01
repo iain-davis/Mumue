@@ -74,4 +74,14 @@ public class UniverseBuilderTest {
 
         assertThat(universe.getDescription(), equalTo(description));
     }
+
+    @Test
+    public void buildSetsStartingSpaceId() {
+        long startingSpaceId = RandomUtils.nextLong(100, 200);
+
+        Universe universe = builder.withStartingSpaceId(startingSpaceId).build();
+
+        assertThat(universe.getStartingSpaceId(), equalTo(startingSpaceId));
+    }
+
 }

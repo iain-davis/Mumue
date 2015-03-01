@@ -12,6 +12,7 @@ public class UniverseBuilder {
     private long useCount = 0;
     private String name = "";
     private String description = "";
+    private long startingSpaceId = GlobalConstants.REFERENCE_UNKNOWN;
 
     public Universe build() {
         Universe universe = new Universe();
@@ -22,6 +23,7 @@ public class UniverseBuilder {
         universe.setUseCount(useCount);
         universe.setName(name);
         universe.setDescription(description);
+        universe.setStartingSpaceId(startingSpaceId);
         return universe;
     }
 
@@ -57,6 +59,11 @@ public class UniverseBuilder {
 
     public UniverseBuilder withDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public UniverseBuilder withStartingSpaceId(long startingSpaceId) {
+        this.startingSpaceId = startingSpaceId;
         return this;
     }
 }

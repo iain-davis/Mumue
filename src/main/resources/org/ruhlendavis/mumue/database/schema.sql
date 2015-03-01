@@ -9,7 +9,8 @@ create table players(id int primary key, loginId varchar(255) unique, password v
                     );
 
 create table universes(id int primary key, name varchar(255), description varchar(255),
-                       created timestamp, lastUsed timestamp, lastModified timestamp, useCount long
+                       created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
+                       startingSpaceId int
                       );
 
 create table characters(id int primary key, name varchar(255), description varchar(255),

@@ -15,6 +15,7 @@ public class UniverseRowProcessor extends BasicRowProcessor {
     @Override
     public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {
         Universe universe = new Universe();
+        universe.setStartingSpaceId(resultSet.getLong("startingSpaceId"));
         processor.process(resultSet, universe);
 
         return type.cast(universe);
