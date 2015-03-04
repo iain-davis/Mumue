@@ -52,7 +52,7 @@ public class EnterSpaceTest {
     public void executeDisplaySpaceTitleAndDescription() {
         stage.execute(connection, configuration);
 
-        String expected = name + "\\r\\n" + description;
+        String expected = name + "\\r\\n" + description + "\\r\\n";
         assertThat(connection.getOutputQueue(), hasItem(expected));
     }
 }
