@@ -23,7 +23,8 @@ public class InfiniteLoopRunnerTest {
 
     @Before
     public void beforeEach() {
-        when(configuration.isTest()).thenReturn(true);
+        when(runnable.prepare()).thenReturn(true);
+        when(runnable.execute()).thenReturn(false);
     }
 
     @Test
@@ -38,15 +39,42 @@ public class InfiniteLoopRunnerTest {
     }
 
     @Test
+    public void executeGivenRunnable() {
+        infiniteLoopRunner.run();
+        verify(runnable).execute();
+    }
+
+    @Test
+    public void doNotExecuteIfPrepareFails() {
+        when(runnable.prepare()).thenReturn(false);
+        infiniteLoopRunner.run();
+        verify(runnable, never()).execute();
+    }
+
+    @Test
+    public void setRunningFalseIfPrepareFails() {
+        when(runnable.prepare()).thenReturn(false);
+        infiniteLoopRunner.run();
+        assertFalse(infiniteLoopRunner.isRunning());
+    }
+
+    @Test
     public void useRunnableCleanup() {
         infiniteLoopRunner.run();
         verify(runnable).cleanup();
     }
 
     @Test
-    public void runGivenRunnable() {
+    public void doNotCleanupIfPrepareFails() {
+        when(runnable.prepare()).thenReturn(false);
         infiniteLoopRunner.run();
-        verify(runnable).execute();
+        verify(runnable, never()).cleanup();
+    }
+
+    @Test
+    public void setRunningFalseWhenDone() {
+        infiniteLoopRunner.run();
+        assertFalse(infiniteLoopRunner.isRunning());
     }
 
     @Test

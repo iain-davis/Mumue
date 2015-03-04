@@ -2,6 +2,7 @@ package org.ruhlendavis.mumue.connection;
 
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,11 +22,15 @@ public class ConnectionControllerTest {
     private final ConnectionStage stage = mock(ConnectionStage.class);
 
     @Test
+    public void prepareReturnsTrue() {
+        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        assertTrue(controller.prepare());
+    }
+
+    @Test
     public void executeExecutesStage() {
         ConnectionController controller = new ConnectionController(connection, configuration, stage);
-        controller.prepare();
         controller.execute();
-        controller.cleanup();
 
         verify(stage).execute(connection, configuration);
     }
@@ -39,5 +44,17 @@ public class ConnectionControllerTest {
         controller.execute();
 
         assertThat(controller.getStage(), sameInstance(next));
+    }
+
+    @Test
+    public void executeReturnsTrue() {
+        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        assertTrue(controller.execute());
+    }
+
+    @Test
+    public void cleanupReturnsTrue() {
+        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        assertTrue(controller.cleanup());
     }
 }

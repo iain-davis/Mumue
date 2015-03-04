@@ -18,20 +18,26 @@ public class InputReceiver implements InfiniteLoopBody {
     }
 
     @Override
-    public void prepare() {
+    public boolean prepare() {
+        return true;
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
+        if (!socket.isConnected()) {
+            return false;
+        }
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             inputQueue.push(input.readLine());
+            return true;
         } catch (IOException exception) {
             throw new RuntimeException("Exception while reading input from socket", exception);
         }
     }
 
     @Override
-    public void cleanup() {
+    public boolean cleanup() {
+        return false;
     }
 }

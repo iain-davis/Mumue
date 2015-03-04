@@ -2,6 +2,7 @@ package org.ruhlendavis.mumue.connection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
@@ -52,6 +53,14 @@ public class AcceptorTest {
     }
 
     @Test
+    public void prepareReturnsTrue() {
+        int port = RandomUtils.nextInt(2048, 4096);
+        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+
+        assertTrue(acceptor.prepare());
+    }
+
+    @Test
     public void executeCreatesConnectionUsingSocket() {
         int port = RandomUtils.nextInt(2048, 4096);
         Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
@@ -60,6 +69,16 @@ public class AcceptorTest {
         acceptor.execute();
 
         verify(connectionFactory).create(socket, configuration);
+    }
+
+    @Test
+    public void executeReturnsTrue() {
+        int port = RandomUtils.nextInt(2048, 4096);
+        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+
+        acceptor.prepare();
+
+        assertTrue(acceptor.execute());
     }
 
     @Test
@@ -96,5 +115,13 @@ public class AcceptorTest {
         acceptor.cleanup();
 
         verify(serverSocket, atLeastOnce()).close();
+    }
+
+    @Test
+    public void cleanupReturnsTrue() throws IOException {
+        Acceptor acceptor = new Acceptor(9999, connectionManager, socketFactory, connectionFactory, configuration);
+
+        acceptor.prepare();
+        assertTrue(acceptor.cleanup());
     }
 }

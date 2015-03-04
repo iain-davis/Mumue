@@ -21,27 +21,31 @@ public class OutputSender implements InfiniteLoopBody {
     }
 
     @Override
-    public void prepare() {
-
+    public boolean prepare() {
+        return true;
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
+        if (!socket.isConnected()){
+            return false;
+        }
         if (outputQueue.isEmpty()) {
-            return;
+            return true;
         }
         try {
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             String text = transformerEngine.transform(outputQueue.pop());
             output.write(text);
             output.flush();
+            return true;
         } catch (IOException exception) {
             throw new RuntimeException("Exception when accessing output stream for client socket", exception);
         }
     }
 
     @Override
-    public void cleanup() {
-
+    public boolean cleanup() {
+        return true;
     }
 }

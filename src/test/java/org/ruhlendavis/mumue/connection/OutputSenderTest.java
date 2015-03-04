@@ -1,6 +1,7 @@
 package org.ruhlendavis.mumue.connection;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
@@ -38,15 +39,34 @@ public class OutputSenderTest {
     public void beforeEach() throws IOException {
         when(socket.getOutputStream()).thenReturn(output);
         when(transformerEngine.transform(anyString())).thenReturn(text);
+        when(socket.isConnected()).thenReturn(true);
+    }
+
+    @Test
+    public void prepareReturnsTrue() {
+        assertTrue(outputSender.prepare());
+    }
+
+    @Test
+    public void executeReturnsTrue() {
+        outputQueue.push(RandomStringUtils.randomAlphabetic(17));
+
+        assertTrue(outputSender.execute());
+    }
+
+    @Test
+    public void executeReturnsFalseWhenDisconnected() {
+        when(socket.isConnected()).thenReturn(false);
+        outputQueue.push(RandomStringUtils.randomAlphabetic(17));
+
+        assertFalse(outputSender.execute());
     }
 
     @Test
     public void executeRemovesTextFromQueue() {
         outputQueue.push(RandomStringUtils.randomAlphabetic(17));
 
-        outputSender.prepare();
         outputSender.execute();
-        outputSender.cleanup();
 
         assertTrue(outputQueue.isEmpty());
     }
@@ -70,9 +90,8 @@ public class OutputSenderTest {
     }
 
     @Test
-    public void doNothingWithEmptyQueue() {
-        outputSender.execute();
-
+    public void doNothingWithEmptyQueueAndReturnTrue() {
+        assertTrue(outputSender.execute());
         assertThat(new String(output.toByteArray()), equalTo(""));
     }
 
@@ -86,5 +105,10 @@ public class OutputSenderTest {
         thrown.expectMessage("Exception when accessing output stream for client socket");
 
         outputSender.execute();
+    }
+
+    @Test
+    public void cleanupReturnsTrue() {
+        assertTrue(outputSender.cleanup());
     }
 }

@@ -21,18 +21,19 @@ public class ConnectionController implements InfiniteLoopBody {
     }
 
     @Override
-    public void prepare() {
-
+    public boolean prepare() {
+        return true;
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         stage = stage.execute(connection, configuration);
+        return true;
     }
 
     @Override
-    public void cleanup() {
-
+    public boolean cleanup() {
+        return true;
     }
 
     public ConnectionStage getStage() {

@@ -15,11 +15,14 @@ public class InfiniteLoopRunner extends CleanCloser implements Runnable {
 
     @Override
     public void run() {
-        body.prepare();
+        if(!body.prepare()) {
+            stop();
+            return;
+        }
+
         while (running) {
-            body.execute();
-            if (configuration.isTest()) {
-                break;
+            if (!body.execute()) {
+                stop();
             }
         }
         body.cleanup();

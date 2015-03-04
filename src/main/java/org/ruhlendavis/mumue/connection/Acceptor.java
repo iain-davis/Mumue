@@ -28,24 +28,27 @@ public class Acceptor extends CleanCloser implements InfiniteLoopBody {
     }
 
     @Override
-    public void prepare() {
+    public boolean prepare() {
         serverSocket = socketFactory.createSocket(port);
+        return true;
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
         try {
             Socket clientSocket = serverSocket.accept();
             Connection connection = connectionFactory.create(clientSocket, configuration);
             connectionManager.add(connection);
+            return true;
         } catch (IOException exception) {
             throw new RuntimeException("Error accepting client connection on port " + port, exception);
         }
     }
 
     @Override
-    public void cleanup() {
+    public boolean cleanup() {
         close(serverSocket);
+        return true;
     }
 
     public int getPort() {
