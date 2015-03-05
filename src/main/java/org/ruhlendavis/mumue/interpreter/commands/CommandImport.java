@@ -3,7 +3,7 @@ package org.ruhlendavis.mumue.interpreter.commands;
 import org.ruhlendavis.mumue.components.character.GameCharacter;
 import org.ruhlendavis.mumue.importer.Importer;
 
-public class CommandImport extends Command {
+public class CommandImport implements Command {
     private Importer importer = new Importer();
 
     @Override

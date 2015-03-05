@@ -1,7 +1,7 @@
 create table configuration_options(id int primary key auto_increment, name varchar(255), value varchar(255));
 create table text(id int primary key auto_increment, locale varchar(15), name varchar(255), text varchar(255));
 create table commands(id int primary key auto_increment, display varchar(255), minimum_partial varchar(255),
-                      command_class varchar(255), is_token tinyint, available_unauthenticated tinyint);
+                      command_class varchar(255), is_token tinyint);
 
 create table players(id int primary key, loginId varchar(255) unique, password varchar(255), locale varchar(15),
                      created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
