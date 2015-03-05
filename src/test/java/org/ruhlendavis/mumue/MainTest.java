@@ -44,11 +44,6 @@ public class MainTest {
     }
 
     @Test
-    public void doNotRunForeverInTest() {
-        Main.main("--test");
-    }
-
-    @Test
     public void initializeConfiguration() {
         main.run();
         verify(configurationInitializer).initialize();
