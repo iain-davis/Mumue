@@ -1,147 +1,174 @@
 package org.ruhlendavis.mumue.interpreter;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
+import org.ruhlendavis.mumue.interpreter.commands.Command;
 import org.ruhlendavis.mumue.interpreter.commands.CommandPose;
 import org.ruhlendavis.mumue.interpreter.commands.CommandSay;
 
 public class CommandInterpreterTest {
-    CommandInterpreter interpreter = new CommandInterpreter();
+    private final String minimumPartial = RandomStringUtils.randomAlphabetic(17).toLowerCase();
+    private final Map<String, CommandSyntax> commandList = new HashMap<>();
+    private final CommandSay command = new CommandSay();
+
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+    @Mock CommandListBuilder commandListBuilder;
+    @InjectMocks CommandInterpreter interpreter = new CommandInterpreter();
 
     @Before
     public void beforeEach() {
-        interpreter.getCommands().clear();
+        CommandSyntax syntax = new CommandSyntax();
+        syntax.setCommand(command);
+        commandList.put(minimumPartial, syntax);
+        when(commandListBuilder.build()).thenReturn(commandList);
     }
 
     @Test
-    public void interpretFindsATokenCommand() {
-        String token = "~";
-        interpreter.putTokenCommand(token, new CommandSay());
-        CommandResult result = interpreter.interpret(token);
-        assertEquals(CommandStatus.OK, result.getStatus());
-        assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
+    public void interpretNeverReturnsNull() {
+        assertNotNull(interpreter.interpret(RandomStringUtils.randomAlphabetic(16)));
     }
 
     @Test
-    public void interpretSetsTokenCommand() {
-        String token = "~";
-        interpreter.putTokenCommand(token, new CommandSay());
-        CommandResult result = interpreter.interpret(token);
-        assertEquals(token, result.getCommandString());
+    public void interpretReturnsCommandOKWhenFound() {
+        CommandResult result = interpreter.interpret(minimumPartial);
+        assertThat(result.getStatus(), equalTo(CommandStatus.OK));
     }
 
     @Test
-    public void interpretWithTokenSetsArguments() {
-        String token = "~";
-        interpreter.putTokenCommand(token, new CommandSay());
-        String arguments = RandomStringUtils.randomAlphabetic(13);
-        String line = token + arguments;
-        CommandResult result = interpreter.interpret(line);
-        assertEquals(arguments, result.getCommandArguments());
+    public void interpretReturnsCommandWhenFound() {
+        CommandResult result = interpreter.interpret(minimumPartial);
+
+        List<Command> commands = result.getCommands();
+        assertThat(commands.size(), equalTo(1));
+        assertThat(commands.get(0), sameInstance(command));
     }
 
     @Test
-    public void interpretFindsTwoTokens() {
-        interpreter.putTokenCommand("~", new CommandSay());
-        interpreter.putTokenCommand("&", new CommandSay());
-        CommandResult result1 = interpreter.interpret("~");
-        CommandResult result2 = interpreter.interpret("&");
-        assertEquals(CommandStatus.OK, result1.getStatus());
-        assertEquals(CommandStatus.OK, result2.getStatus());
-        assertEquals(CommandSay.class, result1.getCommands().get(0).getClass());
-        assertEquals(CommandSay.class, result2.getCommands().get(0).getClass());
+    public void interpretWithoutArgumentsReturnsCommandString() {
+        CommandResult result = interpreter.interpret(minimumPartial);
+        assertThat(result.getCommandString(), equalTo(minimumPartial));
     }
 
     @Test
-    public void interpretRejectsUnknownToken() {
-        interpreter.putTokenCommand("~", new CommandSay());
-        CommandResult result = interpreter.interpret("(");
-        assertEquals(CommandStatus.UNKNOWN_COMMAND, result.getStatus());
-        assertEquals(0, result.getCommands().size());
-    }
-
-    @Test
-    public void interpretFindsACommand() {
-        String command = RandomStringUtils.randomAlphabetic(13);
-        interpreter.putCommand(command, new CommandSay());
-        CommandResult result = interpreter.interpret(command);
-        assertEquals(CommandStatus.OK, result.getStatus());
-        assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
-    }
-
-    @Test
-    public void interpretFindsACommandIgnoringCase() {
-        String command = RandomStringUtils.randomAlphabetic(13).toLowerCase();
-        interpreter.putCommand(command.toUpperCase(), new CommandSay());
-        CommandResult result = interpreter.interpret(command);
-        assertEquals(CommandStatus.OK, result.getStatus());
-        assertEquals(command, result.getCommandString());
-    }
-
-    @Test
-    public void interpretWithoutArgumentsSetsCommandString() {
-        String command = RandomStringUtils.randomAlphabetic(13);
-        interpreter.putCommand(command, new CommandSay());
-        CommandResult result = interpreter.interpret(command);
-        assertEquals(command, result.getCommandString());
+    public void interpretReturnsEntireCommandString() {
+        String commandString = minimumPartial + RandomStringUtils.randomAlphabetic(4);
+        CommandResult result = interpreter.interpret(commandString);
+        assertThat(result.getCommandString(), equalTo(commandString));
     }
 
     @Test
     public void interpretWithArgumentsSetsCommandString() {
-        String command = RandomStringUtils.randomAlphabetic(13);
-        String line = command + " " + RandomStringUtils.randomAlphabetic(13);
-        interpreter.putCommand(command, new CommandSay());
-        CommandResult result = interpreter.interpret(line);
-        assertEquals(command, result.getCommandString());
+        String text = minimumPartial + " " + RandomStringUtils.randomAlphabetic(13);
+        CommandResult result = interpreter.interpret(text);
+        assertThat(result.getCommandString(), equalTo(minimumPartial));
     }
 
     @Test
-    public void interpretSetsCommandArguments() {
-        String command = RandomStringUtils.randomAlphabetic(12);
+    public void interpretReturnsArguments() {
         String arguments = RandomStringUtils.randomAlphabetic(13);
-        String line = command + " " + arguments;
-        interpreter.putCommand(command, new CommandSay());
-        CommandResult result = interpreter.interpret(line);
-        assertEquals(arguments, result.getCommandArguments());
+        String text = minimumPartial + " " + arguments;
+        CommandResult result = interpreter.interpret(text);
+        assertThat(result.getCommandArguments(), equalTo(arguments));
     }
 
     @Test
-    public void interpretFindsACommandEvenThoughCaseDiffers() {
-        String command = RandomStringUtils.randomAlphabetic(13).toUpperCase();
-        interpreter.putCommand(command, new CommandSay());
-        CommandResult result = interpreter.interpret(command);
-        assertEquals(CommandStatus.OK, result.getStatus());
-        assertEquals(CommandSay.class, result.getCommands().get(0).getClass());
+    public void interpretWithTokenReturnsCommandString() {
+        String token = "~";
+        commandList.put(token, new CommandSyntax());
+        CommandResult result = interpreter.interpret(token);
+        assertThat(result.getCommandString(), equalTo(token));
     }
 
     @Test
-    public void interpretWithPartialMatchReturnsCommand() {
-        String command = RandomStringUtils.randomAlphabetic(13);
-        interpreter.putCommand(command, new CommandPose());
-        CommandResult result = interpreter.interpret(command + RandomStringUtils.randomAlphabetic(3));
-        assertEquals(CommandStatus.OK, result.getStatus());
+    public void interpretWithTokenAndArgumentsReturnsCommandString() {
+        String token = "~";
+        CommandSyntax syntax = new CommandSyntax();
+        syntax.setToken(true);
+        commandList.put(token, syntax);
+        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String text = token + arguments;
+        CommandResult result = interpreter.interpret(text);
+        assertThat(result.getCommandString(), equalTo(token));
     }
 
     @Test
-    public void interpretWithMultipleMatchesReturnsAmbiguous() {
-        String command = RandomStringUtils.randomAlphabetic(13);
-        interpreter.putCommand(command.substring(0, 3), new CommandSay());
-        interpreter.putCommand(command.substring(0, 4), new CommandPose());
-        CommandResult result = interpreter.interpret(command);
-        assertEquals(CommandStatus.AMBIGUOUS_COMMAND, result.getStatus());
+    public void interpretWithTokenAndArgumentsReturnsArguments() {
+        String token = "~";
+        CommandSyntax syntax = new CommandSyntax();
+        syntax.setToken(true);
+        commandList.put(token, syntax);
+        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String text = token + arguments;
+        CommandResult result = interpreter.interpret(text);
+        assertThat(result.getCommandArguments(), equalTo(arguments));
     }
 
     @Test
-    public void interpretWithMultipleMatchesReturnsBothCommands() {
-        String command = RandomStringUtils.randomAlphabetic(13);
-        interpreter.putCommand(command.substring(0, 3), new CommandSay());
-        interpreter.putCommand(command.substring(0, 4), new CommandPose());
-        CommandResult result = interpreter.interpret(command);
-        assertEquals(CommandStatus.AMBIGUOUS_COMMAND, result.getStatus());
-        assertEquals(2, result.getCommands().size());
+    public void interpretCommandIsCaseInsensitive() {
+        CommandResult result = interpreter.interpret(minimumPartial.toUpperCase());
+        assertThat(result.getStatus(), equalTo(CommandStatus.OK));
+    }
+
+    @Test
+    public void interpretMatchesAgainstMinimumPartial() {
+        String text = minimumPartial + RandomStringUtils.randomAlphabetic(17);
+        CommandResult result = interpreter.interpret(text);
+        assertThat(result.getStatus(), equalTo(CommandStatus.OK));
+    }
+
+    @Test
+    public void interpretWithUnknownCommandReturnsUnknown() {
+        CommandResult result = interpreter.interpret(RandomStringUtils.randomAlphabetic(16));
+        assertThat(result.getStatus(), equalTo(CommandStatus.UNKNOWN_COMMAND));
+    }
+
+    @Test
+    public void interpretWithAmbiguityReturnsAmbiguous() {
+        String text = RandomStringUtils.randomAlphabetic(13);
+        commandList.put(text.substring(0, 3), new CommandSyntax());
+        commandList.put(text.substring(0, 4), new CommandSyntax());
+        CommandResult result = interpreter.interpret(text);
+        assertThat(result.getStatus(), equalTo(CommandStatus.AMBIGUOUS_COMMAND));
+    }
+
+    @Test
+    public void interpretWithAmbiguityReturnsBothCommands() {
+        String text = RandomStringUtils.randomAlphabetic(13);
+        CommandSay command1 = new CommandSay();
+        CommandSyntax syntax1 = new CommandSyntax();
+        syntax1.setCommand(command1);
+
+        CommandPose command2 = new CommandPose();
+        CommandSyntax syntax2 = new CommandSyntax();
+        syntax2.setCommand(command2);
+
+        commandList.put(text.substring(0, 3), syntax1);
+        commandList.put(text.substring(0, 4), syntax2);
+
+        CommandResult result = interpreter.interpret(text);
+        List<Command> commands = result.getCommands();
+
+        assertThat(commands.size(), equalTo(2));
+        assertThat(commands, hasItem(command1));
+        assertThat(commands, hasItem(command2));
     }
 }

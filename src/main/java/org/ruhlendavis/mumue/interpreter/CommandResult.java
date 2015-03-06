@@ -6,7 +6,7 @@ import java.util.List;
 import org.ruhlendavis.mumue.interpreter.commands.Command;
 
 public class CommandResult {
-    CommandStatus status = CommandStatus.OK;
+    CommandStatus status = CommandStatus.UNKNOWN_COMMAND;
     List<Command> commands = new ArrayList<>();
     private String commandString;
     private String commandArguments;

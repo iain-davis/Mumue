@@ -2,16 +2,17 @@ package org.ruhlendavis.mumue.interpreter;
 
 import org.ruhlendavis.mumue.interpreter.commands.Command;
 
-public class CommandSyntax {
-    private boolean token;
+class CommandSyntax {
+    private String display;
     private Command command;
+    private boolean token;
 
-    public boolean isToken() {
-        return token;
+    public String getDisplay() {
+        return display;
     }
 
-    public void setToken(boolean token) {
-        this.token = token;
+    public void setDisplay(String display) {
+        this.display = display;
     }
 
     public Command getCommand() {
@@ -20,5 +21,13 @@ public class CommandSyntax {
 
     public void setCommand(Command command) {
         this.command = command;
+    }
+
+    public boolean isToken() {
+        return token;
+    }
+
+    public void setToken(boolean token) {
+        this.token = token;
     }
 }
