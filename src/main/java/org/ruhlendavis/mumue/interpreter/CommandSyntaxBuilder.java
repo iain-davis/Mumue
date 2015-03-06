@@ -9,9 +9,9 @@ public class CommandSyntaxBuilder {
         CommandSyntax syntax = new CommandSyntax();
         syntax.setDisplay(entry.getDisplay());
         syntax.setToken(entry.isToken());
-        Command command = provider.get().get(entry.getCommandClass());
+        Command command = provider.get().get(entry.getCommandIdentifier());
         if (command == null) {
-            throw new UnknownCommandClassException("Unknown command class '" + entry.getCommandClass() + "'");
+            throw new UnknownCommandIdentifierException("Unknown command identifier '" + entry.getCommandIdentifier() + "'");
         }
         syntax.setCommand(command);
         return syntax;

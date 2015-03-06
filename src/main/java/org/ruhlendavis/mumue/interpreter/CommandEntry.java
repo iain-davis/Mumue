@@ -1,12 +1,10 @@
 package org.ruhlendavis.mumue.interpreter;
 
-import org.ruhlendavis.mumue.interpreter.commands.Command;
-
 public class CommandEntry {
     private long id;
     private String display;
     private String minimumPartial;
-    private String commandClass;
+    private String commandIdentifier;
     private boolean token;
 
     public long getId() {
@@ -33,12 +31,12 @@ public class CommandEntry {
         this.minimumPartial = minimumPartial;
     }
 
-    public String getCommandClass() {
-        return commandClass;
+    public String getCommandIdentifier() {
+        return commandIdentifier;
     }
 
-    public void setCommandClass(String commandClass) {
-        this.commandClass = commandClass;
+    public void setCommandIdentifier(String commandIdentifier) {
+        this.commandIdentifier = commandIdentifier;
     }
 
     public boolean isToken() {
@@ -47,13 +45,5 @@ public class CommandEntry {
 
     public void setToken(boolean token) {
         this.token = token;
-    }
-
-    public Command getCommand() {
-        return null;
-    }
-
-    public void setCommand(Command command) {
-
     }
 }

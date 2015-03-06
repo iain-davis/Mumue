@@ -21,7 +21,7 @@ public class CommandSyntaxBuilderTest {
 
     @Before
     public void beforeEach() {
-        entry.setCommandClass("say command");
+        entry.setCommandIdentifier("say");
     }
 
     @Test
@@ -52,10 +52,10 @@ public class CommandSyntaxBuilderTest {
 
     @Test
     public void buildThrowExceptionOnUnknownCommandClass() {
-        entry.setCommandClass(RandomStringUtils.randomAlphabetic(18));
+        entry.setCommandIdentifier(RandomStringUtils.randomAlphabetic(18));
 
-        thrown.expect(UnknownCommandClassException.class);
-        thrown.expectMessage("Unknown command class '" + entry.getCommandClass() + "'");
+        thrown.expect(UnknownCommandIdentifierException.class);
+        thrown.expectMessage("Unknown command identifier '" + entry.getCommandIdentifier() + "'");
 
         builder.build(entry);
     }

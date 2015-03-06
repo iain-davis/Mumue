@@ -1,4 +1,3 @@
-- Reconsider 'commandClass' probably should just be commandIdentifier? commandName?
 - Handle Unknown command in PlayCharacter
 - Handle Ambiguous command in PlayCharacter
 - Should we bother piling the commands on for ambiguous? Should it simply be the case that we pile up a list of

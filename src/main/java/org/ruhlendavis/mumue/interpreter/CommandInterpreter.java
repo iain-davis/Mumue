@@ -12,8 +12,9 @@ public class CommandInterpreter {
 
         for (Entry<String, CommandSyntax> entry : commandList.entrySet()) {
             if (commandMatches(text, entry)) {
-                result.getCommands().add(entry.getValue().getCommand());
-                if (entry.getValue().isToken()) {
+                CommandSyntax syntax = entry.getValue();
+                result.getCommands().add(syntax.getCommand());
+                if (syntax.isToken()) {
                     separateCommandAndArgumentsForToken(text, result);
                 } else {
                     separateCommandAndArguments(text, result);
