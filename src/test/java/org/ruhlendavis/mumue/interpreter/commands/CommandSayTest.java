@@ -41,7 +41,7 @@ public class CommandSayTest {
         String saying = RandomStringUtils.randomAlphabetic(17);
         command.execute(sayer, "", saying);
 
-        String expected = "You say, \"" + saying + "\".\\r\\n";
+        String expected = "You say, \"" + saying + "\"\\r\\n";
         assertThat(sayerConnection.getOutputQueue().size(), equalTo(1));
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }
@@ -57,7 +57,7 @@ public class CommandSayTest {
 
         command.execute(sayer, "", saying);
 
-        String expected = sayer.getName() + " says, \"" + saying + "\".\\r\\n";
+        String expected = sayer.getName() + " says, \"" + saying + "\"\\r\\n";
         assertThat(otherConnection.getOutputQueue().size(), equalTo(1));
         assertThat(otherConnection.getOutputQueue(), hasItem(expected));
 

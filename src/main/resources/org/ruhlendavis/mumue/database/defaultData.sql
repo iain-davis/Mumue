@@ -6,7 +6,15 @@ insert into commands (id, display, minimumPartial, commandIdentifier, token)
               values (0, 'say', 's', 'say', false);
 insert into commands (id, display, minimumPartial, commandIdentifier, token)
               values (1, 'say', '"', 'say', true);
-
+insert into commands (id, display, minimumPartial, commandIdentifier, token)
+              values (2, 'pose', 'pose', 'pose', false);
+insert into commands (id, display, minimumPartial, commandIdentifier, token)
+              values (3, 'pose', ':', 'pose', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token)
+              values (4, 'pose', ';', 'pose', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token)
+              values (5, 'directed say', '`', 'directed say', true);
+              
 insert into text (id, locale, name, text) values ( 0, 'en-US', 'welcome screen', 'Welcome to Mumue!\r\n');
 insert into text (id, locale, name, text) values ( 1, 'en-US', 'login prompt', '\r\nEnter your login ID: ');
 insert into text (id, locale, name, text) values ( 2, 'en-US', 'password prompt', 'Enter your password: ');

@@ -50,7 +50,7 @@ public class CommandEntryDaoTest {
     }
 
     private void insertCommand(String display) {
-        String sql = "insert into commands (display, minimumPartial, commandIdentifier, isToken)"
+        String sql = "insert into commands (display, minimumPartial, commandIdentifier, token)"
                 + " values ('" + display + "', '" + display + "', 'say', false)";
         try {
             queryRunner.update(sql);

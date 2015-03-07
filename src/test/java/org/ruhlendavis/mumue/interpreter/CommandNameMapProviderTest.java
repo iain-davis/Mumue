@@ -16,6 +16,6 @@ public class CommandNameMapProviderTest {
 
     @Test
     public void getReturnsCorrectCount() {
-        assertThat(provider.get().size(), equalTo(1));
+        assertThat(provider.get().size(), equalTo(3));
     }
 }
