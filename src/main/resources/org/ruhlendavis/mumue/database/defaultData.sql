@@ -34,6 +34,8 @@ insert into text (id, locale, name, text) values (13, 'en-US', 'character needed
 insert into text (id, locale, name, text) values (14, 'en-US', 'enter universe', 'Entering the universe named ${universe name}...\r\n');
 insert into text (id, locale, name, text) values (15, 'en-US', 'missing say text', 'What do you want to say?\r\n');
 insert into text (id, locale, name, text) values (16, 'en-US', 'target being not found', 'There is no one named ''${target name}'' here.\r\n');
+insert into text (id, locale, name, text) values (17, 'en-US', 'unknown command', 'I don''t know what you mean!\r\n');
+insert into text (id, locale, name, text) values (18, 'en-US', 'ambiguous command', 'There are multiple possible commands which of ${commands} did you mean?.\r\n');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  (0, 'first', 'first password', 'en-US',

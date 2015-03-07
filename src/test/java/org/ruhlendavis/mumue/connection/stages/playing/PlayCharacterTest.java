@@ -1,7 +1,9 @@
 package org.ruhlendavis.mumue.connection.stages.playing;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
@@ -12,11 +14,12 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.components.character.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
@@ -26,23 +29,30 @@ import org.ruhlendavis.mumue.interpreter.CommandInterpreter;
 import org.ruhlendavis.mumue.interpreter.CommandResult;
 import org.ruhlendavis.mumue.interpreter.CommandStatus;
 import org.ruhlendavis.mumue.interpreter.commands.Command;
+import org.ruhlendavis.mumue.player.PlayerBuilder;
+import org.ruhlendavis.mumue.text.TextMaker;
+import org.ruhlendavis.mumue.text.TextName;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PlayCharacterTest {
-    private final GameCharacter character = new GameCharacter();
-    private final Connection connection = new Connection().withCharacter(character);
-
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock Command command;
     @Mock CommandResult result;
     @Mock CommandInterpreter commandInterpreter;
+    @Mock TextMaker textMaker;
     @Mock Configuration configuration;
     @InjectMocks PlayCharacter stage;
 
+    private final String locale = RandomStringUtils.randomAlphabetic(16);
+    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
+    private final GameCharacter character = new GameCharacter();
+    private final Connection connection = new Connection().withPlayer(new PlayerBuilder().withLocale(locale).build()).withCharacter(character);
+
     @Before
     public void beforeEach() {
+        when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(result.getStatus()).thenReturn(CommandStatus.OK);
         when(commandInterpreter.interpret(anyString())).thenReturn(result);
-        when(result.getCommands()).thenReturn(Arrays.asList(command));
+        when(result.getCommand()).thenReturn(command);
     }
 
     @Test
@@ -103,14 +113,44 @@ public class PlayCharacterTest {
     }
 
     @Test
-    public void doNotExecuteCommandWithoutOK() {
+    public void doNotExecuteForUnknownCommand() {
+        String responseMessage = RandomStringUtils.randomAlphabetic(25);
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        when(result.getStatus()).thenReturn(CommandStatus.AMBIGUOUS_COMMAND);
+        when(textMaker.getText(TextName.UnknownCommand, locale, serverLocale)).thenReturn(responseMessage);
+        when(result.getStatus()).thenReturn(CommandStatus.UNKNOWN_COMMAND);
+
         stage.execute(connection, configuration);
 
         verify(command, never()).execute(eq(connection), anyString(), anyString(), eq(configuration));
+    }
 
+    @Test
+    public void displayCommandUnknownMessageForUnknownCommand() {
+        String responseMessage = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(text);
+
+        when(textMaker.getText(TextName.UnknownCommand, locale, serverLocale)).thenReturn(responseMessage);
+        when(result.getStatus()).thenReturn(CommandStatus.UNKNOWN_COMMAND);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getOutputQueue(), hasItem(responseMessage));
+    }
+
+    @Test
+    public void displayCommandAmbiguousMessageForAmbiguousCommand() {
+        String responseMessage = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(text);
+
+        when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(locale), eq(serverLocale), any())).thenReturn(responseMessage);
+        when(result.getStatus()).thenReturn(CommandStatus.AMBIGUOUS_COMMAND);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getOutputQueue(), hasItem(responseMessage));
     }
 }

@@ -3,7 +3,6 @@ package org.ruhlendavis.mumue.interpreter;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
@@ -57,9 +56,7 @@ public class CommandInterpreterTest {
     public void interpretReturnsCommandWhenFound() {
         CommandResult result = interpreter.interpret(minimumPartial);
 
-        List<Command> commands = result.getCommands();
-        assertThat(commands.size(), equalTo(1));
-        assertThat(commands.get(0), sameInstance(command));
+        assertThat(result.getCommand(), sameInstance(command));
     }
 
     @Test
@@ -153,19 +150,19 @@ public class CommandInterpreterTest {
     @Test
     public void interpretWithAmbiguityReturnsBothCommands() {
         String text = RandomStringUtils.randomAlphabetic(13);
-        CommandSay command1 = new CommandSay();
+        String command1 = RandomStringUtils.randomAlphabetic(14);
         CommandSyntax syntax1 = new CommandSyntax();
-        syntax1.setCommand(command1);
+        syntax1.setDisplay(command1);
 
-        CommandPose command2 = new CommandPose();
+        String command2 = RandomStringUtils.randomAlphabetic(15);
         CommandSyntax syntax2 = new CommandSyntax();
-        syntax2.setCommand(command2);
+        syntax2.setDisplay(command2);
 
         commandList.put(text.substring(0, 3), syntax1);
         commandList.put(text.substring(0, 4), syntax2);
 
         CommandResult result = interpreter.interpret(text);
-        List<Command> commands = result.getCommands();
+        List<String> commands = result.getCommands();
 
         assertThat(commands.size(), equalTo(2));
         assertThat(commands, hasItem(command1));

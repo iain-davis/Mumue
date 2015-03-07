@@ -17,7 +17,9 @@ public enum TextName {
     CharacterNeeded("character needed"),
     EnterUniverse("enter universe"),
     MissingSayText("missing say text"),
-    TargetBeingNotFound("target being not found");
+    TargetBeingNotFound("target being not found"),
+    UnknownCommand("unknown command"),
+    AmbiguousCommand("ambiguous command");
 
     private final String name;
 

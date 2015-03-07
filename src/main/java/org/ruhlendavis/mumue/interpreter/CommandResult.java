@@ -7,9 +7,10 @@ import org.ruhlendavis.mumue.interpreter.commands.Command;
 
 public class CommandResult {
     CommandStatus status = CommandStatus.UNKNOWN_COMMAND;
-    List<Command> commands = new ArrayList<>();
+    List<String> commands = new ArrayList<>();
     private String commandString;
     private String commandArguments;
+    private Command command;
 
     public CommandStatus getStatus() {
         return status;
@@ -19,7 +20,7 @@ public class CommandResult {
         this.status = status;
     }
 
-    public List<Command> getCommands() {
+    public List<String> getCommands() {
         return commands;
     }
 
@@ -37,5 +38,13 @@ public class CommandResult {
 
     public void setCommandArguments(String commandArguments) {
         this.commandArguments = commandArguments;
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public Command getCommand() {
+        return command;
     }
 }
