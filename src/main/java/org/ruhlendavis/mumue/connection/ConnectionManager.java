@@ -3,9 +3,9 @@ package org.ruhlendavis.mumue.connection;
 import java.util.Vector;
 
 public class ConnectionManager {
-    Vector<Connection> connections = new Vector<>();
+    private static final Vector<Connection> connections = new Vector<>();
 
-    public void add(Connection connection) {
+    synchronized public void add(Connection connection) {
         connections.add(connection);
     }
 
