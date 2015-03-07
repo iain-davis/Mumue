@@ -7,13 +7,15 @@ insert into commands (id, display, minimumPartial, commandIdentifier, token)
 insert into commands (id, display, minimumPartial, commandIdentifier, token)
               values (1, 'say', '"', 'say', true);
 insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (2, 'pose', 'po', 'pose', false);
+              values (2, 'say', '''', 'say', true);
 insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (3, 'pose', ':', 'pose', true);
+              values (3, 'pose', 'po', 'pose', false);
 insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (4, 'pose', ';', 'pose', true);
+              values (4, 'pose', ':', 'pose', true);
 insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (5, 'directed say', '`', 'directed say', true);
+              values (5, 'pose', ';', 'pose', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token)
+              values (6, 'directed say', '`', 'directed say', true);
 
 insert into text (id, locale, name, text) values ( 0, 'en-US', 'welcome screen', 'Welcome to Mumue!\r\n');
 insert into text (id, locale, name, text) values ( 1, 'en-US', 'login prompt', '\r\nEnter your login ID: ');
@@ -30,6 +32,8 @@ insert into text (id, locale, name, text) values (11, 'en-US', 'character name t
 insert into text (id, locale, name, text) values (12, 'en-US', 'character selection prompt', 'Select a character to play: ');
 insert into text (id, locale, name, text) values (13, 'en-US', 'character needed', 'You will need to create a character first. ');
 insert into text (id, locale, name, text) values (14, 'en-US', 'enter universe', 'Entering the universe named ${universe name}...\r\n');
+insert into text (id, locale, name, text) values (15, 'en-US', 'missing say text', 'What do you want to say?\r\n');
+insert into text (id, locale, name, text) values (16, 'en-US', 'target being not found', 'There is no one named ''${target name}'' here.\r\n');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  (0, 'first', 'first password', 'en-US',

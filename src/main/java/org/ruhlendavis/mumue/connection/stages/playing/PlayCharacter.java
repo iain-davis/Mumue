@@ -20,7 +20,7 @@ public class PlayCharacter implements ConnectionStage {
 
         if (result.getStatus() == CommandStatus.OK) {
             Command command = result.getCommands().get(0);
-            command.execute(connection.getCharacter(), result.getCommandString(), result.getCommandArguments());
+            command.execute(connection, result.getCommandString(), result.getCommandArguments(), configuration);
         }
 
         return this;

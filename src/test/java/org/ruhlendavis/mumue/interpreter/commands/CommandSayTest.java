@@ -19,11 +19,13 @@ import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.components.character.CharacterBuilder;
 import org.ruhlendavis.mumue.components.character.GameCharacter;
+import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.ConnectionManager;
 
 public class CommandSayTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
+    @Mock Configuration configuration;
     @Mock ConnectionManager connectionManager;
     @InjectMocks CommandSay command;
     private final Vector<Connection> connections = new Vector<>();
@@ -39,7 +41,7 @@ public class CommandSayTest {
     @Test
     public void youSay() {
         String saying = RandomStringUtils.randomAlphabetic(17);
-        command.execute(sayer, "", saying);
+        command.execute(sayerConnection, "", saying, configuration);
 
         String expected = "You say, \"" + saying + "\"\\r\\n";
         assertThat(sayerConnection.getOutputQueue().size(), equalTo(1));
@@ -55,7 +57,7 @@ public class CommandSayTest {
         String saying = RandomStringUtils.randomAlphabetic(17);
         connections.add(otherConnection);
 
-        command.execute(sayer, "", saying);
+        command.execute(sayerConnection, "", saying, configuration);
 
         String expected = sayer.getName() + " says, \"" + saying + "\"\\r\\n";
         assertThat(otherConnection.getOutputQueue().size(), equalTo(1));
@@ -75,7 +77,7 @@ public class CommandSayTest {
         connections.add(inRoomConnection);
         connections.add(outOfRoomConnection);
 
-        command.execute(sayer, "", saying);
+        command.execute(sayerConnection, "", saying, configuration);
 
         assertThat(outOfRoomConnection.getOutputQueue().size(), equalTo(0));
     }

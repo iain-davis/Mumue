@@ -15,7 +15,9 @@ public enum TextName {
     CharacterNameTakenByOtherPlayer("character name taken by other player"),
     CharacterSelectionPrompt("character selection prompt"),
     CharacterNeeded("character needed"),
-    EnterUniverse("enter universe");
+    EnterUniverse("enter universe"),
+    MissingSayText("missing say text"),
+    TargetBeingNotFound("target being not found");
 
     private final String name;
 

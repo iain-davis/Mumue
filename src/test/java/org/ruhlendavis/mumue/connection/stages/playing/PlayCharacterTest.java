@@ -92,14 +92,14 @@ public class PlayCharacterTest {
 
         stage.execute(connection, configuration);
 
-        verify(command).execute(character, commandString, arguments);
+        verify(command).execute(connection, commandString, arguments, configuration);
     }
 
     @Test
     public void doNotExecuteCommandWithoutInput() {
         stage.execute(connection, configuration);
 
-        verify(command, never()).execute(eq(character), anyString(), anyString());
+        verify(command, never()).execute(eq(connection), anyString(), anyString(), eq(configuration));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class PlayCharacterTest {
         when(result.getStatus()).thenReturn(CommandStatus.AMBIGUOUS_COMMAND);
         stage.execute(connection, configuration);
 
-        verify(command, never()).execute(eq(character), anyString(), anyString());
+        verify(command, never()).execute(eq(connection), anyString(), anyString(), eq(configuration));
 
     }
 }
