@@ -23,14 +23,10 @@ public class UniverseRowProcessor extends BasicRowProcessor {
 
     @Override
     public <T> List<T> toBeanList(ResultSet resultSet, Class<T> type) throws SQLException {
-        try {
-            List<T> universes = new LinkedList<>();
-            while (resultSet.next()) {
-                universes.add(toBean(resultSet, type));
-            }
-            return universes;
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        List<T> universes = new LinkedList<>();
+        while (resultSet.next()) {
+            universes.add(toBean(resultSet, type));
         }
+        return universes;
     }
 }
