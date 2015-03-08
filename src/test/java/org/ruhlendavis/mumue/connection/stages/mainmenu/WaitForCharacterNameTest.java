@@ -195,7 +195,7 @@ public class WaitForCharacterNameTest {
     @Test
     public void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(100, 200))
+        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(600, 700))
                 .withId(RandomUtils.nextLong(200, 300)).build();
         connection.getInputQueue().push(name);
 

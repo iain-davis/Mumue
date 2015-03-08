@@ -2,6 +2,7 @@ package org.ruhlendavis.mumue.interpreter;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
@@ -36,6 +37,7 @@ public class CommandEntryDaoTest {
 
         CommandEntry commandEntry = commands.stream().findFirst().get();
         assertThat(commandEntry.getMinimumPartial(), equalTo(display));
+        assertThat(commandEntry.getId(), greaterThanOrEqualTo(1L));
     }
 
     @Test
