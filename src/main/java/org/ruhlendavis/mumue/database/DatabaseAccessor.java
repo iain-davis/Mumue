@@ -28,4 +28,11 @@ public class DatabaseAccessor {
         }
     }
 
+    public int update(String query, Object... parameters) {
+        try {
+            return queryRunner.update(query, parameters);
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 }

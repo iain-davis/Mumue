@@ -1,7 +1,11 @@
 package org.ruhlendavis.mumue.database;
 
+import static org.mockito.Matchers.anyVararg;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.ruhlendavis.mumue.database.MyVarargMatcher.myVarargMatcher;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,11 +13,15 @@ import java.sql.SQLException;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.VarargMatcher;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -57,6 +65,21 @@ public class DatabaseAccessorTest {
         database.update(sql);
     }
 
+    @Test
+    public void updateWithParameterUsesQueryRunner() throws SQLException {
+        database.update(sql, foo);
+        verify(queryRunner).update(eq(sql), argThat(myVarargMatcher(foo)));
+    }
+
+    @Test
+    public void updateWithParameterHandlesException() throws SQLException {
+        when(queryRunner.update(eq(sql), argThat(myVarargMatcher(foo)))).thenThrow(SQLException.class);
+
+        thrown.expect(RuntimeException.class);
+
+        database.update(sql, foo);
+    }
+
     private class ResultHandler implements ResultSetHandler {
         @Override
         public Object handle(ResultSet rs) throws SQLException {
@@ -64,3 +87,4 @@ public class DatabaseAccessorTest {
         }
     }
 }
+

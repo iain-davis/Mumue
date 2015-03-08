@@ -3,8 +3,10 @@ package org.ruhlendavis.mumue.components.character;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -99,6 +101,26 @@ public class CharacterDaoTest {
 
         List<GameCharacter> characters = dao.getCharacters(playerId);
         assertThat(characters.size(), equalTo(2));
+    }
+
+    @Test
+    public void addCharacterAddsCharacter() {
+        GameCharacter characterToAdd = new GameCharacter();
+        characterToAdd.setId(RandomUtils.nextLong(200, 300));
+        characterToAdd.setName(RandomStringUtils.randomAlphabetic(17));
+        characterToAdd.setDescription(RandomStringUtils.randomAlphabetic(22));
+        characterToAdd.setCreated(Instant.now());
+        characterToAdd.setLastModified(Instant.now());
+        characterToAdd.setLastUsed(Instant.now());
+        characterToAdd.setUseCount(RandomUtils.nextLong(400, 500));
+        characterToAdd.setLocationId(RandomUtils.nextLong(500, 600));
+        characterToAdd.setUniverseId(RandomUtils.nextLong(600, 700));
+        characterToAdd.setPlayerId(RandomUtils.nextLong(700, 800));
+
+        dao.addCharacter(characterToAdd);
+
+        GameCharacter retrieved = dao.getCharacter(characterToAdd.getId());
+        assertReflectionEquals(retrieved, characterToAdd);
     }
 
     private void insertCharacter(long characterId, long playerId) {
