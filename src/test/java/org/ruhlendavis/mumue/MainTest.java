@@ -19,6 +19,8 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.configuration.ConfigurationInitializer;
 import org.ruhlendavis.mumue.connection.AcceptorLoopRunnerBuilder;
 import org.ruhlendavis.mumue.connection.ConnectionManager;
+import org.ruhlendavis.mumue.database.DatabaseAccessor;
+import org.ruhlendavis.mumue.database.DatabaseAccessorInitializer;
 import org.ruhlendavis.mumue.database.DatabaseInitializer;
 import org.ruhlendavis.mumue.database.QueryRunnerInitializer;
 import org.ruhlendavis.mumue.runner.InfiniteLoopRunner;
@@ -31,6 +33,7 @@ public class MainTest {
     @Mock ConfigurationInitializer configurationInitializer;
     @Mock QueryRunnerInitializer queryRunnerInitializer;
     @Mock DatabaseInitializer databaseInitializer;
+    @Mock DatabaseAccessorInitializer databaseAccessorInitializer;
     @Mock AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
 
     @InjectMocks Main main;
@@ -53,6 +56,12 @@ public class MainTest {
     public void initializeQueryRunner() {
         main.run();
         verify(queryRunnerInitializer).initialize(configuration);
+    }
+
+    @Test
+    public void initializeDatabaseAccessor() {
+        main.run();
+        verify(databaseAccessorInitializer).initialize();
     }
 
     @Test
