@@ -1,50 +1,31 @@
 package org.ruhlendavis.mumue.database;
 
-import java.sql.SQLException;
-
-import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 
 public class DatabaseInitializerDao {
     public boolean hasSchema() {
-        QueryRunner queryRunner = QueryRunnerProvider.get();
+        DatabaseAccessor database = DatabaseAccessorProvider.get();
         ResultSetHandler resultSetHandler = new ScalarHandler<>(1);
-        try {
-            long found = (long) queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, resultSetHandler);
-            return found != 0;
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+        long found = (long) database.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, resultSetHandler);
+        return found != 0;
     }
 
     public boolean hasData() {
-        QueryRunner queryRunner = QueryRunnerProvider.get();
+        DatabaseAccessor database = DatabaseAccessorProvider.get();
         ResultSetHandler<String> resultSetHandler = new ScalarHandler<>(1);
-        try {
-            String version = queryRunner.query(SqlConstants.CHECK_CONFIGURATION_TABLE_VERSION, resultSetHandler);
-            return StringUtils.isNotBlank(version);
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+        String version = database.query(SqlConstants.CHECK_CONFIGURATION_TABLE_VERSION, resultSetHandler);
+        return StringUtils.isNotBlank(version);
     }
 
     public void loadSchema() {
-        QueryRunner queryRunner = QueryRunnerProvider.get();
-        try {
-            queryRunner.update(SqlConstants.SCHEMA_SCRIPT);
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+        DatabaseAccessor database = DatabaseAccessorProvider.get();
+        database.update(SqlConstants.SCHEMA_SCRIPT);
     }
 
     public void loadDefaultData() {
-        QueryRunner queryRunner = QueryRunnerProvider.get();
-        try {
-            queryRunner.update(SqlConstants.DEFAULT_DATA_SCRIPT);
-        } catch (SQLException exception) {
-            throw new RuntimeException(exception);
-        }
+        DatabaseAccessor database = DatabaseAccessorProvider.get();
+        database.update(SqlConstants.DEFAULT_DATA_SCRIPT);
     }
 }

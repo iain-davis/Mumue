@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
+import org.ruhlendavis.mumue.database.DatabaseAccessor;
+import org.ruhlendavis.mumue.database.DatabaseAccessorProvider;
 import org.ruhlendavis.mumue.database.QueryRunnerProvider;
 import org.ruhlendavis.mumue.database.SqlConstants;
 
@@ -33,11 +35,8 @@ public class DatabaseHelper {
     public static QueryRunner setupTestDatabaseWithoutSchema() {
         DataSource source = setupDataSource();
         QueryRunner queryRunner = new QueryRunnerProvider().create(source);
-        try {
-            queryRunner.update(TestConstants.QUERY_PURGE_DATABASE);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
+        DatabaseAccessor database = new DatabaseAccessorProvider().create(queryRunner);
+        database.update(TestConstants.QUERY_PURGE_DATABASE);
         return queryRunner;
     }
 
