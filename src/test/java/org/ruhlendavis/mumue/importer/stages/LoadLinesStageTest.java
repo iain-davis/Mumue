@@ -6,12 +6,26 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.google.common.io.Resources;
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import org.ruhlendavis.mumue.importer.ImportBucket;
 
 public class LoadLinesStageTest {
-    LoadLinesStage stage = new LoadLinesStage();
+    @Rule public ExpectedException thrown = ExpectedException.none();
+    private final LoadLinesStage stage = new LoadLinesStage();
+
+    @Test
+    public void runHandlesFileNotFoundException() throws URISyntaxException {
+        ImportBucket bucket = new ImportBucket();
+        bucket.setFile(RandomStringUtils.randomAlphabetic(17));
+
+        thrown.expect(RuntimeException.class);
+
+        stage.run(bucket);
+    }
 
     @Test
     public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {

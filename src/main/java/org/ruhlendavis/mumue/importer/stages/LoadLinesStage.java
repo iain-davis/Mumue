@@ -21,7 +21,7 @@ public class LoadLinesStage extends ImporterStage {
                 bucket.getSourceLines().add(line);
             }
         } catch (FileNotFoundException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
     }
 }
