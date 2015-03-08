@@ -86,7 +86,6 @@ public class PlayCharacterTest {
         stage.execute(connection, configuration);
 
         verify(commandInterpreter, never()).interpret(anyString());
-
     }
 
     @Test
@@ -126,6 +125,45 @@ public class PlayCharacterTest {
         verify(command, never()).execute(eq(connection), anyString(), anyString(), eq(configuration));
     }
 
+    @Test
+    public void returnThisStageForUnknownCommand() {
+        String responseMessage = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(text);
+
+        when(textMaker.getText(TextName.UnknownCommand, locale, serverLocale)).thenReturn(responseMessage);
+        when(result.getStatus()).thenReturn(CommandStatus.UNKNOWN_COMMAND);
+
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, sameInstance(stage));
+    }
+
+    @Test
+    public void returnThisStageForAmbiguousCommand() {
+        String responseMessage = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(text);
+
+        when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(locale), eq(serverLocale), any())).thenReturn(responseMessage);
+        when(result.getStatus()).thenReturn(CommandStatus.AMBIGUOUS_COMMAND);
+
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, sameInstance(stage));
+    }
+
+    @Test
+    public void returnThisStageForUnknownResultStatus() {
+        String text = RandomStringUtils.randomAlphabetic(17);
+        connection.getInputQueue().push(text);
+
+        when(result.getStatus()).thenReturn(CommandStatus.INSUFFICIENT_PERMISSIONS);
+
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, sameInstance(stage));
+    }
     @Test
     public void displayCommandUnknownMessageForUnknownCommand() {
         String responseMessage = RandomStringUtils.randomAlphabetic(25);

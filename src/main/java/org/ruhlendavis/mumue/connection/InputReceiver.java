@@ -38,6 +38,6 @@ public class InputReceiver implements InfiniteLoopBody {
 
     @Override
     public boolean cleanup() {
-        return false;
+        return true;
     }
 }

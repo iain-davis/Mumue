@@ -23,14 +23,10 @@ public class CharacterRowProcessor extends BasicRowProcessor {
 
     @Override
     public <T> List<T> toBeanList(ResultSet resultSet, Class<T> type) throws SQLException {
-        try {
-            List<T> characters = new LinkedList<>();
-            while (resultSet.next()) {
-                characters.add(toBean(resultSet, type));
-            }
-            return characters;
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        List<T> characters = new LinkedList<>();
+        while (resultSet.next()) {
+            characters.add(toBean(resultSet, type));
         }
+        return characters;
     }
 }

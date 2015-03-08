@@ -83,4 +83,9 @@ public class InputReceiverTest {
 
         inputReceiver.execute();
     }
+
+    @Test
+    public void cleanupReturnsTrue() {
+        assertTrue(inputReceiver.cleanup());
+    }
 }
