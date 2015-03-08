@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
-import org.ruhlendavis.mumue.runner.InfiniteLoopRunnerStarter;
+import org.ruhlendavis.mumue.threading.InfiniteLoopRunnerStarter;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionInitializerTest {

@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.runner;
+package org.ruhlendavis.mumue.threading;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;

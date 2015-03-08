@@ -1,7 +1,7 @@
 package org.ruhlendavis.mumue.connection;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
-import org.ruhlendavis.mumue.runner.InfiniteLoopRunner;
+import org.ruhlendavis.mumue.threading.InfiniteLoopRunner;
 
 public class AcceptorLoopRunnerBuilder {
     private AcceptorBuilder acceptorBuilder = new AcceptorBuilder();

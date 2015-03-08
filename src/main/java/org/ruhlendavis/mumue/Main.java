@@ -4,11 +4,11 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.configuration.ConfigurationInitializer;
 import org.ruhlendavis.mumue.connection.AcceptorLoopRunnerBuilder;
 import org.ruhlendavis.mumue.connection.ConnectionManager;
-import org.ruhlendavis.mumue.database.DatabaseAccessor;
 import org.ruhlendavis.mumue.database.DatabaseAccessorInitializer;
 import org.ruhlendavis.mumue.database.DatabaseInitializer;
 import org.ruhlendavis.mumue.database.QueryRunnerInitializer;
-import org.ruhlendavis.mumue.runner.InfiniteLoopRunner;
+import org.ruhlendavis.mumue.threading.InfiniteLoopRunner;
+import org.ruhlendavis.mumue.threading.ThreadFactory;
 
 public class Main {
     private ConfigurationInitializer configurationInitializer = new ConfigurationInitializer();

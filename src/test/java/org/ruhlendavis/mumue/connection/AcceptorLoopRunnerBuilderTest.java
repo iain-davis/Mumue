@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
-import org.ruhlendavis.mumue.runner.InfiniteLoopRunner;
+import org.ruhlendavis.mumue.threading.InfiniteLoopRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AcceptorLoopRunnerBuilderTest {

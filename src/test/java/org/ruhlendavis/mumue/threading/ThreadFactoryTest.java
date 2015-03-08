@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue;
+package org.ruhlendavis.mumue.threading;
 
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;

@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
-import org.ruhlendavis.mumue.runner.InfiniteLoopBody;
+import org.ruhlendavis.mumue.threading.InfiniteLoopBody;
 
 public class Acceptor extends CleanCloser implements InfiniteLoopBody {
     private final int port;

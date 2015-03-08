@@ -1,6 +1,4 @@
-package org.ruhlendavis.mumue.runner;
-
-import org.ruhlendavis.mumue.ThreadFactory;
+package org.ruhlendavis.mumue.threading;
 
 public class InfiniteLoopRunnerStarter {
     private ThreadFactory threadFactory = new ThreadFactory();

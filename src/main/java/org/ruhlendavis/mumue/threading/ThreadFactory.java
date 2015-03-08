@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue;
+package org.ruhlendavis.mumue.threading;
 
 import org.apache.commons.lang3.StringUtils;
 

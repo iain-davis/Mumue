@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.runner;
+package org.ruhlendavis.mumue.threading;
 
 public interface InfiniteLoopBody {
     public boolean prepare();

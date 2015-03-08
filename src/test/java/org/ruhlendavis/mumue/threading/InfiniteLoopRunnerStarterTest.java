@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.runner;
+package org.ruhlendavis.mumue.threading;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -10,8 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import org.ruhlendavis.mumue.ThreadFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfiniteLoopRunnerStarterTest {

@@ -3,7 +3,7 @@ package org.ruhlendavis.mumue.connection;
 import java.net.Socket;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
-import org.ruhlendavis.mumue.runner.InfiniteLoopRunnerStarter;
+import org.ruhlendavis.mumue.threading.InfiniteLoopRunnerStarter;
 import org.ruhlendavis.mumue.text.transformer.LineSeparatorTransformer;
 import org.ruhlendavis.mumue.text.transformer.TransformerEngine;
 

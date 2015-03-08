@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ruhlendavis.mumue.utility.StringUtilities;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
@@ -49,33 +50,8 @@ public class PlayCharacter implements ConnectionStage {
 
     private String getAmbiguousResponse(Connection connection, Configuration configuration, List<String> commands) {
         Map<String, String> variables = new HashMap<>();
-        variables.put("commands", renderCommands(commands));
+        variables.put("commands", StringUtilities.commaIfy(commands, "and"));
         return textMaker.getText(TextName.AmbiguousCommand, connection.getPlayer().getLocale(), configuration.getServerLocale(), variables);
-    }
-
-    private String renderCommands(List<String> commands) {
-        StringBuilder builder = new StringBuilder();
-        boolean afterFirst = false;
-        int count = 0;
-        int size = commands.size();
-        for (String command : commands) {
-            count++;
-            if (afterFirst) {
-                if (count == size) {
-                    if (size > 2) {
-                        builder.append(", and ");
-                    } else {
-                        builder.append(" and ");
-                    }
-                } else {
-                    builder.append(", ");
-                }
-            } else {
-                afterFirst = true;
-            }
-            builder.append(command);
-        }
-        return builder.toString();
     }
 
     private String getUnknownResponse(Connection connection, Configuration configuration) {

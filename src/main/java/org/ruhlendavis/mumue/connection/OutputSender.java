@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-import org.ruhlendavis.mumue.runner.InfiniteLoopBody;
+import org.ruhlendavis.mumue.threading.InfiniteLoopBody;
 import org.ruhlendavis.mumue.text.TextQueue;
 import org.ruhlendavis.mumue.text.transformer.TransformerEngine;
 

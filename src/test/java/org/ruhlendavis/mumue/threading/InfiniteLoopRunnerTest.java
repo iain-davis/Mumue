@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.runner;
+package org.ruhlendavis.mumue.threading;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
