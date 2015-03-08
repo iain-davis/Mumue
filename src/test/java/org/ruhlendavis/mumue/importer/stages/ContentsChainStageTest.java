@@ -8,9 +8,9 @@ import java.util.List;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.mumue.componentsold.Component;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 import org.ruhlendavis.mumue.importer.ImportBucket;
+import org.ruhlendavis.mumue.importer.components.Component;
 
 public class ContentsChainStageTest {
     ContentsChainStage stage = new ContentsChainStage();

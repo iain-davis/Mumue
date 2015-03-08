@@ -2,7 +2,7 @@ package org.ruhlendavis.mumue.importer;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.ruhlendavis.mumue.componentsold.Component;
+import org.ruhlendavis.mumue.importer.components.Component;
 
 public abstract class ImporterStage {
     protected static final int ITEM_FLAGS_INDEX = 5;

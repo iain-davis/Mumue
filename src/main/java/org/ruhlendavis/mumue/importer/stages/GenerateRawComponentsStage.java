@@ -3,13 +3,13 @@ package org.ruhlendavis.mumue.importer.stages;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.ruhlendavis.mumue.componentsold.Artifact;
-import org.ruhlendavis.mumue.componentsold.GameCharacter;
-import org.ruhlendavis.mumue.componentsold.Link;
-import org.ruhlendavis.mumue.componentsold.Program;
-import org.ruhlendavis.mumue.componentsold.Space;
 import org.ruhlendavis.mumue.importer.ImportBucket;
 import org.ruhlendavis.mumue.importer.ImporterStage;
+import org.ruhlendavis.mumue.importer.components.Artifact;
+import org.ruhlendavis.mumue.importer.components.GameCharacter;
+import org.ruhlendavis.mumue.importer.components.Link;
+import org.ruhlendavis.mumue.importer.components.Program;
+import org.ruhlendavis.mumue.importer.components.Space;
 
 public class GenerateRawComponentsStage extends ImporterStage {
     @Override

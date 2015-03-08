@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.componentsold.properties;
+package org.ruhlendavis.mumue.importer.components.properties;
 
 public class LockProperty extends Property {
     private String value = "";

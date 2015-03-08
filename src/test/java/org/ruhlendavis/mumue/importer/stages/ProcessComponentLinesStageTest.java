@@ -12,17 +12,17 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.mumue.componentsold.Artifact;
-import org.ruhlendavis.mumue.componentsold.Component;
-import org.ruhlendavis.mumue.componentsold.GameCharacter;
-import org.ruhlendavis.mumue.componentsold.Link;
-import org.ruhlendavis.mumue.componentsold.Program;
-import org.ruhlendavis.mumue.componentsold.Space;
-import org.ruhlendavis.mumue.componentsold.properties.IntegerProperty;
-import org.ruhlendavis.mumue.componentsold.properties.LockProperty;
-import org.ruhlendavis.mumue.componentsold.properties.ReferenceProperty;
-import org.ruhlendavis.mumue.componentsold.properties.StringProperty;
 import org.ruhlendavis.mumue.importer.ImportBucket;
+import org.ruhlendavis.mumue.importer.components.Artifact;
+import org.ruhlendavis.mumue.importer.components.Component;
+import org.ruhlendavis.mumue.importer.components.GameCharacter;
+import org.ruhlendavis.mumue.importer.components.Link;
+import org.ruhlendavis.mumue.importer.components.Program;
+import org.ruhlendavis.mumue.importer.components.Space;
+import org.ruhlendavis.mumue.importer.components.properties.IntegerProperty;
+import org.ruhlendavis.mumue.importer.components.properties.LockProperty;
+import org.ruhlendavis.mumue.importer.components.properties.ReferenceProperty;
+import org.ruhlendavis.mumue.importer.components.properties.StringProperty;
 
 public class ProcessComponentLinesStageTest {
     private ProcessComponentLinesStage stage = new ProcessComponentLinesStage();

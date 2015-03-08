@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.componentsold;
+package org.ruhlendavis.mumue.importer.components;
 
 public interface Ownable {
     public Component getOwner();

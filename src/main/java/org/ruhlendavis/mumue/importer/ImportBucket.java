@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ruhlendavis.mumue.componentsold.Component;
+import org.ruhlendavis.mumue.importer.components.Component;
 import org.ruhlendavis.mumue.player.Player;
 
 public class ImportBucket {

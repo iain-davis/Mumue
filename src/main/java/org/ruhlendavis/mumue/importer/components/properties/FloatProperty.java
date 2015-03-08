@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.componentsold.properties;
+package org.ruhlendavis.mumue.importer.components.properties;
 
 public class FloatProperty extends Property {
     private Double value = 0.0;

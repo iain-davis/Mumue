@@ -1,11 +1,11 @@
-package org.ruhlendavis.mumue.componentsold;
+package org.ruhlendavis.mumue.importer.components;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruhlendavis.mumue.componentsold.properties.PropertyTree;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
+import org.ruhlendavis.mumue.importer.components.properties.PropertyTree;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;

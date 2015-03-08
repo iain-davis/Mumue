@@ -4,20 +4,20 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.ruhlendavis.mumue.componentsold.Artifact;
-import org.ruhlendavis.mumue.componentsold.Component;
-import org.ruhlendavis.mumue.componentsold.GameCharacter;
-import org.ruhlendavis.mumue.componentsold.Link;
-import org.ruhlendavis.mumue.componentsold.LinkSource;
-import org.ruhlendavis.mumue.componentsold.Ownable;
-import org.ruhlendavis.mumue.componentsold.Program;
-import org.ruhlendavis.mumue.componentsold.Space;
-import org.ruhlendavis.mumue.componentsold.properties.IntegerProperty;
-import org.ruhlendavis.mumue.componentsold.properties.LockProperty;
-import org.ruhlendavis.mumue.componentsold.properties.ReferenceProperty;
-import org.ruhlendavis.mumue.componentsold.properties.StringProperty;
 import org.ruhlendavis.mumue.importer.ImportBucket;
 import org.ruhlendavis.mumue.importer.ImporterStage;
+import org.ruhlendavis.mumue.importer.components.Artifact;
+import org.ruhlendavis.mumue.importer.components.Component;
+import org.ruhlendavis.mumue.importer.components.GameCharacter;
+import org.ruhlendavis.mumue.importer.components.Link;
+import org.ruhlendavis.mumue.importer.components.LinkSource;
+import org.ruhlendavis.mumue.importer.components.Ownable;
+import org.ruhlendavis.mumue.importer.components.Program;
+import org.ruhlendavis.mumue.importer.components.Space;
+import org.ruhlendavis.mumue.importer.components.properties.IntegerProperty;
+import org.ruhlendavis.mumue.importer.components.properties.LockProperty;
+import org.ruhlendavis.mumue.importer.components.properties.ReferenceProperty;
+import org.ruhlendavis.mumue.importer.components.properties.StringProperty;
 
 public class ProcessComponentLinesStage extends ImporterStage {
     @Override

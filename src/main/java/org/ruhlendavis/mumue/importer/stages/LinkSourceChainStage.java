@@ -2,11 +2,11 @@ package org.ruhlendavis.mumue.importer.stages;
 
 import java.util.Map.Entry;
 
-import org.ruhlendavis.mumue.componentsold.Component;
-import org.ruhlendavis.mumue.componentsold.Link;
-import org.ruhlendavis.mumue.componentsold.LinkSource;
 import org.ruhlendavis.mumue.importer.ImportBucket;
 import org.ruhlendavis.mumue.importer.ImporterStage;
+import org.ruhlendavis.mumue.importer.components.Component;
+import org.ruhlendavis.mumue.importer.components.Link;
+import org.ruhlendavis.mumue.importer.components.LinkSource;
 
 public class LinkSourceChainStage extends ImporterStage {
     @Override

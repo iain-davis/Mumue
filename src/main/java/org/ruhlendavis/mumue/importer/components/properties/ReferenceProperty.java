@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.componentsold.properties;
+package org.ruhlendavis.mumue.importer.components.properties;
 
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 

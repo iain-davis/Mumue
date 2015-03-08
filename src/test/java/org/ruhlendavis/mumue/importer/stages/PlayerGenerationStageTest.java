@@ -6,10 +6,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
-import org.ruhlendavis.mumue.componentsold.GameCharacter;
-import org.ruhlendavis.mumue.componentsold.Space;
 import org.ruhlendavis.mumue.importer.ImportBucket;
 import org.ruhlendavis.mumue.importer.ImporterStageTestHelper;
+import org.ruhlendavis.mumue.importer.components.GameCharacter;
+import org.ruhlendavis.mumue.importer.components.Space;
 import org.ruhlendavis.mumue.player.Player;
 
 public class PlayerGenerationStageTest extends ImporterStageTestHelper {

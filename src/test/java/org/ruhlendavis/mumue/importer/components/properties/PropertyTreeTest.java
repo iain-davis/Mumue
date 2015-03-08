@@ -1,4 +1,4 @@
-package org.ruhlendavis.mumue.componentsold.properties;
+package org.ruhlendavis.mumue.importer.components.properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
