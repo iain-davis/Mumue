@@ -10,12 +10,14 @@ public class WaitForNewPlayerSelection implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
-        if (connection.getInputQueue().isEmpty()) {
+        if (connection.getInputQueue().size() < 2) {
             return this;
         } else {
             String yes = textMaker.getText(TextName.Yes, configuration.getServerLocale());
+            String loginId = connection.getInputQueue().pop();
             String answer = connection.getInputQueue().pop();
             if (answer.equals(yes)) {
+                connection.getInputQueue().push(loginId);
                 return new PasswordPrompt();
             } else {
                 return new LoginPrompt();

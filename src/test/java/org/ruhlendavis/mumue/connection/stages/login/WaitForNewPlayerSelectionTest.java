@@ -1,5 +1,6 @@
 package org.ruhlendavis.mumue.connection.stages.login;
 
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
@@ -45,15 +46,26 @@ public class WaitForNewPlayerSelectionTest {
 
     @Test
     public void withYesInputProgressToNextStage() {
+        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(7));
         connection.getInputQueue().push(yes);
-
         ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(PasswordPrompt.class));
     }
 
     @Test
+    public void withYesInputRetainsLoginId() {
+        String loginId = RandomStringUtils.randomAlphabetic(7);
+        connection.getInputQueue().push(loginId);
+        connection.getInputQueue().push(yes);
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getInputQueue(), hasItem(loginId));
+    }
+
+    @Test
     public void withOtherInputPromptForLoginId() {
+        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(7));
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(4));
 
         ConnectionStage next = stage.execute(connection, configuration);
