@@ -36,7 +36,7 @@ public class CharacterDao {
 
     private static final String INSERT_QUERY = "insert into characters (id, name, description, created, lastUsed, lastModified, useCount, locationId, universeId, playerId) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    public void addCharacter(GameCharacter character) {
+    public void createCharacter(GameCharacter character) {
         DatabaseAccessor database = DatabaseAccessorProvider.get();
         database.update(INSERT_QUERY, character.getId(), character.getName(), character.getDescription(),
                 Timestamp.from(character.getCreated()), Timestamp.from(character.getLastUsed()), Timestamp.from(character.getLastModified()), character.getUseCount(),

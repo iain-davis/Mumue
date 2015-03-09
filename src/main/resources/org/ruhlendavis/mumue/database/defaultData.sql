@@ -36,6 +36,9 @@ insert into text (id, locale, name, text) values (15, 'en-US', 'missing say text
 insert into text (id, locale, name, text) values (16, 'en-US', 'target being not found', 'There is no one named ''${target name}'' here.\r\n');
 insert into text (id, locale, name, text) values (17, 'en-US', 'unknown command', 'I don''t know what you mean!\r\n');
 insert into text (id, locale, name, text) values (18, 'en-US', 'ambiguous command', 'There are multiple possible commands which of ${commands} did you mean?.\r\n');
+insert into text (id, locale, name, text) values (19, 'en-US', 'new player prompt', 'Login ID ''${loginId}'' not found. Do you wish to create a new player account? ');
+insert into text (id, locale, name, text) values (20, 'en-US', 'and text', 'and');
+insert into text (id, locale, name, text) values (21, 'en-US', 'yes', 'yes');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  (0, 'first', 'first password', 'en-US',

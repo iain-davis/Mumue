@@ -41,7 +41,7 @@ public class WaitForCharacterName implements ConnectionStage {
         character.setId(configuration.getNewComponentId());
         character.setPlayerId(connection.getPlayer().getId());
         character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
-        characterDao.addCharacter(character);
+        characterDao.createCharacter(character);
         return new DisplayPlayerMenu();
     }
 

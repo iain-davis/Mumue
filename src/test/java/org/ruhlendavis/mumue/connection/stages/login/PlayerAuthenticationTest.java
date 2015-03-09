@@ -5,8 +5,10 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -25,6 +27,7 @@ import org.ruhlendavis.mumue.connection.CurrentTimestampProvider;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 import org.ruhlendavis.mumue.connection.stages.mainmenu.DisplayPlayerMenu;
 import org.ruhlendavis.mumue.player.Player;
+import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.player.PlayerDao;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
@@ -37,23 +40,25 @@ public class PlayerAuthenticationTest {
     private final String loginSuccess = RandomStringUtils.randomAlphanumeric(16);
     private final Instant timestamp = Instant.now();
     private final Player player = new Player();
-
     private final Connection connection = new Connection();
 
     @Mock Configuration configuration;
     @Mock PlayerDao dao;
     @Mock TextMaker textMaker;
     @Mock CurrentTimestampProvider currentTimestampProvider;
+    @Mock PlayerBuilder playerBuilder;
     @InjectMocks PlayerAuthentication stage;
 
     @Before
     public void beforeEach() {
         connection.getInputQueue().push(loginId);
         connection.getInputQueue().push(password);
+        when(currentTimestampProvider.get()).thenReturn(timestamp);
         when(textMaker.getText(eq(TextName.LoginFailed), anyString())).thenReturn(loginFailed);
         when(textMaker.getText(eq(TextName.LoginSuccess), anyString())).thenReturn(loginSuccess);
         when(dao.getPlayer(loginId, password)).thenReturn(player);
-        when(currentTimestampProvider.get()).thenReturn(timestamp);
+        when(dao.playerExistsFor(loginId)).thenReturn(true);
+        when(playerBuilder.build()).thenReturn(player);
     }
 
     @Test
@@ -117,5 +122,41 @@ public class PlayerAuthenticationTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(loginFailed));
+    }
+
+    @Test
+    public void executeWithNewPlayerUsesBuilder() {
+        when(dao.playerExistsFor(loginId)).thenReturn(false);
+
+        stage.execute(connection, configuration);
+
+        verify(playerBuilder).build();
+    }
+
+    @Test
+    public void executeWithNewPlayerSetsLoginId() {
+        when(dao.playerExistsFor(loginId)).thenReturn(false);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getPlayer().getLoginId(), equalTo(loginId));
+    }
+
+    @Test
+    public void executeWithNewPlayerDisplaysMenu() {
+        when(dao.playerExistsFor(loginId)).thenReturn(false);
+
+        ConnectionStage next = stage.execute(connection, configuration);
+
+        assertThat(next, instanceOf(DisplayPlayerMenu.class));
+    }
+
+    @Test
+    public void executeWithNewPlayerAddsPlayer() {
+        when(dao.playerExistsFor(loginId)).thenReturn(false);
+
+        stage.execute(connection, configuration);
+
+        verify(dao).createPlayer(player, password);
     }
 }

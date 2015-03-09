@@ -3,7 +3,7 @@ create table text(id int primary key auto_increment, locale varchar(15), name va
 create table commands(id int primary key auto_increment, display varchar(255), minimumPartial varchar(255),
                       commandIdentifier varchar(255), token boolean);
 
-create table players(id int primary key, loginId varchar(255) unique, password varchar(255), locale varchar(15),
+create table players(id int primary key auto_increment, loginId varchar(255) unique, password varchar(255), locale varchar(15),
                      created timestamp, lastUsed timestamp, lastModified timestamp, useCount long,
                      administrator boolean
                     );

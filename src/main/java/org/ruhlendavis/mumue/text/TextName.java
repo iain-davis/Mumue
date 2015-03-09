@@ -19,7 +19,11 @@ public enum TextName {
     MissingSayText("missing say text"),
     TargetBeingNotFound("target being not found"),
     UnknownCommand("unknown command"),
-    AmbiguousCommand("ambiguous command");
+    AmbiguousCommand("ambiguous command"),
+    NewPlayerPrompt("new player prompt"),
+    AndText("and text"),
+    Yes("yes")
+    ;
 
     private final String name;
 

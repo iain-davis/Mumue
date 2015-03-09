@@ -141,7 +141,7 @@ public class WaitForCharacterNameTest {
 
         stage.execute(connection, configuration);
 
-        verify(characterDao).addCharacter(character);
+        verify(characterDao).createCharacter(character);
     }
 
     @Test

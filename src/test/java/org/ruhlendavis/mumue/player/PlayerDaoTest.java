@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 import java.sql.SQLException;
 
@@ -24,6 +25,22 @@ public class PlayerDaoTest {
         insertPlayer(1, loginId, password);
 
         assertTrue(dao.authenticate(loginId, password));
+    }
+
+    @Test
+    public void playerExistsForReturnsTrue() {
+        String loginId = RandomStringUtils.randomAlphabetic(17);
+        insertPlayer(1, loginId, RandomStringUtils.randomAlphabetic(16));
+
+        assertTrue(dao.playerExistsFor(loginId));
+    }
+
+    @Test
+    public void playerExistsForReturnsFalse() {
+        String loginId = RandomStringUtils.randomAlphabetic(17);
+        insertPlayer(1, loginId, RandomStringUtils.randomAlphabetic(16));
+
+        assertFalse(dao.playerExistsFor(RandomStringUtils.randomAlphabetic(13)));
     }
 
     @Test
@@ -68,6 +85,20 @@ public class PlayerDaoTest {
         Player player = dao.getPlayer(loginId, otherPassword);
 
         assertThat(player.getLoginId(), equalTo(""));
+    }
+
+    @Test
+    public void addPlayer() {
+        Player expected = new PlayerBuilder().withId(1)
+                .withLocale(RandomStringUtils.randomAlphabetic(13))
+                .withLoginId(RandomStringUtils.randomAlphabetic(14))
+                .build();
+        String password = RandomStringUtils.randomAlphabetic(12);
+
+        dao.createPlayer(expected, password);
+
+        Player player = dao.getPlayer(expected.getLoginId(), password);
+        assertReflectionEquals(expected, player);
     }
 
     private void insertPlayer(long id, String loginId, String password) {

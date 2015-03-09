@@ -117,7 +117,7 @@ public class CharacterDaoTest {
         characterToAdd.setUniverseId(RandomUtils.nextLong(600, 700));
         characterToAdd.setPlayerId(RandomUtils.nextLong(700, 800));
 
-        dao.addCharacter(characterToAdd);
+        dao.createCharacter(characterToAdd);
 
         GameCharacter retrieved = dao.getCharacter(characterToAdd.getId());
         assertReflectionEquals(retrieved, characterToAdd);
