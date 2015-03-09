@@ -132,7 +132,15 @@ public class WaitForCharacterNameTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getCharacter().getLocationId(), equalTo(locationId));
+    }
 
+    @Test
+    public void setHomeId() {
+        connection.getInputQueue().push(name);
+
+        stage.execute(connection, configuration);
+
+        assertThat(connection.getCharacter().getHomeLocationId(), equalTo(locationId));
     }
 
     @Test

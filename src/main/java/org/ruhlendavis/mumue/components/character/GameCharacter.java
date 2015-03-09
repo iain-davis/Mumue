@@ -4,7 +4,7 @@ import org.ruhlendavis.mumue.components.LocatableComponent;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
 public class GameCharacter extends LocatableComponent {
-    long playerId = GlobalConstants.REFERENCE_UNKNOWN;
+    private long playerId = GlobalConstants.REFERENCE_UNKNOWN;
 
     public long getPlayerId() {
         return playerId;
@@ -13,4 +13,5 @@ public class GameCharacter extends LocatableComponent {
     public void setPlayerId(long playerId) {
         this.playerId = playerId;
     }
+
 }

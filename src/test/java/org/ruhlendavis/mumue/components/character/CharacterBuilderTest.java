@@ -85,6 +85,15 @@ public class CharacterBuilderTest {
     }
 
     @Test
+    public void buildSetsHomeLocationId() {
+        long locationId = RandomUtils.nextLong(300, 400);
+
+        GameCharacter character = builder.withHomeLocationId(locationId).build();
+
+        assertThat(character.getHomeLocationId(), equalTo(locationId));
+    }
+
+    @Test
     public void buildSetsUniverseId() {
         long universeId = RandomUtils.nextLong(300, 400);
 

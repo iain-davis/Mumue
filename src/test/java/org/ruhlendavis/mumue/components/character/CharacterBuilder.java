@@ -15,6 +15,7 @@ public class CharacterBuilder {
     private long locationId = GlobalConstants.REFERENCE_UNKNOWN;
     private long universeId = GlobalConstants.REFERENCE_UNKNOWN;
     private long playerId = GlobalConstants.REFERENCE_UNKNOWN;
+    private long homeLocationId = GlobalConstants.REFERENCE_UNKNOWN;
 
     public GameCharacter build() {
         GameCharacter character = new GameCharacter();
@@ -28,6 +29,7 @@ public class CharacterBuilder {
         character.setLocationId(locationId);
         character.setUniverseId(universeId);
         character.setPlayerId(playerId);
+        character.setHomeLocationId(homeLocationId);
         return character;
     }
 
@@ -78,6 +80,11 @@ public class CharacterBuilder {
 
     public CharacterBuilder withPlayerId(long playerId) {
         this.playerId = playerId;
+        return this;
+    }
+
+    public CharacterBuilder withHomeLocationId(long locationId) {
+        this.homeLocationId = locationId;
         return this;
     }
 }

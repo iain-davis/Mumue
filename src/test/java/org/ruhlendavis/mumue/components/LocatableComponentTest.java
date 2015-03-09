@@ -8,7 +8,8 @@ import org.junit.Test;
 import org.ruhlendavis.mumue.importer.GlobalConstants;
 
 public class LocatableComponentTest {
-    private final LocatableComponent component = new LocatableComponent() {};
+    private final LocatableComponent component = new LocatableComponent() {
+    };
 
     @Test
     public void componentHasUnknownDefaultLocationId() {
@@ -18,5 +19,10 @@ public class LocatableComponentTest {
     @Test
     public void componentHasUnknownDefaultUniverseId() {
         assertThat(component.getUniverseId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void componentHasUnknownDefaultHomeLocationId() {
+        assertThat(component.getHomeLocationId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 }
