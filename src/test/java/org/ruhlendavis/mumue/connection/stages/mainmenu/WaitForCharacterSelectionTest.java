@@ -10,11 +10,12 @@ import static org.mockito.Mockito.when;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.components.character.CharacterDao;
 import org.ruhlendavis.mumue.configuration.Configuration;
@@ -25,17 +26,17 @@ import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-@RunWith(MockitoJUnitRunner.class)
 public class WaitForCharacterSelectionTest {
-    private final String message = RandomStringUtils.randomAlphabetic(17);
-    private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
-    private final Connection connection = new Connection().withPlayer(new PlayerBuilder().withLocale(locale).build());
-
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock Configuration configuration;
     @Mock TextMaker textMaker;
     @Mock CharacterDao dao;
     @InjectMocks WaitForCharacterSelection stage;
+
+    private final String message = RandomStringUtils.randomAlphabetic(17);
+    private final String locale = RandomStringUtils.randomAlphabetic(16);
+    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
+    private final Connection connection = new Connection(configuration).withPlayer(new PlayerBuilder().withLocale(locale).build());
 
     @Before
     public void beforeEach() {

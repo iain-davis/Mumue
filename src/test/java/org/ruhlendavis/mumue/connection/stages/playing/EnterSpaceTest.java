@@ -8,11 +8,12 @@ import static org.mockito.Mockito.when;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.components.character.CharacterBuilder;
 import org.ruhlendavis.mumue.components.character.GameCharacter;
@@ -23,18 +24,18 @@ import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 
-@RunWith(MockitoJUnitRunner.class)
 public class EnterSpaceTest {
-    private final long locationId = RandomUtils.nextLong(100, 200);
-    private final GameCharacter character = new CharacterBuilder().withLocationId(locationId).build();
-    private final Connection connection = new Connection().withCharacter(character);
-    private final String name = RandomStringUtils.randomAlphabetic(25);
-    private final String description = RandomStringUtils.randomAlphabetic(35);
-    private final Space space = new SpaceBuilder().withName(name).withDescription(description).build();
-
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock Configuration configuration;
     @Mock SpaceDao spaceDao;
     @InjectMocks EnterSpace stage;
+
+    private final long locationId = RandomUtils.nextLong(100, 200);
+    private final GameCharacter character = new CharacterBuilder().withLocationId(locationId).build();
+    private final Connection connection = new Connection(configuration).withCharacter(character);
+    private final String name = RandomStringUtils.randomAlphabetic(25);
+    private final String description = RandomStringUtils.randomAlphabetic(35);
+    private final Space space = new SpaceBuilder().withName(name).withDescription(description).build();
 
     @Before
     public void beforeEach() {

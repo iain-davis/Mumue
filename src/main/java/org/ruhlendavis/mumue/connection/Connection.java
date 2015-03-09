@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ruhlendavis.mumue.components.character.GameCharacter;
+import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.player.Player;
 import org.ruhlendavis.mumue.text.TextQueue;
 
@@ -13,6 +14,11 @@ public class Connection {
     private GameCharacter character = new GameCharacter();
     private Player player;
     private Map<String, Long> menuOptionIds = new HashMap<>();
+    private Configuration configuration;
+
+    public Connection(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     public TextQueue getInputQueue() {
         return inputQueue;
@@ -50,5 +56,12 @@ public class Connection {
 
     public Map<String, Long> getMenuOptionIds() {
         return menuOptionIds;
+    }
+
+    public String getLocale() {
+        if (getPlayer() == null) {
+            return configuration.getServerLocale();
+        }
+        return getPlayer().getLocale();
     }
 }

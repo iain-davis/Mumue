@@ -30,7 +30,7 @@ public class CommandSayTest {
     @InjectMocks CommandSay command;
     private final Vector<Connection> connections = new Vector<>();
     private final GameCharacter sayer = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
-    private final Connection sayerConnection = new Connection().withCharacter(sayer);
+    private final Connection sayerConnection = new Connection(configuration).withCharacter(sayer);
 
     @Before
     public void beforeEach() {
@@ -53,7 +53,7 @@ public class CommandSayTest {
         long locationId = RandomUtils.nextLong(100, 200);
         sayer.setLocationId(locationId);
         sayer.setName(RandomStringUtils.randomAlphabetic(16));
-        Connection otherConnection = new Connection().withCharacter(new CharacterBuilder().withLocationId(locationId).build());
+        Connection otherConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(locationId).build());
         String saying = RandomStringUtils.randomAlphabetic(17);
         connections.add(otherConnection);
 
@@ -72,8 +72,8 @@ public class CommandSayTest {
         sayer.setName(RandomStringUtils.randomAlphabetic(16));
         String saying = RandomStringUtils.randomAlphabetic(17);
 
-        Connection inRoomConnection = new Connection().withCharacter(new CharacterBuilder().withLocationId(locationId).build());
-        Connection outOfRoomConnection = new Connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(200, 300)).build());
+        Connection inRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(locationId).build());
+        Connection outOfRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(200, 300)).build());
         connections.add(inRoomConnection);
         connections.add(outOfRoomConnection);
 

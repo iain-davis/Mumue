@@ -29,7 +29,7 @@ public class CommandPoseTest {
     @Mock Configuration configuration;
     @InjectMocks CommandPose commandPose;
     private final GameCharacter poser = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
-    private final Connection posingConnection = new Connection().withCharacter(poser);
+    private final Connection posingConnection = new Connection(configuration).withCharacter(poser);
     private final Vector<Connection> connections = new Vector<>();
 
     @Before
@@ -62,7 +62,7 @@ public class CommandPoseTest {
 
     @Test
     public void poseSeenByOtherCharacterInRoom() {
-        Connection inRoomConnection = new Connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
+        Connection inRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String message = RandomStringUtils.randomAlphabetic(35);
         String expected = poser.getName() + " " + message + "\\r\\n";
@@ -75,7 +75,7 @@ public class CommandPoseTest {
 
     @Test
     public void poseNotSeenByCharacterInOtherRoom() {
-        Connection otherRoomConnection = new Connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
+        Connection otherRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String message = RandomStringUtils.randomAlphabetic(35);
         connections.add(otherRoomConnection);

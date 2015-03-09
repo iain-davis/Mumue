@@ -27,7 +27,7 @@ public class NewPlayerPromptTest {
     @Mock TextMaker textMaker;
     @InjectMocks NewPlayerPrompt stage;
 
-    private final Connection connection = new Connection();
+    private final Connection connection = new Connection(configuration);
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(16);
 

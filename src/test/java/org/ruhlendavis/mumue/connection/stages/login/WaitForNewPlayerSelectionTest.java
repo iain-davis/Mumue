@@ -27,7 +27,7 @@ public class WaitForNewPlayerSelectionTest {
     @Mock Configuration configuration;
     @InjectMocks WaitForNewPlayerSelection stage;
 
-    private final Connection connection = new Connection();
+    private final Connection connection = new Connection(configuration);
     private final String yes = RandomStringUtils.randomAlphabetic(3);
     private String serverLocale = RandomStringUtils.randomAlphabetic(7);
 

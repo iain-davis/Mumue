@@ -4,22 +4,23 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
 
-@RunWith(MockitoJUnitRunner.class)
 public class WaitForPasswordTest {
-    private final Connection connection = new Connection();
-
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock Configuration configuration;
     @InjectMocks WaitForPassword stage;
+
+    private final Connection connection = new Connection(configuration);
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {

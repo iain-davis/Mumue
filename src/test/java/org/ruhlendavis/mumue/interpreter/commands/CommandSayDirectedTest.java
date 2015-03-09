@@ -41,8 +41,8 @@ public class CommandSayDirectedTest {
             .withLocationId(RandomUtils.nextLong(100, 200)).build();
     private final GameCharacter target = new CharacterBuilder().withName(RandomStringUtils.randomAlphabetic(8).toUpperCase())
             .withLocationId(sayer.getLocationId()).build();
-    private final Connection sayerConnection = new Connection().withPlayer(player).withCharacter(sayer);
-    private final Connection targetConnection = new Connection().withCharacter(target);
+    private final Connection sayerConnection = new Connection(configuration).withPlayer(player).withCharacter(sayer);
+    private final Connection targetConnection = new Connection(configuration).withCharacter(target);
 
     @Before
     public void beforeEach() {
@@ -139,7 +139,7 @@ public class CommandSayDirectedTest {
 
     @Test
     public void messageSeenByInSpaceCharacter() {
-        Connection inRoomConnection = new Connection().withCharacter(new CharacterBuilder().withLocationId(sayer.getLocationId()).build());
+        Connection inRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(sayer.getLocationId()).build());
         connections.add(inRoomConnection);
 
         String message = RandomStringUtils.randomAlphabetic(17);
@@ -151,7 +151,7 @@ public class CommandSayDirectedTest {
 
     @Test
     public void messageNotSeenByOutOfSpaceCharacter() {
-        Connection outOfRoomConnection = new Connection()
+        Connection outOfRoomConnection = new Connection(configuration)
                 .withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
         connections.add(outOfRoomConnection);
 

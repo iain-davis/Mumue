@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -15,11 +14,12 @@ import java.time.Instant;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
@@ -32,22 +32,22 @@ import org.ruhlendavis.mumue.player.PlayerDao;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PlayerAuthenticationTest {
-    private final String loginId = RandomStringUtils.randomAlphanumeric(13);
-    private final String password = RandomStringUtils.randomAlphanumeric(17);
-    private final String loginFailed = RandomStringUtils.randomAlphanumeric(16);
-    private final String loginSuccess = RandomStringUtils.randomAlphanumeric(16);
-    private final Instant timestamp = Instant.now();
-    private final Player player = new Player();
-    private final Connection connection = new Connection();
-
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock Configuration configuration;
     @Mock PlayerDao dao;
     @Mock TextMaker textMaker;
     @Mock CurrentTimestampProvider currentTimestampProvider;
     @Mock PlayerBuilder playerBuilder;
     @InjectMocks PlayerAuthentication stage;
+
+    private final String loginId = RandomStringUtils.randomAlphanumeric(13);
+    private final String password = RandomStringUtils.randomAlphanumeric(17);
+    private final String loginFailed = RandomStringUtils.randomAlphanumeric(16);
+    private final String loginSuccess = RandomStringUtils.randomAlphanumeric(16);
+    private final Instant timestamp = Instant.now();
+    private final Player player = new Player();
+    private final Connection connection = new Connection(configuration);
 
     @Before
     public void beforeEach() {

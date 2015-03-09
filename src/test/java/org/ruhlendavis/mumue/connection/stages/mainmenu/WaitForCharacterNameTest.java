@@ -12,11 +12,12 @@ import static org.mockito.Mockito.when;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.components.character.CharacterBuilder;
 import org.ruhlendavis.mumue.components.character.CharacterDao;
@@ -32,8 +33,14 @@ import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-@RunWith(MockitoJUnitRunner.class)
 public class WaitForCharacterNameTest {
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+    @Mock Configuration configuration;
+    @Mock TextMaker textMaker;
+    @Mock CharacterDao characterDao;
+    @Mock UniverseDao universeDao;
+    @InjectMocks WaitForCharacterName stage;
+
     private final String name = RandomStringUtils.randomAlphabetic(17);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
@@ -44,13 +51,7 @@ public class WaitForCharacterNameTest {
     private final GameCharacter character = new GameCharacter();
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
 
-    private final Connection connection = new Connection().withPlayer(player).withCharacter(character);
-
-    @Mock Configuration configuration;
-    @Mock TextMaker textMaker;
-    @Mock CharacterDao characterDao;
-    @Mock UniverseDao universeDao;
-    @InjectMocks WaitForCharacterName stage;
+    private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
 
     @Before
     public void beforeEach() {

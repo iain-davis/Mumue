@@ -17,8 +17,8 @@ import org.ruhlendavis.mumue.connection.stages.NoOperation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionControllerTest {
-    private final Connection connection = new Connection();
     private final Configuration configuration = mock(Configuration.class);
+    private final Connection connection = new Connection(configuration);
     private final ConnectionStage stage = mock(ConnectionStage.class);
 
     @Test

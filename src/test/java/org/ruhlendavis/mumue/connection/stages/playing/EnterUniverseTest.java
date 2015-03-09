@@ -7,16 +7,15 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.components.character.CharacterBuilder;
 import org.ruhlendavis.mumue.components.character.GameCharacter;
@@ -31,8 +30,13 @@ import org.ruhlendavis.mumue.player.PlayerBuilder;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
 
-@RunWith(MockitoJUnitRunner.class)
 public class EnterUniverseTest {
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+    @Mock Configuration configuration;
+    @Mock TextMaker textMaker;
+    @Mock UniverseDao dao;
+    @InjectMocks EnterUniverse stage;
+
     private final String message = RandomStringUtils.randomAlphabetic(25);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
@@ -42,17 +46,12 @@ public class EnterUniverseTest {
     private final GameCharacter character = new CharacterBuilder().withUniverseId(universeId).build();
 
     private final Player player = new PlayerBuilder().withLocale(locale).build();
-
-    private final Connection connection = new Connection().withPlayer(player).withCharacter(character);
-    @Mock Configuration configuration;
-    @Mock TextMaker textMaker;
-    @Mock UniverseDao dao;
-    @InjectMocks EnterUniverse stage;
+    private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
 
     @Before
     public void beforeEach() {
         when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(eq(TextName.EnterUniverse), eq(locale), eq(serverLocale), any(Map.class))).thenReturn(message);
+        when(textMaker.getText(eq(TextName.EnterUniverse), eq(locale), eq(serverLocale), any())).thenReturn(message);
         when(dao.getUniverse(universeId)).thenReturn(universe);
     }
 

@@ -10,8 +10,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,7 +43,7 @@ public class PlayCharacterTest {
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final GameCharacter character = new GameCharacter();
-    private final Connection connection = new Connection().withPlayer(new PlayerBuilder().withLocale(locale).build()).withCharacter(character);
+    private final Connection connection = new Connection(configuration).withPlayer(new PlayerBuilder().withLocale(locale).build()).withCharacter(character);
 
     @Before
     public void beforeEach() {

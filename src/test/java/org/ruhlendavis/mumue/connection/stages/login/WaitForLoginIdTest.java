@@ -30,7 +30,7 @@ public class WaitForLoginIdTest {
     @Mock PlayerDao dao;
     @InjectMocks WaitForLoginId stage;
 
-    private final Connection connection = new Connection();
+    private final Connection connection = new Connection(configuration);
 
     @Before
     public void beforeEach() {
