@@ -17,19 +17,19 @@ public class CommandSayDirected implements Command {
     public void execute(Connection connection, String command, String arguments, Configuration configuration) {
         int spacePosition = arguments.indexOf(" ");
         if (spacePosition == -1) {
-            respondToLackOfMessage(connection, configuration);
+            respondToLackOfMessage(connection);
             return;
         }
         String sayText = arguments.substring(spacePosition + 1);
 
         if (StringUtils.isBlank(sayText)) {
-            respondToLackOfMessage(connection, configuration);
+            respondToLackOfMessage(connection);
             return;
         }
 
         String targetName = findTarget(arguments.substring(0, spacePosition));
         if (targetName.equals("")) {
-            String text = textMaker.getText(TextName.TargetBeingNotFound, connection.getPlayer().getLocale(), configuration.getServerLocale());
+            String text = textMaker.getText(TextName.TargetBeingNotFound, connection.getLocale());
             connection.getOutputQueue().push(text);
             return;
         }
@@ -43,8 +43,8 @@ public class CommandSayDirected implements Command {
         }
     }
 
-    private void respondToLackOfMessage(Connection connection, Configuration configuration) {
-        String text = textMaker.getText(TextName.MissingSayText, connection.getPlayer().getLocale(), configuration.getServerLocale());
+    private void respondToLackOfMessage(Connection connection) {
+        String text = textMaker.getText(TextName.MissingSayText, connection.getLocale());
         connection.getOutputQueue().push(text);
     }
 

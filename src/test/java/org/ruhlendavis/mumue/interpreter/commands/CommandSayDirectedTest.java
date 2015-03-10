@@ -33,8 +33,8 @@ public class CommandSayDirectedTest {
     @Mock ConnectionManager connectionManager;
     @Mock Configuration configuration;
     @InjectMocks CommandSayDirected command;
+
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final Vector<Connection> connections = new Vector<>();
     private final Player player = new PlayerBuilder().withLocale(locale).build();
     private final GameCharacter sayer = new CharacterBuilder().withName(RandomStringUtils.randomAlphabetic(7))
@@ -46,7 +46,6 @@ public class CommandSayDirectedTest {
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
         connections.add(sayerConnection);
         connections.add(targetConnection);
         when(connectionManager.getConnections()).thenReturn(connections);
@@ -63,7 +62,7 @@ public class CommandSayDirectedTest {
 
     @Test
     public void targetMatchPartial() {
-        when(textMaker.getText(TextName.TargetBeingNotFound, locale, serverLocale)).thenReturn("");
+        when(textMaker.getText(TextName.TargetBeingNotFound, locale)).thenReturn("");
         String message = RandomStringUtils.randomAlphabetic(17);
 
         command.execute(sayerConnection, "`", target.getName().substring(0, RandomUtils.nextInt(3, 6)) + " " + message, configuration);
@@ -73,7 +72,7 @@ public class CommandSayDirectedTest {
 
     @Test
     public void targetMatchCaseInsensitive() {
-        when(textMaker.getText(TextName.TargetBeingNotFound, locale, serverLocale)).thenReturn("");
+        when(textMaker.getText(TextName.TargetBeingNotFound, locale)).thenReturn("");
         String message = RandomStringUtils.randomAlphabetic(17);
 
         command.execute(sayerConnection, "`", target.getName().toLowerCase() + " " + message, configuration);
@@ -87,7 +86,7 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.randomAlphabetic(17);
         String otherTarget = RandomStringUtils.randomAlphabetic(8);
 
-        when(textMaker.getText(TextName.TargetBeingNotFound, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.TargetBeingNotFound, locale)).thenReturn(responseMessage);
 
         command.execute(sayerConnection, "`", otherTarget + " " + message, configuration);
 
@@ -108,7 +107,7 @@ public class CommandSayDirectedTest {
     public void noMessage() {
         String responseMessage = RandomStringUtils.randomAlphabetic(18);
 
-        when(textMaker.getText(TextName.MissingSayText, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.MissingSayText, locale)).thenReturn(responseMessage);
 
         command.execute(sayerConnection, "`", target.getName(), configuration);
 
@@ -119,7 +118,7 @@ public class CommandSayDirectedTest {
     public void emptyMessage() {
         String responseMessage = RandomStringUtils.randomAlphabetic(18);
 
-        when(textMaker.getText(TextName.MissingSayText, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.MissingSayText, locale)).thenReturn(responseMessage);
 
         command.execute(sayerConnection, "`", target.getName() + " ", configuration);
 
@@ -130,7 +129,7 @@ public class CommandSayDirectedTest {
     public void messageOnlySpaces() {
         String responseMessage = RandomStringUtils.randomAlphabetic(18);
 
-        when(textMaker.getText(TextName.MissingSayText, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.MissingSayText, locale)).thenReturn(responseMessage);
 
         command.execute(sayerConnection, "`", target.getName() + "       ", configuration);
 

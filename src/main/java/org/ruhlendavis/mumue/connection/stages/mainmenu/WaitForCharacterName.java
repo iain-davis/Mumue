@@ -26,13 +26,13 @@ public class WaitForCharacterName implements ConnectionStage {
         long universeId = character.getUniverseId();
 
         if (nameTakenInUniverse(name, universeId)) {
-            String text = textMaker.getText(TextName.CharacterNameAlreadyExists, connection.getPlayer().getLocale(), configuration.getServerLocale());
+            String text = textMaker.getText(TextName.CharacterNameAlreadyExists, connection.getLocale());
             connection.getOutputQueue().push(text);
             return new CharacterNamePrompt();
         }
 
         if (nameTakenByOtherPlayer(name, connection.getPlayer().getId())) {
-            String text = textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, connection.getPlayer().getLocale(), configuration.getServerLocale());
+            String text = textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, connection.getLocale());
             connection.getOutputQueue().push(text);
             return new CharacterNamePrompt();
         }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ruhlendavis.mumue.utility.StringUtilities;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 import org.ruhlendavis.mumue.connection.stages.ConnectionStage;
@@ -13,6 +12,7 @@ import org.ruhlendavis.mumue.interpreter.CommandResult;
 import org.ruhlendavis.mumue.interpreter.commands.Command;
 import org.ruhlendavis.mumue.text.TextMaker;
 import org.ruhlendavis.mumue.text.TextName;
+import org.ruhlendavis.mumue.utility.StringUtilities;
 
 public class PlayCharacter implements ConnectionStage {
     private CommandInterpreter commandInterpreter = new CommandInterpreter();
@@ -25,13 +25,13 @@ public class PlayCharacter implements ConnectionStage {
         }
         CommandResult result = commandInterpreter.interpret(connection.getInputQueue().pop());
 
-        switch(result.getStatus()) {
+        switch (result.getStatus()) {
             case OK:
                 return executeCommand(connection, configuration, result);
             case UNKNOWN_COMMAND:
-                return respondTo(connection, getUnknownResponse(connection, configuration));
+                return respondTo(connection, getUnknownResponse(connection));
             case AMBIGUOUS_COMMAND:
-                return respondTo(connection, getAmbiguousResponse(connection, configuration, result.getCommands()));
+                return respondTo(connection, getAmbiguousResponse(connection, result.getCommands()));
             default:
                 return this;
         }
@@ -48,13 +48,13 @@ public class PlayCharacter implements ConnectionStage {
         return this;
     }
 
-    private String getAmbiguousResponse(Connection connection, Configuration configuration, List<String> commands) {
+    private String getAmbiguousResponse(Connection connection, List<String> commands) {
         Map<String, String> variables = new HashMap<>();
         variables.put("commands", StringUtilities.commaIfy(commands, "and"));
-        return textMaker.getText(TextName.AmbiguousCommand, connection.getPlayer().getLocale(), configuration.getServerLocale(), variables);
+        return textMaker.getText(TextName.AmbiguousCommand, connection.getLocale(), variables);
     }
 
-    private String getUnknownResponse(Connection connection, Configuration configuration) {
-        return textMaker.getText(TextName.UnknownCommand, connection.getPlayer().getLocale(), configuration.getServerLocale());
+    private String getUnknownResponse(Connection connection) {
+        return textMaker.getText(TextName.UnknownCommand, connection.getLocale());
     }
 }

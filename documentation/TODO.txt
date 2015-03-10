@@ -5,3 +5,6 @@
 - Players should have an output Queue (their connection's queue)?
 - ComponentCollection idea
 - ConnectionInitializer needs better testing
+- ANSI Filter for output
+- MPI Stripping Filter
+- MUF Interpreter

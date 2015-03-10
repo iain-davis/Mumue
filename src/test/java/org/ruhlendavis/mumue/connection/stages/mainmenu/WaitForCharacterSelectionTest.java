@@ -35,13 +35,11 @@ public class WaitForCharacterSelectionTest {
 
     private final String message = RandomStringUtils.randomAlphabetic(17);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final Connection connection = new Connection(configuration).withPlayer(new PlayerBuilder().withLocale(locale).build());
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn(message);
     }
 
     @Test

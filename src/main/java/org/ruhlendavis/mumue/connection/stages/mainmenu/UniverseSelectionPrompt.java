@@ -20,7 +20,7 @@ public class UniverseSelectionPrompt implements ConnectionStage {
         }
         connection.getOutputQueue().push(builder.toString());
 
-        String text = textMaker.getText(TextName.UniverseSelectionPrompt, connection.getPlayer().getLocale(), configuration.getServerLocale());
+        String text = textMaker.getText(TextName.UniverseSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);
         return new WaitForUniverseSelection();
     }

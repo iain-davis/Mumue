@@ -32,14 +32,12 @@ public class CharacterNamePromptTest {
 
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final String locale = RandomStringUtils.randomAlphabetic(15);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(eq(TextName.CharacterNamePrompt), eq(locale), eq(serverLocale))).thenReturn(prompt);
+        when(textMaker.getText(eq(TextName.CharacterNamePrompt), eq(locale))).thenReturn(prompt);
     }
 
     @Test

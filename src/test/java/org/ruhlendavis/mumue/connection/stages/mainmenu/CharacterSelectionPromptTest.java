@@ -39,14 +39,12 @@ public class CharacterSelectionPromptTest {
 
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final String locale = RandomStringUtils.randomAlphabetic(15);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
     private final Player player = new PlayerBuilder().withLocale(locale).withLoginId(RandomStringUtils.randomAlphabetic(7)).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(TextName.CharacterSelectionPrompt, locale, serverLocale)).thenReturn(prompt);
+        when(textMaker.getText(TextName.CharacterSelectionPrompt, locale)).thenReturn(prompt);
         when(dao.getCharacters(player.getId())).thenReturn(new ArrayList<>());
     }
 

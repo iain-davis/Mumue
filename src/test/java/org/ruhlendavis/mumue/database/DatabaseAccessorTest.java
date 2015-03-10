@@ -1,6 +1,5 @@
 package org.ruhlendavis.mumue.database;
 
-import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -13,15 +12,11 @@ import java.sql.SQLException;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.VarargMatcher;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 

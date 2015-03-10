@@ -41,13 +41,11 @@ public class PlayCharacterTest {
     @InjectMocks PlayCharacter stage;
 
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final GameCharacter character = new GameCharacter();
     private final Connection connection = new Connection(configuration).withPlayer(new PlayerBuilder().withLocale(locale).build()).withCharacter(character);
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(result.getStatus()).thenReturn(CommandStatus.OK);
         when(commandInterpreter.interpret(anyString())).thenReturn(result);
         when(result.getCommand()).thenReturn(command);
@@ -115,7 +113,7 @@ public class PlayCharacterTest {
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        when(textMaker.getText(TextName.UnknownCommand, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.UnknownCommand, locale)).thenReturn(responseMessage);
         when(result.getStatus()).thenReturn(CommandStatus.UNKNOWN_COMMAND);
 
         stage.execute(connection, configuration);
@@ -129,7 +127,7 @@ public class PlayCharacterTest {
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        when(textMaker.getText(TextName.UnknownCommand, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.UnknownCommand, locale)).thenReturn(responseMessage);
         when(result.getStatus()).thenReturn(CommandStatus.UNKNOWN_COMMAND);
 
         ConnectionStage next = stage.execute(connection, configuration);
@@ -143,7 +141,7 @@ public class PlayCharacterTest {
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(locale), eq(serverLocale), any())).thenReturn(responseMessage);
+        when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(locale), any())).thenReturn(responseMessage);
         when(result.getStatus()).thenReturn(CommandStatus.AMBIGUOUS_COMMAND);
 
         ConnectionStage next = stage.execute(connection, configuration);
@@ -162,13 +160,14 @@ public class PlayCharacterTest {
 
         assertThat(next, sameInstance(stage));
     }
+
     @Test
     public void displayCommandUnknownMessageForUnknownCommand() {
         String responseMessage = RandomStringUtils.randomAlphabetic(25);
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        when(textMaker.getText(TextName.UnknownCommand, locale, serverLocale)).thenReturn(responseMessage);
+        when(textMaker.getText(TextName.UnknownCommand, locale)).thenReturn(responseMessage);
         when(result.getStatus()).thenReturn(CommandStatus.UNKNOWN_COMMAND);
 
         stage.execute(connection, configuration);
@@ -182,7 +181,7 @@ public class PlayCharacterTest {
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(locale), eq(serverLocale), any())).thenReturn(responseMessage);
+        when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(locale), any())).thenReturn(responseMessage);
         when(result.getStatus()).thenReturn(CommandStatus.AMBIGUOUS_COMMAND);
 
         stage.execute(connection, configuration);

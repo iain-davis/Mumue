@@ -13,9 +13,9 @@ public class DisplayPlayerMenu implements ConnectionStage {
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
         Player player = connection.getPlayer();
-        String menu = textMaker.getText(TextName.PlayerMainMenu, player.getLocale(), configuration.getServerLocale());
+        String menu = textMaker.getText(TextName.PlayerMainMenu, connection.getLocale());
         if (player.isAdministrator()) {
-            menu = textMaker.getText(TextName.AdministratorMainMenu, player.getLocale(), configuration.getServerLocale()) + menu;
+            menu = textMaker.getText(TextName.AdministratorMainMenu, connection.getLocale()) + menu;
         }
         connection.getOutputQueue().push(menu);
         return new WaitForPlayerMenuChoice();

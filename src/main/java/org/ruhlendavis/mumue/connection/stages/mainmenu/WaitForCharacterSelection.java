@@ -20,7 +20,7 @@ public class WaitForCharacterSelection implements ConnectionStage {
         String selection = connection.getInputQueue().pop();
         Long characterId = connection.getMenuOptionIds().get(selection);
         if (characterId == null) {
-            String text = textMaker.getText(TextName.InvalidOption, connection.getPlayer().getLocale(), configuration.getServerLocale());
+            String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
             connection.getOutputQueue().push(text);
             return new CharacterSelectionPrompt();
         }

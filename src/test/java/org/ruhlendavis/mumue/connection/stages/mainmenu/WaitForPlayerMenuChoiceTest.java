@@ -82,7 +82,7 @@ public class WaitForPlayerMenuChoiceTest {
     @Test
     public void playerSelectsPWithoutCharactersGoToUniverseSelectionPrompt() {
         connection.getInputQueue().push("P");
-        when(textMaker.getText(TextName.CharacterNeeded, locale, serverLocale)).thenReturn(RandomStringUtils.randomAlphabetic(17));
+        when(textMaker.getText(TextName.CharacterNeeded, locale)).thenReturn(RandomStringUtils.randomAlphabetic(17));
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -92,7 +92,7 @@ public class WaitForPlayerMenuChoiceTest {
     @Test
     public void playerSelectsPWithoutCharactersPutCharacterNeededMessageOnQueue() {
         String message = RandomStringUtils.randomAlphabetic(17);
-        when(textMaker.getText(TextName.CharacterNeeded, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNeeded, locale)).thenReturn(message);
         connection.getInputQueue().push("P");
 
         stage.execute(connection, configuration);
@@ -116,7 +116,7 @@ public class WaitForPlayerMenuChoiceTest {
     @Test
     public void redisplayMenuOnInvalidInput() {
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
-        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn("");
+        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn("");
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -128,7 +128,7 @@ public class WaitForPlayerMenuChoiceTest {
         String message = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
         when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn(message);
 
         stage.execute(connection, configuration);
 

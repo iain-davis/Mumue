@@ -32,15 +32,13 @@ public class DisplayPlayerMenuTest {
     private final String menu = RandomStringUtils.randomAlphanumeric(17);
     private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
     private final String locale = RandomStringUtils.randomAlphabetic(15);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(5);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(eq(TextName.PlayerMainMenu), eq(locale), eq(serverLocale))).thenReturn(menu);
-        when(textMaker.getText(eq(TextName.AdministratorMainMenu), eq(locale), eq(serverLocale))).thenReturn(administratorMenu);
+        when(textMaker.getText(eq(TextName.PlayerMainMenu), eq(locale))).thenReturn(menu);
+        when(textMaker.getText(eq(TextName.AdministratorMainMenu), eq(locale))).thenReturn(administratorMenu);
     }
 
     @Test

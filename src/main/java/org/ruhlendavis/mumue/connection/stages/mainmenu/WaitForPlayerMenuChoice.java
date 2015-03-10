@@ -22,11 +22,11 @@ public class WaitForPlayerMenuChoice implements ConnectionStage {
                 if (playerHasCharacters(connection.getPlayer().getId())) {
                     return new CharacterSelectionPrompt();
                 }
-                return handleCharacterNeeded(connection, configuration);
+                return handleCharacterNeeded(connection);
             case "C":
                 return new UniverseSelectionPrompt();
             default:
-                return handleInvalidOption(connection, configuration);
+                return handleInvalidOption(connection);
         }
     }
 
@@ -34,18 +34,16 @@ public class WaitForPlayerMenuChoice implements ConnectionStage {
         return !dao.getCharacters(playerId).isEmpty();
     }
 
-    private ConnectionStage handleCharacterNeeded(Connection connection, Configuration configuration) {
+    private ConnectionStage handleCharacterNeeded(Connection connection) {
         String locale = connection.getPlayer().getLocale();
-        String serverLocale = configuration.getServerLocale();
-        String text = textMaker.getText(TextName.CharacterNeeded, locale, serverLocale);
+        String text = textMaker.getText(TextName.CharacterNeeded, locale);
         connection.getOutputQueue().push(text);
         return new UniverseSelectionPrompt();
     }
 
-    private ConnectionStage handleInvalidOption(Connection connection, Configuration configuration) {
+    private ConnectionStage handleInvalidOption(Connection connection) {
         String locale = connection.getPlayer().getLocale();
-        String serverLocale = configuration.getServerLocale();
-        String text = textMaker.getText(TextName.InvalidOption, locale, serverLocale);
+        String text = textMaker.getText(TextName.InvalidOption, locale);
         connection.getOutputQueue().push(text);
         return new DisplayPlayerMenu();
     }

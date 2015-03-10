@@ -8,14 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
-@RunWith(MockitoJUnitRunner.class)
 public class TextMakerTest {
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock TextDao textDao;
     @InjectMocks TextMaker textMaker;
 
@@ -42,28 +43,6 @@ public class TextMakerTest {
     }
 
     @Test
-    public void getFallsBackOnAlternateLocaleWhenNotFoundTextDaoReturnsNull() {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String alternateLocale = RandomStringUtils.randomAlphabetic(4);
-        String text = RandomStringUtils.randomAlphabetic(50);
-        when(textDao.getText(TextName.Welcome, locale)).thenReturn(null);
-        when(textDao.getText(TextName.Welcome, alternateLocale)).thenReturn(text);
-
-        assertThat(textMaker.getText(TextName.Welcome, locale, alternateLocale), equalTo(text));
-    }
-
-    @Test
-    public void getFallsBackOnAlternateLocaleWhenTextDaoReturnsBlank() {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String alternateLocale = RandomStringUtils.randomAlphabetic(4);
-        String text = RandomStringUtils.randomAlphabetic(50);
-        when(textDao.getText(TextName.Welcome, locale)).thenReturn("");
-        when(textDao.getText(TextName.Welcome, alternateLocale)).thenReturn(text);
-
-        assertThat(textMaker.getText(TextName.Welcome, locale, alternateLocale), equalTo(text));
-    }
-
-    @Test
     public void performVariableReplacment() {
         String locale = RandomStringUtils.randomAlphabetic(5);
         String textL = RandomStringUtils.randomAlphabetic(25);
@@ -77,6 +56,6 @@ public class TextMakerTest {
 
         String expected = textL + replacement + textR;
         when(textDao.getText(TextName.Welcome, locale)).thenReturn(text);
-        assertThat(textMaker.getText(TextName.Welcome, locale, "", variables), equalTo(expected));
+        assertThat(textMaker.getText(TextName.Welcome, locale, variables), equalTo(expected));
     }
 }

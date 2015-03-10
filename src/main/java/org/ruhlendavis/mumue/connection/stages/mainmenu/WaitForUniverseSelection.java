@@ -24,15 +24,15 @@ public class WaitForUniverseSelection implements ConnectionStage {
 
         Universe universe = dao.getUniverse(universeId);
         if (universe.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
-            return promptForUniverseAgain(connection, configuration);
+            return promptForUniverseAgain(connection);
         }
 
         connection.getCharacter().setUniverseId(universeId);
         return new CharacterNamePrompt();
     }
 
-    private ConnectionStage promptForUniverseAgain(Connection connection, Configuration configuration) {
-        String text = textMaker.getText(TextName.InvalidOption, connection.getPlayer().getLocale(), configuration.getServerLocale());
+    private ConnectionStage promptForUniverseAgain(Connection connection) {
+        String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
         connection.getOutputQueue().push(text);
         return new UniverseSelectionPrompt();
     }

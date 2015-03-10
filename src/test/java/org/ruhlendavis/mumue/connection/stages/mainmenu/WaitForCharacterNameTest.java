@@ -43,7 +43,6 @@ public class WaitForCharacterNameTest {
 
     private final String name = RandomStringUtils.randomAlphabetic(17);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final String loginId = RandomStringUtils.randomAlphabetic(14);
     private final long playerId = RandomUtils.nextLong(100, 200);
     private final long locationId = RandomUtils.nextLong(200, 300);
@@ -55,7 +54,6 @@ public class WaitForCharacterNameTest {
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(new GameCharacter());
         when(characterDao.getCharacter(name)).thenReturn(character);
         when(universeDao.getUniverse(character.getUniverseId())).thenReturn(universe);
@@ -162,7 +160,7 @@ public class WaitForCharacterNameTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameAlreadyExists, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameAlreadyExists, locale)).thenReturn(message);
 
         stage.execute(connection, configuration);
 
@@ -178,7 +176,7 @@ public class WaitForCharacterNameTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameAlreadyExists, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameAlreadyExists, locale)).thenReturn(message);
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -194,7 +192,7 @@ public class WaitForCharacterNameTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name)).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, locale)).thenReturn(message);
 
         stage.execute(connection, configuration);
 
@@ -209,7 +207,7 @@ public class WaitForCharacterNameTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name)).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, locale)).thenReturn(message);
 
         ConnectionStage next = stage.execute(connection, configuration);
 

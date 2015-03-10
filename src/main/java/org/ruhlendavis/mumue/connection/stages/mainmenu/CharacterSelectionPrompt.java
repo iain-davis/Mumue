@@ -24,9 +24,7 @@ public class CharacterSelectionPrompt implements ConnectionStage {
         }
         builder.append("\\r\\n");
         connection.getOutputQueue().push(builder.toString());
-        String locale = connection.getPlayer().getLocale();
-        String serverLocale = configuration.getServerLocale();
-        String text = textMaker.getText(TextName.CharacterSelectionPrompt, locale, serverLocale);
+        String text = textMaker.getText(TextName.CharacterSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);
         return new WaitForCharacterSelection();
     }

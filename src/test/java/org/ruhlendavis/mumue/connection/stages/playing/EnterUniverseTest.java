@@ -39,7 +39,6 @@ public class EnterUniverseTest {
 
     private final String message = RandomStringUtils.randomAlphabetic(25);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private long universeId = RandomUtils.nextLong(100, 200);
     private final String universeName = RandomStringUtils.randomAlphabetic(17);
     private final Universe universe = new UniverseBuilder().withName(universeName).withId(universeId).build();
@@ -50,8 +49,7 @@ public class EnterUniverseTest {
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(eq(TextName.EnterUniverse), eq(locale), eq(serverLocale), any())).thenReturn(message);
+        when(textMaker.getText(eq(TextName.EnterUniverse), eq(locale), any())).thenReturn(message);
         when(dao.getUniverse(universeId)).thenReturn(universe);
     }
 

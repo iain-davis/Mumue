@@ -37,7 +37,6 @@ public class WaitForUniverseSelectionTest {
     @InjectMocks WaitForUniverseSelection stage;
 
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
 
@@ -46,7 +45,6 @@ public class WaitForUniverseSelectionTest {
         Universe universe = new Universe();
         universe.setId(RandomUtils.nextLong(100, 200));
         when(dao.getUniverse(anyLong())).thenReturn(universe);
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
     }
 
     @Test
@@ -86,7 +84,7 @@ public class WaitForUniverseSelectionTest {
     public void rePromptOnInvalidSelection() {
         connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
-        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn("");
+        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn("");
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -94,11 +92,11 @@ public class WaitForUniverseSelectionTest {
     }
 
     @Test
-    public void displayUnknownUniverseOnInvalidSelection () {
+    public void displayUnknownUniverseOnInvalidSelection() {
         String message = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
-        when(textMaker.getText(TextName.InvalidOption, locale, serverLocale)).thenReturn(message);
+        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn(message);
 
         stage.execute(connection, configuration);
 
