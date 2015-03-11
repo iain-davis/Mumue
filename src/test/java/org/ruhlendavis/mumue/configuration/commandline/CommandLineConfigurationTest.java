@@ -25,7 +25,7 @@ public class CommandLineConfigurationTest {
 
     @Test
     public void isTestReturnsFalse() {
-        CommandLine commandLine = setupCommandLine("anythin", "");
+        CommandLine commandLine = setupCommandLine("anything", "");
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLine);
         assertFalse(commandLineConfiguration.isTest());
     }

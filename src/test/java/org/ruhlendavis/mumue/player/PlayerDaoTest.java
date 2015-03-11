@@ -67,7 +67,6 @@ public class PlayerDaoTest {
     public void getPlayerReturnsPlayer() {
         String loginId = RandomStringUtils.randomAlphabetic(3);
         String password = RandomStringUtils.randomAlphabetic(4);
-        String name = RandomStringUtils.randomAlphabetic(17);
         insertPlayer(1, loginId, password);
 
         Player player = dao.getPlayer(loginId, password);

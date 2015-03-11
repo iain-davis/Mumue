@@ -7,7 +7,7 @@ public class ComponentIdManager {
 
     synchronized public long getNewComponentId(OnlineConfiguration configuration) {
         if (lastComponentId == null) {
-            lastComponentId = new Long(configuration.getLastComponentId());
+            lastComponentId = configuration.getLastComponentId();
         }
         lastComponentId++;
         return lastComponentId;
