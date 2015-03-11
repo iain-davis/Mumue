@@ -43,7 +43,7 @@ public class TextMakerTest {
     }
 
     @Test
-    public void performVariableReplacment() {
+    public void performVariableReplacement() {
         String locale = RandomStringUtils.randomAlphabetic(5);
         String textL = RandomStringUtils.randomAlphabetic(25);
         String textR = RandomStringUtils.randomAlphabetic(25);

@@ -42,7 +42,7 @@ public class ImporterTest {
         assertTrue(importer.getStages().get(index++).getClass().equals(ProcessComponentLinesStage.class));
         assertTrue(importer.getStages().get(index++).getClass().equals(ContentsChainStage.class));
         assertTrue(importer.getStages().get(index++).getClass().equals(LinkSourceChainStage.class));
-        assertTrue(importer.getStages().get(index++).getClass().equals(PlayerGenerationStage.class));
+        assertTrue(importer.getStages().get(index).getClass().equals(PlayerGenerationStage.class));
     }
 
     @Test

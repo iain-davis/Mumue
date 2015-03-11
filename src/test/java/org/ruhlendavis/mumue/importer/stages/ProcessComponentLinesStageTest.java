@@ -356,7 +356,6 @@ public class ProcessComponentLinesStageTest {
     @Test
     public void generateWithSpaceShouldNotSetDropTo() {
         Space space = new Space().withId(RandomUtils.nextLong(300, 400));
-        Space dropTo = new Space().withId(RandomUtils.nextLong(2, 100));
         ImportBucket bucket = setupTest(space, null, null, (GameCharacter)null);
         stage.run(bucket);
         assertNull(space.getDropTo());

@@ -32,7 +32,7 @@ public class CommandLineConfigurationTest {
 
     @Test
     public void startupConfigurationPathDefaults() {
-        CommandLine commandLine = setupCommandLine("anythin", "");
+        CommandLine commandLine = setupCommandLine("anything", "");
         CommandLineConfiguration commandLineConfiguration = new CommandLineConfiguration(commandLine);
         assertEquals(ConfigurationDefaults.CONFIGURATION_PATH, commandLineConfiguration.getStartupConfigurationPath());
     }
