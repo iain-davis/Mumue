@@ -38,7 +38,7 @@ public class DatabaseAccessorTest {
 
     @Test
     public void queryHandlesException() throws SQLException {
-        when(queryRunner.query(sql, rsh, foo)).thenThrow(SQLException.class);
+        when(queryRunner.query(sql, rsh, foo)).thenThrow(new SQLException());
 
         thrown.expect(RuntimeException.class);
 
@@ -53,7 +53,7 @@ public class DatabaseAccessorTest {
 
     @Test
     public void updateHandlesException() throws SQLException {
-        when(queryRunner.update(sql)).thenThrow(SQLException.class);
+        when(queryRunner.update(sql)).thenThrow(new SQLException());
 
         thrown.expect(RuntimeException.class);
 
@@ -68,7 +68,7 @@ public class DatabaseAccessorTest {
 
     @Test
     public void updateWithParameterHandlesException() throws SQLException {
-        when(queryRunner.update(eq(sql), argThat(myVarargMatcher(foo)))).thenThrow(SQLException.class);
+        when(queryRunner.update(eq(sql), argThat(myVarargMatcher(foo)))).thenThrow(new SQLException());
 
         thrown.expect(RuntimeException.class);
 
