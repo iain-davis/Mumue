@@ -102,7 +102,7 @@ public class StartupConfigurationFactoryTest {
     @Test
     public void createHandlesInputException() {
         when(file.isFile()).thenReturn(true);
-        when(fileInputStreamFactory.create(path)).thenThrow(IOException.class);
+        when(fileInputStreamFactory.create(path)).thenThrow(new IOException());
 
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while opening configuration properties file for input");
@@ -112,7 +112,7 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createHandlesOutputException() {
-        when(fileOutputStreamFactory.create(path)).thenThrow(IOException.class);
+        when(fileOutputStreamFactory.create(path)).thenThrow(new IOException());
 
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while opening configuration properties file for output");

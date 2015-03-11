@@ -8,6 +8,6 @@ public class AcceptorLoopRunnerBuilder {
 
     public InfiniteLoopRunner build(Configuration configuration, ConnectionManager connectionManager) {
         Acceptor acceptor = acceptorBuilder.build(configuration.getTelnetPort(), connectionManager, configuration);
-        return new InfiniteLoopRunner(configuration, acceptor);
+        return new InfiniteLoopRunner(acceptor);
     }
 }
