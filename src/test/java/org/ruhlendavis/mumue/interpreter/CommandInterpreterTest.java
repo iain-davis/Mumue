@@ -20,8 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import org.ruhlendavis.mumue.interpreter.commands.Command;
-import org.ruhlendavis.mumue.interpreter.commands.CommandPose;
 import org.ruhlendavis.mumue.interpreter.commands.CommandSay;
 
 public class CommandInterpreterTest {

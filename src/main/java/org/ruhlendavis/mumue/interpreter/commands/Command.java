@@ -1,6 +1,5 @@
 package org.ruhlendavis.mumue.interpreter.commands;
 
-import org.ruhlendavis.mumue.components.character.GameCharacter;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.connection.Connection;
 
