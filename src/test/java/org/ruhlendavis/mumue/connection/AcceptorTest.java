@@ -17,23 +17,23 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AcceptorTest {
-    private final ConnectionManager connectionManager = new ConnectionManager();
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
     @Mock Socket socket;
     @Mock Connection connection;
     @Mock Configuration configuration;
-
     @Mock ServerSocket serverSocket;
     @Mock SocketFactory socketFactory;
     @Mock ConnectionFactory connectionFactory;
+
+    private final ConnectionManager connectionManager = new ConnectionManager();
 
     @Before
     public void beforeEach() throws IOException {
