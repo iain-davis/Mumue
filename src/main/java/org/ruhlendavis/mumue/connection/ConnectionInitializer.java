@@ -3,6 +3,7 @@ package org.ruhlendavis.mumue.connection;
 import java.net.Socket;
 
 import org.ruhlendavis.mumue.configuration.Configuration;
+import org.ruhlendavis.mumue.text.transformer.ColorTransformer;
 import org.ruhlendavis.mumue.threading.InfiniteLoopRunnerStarter;
 import org.ruhlendavis.mumue.text.transformer.LineSeparatorTransformer;
 import org.ruhlendavis.mumue.text.transformer.TransformerEngine;
@@ -19,6 +20,7 @@ public class ConnectionInitializer {
 
         TransformerEngine transformerEngine = new TransformerEngine();
         transformerEngine.add(new LineSeparatorTransformer());
+        transformerEngine.add(new ColorTransformer());
 
         OutputSender outputSender = new OutputSender(socket, connection.getOutputQueue(), transformerEngine);
         infiniteLoopRunnerStarter.start(outputSender);

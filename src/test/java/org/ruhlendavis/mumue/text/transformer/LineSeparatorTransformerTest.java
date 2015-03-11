@@ -32,6 +32,16 @@ public class LineSeparatorTransformerTest {
     }
 
     @Test
+    public void transformWithTwoSlashNReturnsTextWithTwoNewlines() {
+        String before = RandomStringUtils.randomAlphanumeric(14);
+        String after = RandomStringUtils.randomAlphanumeric(3);
+        String input = before + "\\n\\n" + after;
+        String expected = before + "\n\n" + after;
+
+        assertThat(transformer.transform(input), equalTo(expected));
+    }
+
+    @Test
     public void transformWithSlashRReturnsTextWithCarriageReturn() {
         String before = RandomStringUtils.randomAlphanumeric(14);
         String after = RandomStringUtils.randomAlphanumeric(3);
