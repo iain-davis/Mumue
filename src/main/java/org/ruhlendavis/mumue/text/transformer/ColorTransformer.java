@@ -16,7 +16,7 @@ public class ColorTransformer implements TextTransformer {
             return removeColorCodes(input);
         }
 
-        for (Colors color : Colors.values()) {
+        for (Color color : Color.values()) {
             input = input.replace(color.getGlowCode(), prefix + color.getAnsiCode() + suffix);
         }
 

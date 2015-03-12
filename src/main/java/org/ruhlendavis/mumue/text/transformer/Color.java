@@ -1,6 +1,6 @@
 package org.ruhlendavis.mumue.text.transformer;
 
-public enum Colors {
+public enum Color {
     Reset                ("0",    "^NORMAL^"),
     BlackForeground      ("30",   "^BLACK^"),
     DarkRedForeground    ("31",   "^CRIMSON^"),
@@ -31,7 +31,7 @@ public enum Colors {
     private final String ansiCode;
     private final String glowName;
 
-    private Colors(String ansiCode, String glowName) {
+    private Color(String ansiCode, String glowName) {
         this.ansiCode = ansiCode;
         this.glowName = glowName;
     }

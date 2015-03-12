@@ -17,23 +17,23 @@ public class ColorTransformerTest {
     @Test
     public void replaceOneColorWithEscapeCodes() {
         transformer.setColorMode(ColorMode.AnsiColor);
-        String text = Colors.CyanForeground.getGlowCode();
+        String text = Color.CyanForeground.getGlowCode();
 
         String result = transformer.transform(text);
 
-        String expected = ColorTransformer.prefix + Colors.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
+        String expected = ColorTransformer.prefix + Color.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
         assertThat(result, equalTo(expected));
     }
 
     @Test
     public void replaceTwoIdenticalColorsWithEscapeCodes() {
         transformer.setColorMode(ColorMode.AnsiColor);
-        String text = Colors.CyanForeground.getGlowCode() + Colors.CyanForeground.getGlowCode();
+        String text = Color.CyanForeground.getGlowCode() + Color.CyanForeground.getGlowCode();
 
         String result = transformer.transform(text);
 
-        String first = ColorTransformer.prefix + Colors.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
-        String second = ColorTransformer.prefix + Colors.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
+        String first = ColorTransformer.prefix + Color.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
+        String second = ColorTransformer.prefix + Color.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
         String expected = first + second;
         assertThat(result, equalTo(expected));
     }
@@ -41,10 +41,10 @@ public class ColorTransformerTest {
     @Test
     public void replaceTwoColorsWithEscapeCodes() {
         transformer.setColorMode(ColorMode.AnsiColor);
-        String text = Colors.CyanForeground.getGlowCode() + Colors.DarkCyanForeground.getGlowCode();
+        String text = Color.CyanForeground.getGlowCode() + Color.DarkCyanForeground.getGlowCode();
 
-        String first = ColorTransformer.prefix + Colors.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
-        String second = ColorTransformer.prefix + Colors.DarkCyanForeground.getAnsiCode() + ColorTransformer.suffix;
+        String first = ColorTransformer.prefix + Color.CyanForeground.getAnsiCode() + ColorTransformer.suffix;
+        String second = ColorTransformer.prefix + Color.DarkCyanForeground.getAnsiCode() + ColorTransformer.suffix;
         String expected = first + second;
 
         String result = transformer.transform(text);
@@ -56,7 +56,7 @@ public class ColorTransformerTest {
     public void stripColorCodesWithColorNone() {
         transformer.setColorMode(ColorMode.None);
 
-        String text = Colors.CyanForeground.getGlowCode();
+        String text = Color.CyanForeground.getGlowCode();
 
         String result = transformer.transform(text);
 
