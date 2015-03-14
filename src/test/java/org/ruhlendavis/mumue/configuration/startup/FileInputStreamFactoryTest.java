@@ -16,8 +16,8 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 public class FileInputStreamFactoryTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
+    
     private final FileFactory fileFactory = new FileFactory();
     private final FileInputStreamFactory factory = new FileInputStreamFactory();
     private final FileOutputStreamFactory fileOutputStreamFactory = new FileOutputStreamFactory();
