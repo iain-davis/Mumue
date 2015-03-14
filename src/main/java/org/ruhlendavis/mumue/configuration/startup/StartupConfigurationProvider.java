@@ -7,10 +7,12 @@ import java.io.OutputStream;
 import java.util.Properties;
 import javax.inject.Inject;
 
+import com.google.inject.Provider;
+
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfiguration;
 
-public class StartupConfigurationProvider {
+public class StartupConfigurationProvider implements Provider<StartupConfiguration> {
     private final CommandLineConfiguration commandLineConfiguration;
 
     private Properties properties = new Properties();
@@ -31,6 +33,7 @@ public class StartupConfigurationProvider {
         this.fileOutputStreamFactory = fileOutputStreamFactory;
     }
 
+    @Override
     public StartupConfiguration get() {
         String path = commandLineConfiguration.getStartupConfigurationPath();
         StartupConfiguration startupConfiguration = new StartupConfiguration(properties);

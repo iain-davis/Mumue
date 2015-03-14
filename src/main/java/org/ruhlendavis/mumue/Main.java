@@ -8,6 +8,7 @@ import com.google.inject.Injector;
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.configuration.ConfigurationInitializer;
 import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfigurationModule;
+import org.ruhlendavis.mumue.configuration.startup.StartupConfigurationModule;
 import org.ruhlendavis.mumue.connection.AcceptorLoopRunnerBuilder;
 import org.ruhlendavis.mumue.connection.ConnectionManager;
 import org.ruhlendavis.mumue.database.DatabaseAccessorInitializer;
@@ -27,9 +28,12 @@ public class Main {
     private ConnectionManager connectionManager = new ConnectionManager();
 
     public static void main(String... arguments) {
-        Injector injector = Guice.createInjector(new CommandLineConfigurationModule(arguments));
+        Injector injector = Guice.createInjector(
+                new CommandLineConfigurationModule(arguments),
+                new StartupConfigurationModule()
+        );
         Main main = injector.getInstance(Main.class);
-        main.run(arguments);
+        main.run();
     }
 
     @Inject
@@ -37,7 +41,7 @@ public class Main {
         this.configurationInitializer = configurationInitializer;
     }
 
-    public void run(String... arguments) {
+    public void run() {
         Configuration configuration = configurationInitializer.initialize();
         queryRunnerInitializer.initialize(configuration);
         databaseAccessorInitializer.initialize();

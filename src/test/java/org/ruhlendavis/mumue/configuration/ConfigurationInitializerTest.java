@@ -40,12 +40,6 @@ public class ConfigurationInitializerTest {
     }
 
     @Test
-    public void useStartupConfigurationPathProvidedByCommandLineConfiguration() {
-        configurationInitializer.initialize();
-        verify(startupConfigurationProvider).get();
-    }
-
-    @Test
     public void initializeConfigurationUsingProvidedConfigurations() {
         Configuration configuration = configurationInitializer.initialize();
         assertNotNull(configuration);
