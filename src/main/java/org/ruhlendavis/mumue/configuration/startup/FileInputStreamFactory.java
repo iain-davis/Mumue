@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 
-public class FileInputStreamFactory {
+class FileInputStreamFactory {
     private FileFactory fileFactory = new FileFactory();
 
     public InputStream create(String path) {

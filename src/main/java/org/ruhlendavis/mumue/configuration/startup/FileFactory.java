@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 
-public class FileFactory {
+class FileFactory {
     public File create(String path) {
         return FileUtils.getFile(path);
     }
