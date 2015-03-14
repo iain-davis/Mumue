@@ -1,5 +1,6 @@
 package org.ruhlendavis.mumue.configuration.commandline;
 
+import com.google.inject.Provider;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -7,8 +8,19 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-public class CommandLineFactory {
-    public CommandLine create(String... arguments) {
+class CommandLineProvider implements Provider<CommandLine> {
+    private final String[] arguments;
+
+    public CommandLineProvider(String... arguments) {
+        this.arguments = arguments;
+    }
+
+    @Override
+    public CommandLine get() {
+        return create();
+    }
+
+    public CommandLine create() {
         Options options = new Options();
         options.addOption(getLongOption(CommandLineOptionName.TEST));
         options.addOption(getOptionWithArgument(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));

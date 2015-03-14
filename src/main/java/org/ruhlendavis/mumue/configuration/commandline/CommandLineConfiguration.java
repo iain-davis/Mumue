@@ -1,5 +1,7 @@
 package org.ruhlendavis.mumue.configuration.commandline;
 
+import javax.inject.Inject;
+
 import org.apache.commons.cli.CommandLine;
 
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
@@ -7,6 +9,7 @@ import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 public class CommandLineConfiguration {
     private final CommandLine commandLine;
 
+    @Inject
     public CommandLineConfiguration(CommandLine commandLine) {
         this.commandLine = commandLine;
     }

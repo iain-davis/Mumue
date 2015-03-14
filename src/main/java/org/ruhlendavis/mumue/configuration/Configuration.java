@@ -13,6 +13,7 @@ public class Configuration {
     public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration) {
         this(commandLineConfiguration, startupConfiguration, onlineConfiguration, new ComponentIdManager());
     }
+
     public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration, ComponentIdManager componentIdManager) {
         this.commandLineConfiguration = commandLineConfiguration;
         this.onlineConfiguration = onlineConfiguration;

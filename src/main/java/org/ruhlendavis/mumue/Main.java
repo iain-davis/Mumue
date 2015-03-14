@@ -1,7 +1,13 @@
 package org.ruhlendavis.mumue;
 
+import javax.inject.Inject;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import org.ruhlendavis.mumue.configuration.Configuration;
 import org.ruhlendavis.mumue.configuration.ConfigurationInitializer;
+import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfigurationModule;
 import org.ruhlendavis.mumue.connection.AcceptorLoopRunnerBuilder;
 import org.ruhlendavis.mumue.connection.ConnectionManager;
 import org.ruhlendavis.mumue.database.DatabaseAccessorInitializer;
@@ -11,7 +17,7 @@ import org.ruhlendavis.mumue.threading.InfiniteLoopRunner;
 import org.ruhlendavis.mumue.threading.ThreadFactory;
 
 public class Main {
-    private ConfigurationInitializer configurationInitializer = new ConfigurationInitializer();
+    private final ConfigurationInitializer configurationInitializer;
     private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
     private DatabaseAccessorInitializer databaseAccessorInitializer = new DatabaseAccessorInitializer();
     private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
@@ -21,12 +27,18 @@ public class Main {
     private ConnectionManager connectionManager = new ConnectionManager();
 
     public static void main(String... arguments) {
-        Main main = new Main();
+        Injector injector = Guice.createInjector(new CommandLineConfigurationModule(arguments));
+        Main main = injector.getInstance(Main.class);
         main.run(arguments);
     }
 
+    @Inject
+    public Main(ConfigurationInitializer configurationInitializer) {//, QueryRunnerInitializer queryRunnerInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory, ConnectionManager connectionManager) {
+        this.configurationInitializer = configurationInitializer;
+    }
+
     public void run(String... arguments) {
-        Configuration configuration = configurationInitializer.initialize(arguments);
+        Configuration configuration = configurationInitializer.initialize();
         queryRunnerInitializer.initialize(configuration);
         databaseAccessorInitializer.initialize();
         databaseInitializer.initialize();
