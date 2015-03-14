@@ -1,3 +1,4 @@
+- Need to save the most recent component id.
 - Redesign so that TextMaker gets with parameters are testable
 - Reconsider TextMaker's API
 - Target not found message requires a parameter (directed say)
