@@ -30,8 +30,4 @@ public class ColorTransformer implements TextTransformer {
     public void setColorMode(ColorMode colorMode) {
         this.colorMode = colorMode;
     }
-
-    public ColorMode getColorMode() {
-        return colorMode;
-    }
 }
