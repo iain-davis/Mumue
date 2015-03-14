@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,40 +22,40 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 
-@RunWith(MockitoJUnitRunner.class)
 public class StartupConfigurationFactoryTest {
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
-
-    private final String path = RandomStringUtils.randomAlphabetic(13);
 
     @Mock File file;
     @Mock Properties properties;
     @Mock InputStream input;
     @Mock OutputStream output;
-
     @Mock FileFactory fileFactory;
+
     @Mock FileInputStreamFactory fileInputStreamFactory;
     @Mock FileOutputStreamFactory fileOutputStreamFactory;
-
     @InjectMocks StartupConfigurationFactory startupConfigurationFactory;
+
+    private final String path = RandomStringUtils.randomAlphabetic(13);
 
     @Before
     public void beforeEach() {
         when(fileFactory.create(path)).thenReturn(file);
+        when(fileInputStreamFactory.create(path)).thenReturn(input);
+        when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
         when(properties.getProperty(anyString())).thenCallRealMethod();
         when(properties.setProperty(anyString(), anyString())).thenCallRealMethod();
     }
 
     @Test
     public void createReturnsStartupConfiguration() throws IOException {
-        when(fileInputStreamFactory.create(path)).thenReturn(input);
         doNothing().when(properties).load(input);
         when(file.isFile()).thenReturn(true);
 
@@ -66,7 +67,6 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createLoadsConfiguration() throws IOException {
-        when(fileInputStreamFactory.create(path)).thenReturn(input);
         doNothing().when(properties).load(input);
         when(file.isFile()).thenReturn(true);
 
@@ -77,7 +77,6 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createSavesConfigurationWhenFileDoesNotExist() throws URISyntaxException, IOException {
-        when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
         doNothing().when(properties).store(output, path);
 
         startupConfigurationFactory.create(path);
@@ -88,7 +87,6 @@ public class StartupConfigurationFactoryTest {
 
     @Test
     public void createSetsDefaultPropertiesWhenFileDoesNotExist() throws URISyntaxException, IOException {
-        when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
         doNothing().when(properties).store(output, path);
 
         startupConfigurationFactory.create(path);
@@ -100,9 +98,9 @@ public class StartupConfigurationFactoryTest {
     }
 
     @Test
-    public void createHandlesInputException() {
+    public void createHandlesInputException() throws IOException {
         when(file.isFile()).thenReturn(true);
-        when(fileInputStreamFactory.create(path)).thenThrow(new IOException());
+        doThrow(new IOException()).when(properties).load(input);
 
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while opening configuration properties file for input");
@@ -111,8 +109,8 @@ public class StartupConfigurationFactoryTest {
     }
 
     @Test
-    public void createHandlesOutputException() {
-        when(fileOutputStreamFactory.create(path)).thenThrow(new IOException());
+    public void createHandlesOutputException() throws IOException {
+        doThrow(new IOException()).when(properties).store(output, "");
 
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while opening configuration properties file for output");
