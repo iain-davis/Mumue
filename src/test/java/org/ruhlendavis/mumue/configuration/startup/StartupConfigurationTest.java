@@ -12,9 +12,8 @@ import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 public class StartupConfigurationTest {
     @Test
     public void getPortReturnsPortProperty() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        startupConfiguration.setProperties(properties);
+        StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
         String port = RandomStringUtils.randomNumeric(4);
         properties.setProperty(StartupConfigurationOptionName.TELNET_PORT, port);
 
@@ -23,15 +22,15 @@ public class StartupConfigurationTest {
 
     @Test
     public void getPortReturnsDefaultPort() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration(new Properties());
         assertEquals(ConfigurationDefaults.TELNET_PORT, startupConfiguration.getTelnetPort());
     }
 
     @Test
     public void getDatabasePathReturnsDatabasePath() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        startupConfiguration.setProperties(properties);
+        StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
+
         String path = RandomStringUtils.randomAlphabetic(17);
         properties.setProperty(StartupConfigurationOptionName.DATABASE_PATH, path);
 
@@ -40,15 +39,15 @@ public class StartupConfigurationTest {
 
     @Test
     public void getDatabasePathReturnsDefaultDatabasePath() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration(new Properties());
         assertEquals(ConfigurationDefaults.DATABASE_PATH, startupConfiguration.getDatabasePath());
     }
 
     @Test
     public void getDatabaseUsernameReturnsDatabaseUsername() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        startupConfiguration.setProperties(properties);
+        StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
+
         String username = RandomStringUtils.randomAlphabetic(17);
         properties.setProperty(StartupConfigurationOptionName.DATABASE_USERNAME, username);
 
@@ -57,15 +56,15 @@ public class StartupConfigurationTest {
 
     @Test
     public void getDatabaseUsernameReturnsDefaultDatabaseUsername() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration(new Properties());
         assertEquals(ConfigurationDefaults.DATABASE_USERNAME, startupConfiguration.getDatabaseUsername());
     }
 
     @Test
     public void getDatabaseUsernameReturnsDatabasePassword() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
         Properties properties = new Properties();
-        startupConfiguration.setProperties(properties);
+        StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
+
         String password = RandomStringUtils.randomAlphabetic(17);
         properties.setProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, password);
 
@@ -74,7 +73,7 @@ public class StartupConfigurationTest {
 
     @Test
     public void getDatabasePasswordReturnsDefaultDatabasePassword() {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
+        StartupConfiguration startupConfiguration = new StartupConfiguration(new Properties());
         assertEquals(ConfigurationDefaults.DATABASE_PASSWORD, startupConfiguration.getDatabasePassword());
     }
 }

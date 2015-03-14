@@ -15,8 +15,7 @@ public class StartupConfigurationFactory {
     private FileOutputStreamFactory fileOutputStreamFactory = new FileOutputStreamFactory();
 
     public StartupConfiguration create(String path) {
-        StartupConfiguration startupConfiguration = new StartupConfiguration();
-        startupConfiguration.setProperties(properties);
+        StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
         File file = fileFactory.create(path);
         if (file.isFile()) {
             loadStartupConfiguration(path, properties);

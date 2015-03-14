@@ -5,7 +5,11 @@ import java.util.Properties;
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 
 public class StartupConfiguration {
-    private Properties properties = new Properties();
+    private final Properties properties;
+
+    public StartupConfiguration(Properties properties) {
+        this.properties = properties;
+    }
 
     public int getTelnetPort() {
         String port = properties.getProperty(StartupConfigurationOptionName.TELNET_PORT, String.valueOf(ConfigurationDefaults.TELNET_PORT));
@@ -22,9 +26,5 @@ public class StartupConfiguration {
 
     public String getDatabasePassword() {
         return properties.getProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, ConfigurationDefaults.DATABASE_PASSWORD);
-    }
-
-    public void setProperties(Properties properties) {
-        this.properties = properties;
     }
 }
