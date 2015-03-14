@@ -2,8 +2,11 @@ package org.ruhlendavis.mumue.configuration.startup;
 
 import java.util.Properties;
 
+import javax.inject.Singleton;
+
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 
+@Singleton
 public class StartupConfiguration {
     private final Properties properties;
 
