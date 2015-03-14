@@ -18,7 +18,7 @@ public class CommandLineProviderTest {
     @Test
     public void supportTestOption() {
         CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.TEST));
-        CommandLine commandLine = commandLineProvider.create();
+        CommandLine commandLine = commandLineProvider.get();
 
         assertTrue(commandLine.hasOption(CommandLineOptionName.TEST));
     }
@@ -28,7 +28,7 @@ public class CommandLineProviderTest {
         String path = RandomStringUtils.randomAlphabetic(13);
         CommandLineProvider commandLineProvider = new CommandLineProvider("-s", path);
 
-        CommandLine commandLine = commandLineProvider.create();
+        CommandLine commandLine = commandLineProvider.get();
 
         assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
@@ -38,7 +38,7 @@ public class CommandLineProviderTest {
         String path = RandomStringUtils.randomAlphabetic(13);
         CommandLineProvider commandLineProvider = new CommandLineProvider(getSwitch(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), path);
 
-        CommandLine commandLine = commandLineProvider.create();
+        CommandLine commandLine = commandLineProvider.get();
 
         assertThat(commandLine.getOptionValue(CommandLineOptionName.STARTUP_CONFIGURATION_PATH), equalTo(path));
     }
@@ -50,7 +50,7 @@ public class CommandLineProviderTest {
         thrown.expect(RuntimeException.class);
         thrown.expectCause(instanceOf(MissingArgumentException.class));
 
-        commandLineProvider.create();
+        commandLineProvider.get();
     }
 
     private String getSwitch(String option) {

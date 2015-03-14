@@ -17,10 +17,6 @@ class CommandLineProvider implements Provider<CommandLine> {
 
     @Override
     public CommandLine get() {
-        return create();
-    }
-
-    public CommandLine create() {
         Options options = new Options();
         options.addOption(getLongOption(CommandLineOptionName.TEST));
         options.addOption(getOptionWithArgument(CommandLineOptionName.STARTUP_CONFIGURATION_PATH));
