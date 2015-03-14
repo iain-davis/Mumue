@@ -11,7 +11,7 @@ class FileInputStreamFactory {
         try {
             return FileUtils.openInputStream(FileUtils.getFile(file));
         } catch (IOException exception) {
-            throw new RuntimeException("Exception while creating file input stream", exception);
+            throw new RuntimeException("Exception while creating file input stream for path '" + file.getPath() + "'", exception);
         }
     }
 }

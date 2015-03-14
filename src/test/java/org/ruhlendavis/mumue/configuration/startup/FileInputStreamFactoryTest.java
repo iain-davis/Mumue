@@ -39,7 +39,7 @@ public class FileInputStreamFactoryTest {
         File file = fileFactory.create("*");
 
         thrown.expect(RuntimeException.class);
-        thrown.expectMessage("Exception while creating file input stream");
+        thrown.expectMessage("Exception while creating file input stream for path '*'");
 
         factory.create(file);
     }
