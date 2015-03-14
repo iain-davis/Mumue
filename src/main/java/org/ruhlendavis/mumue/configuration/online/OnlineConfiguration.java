@@ -1,11 +1,18 @@
 package org.ruhlendavis.mumue.configuration.online;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang3.StringUtils;
 
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 
 public class OnlineConfiguration {
-    private OnlineConfigurationDao dao = new OnlineConfigurationDao();
+    private final OnlineConfigurationDao dao;
+
+    @Inject
+    public OnlineConfiguration(OnlineConfigurationDao dao) {
+        this.dao = dao;
+    }
 
     public String getServerLocale() {
         String value = dao.getConfigurationOption(OnlineConfigurationOptionName.SERVER_LOCALE);
