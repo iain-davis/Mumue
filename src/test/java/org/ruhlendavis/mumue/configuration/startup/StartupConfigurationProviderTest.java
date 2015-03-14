@@ -52,7 +52,7 @@ public class StartupConfigurationProviderTest {
         when(commandLineConfiguration.getStartupConfigurationPath()).thenReturn(path);
         when(fileFactory.create(path)).thenReturn(file);
         when(fileInputStreamFactory.create(file)).thenReturn(input);
-        when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
+        when(fileOutputStreamFactory.create(file)).thenReturn(output);
         when(properties.getProperty(anyString())).thenCallRealMethod();
         when(properties.setProperty(anyString(), anyString())).thenCallRealMethod();
     }
@@ -80,11 +80,11 @@ public class StartupConfigurationProviderTest {
 
     @Test
     public void createSavesConfigurationWhenFileDoesNotExist() throws URISyntaxException, IOException {
-        doNothing().when(properties).store(output, path);
+        doNothing().when(properties).store(output, "");
 
         startupConfigurationProvider.get();
 
-        verify(fileOutputStreamFactory).create(path);
+        verify(fileOutputStreamFactory).create(file);
         verify(properties).store(output, "");
     }
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
-
 import javax.inject.Inject;
 
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
@@ -40,7 +39,7 @@ public class StartupConfigurationProvider {
             loadStartupConfiguration(file, properties);
         } else {
             setStartupConfigurationDefaults(properties);
-            writeStartupConfiguration(path, properties);
+            writeStartupConfiguration(file, properties);
         }
         return startupConfiguration;
     }
@@ -54,9 +53,9 @@ public class StartupConfigurationProvider {
         }
     }
 
-    private void writeStartupConfiguration(String path, Properties properties) {
+    private void writeStartupConfiguration(File file, Properties properties) {
         try {
-            OutputStream output = fileOutputStreamFactory.create(path);
+            OutputStream output = fileOutputStreamFactory.create(file);
             properties.store(output, "");
         } catch (IOException exception) {
             throw new RuntimeException("Exception while opening configuration properties file for output", exception);
