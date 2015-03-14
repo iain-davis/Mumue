@@ -2,6 +2,7 @@ package org.ruhlendavis.mumue.configuration.startup;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -11,20 +12,22 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
-@RunWith(MockitoJUnitRunner.class)
 public class FileInputStreamFactoryTest {
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
+    private final FileFactory fileFactory = new FileFactory();
     private final FileInputStreamFactory factory = new FileInputStreamFactory();
     private final FileOutputStreamFactory fileOutputStreamFactory = new FileOutputStreamFactory();
 
     @Test
-    public void createInputStreamCreatesStream() {
+    public void createStream() {
         String path = RandomStringUtils.randomAlphabetic(13);
+        File file = fileFactory.create(path);
         OutputStream output = fileOutputStreamFactory.create(path);
-        InputStream input = factory.create(path);
+        InputStream input = factory.create(file);
         assertNotNull(input);
         IOUtils.closeQuietly(input);
         IOUtils.closeQuietly(output);
@@ -32,9 +35,12 @@ public class FileInputStreamFactoryTest {
     }
 
     @Test
-    public void createInputStreamHandlesException() {
+    public void handleIOException() {
+        File file = fileFactory.create("*");
+
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while creating file input stream");
-        factory.create("*");
+
+        factory.create(file);
     }
 }

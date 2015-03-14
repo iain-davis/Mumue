@@ -6,19 +6,38 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
+import javax.inject.Inject;
 
-public class StartupConfigurationFactory {
+import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
+import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfiguration;
+
+public class StartupConfigurationProvider {
+    private final CommandLineConfiguration commandLineConfiguration;
+
     private Properties properties = new Properties();
     private FileFactory fileFactory = new FileFactory();
     private FileInputStreamFactory fileInputStreamFactory = new FileInputStreamFactory();
     private FileOutputStreamFactory fileOutputStreamFactory = new FileOutputStreamFactory();
 
-    public StartupConfiguration create(String path) {
+    @Inject
+    public StartupConfigurationProvider(CommandLineConfiguration commandLineConfiguration) {
+        this.commandLineConfiguration = commandLineConfiguration;
+    }
+
+    public StartupConfigurationProvider(CommandLineConfiguration commandLineConfiguration, Properties properties, FileFactory fileFactory, FileInputStreamFactory fileInputStreamFactory, FileOutputStreamFactory fileOutputStreamFactory) {
+        this.commandLineConfiguration = commandLineConfiguration;
+        this.properties = properties;
+        this.fileFactory = fileFactory;
+        this.fileInputStreamFactory = fileInputStreamFactory;
+        this.fileOutputStreamFactory = fileOutputStreamFactory;
+    }
+
+    public StartupConfiguration get() {
+        String path = commandLineConfiguration.getStartupConfigurationPath();
         StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
         File file = fileFactory.create(path);
         if (file.isFile()) {
-            loadStartupConfiguration(path, properties);
+            loadStartupConfiguration(file, properties);
         } else {
             setStartupConfigurationDefaults(properties);
             writeStartupConfiguration(path, properties);
@@ -26,9 +45,9 @@ public class StartupConfigurationFactory {
         return startupConfiguration;
     }
 
-    private void loadStartupConfiguration(String path, Properties properties) {
+    private void loadStartupConfiguration(File file, Properties properties) {
         try {
-            InputStream input = fileInputStreamFactory.create(path);
+            InputStream input = fileInputStreamFactory.create(file);
             properties.load(input);
         } catch (IOException exception) {
             throw new RuntimeException("Exception while opening configuration properties file for input", exception);

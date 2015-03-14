@@ -28,12 +28,14 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
+import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfiguration;
 
-public class StartupConfigurationFactoryTest {
+public class StartupConfigurationProviderTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
 
     @Mock File file;
+    @Mock CommandLineConfiguration commandLineConfiguration;
     @Mock Properties properties;
     @Mock InputStream input;
     @Mock OutputStream output;
@@ -41,14 +43,15 @@ public class StartupConfigurationFactoryTest {
 
     @Mock FileInputStreamFactory fileInputStreamFactory;
     @Mock FileOutputStreamFactory fileOutputStreamFactory;
-    @InjectMocks StartupConfigurationFactory startupConfigurationFactory;
+    @InjectMocks StartupConfigurationProvider startupConfigurationProvider;
 
     private final String path = RandomStringUtils.randomAlphabetic(13);
 
     @Before
     public void beforeEach() {
+        when(commandLineConfiguration.getStartupConfigurationPath()).thenReturn(path);
         when(fileFactory.create(path)).thenReturn(file);
-        when(fileInputStreamFactory.create(path)).thenReturn(input);
+        when(fileInputStreamFactory.create(file)).thenReturn(input);
         when(fileOutputStreamFactory.create(anyString())).thenReturn(output);
         when(properties.getProperty(anyString())).thenCallRealMethod();
         when(properties.setProperty(anyString(), anyString())).thenCallRealMethod();
@@ -59,7 +62,7 @@ public class StartupConfigurationFactoryTest {
         doNothing().when(properties).load(input);
         when(file.isFile()).thenReturn(true);
 
-        StartupConfiguration startupConfiguration = startupConfigurationFactory.create(path);
+        StartupConfiguration startupConfiguration = startupConfigurationProvider.get();
 
         assertNotNull(startupConfiguration);
         assertThat(startupConfiguration, is(instanceOf(StartupConfiguration.class)));
@@ -70,7 +73,7 @@ public class StartupConfigurationFactoryTest {
         doNothing().when(properties).load(input);
         when(file.isFile()).thenReturn(true);
 
-        startupConfigurationFactory.create(path);
+        startupConfigurationProvider.get();
 
         verify(properties).load(input);
     }
@@ -79,7 +82,7 @@ public class StartupConfigurationFactoryTest {
     public void createSavesConfigurationWhenFileDoesNotExist() throws URISyntaxException, IOException {
         doNothing().when(properties).store(output, path);
 
-        startupConfigurationFactory.create(path);
+        startupConfigurationProvider.get();
 
         verify(fileOutputStreamFactory).create(path);
         verify(properties).store(output, "");
@@ -89,7 +92,7 @@ public class StartupConfigurationFactoryTest {
     public void createSetsDefaultPropertiesWhenFileDoesNotExist() throws URISyntaxException, IOException {
         doNothing().when(properties).store(output, path);
 
-        startupConfigurationFactory.create(path);
+        startupConfigurationProvider.get();
 
         verify(properties).setProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, ConfigurationDefaults.DATABASE_PASSWORD);
         verify(properties).setProperty(StartupConfigurationOptionName.DATABASE_PATH, ConfigurationDefaults.DATABASE_PATH);
@@ -105,7 +108,7 @@ public class StartupConfigurationFactoryTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while opening configuration properties file for input");
 
-        startupConfigurationFactory.create(path);
+        startupConfigurationProvider.get();
     }
 
     @Test
@@ -115,6 +118,6 @@ public class StartupConfigurationFactoryTest {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Exception while opening configuration properties file for output");
 
-        startupConfigurationFactory.create(path);
+        startupConfigurationProvider.get();
     }
 }

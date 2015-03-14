@@ -17,6 +17,7 @@ public class FileFactoryTest {
         FileFactory fileFactory = new FileFactory();
         String path = Resources.getResource(TestConstants.TEST_CONFIGURATION_FILE_PATH).toURI().getPath();
         File file = fileFactory.create(path);
+
         assertEquals(ConfigurationDefaults.CONFIGURATION_PATH, file.getName());
     }
 }

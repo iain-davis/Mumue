@@ -2,7 +2,6 @@ package org.ruhlendavis.mumue.configuration;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,7 +17,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.mumue.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.mumue.configuration.startup.StartupConfiguration;
-import org.ruhlendavis.mumue.configuration.startup.StartupConfigurationFactory;
+import org.ruhlendavis.mumue.configuration.startup.StartupConfigurationProvider;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfigurationInitializerTest {
@@ -28,7 +27,7 @@ public class ConfigurationInitializerTest {
     @Mock StartupConfiguration startupConfiguration;
     @Mock Configuration configuration;
 
-    @Mock StartupConfigurationFactory startupConfigurationFactory;
+    @Mock StartupConfigurationProvider startupConfigurationProvider;
     @Mock ConfigurationProvider configurationProvider;
 
     @InjectMocks ConfigurationInitializer configurationInitializer;
@@ -36,14 +35,14 @@ public class ConfigurationInitializerTest {
     @Before
     public void beforeEach() {
         when(commandLineConfiguration.getStartupConfigurationPath()).thenReturn(startupConfigurationPath);
-        when(startupConfigurationFactory.create(anyString())).thenReturn(startupConfiguration);
+        when(startupConfigurationProvider.get()).thenReturn(startupConfiguration);
         when(configurationProvider.create(eq(commandLineConfiguration), eq(startupConfiguration), any(OnlineConfiguration.class))).thenReturn(configuration);
     }
 
     @Test
     public void useStartupConfigurationPathProvidedByCommandLineConfiguration() {
         configurationInitializer.initialize();
-        verify(startupConfigurationFactory).create(startupConfigurationPath);
+        verify(startupConfigurationProvider).get();
     }
 
     @Test
