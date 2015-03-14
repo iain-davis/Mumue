@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ruhlendavis.mumue.database.DatabaseAccessor;
 import org.ruhlendavis.mumue.database.DatabaseAccessorProvider;
 
-public class OnlineConfigurationDao {
+class OnlineConfigurationDao {
     private static final String CONFIGURATION_OPTION_QUERY = "select value from configuration_options where name = ?";
     private static final String CONFIGURATION_OPTION_VALUE_COLUMN = "value";
 
