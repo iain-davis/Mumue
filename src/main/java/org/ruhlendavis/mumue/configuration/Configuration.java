@@ -1,15 +1,20 @@
 package org.ruhlendavis.mumue.configuration;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.ruhlendavis.mumue.configuration.commandline.CommandLineConfiguration;
 import org.ruhlendavis.mumue.configuration.online.OnlineConfiguration;
 import org.ruhlendavis.mumue.configuration.startup.StartupConfiguration;
 
+@Singleton
 public class Configuration {
     private final CommandLineConfiguration commandLineConfiguration;
     private final OnlineConfiguration onlineConfiguration;
     private final StartupConfiguration startupConfiguration;
     private final ComponentIdManager componentIdManager;
 
+    @Inject
     public Configuration(CommandLineConfiguration commandLineConfiguration, StartupConfiguration startupConfiguration, OnlineConfiguration onlineConfiguration) {
         this(commandLineConfiguration, startupConfiguration, onlineConfiguration, new ComponentIdManager());
     }

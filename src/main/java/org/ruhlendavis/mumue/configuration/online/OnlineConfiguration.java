@@ -1,11 +1,13 @@
 package org.ruhlendavis.mumue.configuration.online;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 
 import org.ruhlendavis.mumue.configuration.ConfigurationDefaults;
 
+@Singleton
 public class OnlineConfiguration {
     private final OnlineConfigurationDao dao;
 
