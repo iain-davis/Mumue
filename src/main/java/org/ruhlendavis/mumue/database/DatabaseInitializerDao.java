@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 public class DatabaseInitializerDao {
     public boolean hasSchema() {
         DatabaseAccessor database = DatabaseAccessorProvider.get();
-        ResultSetHandler resultSetHandler = new ScalarHandler<>(1);
-        long found = (long) database.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, resultSetHandler);
+        ResultSetHandler<Long> resultSetHandler = new ScalarHandler<>(1);
+        long found = database.query(SqlConstants.CHECK_CONFIGURATION_TABLE_EXISTENCE, resultSetHandler);
         return found != 0;
     }
 
