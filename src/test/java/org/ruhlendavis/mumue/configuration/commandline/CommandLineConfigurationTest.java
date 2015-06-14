@@ -4,11 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -49,13 +45,17 @@ public class CommandLineConfigurationTest {
         boolean argumentRequired = StringUtils.isNotBlank(optionValue);
         Options options = new Options();
 
-        options.addOption(optionName, argumentRequired, "");
-        CommandLineParser parser = new BasicParser();
+        if (optionName.length() == 1) {
+            options.addOption(optionName, argumentRequired, "");
+        } else {
+            options.addOption(optionName.substring(0, 1), optionName, argumentRequired, "");
+        }
+
+        CommandLineParser parser = new DefaultParser();
         try {
             return parser.parse(options, new String[]{"--" + optionName, optionValue});
         } catch (ParseException exception) {
-            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
-        return null;
     }
 }
