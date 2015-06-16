@@ -1,56 +1,30 @@
 package org.mumue.mumue;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Test;
+
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class MainTest {
-//    @Mock Configuration configuration;
-//    @Mock InfiniteLoopRunner acceptorLoop;
-//
-//    @Mock ConfigurationInitializer configurationInitializer;
-//    @Mock QueryRunnerInitializer queryRunnerInitializer;
-//    @Mock DatabaseInitializer databaseInitializer;
-//    @Mock DatabaseAccessorInitializer databaseAccessorInitializer;
-//    @Mock AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
-//
-//    @InjectMocks Main main;
-//
-//    @Before
-//    public void beforeEach() throws URISyntaxException {
-//        when(configurationInitializer.initialize(anyVararg())).thenReturn(configuration);
-//        when(configuration.isTest()).thenReturn(true);
-//        when(acceptorLoopRunnerBuilder.build(eq(configuration), any(ConnectionManager.class))).thenReturn(acceptorLoop);
-//        when(acceptorLoop.isRunning()).thenReturn(true);
-//    }
-//
-//    @Test
-//    public void initializeConfiguration() {
-//        main.run();
-//        verify(configurationInitializer).initialize();
-//    }
-//
-//    @Test
-//    public void initializeQueryRunner() {
-//        main.run();
-//        verify(queryRunnerInitializer).initialize(configuration);
-//    }
-//
-//    @Test
-//    public void initializeDatabaseAccessor() {
-//        main.run();
-//        verify(databaseAccessorInitializer).initialize();
-//    }
-//
-//    @Test
-//    public void initializeDatabase() {
-//        main.run();
-//        verify(databaseInitializer).initialize();
-//    }
-//
-//    @Test
-//    public void buildConnectionAcceptorLoopRunner() {
-//        main.run();
-//        verify(acceptorLoopRunnerBuilder).build(eq(configuration), any(ConnectionManager.class));
-//    }
+    @Test
+    public void mainLaunchesApplication() {
+        Launcher launcher = mock(Launcher.class);
+        Main.setLauncher(launcher);
+
+        Main.main();
+
+        verify(launcher).launch();
+    }
+
+    @Test
+    public void mainPassesArgumentsAlong() {
+        String[] arguments = {RandomStringUtils.randomAlphabetic(7), RandomStringUtils.randomAlphabetic(8), "--test"};
+        Launcher launcher = mock(Launcher.class);
+        Main.setLauncher(launcher);
+
+        Main.main(arguments);
+
+        verify(launcher).launch(arguments);
+    }
 }
