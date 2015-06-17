@@ -1,58 +1,74 @@
 package org.mumue.mumue.components;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ComponentResultSetProcessorTest {
-    private final String name = RandomStringUtils.randomAlphabetic(17);
-    private final String description = RandomStringUtils.randomAlphabetic(17);
-    private final Component component = new Component() {
-    };
+    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+    private final Instant instant = Instant.EPOCH;
+    private final long useCount = RandomUtils.nextLong(100, 200);
+    private final long id = RandomUtils.nextLong(200, 1000);
 
     @Mock ResultSet resultSet;
-    @Mock ComponentBaseResultSetProcessor componentBaseProcessor;
-    @InjectMocks ComponentResultSetProcessor processor;
+    private final Component timestampAble = new Component() {};
+    private final ComponentResultSetProcessor processor = new ComponentResultSetProcessor() {};
 
     @Before
     public void beforeEach() throws SQLException {
-        when(resultSet.getString("name")).thenReturn(name);
-        when(resultSet.getString("description")).thenReturn(description);
+        Timestamp timestamp = Timestamp.from(instant);
+        when(resultSet.getLong("id")).thenReturn(id);
+        when(resultSet.getTimestamp("created")).thenReturn(timestamp);
+        when(resultSet.getTimestamp("lastModified")).thenReturn(timestamp);
+        when(resultSet.getTimestamp("lastUsed")).thenReturn(timestamp);
+        when(resultSet.getLong("useCount")).thenReturn(useCount);
     }
 
     @Test
-    public void convertName() throws SQLException {
-        processor.process(resultSet, component);
+    public void convertId() throws SQLException {
+        processor.process(resultSet, timestampAble);
 
-        assertThat(component.getName(), equalTo(name));
+        assertThat(timestampAble.getId(), equalTo(id));
     }
 
     @Test
-    public void convertDescription() throws SQLException {
-        processor.process(resultSet, component);
+    public void convertCreated() throws SQLException {
+        processor.process(resultSet, timestampAble);
 
-        assertThat(component.getDescription(), equalTo(description));
+        assertThat(timestampAble.getCreated(), equalTo(instant));
     }
 
     @Test
-    public void convertTimestamps() throws SQLException {
-        processor.process(resultSet, component);
+    public void convertLastModified() throws SQLException {
+        processor.process(resultSet, timestampAble);
 
-        verify(componentBaseProcessor).process(eq(resultSet), any(Component.class));
+        assertThat(timestampAble.getLastModified(), equalTo(instant));
+    }
+
+    @Test
+    public void convertLastUsed() throws SQLException {
+        processor.process(resultSet, timestampAble);
+
+        assertThat(timestampAble.getLastUsed(), equalTo(instant));
+    }
+
+    @Test
+    public void convertUseCount() throws SQLException {
+        processor.process(resultSet, timestampAble);
+
+        assertThat(timestampAble.getUseCount(), equalTo(useCount));
     }
 }

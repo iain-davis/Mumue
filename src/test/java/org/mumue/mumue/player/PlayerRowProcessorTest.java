@@ -21,12 +21,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.mumue.mumue.components.ComponentBaseResultSetProcessor;
+import org.mumue.mumue.components.ComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerRowProcessorTest {
     @Mock ResultSet resultSet;
-    @Mock ComponentBaseResultSetProcessor resultSetProcessor;
+    @Mock ComponentResultSetProcessor resultSetProcessor;
     @InjectMocks PlayerRowProcessor processor;
 
     @Test

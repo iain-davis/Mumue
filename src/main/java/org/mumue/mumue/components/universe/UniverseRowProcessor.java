@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
 
-import org.mumue.mumue.components.ComponentResultSetProcessor;
+import org.mumue.mumue.components.NameableComponentResultSetProcessor;
 
 public class UniverseRowProcessor extends BasicRowProcessor {
-    private ComponentResultSetProcessor processor = new ComponentResultSetProcessor();
+    private NameableComponentResultSetProcessor processor = new NameableComponentResultSetProcessor();
 
     @Override
     public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {

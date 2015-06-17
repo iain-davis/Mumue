@@ -18,12 +18,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import org.mumue.mumue.components.ComponentResultSetProcessor;
+import org.mumue.mumue.components.NameableComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UniverseRowProcessorTest {
     @Mock ResultSet resultSet;
-    @Mock ComponentResultSetProcessor componentProcessor;
+    @Mock NameableComponentResultSetProcessor componentProcessor;
     @InjectMocks UniverseRowProcessor processor;
 
     @Test

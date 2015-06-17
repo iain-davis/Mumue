@@ -1,8 +1,8 @@
 package org.mumue.mumue.player;
 
-import org.mumue.mumue.components.ComponentBase;
+import org.mumue.mumue.components.Component;
 
-public class Player extends ComponentBase {
+public class Player extends Component {
     String loginId = "";
     String locale = "";
     boolean administrator = false;
