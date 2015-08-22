@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mumue.mumue.Main;
-import org.mumue.mumue.acceptance.TelnetCallable;
+import org.mumue.mumue.acceptance.MumueRunner;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.configuration.commandline.CommandLineOptionName;
 
@@ -14,13 +14,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
 public class StartupAcceptanceTest {
     @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    private final MumueRunner mumueRunner = new MumueRunner();
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(4);
 
     @After
@@ -31,18 +33,9 @@ public class StartupAcceptanceTest {
     @Test
     public void useDefaultTelnetPort() {
         Runnable mumue = Main::main;
-        Callable<String> telnet = new TelnetCallable(9998);
+        mumueRunner.runMumue(mumue, 9998);
 
-        Future<?> mumueFuture = executorService.submit(mumue);
-        Future<String> telnetOutput = executorService.schedule(telnet, 4, TimeUnit.SECONDS);
-        Runnable killer = () -> {
-            mumueFuture.cancel(true);
-            telnetOutput.cancel(true);
-        };
-
-        executorService.schedule(killer, 10, TimeUnit.SECONDS);
-
-        assertThat(getText(telnetOutput), containsString("Welcome to Mumue!"));
+        assertThat(mumueRunner.getOutput(), containsString("Welcome to Mumue!"));
         //noinspection ResultOfMethodCallIgnored
         new File(ConfigurationDefaults.DATABASE_PATH).delete();
     }
@@ -55,26 +48,9 @@ public class StartupAcceptanceTest {
         String configurationFile = setupConfigurationFile(properties);
 
         Runnable mumue = () -> Main.main("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
-        Callable<String> telnet = new TelnetCallable(port);
+        mumueRunner.runMumue(mumue, port);
 
-        Future<?> mumueFuture = executorService.submit(mumue);
-        Future<String> telnetOutput = executorService.schedule(telnet, 4, TimeUnit.SECONDS);
-        Runnable killer = () -> {
-            mumueFuture.cancel(true);
-            telnetOutput.cancel(true);
-        };
-
-        executorService.schedule(killer, 10, TimeUnit.SECONDS);
-
-        assertThat(getText(telnetOutput), containsString("Welcome to Mumue!"));
-    }
-
-    private String getText(Future<String> telnetOutput) {
-        try {
-            return telnetOutput.get();
-        } catch (ExecutionException|InterruptedException exception) {
-            throw new RuntimeException(exception);
-        }
+        assertThat(mumueRunner.getOutput(), containsString("Welcome to Mumue!"));
     }
 
     private String setupConfigurationFile(Properties properties) {
