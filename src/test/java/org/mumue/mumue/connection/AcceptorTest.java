@@ -1,17 +1,5 @@
 package org.mumue.mumue.connection;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,8 +8,17 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-
 import org.mumue.mumue.configuration.Configuration;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.*;
 
 public class AcceptorTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
@@ -89,7 +86,7 @@ public class AcceptorTest {
         acceptor.prepare();
         acceptor.execute();
 
-        assertThat(connectionManager.getConnections(), contains(connection));
+        assertThat(connectionManager.getConnections(), hasItem(connection));
     }
 
     @Test

@@ -1,16 +1,15 @@
 package org.mumue.mumue.configuration.online;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.sql.SQLException;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.mumue.mumue.acceptance.DatabaseHelper;
+
+import java.sql.SQLException;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class OnlineConfigurationDaoTest {
     private OnlineConfigurationDao dao;

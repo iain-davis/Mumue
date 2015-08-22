@@ -1,6 +1,6 @@
 package org.mumue.mumue.configuration.commandline;
 
-interface CommandLineOptionName {
+public interface CommandLineOptionName {
     String TEST = "test";
     String STARTUP_CONFIGURATION_PATH = "startupConfiguration";
 }
