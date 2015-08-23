@@ -11,8 +11,10 @@ public class MumueRunner {
     private ScheduledFuture<?> killerFuture;
     private PrintStream originalOut;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private MumueRunnable mumue;
 
-    public void runMumue(Runnable mumue, int port) {
+    public void runMumue(MumueRunnable mumue, int port) {
+        this.mumue = mumue;
         originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
         Callable<String> telnet = new TelnetCallable(port);
@@ -40,6 +42,7 @@ public class MumueRunner {
     }
 
     public void stop() {
+        mumue.stop();
         telnetOutput.cancel(true);
         mumueFuture.cancel(true);
         killerFuture.cancel(true);

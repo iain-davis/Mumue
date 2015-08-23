@@ -21,6 +21,7 @@ public class Mumue {
     private ThreadFactory threadFactory = new ThreadFactory();
 
     private ConnectionManager connectionManager = new ConnectionManager();
+    private InfiniteLoopRunner acceptorLoop;
 
     @Inject
     public Mumue(ConfigurationInitializer configurationInitializer) {//, QueryRunnerInitializer queryRunnerInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory, ConnectionManager connectionManager) {
@@ -34,12 +35,12 @@ public class Mumue {
         databaseAccessorInitializer.initialize();
         databaseInitializer.initialize();
 
-        InfiniteLoopRunner acceptorLoop = startAcceptorLoop(configuration);
+        acceptorLoop = startAcceptorLoop(configuration);
 
         //noinspection StatementWithEmptyBody
         while (acceptorLoop.isRunning() && !configuration.isTest()) ;
 
-        acceptorLoop.stop();
+        stop();
     }
 
     private InfiniteLoopRunner startAcceptorLoop(Configuration configuration) {
@@ -48,5 +49,9 @@ public class Mumue {
         Thread thread = threadFactory.create(connectionAcceptorLoop, "Connection Acceptor Thread");
         thread.start();
         return connectionAcceptorLoop;
+    }
+
+    public void stop() {
+        acceptorLoop.stop();
     }
 }

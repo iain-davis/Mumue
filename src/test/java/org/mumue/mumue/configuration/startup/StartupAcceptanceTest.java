@@ -5,7 +5,7 @@ import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.mumue.mumue.Main;
+import org.mumue.mumue.acceptance.MumueRunnable;
 import org.mumue.mumue.acceptance.MumueRunner;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.configuration.commandline.CommandLineOptionName;
@@ -37,7 +37,7 @@ public class StartupAcceptanceTest {
 
     @Test
     public void useDefaultTelnetPort() {
-        Runnable mumue = Main::main;
+        MumueRunnable mumue = new MumueRunnable();
         mumueRunner.runMumue(mumue, ConfigurationDefaults.TELNET_PORT);
 
         assertThat(mumueRunner.getTelnetOutput(), containsString("Welcome to Mumue!"));
@@ -52,7 +52,7 @@ public class StartupAcceptanceTest {
         properties.setProperty(StartupConfigurationOptionName.TELNET_PORT, port.toString());
         String configurationFile = setupConfigurationFile(properties);
 
-        Runnable mumue = () -> Main.main("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
+        MumueRunnable mumue = new MumueRunnable("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
         mumueRunner.runMumue(mumue, port);
 
         assertThat(mumueRunner.getTelnetOutput(), containsString(WELCOME_TO_MUMUE));
@@ -69,7 +69,7 @@ public class StartupAcceptanceTest {
 
         String configurationFile = setupConfigurationFile(properties);
 
-        Runnable mumue = () -> Main.main("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
+        MumueRunnable mumue = new MumueRunnable("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
         mumueRunner.runMumue(mumue, ConfigurationDefaults.TELNET_PORT);
 
         String expected = "Database Url: jdbc:h2:./" + fileName + ";MV_STORE=FALSE;MVCC=FALSE";
