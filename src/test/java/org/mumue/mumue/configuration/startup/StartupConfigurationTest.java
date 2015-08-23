@@ -1,14 +1,15 @@
 package org.mumue.mumue.configuration.startup;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Properties;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.mumue.mumue.configuration.ConfigurationDefaults;
+
+import java.util.Properties;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class StartupConfigurationTest {
     @Test
@@ -76,5 +77,22 @@ public class StartupConfigurationTest {
     public void getDatabasePasswordReturnsDefaultDatabasePassword() {
         StartupConfiguration startupConfiguration = new StartupConfiguration(new Properties());
         assertEquals(ConfigurationDefaults.DATABASE_PASSWORD, startupConfiguration.getDatabasePassword());
+    }
+
+    @Test
+    public void getDatabaseUsernameReturnsDatabaseUrl() {
+        Properties properties = new Properties();
+        StartupConfiguration startupConfiguration = new StartupConfiguration(properties);
+
+        String url = RandomStringUtils.randomAlphabetic(17);
+        properties.setProperty(StartupConfigurationOptionName.DATABASE_URL, url);
+
+        assertThat(startupConfiguration.getDatabaseUrl(), equalTo(url));
+    }
+
+    @Test
+    public void getDatabasePasswordReturnsDefaultDatabaseUrl() {
+        StartupConfiguration startupConfiguration = new StartupConfiguration(new Properties());
+        assertThat(startupConfiguration.getDatabaseUrl(), equalTo(ConfigurationDefaults.DATABASE_URL));
     }
 }

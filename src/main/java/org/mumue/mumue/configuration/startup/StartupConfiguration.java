@@ -1,10 +1,9 @@
 package org.mumue.mumue.configuration.startup;
 
-import java.util.Properties;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 
 import javax.inject.Singleton;
-
-import org.mumue.mumue.configuration.ConfigurationDefaults;
+import java.util.Properties;
 
 @Singleton
 public class StartupConfiguration {
@@ -29,5 +28,9 @@ public class StartupConfiguration {
 
     public String getDatabasePassword() {
         return properties.getProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, ConfigurationDefaults.DATABASE_PASSWORD);
+    }
+
+    public String getDatabaseUrl() {
+        return properties.getProperty(StartupConfigurationOptionName.DATABASE_URL, ConfigurationDefaults.DATABASE_URL);
     }
 }

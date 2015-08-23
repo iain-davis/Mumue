@@ -29,6 +29,7 @@ public class Mumue {
 
     public void run() {
         Configuration configuration = configurationInitializer.initialize();
+        System.out.println("Database Url: " + configuration.getDatabaseUrl());
         queryRunnerInitializer.initialize(configuration);
         databaseAccessorInitializer.initialize();
         databaseInitializer.initialize();

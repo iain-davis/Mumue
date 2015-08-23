@@ -13,4 +13,5 @@ public interface ConfigurationDefaults {
     // Primary configuration section
     String SERVER_LOCALE = "en-US";
     long LAST_COMPONENT_ID = 0L;
+    String DATABASE_URL = "";
 }

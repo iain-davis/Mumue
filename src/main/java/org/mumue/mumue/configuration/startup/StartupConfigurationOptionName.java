@@ -5,4 +5,5 @@ interface StartupConfigurationOptionName {
     String DATABASE_PATH = "database-path";
     String DATABASE_USERNAME = "database-username";
     String TELNET_PORT = "telnet-port";
+    String DATABASE_URL = "database-url";
 }

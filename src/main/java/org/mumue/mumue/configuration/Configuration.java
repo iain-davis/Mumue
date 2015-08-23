@@ -1,11 +1,11 @@
 package org.mumue.mumue.configuration;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import org.mumue.mumue.configuration.commandline.CommandLineConfiguration;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
 import org.mumue.mumue.configuration.startup.StartupConfiguration;
-import org.mumue.mumue.configuration.commandline.CommandLineConfiguration;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class Configuration {
@@ -52,5 +52,9 @@ public class Configuration {
 
     public long getNewComponentId() {
         return componentIdManager.getNewComponentId(onlineConfiguration);
+    }
+
+    public String getDatabaseUrl() {
+        return startupConfiguration.getDatabaseUrl();
     }
 }

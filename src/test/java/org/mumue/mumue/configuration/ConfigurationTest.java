@@ -1,11 +1,5 @@
 package org.mumue.mumue.configuration;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
@@ -13,10 +7,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
+import org.mumue.mumue.configuration.commandline.CommandLineConfiguration;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
 import org.mumue.mumue.configuration.startup.StartupConfiguration;
-import org.mumue.mumue.configuration.commandline.CommandLineConfiguration;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConfigurationTest {
@@ -78,5 +77,13 @@ public class ConfigurationTest {
         String databasePath = RandomStringUtils.randomAlphabetic(5);
         when(startupConfiguration.getDatabasePath()).thenReturn(databasePath);
         assertThat(configuration.getDatabasePath(), equalTo(databasePath));
+    }
+
+    @Test
+    public void getDatabaseUrl() {
+        String url = RandomStringUtils.randomAlphabetic(5);
+        when(startupConfiguration.getDatabaseUrl()).thenReturn(url);
+
+        assertThat(configuration.getDatabaseUrl(), equalTo(url));
     }
 }
