@@ -1,5 +1,7 @@
 package org.mumue.mumue.acceptance;
 
+import org.mumue.mumue.Main;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.concurrent.*;
@@ -11,21 +13,20 @@ public class MumueRunner {
     private ScheduledFuture<?> killerFuture;
     private PrintStream originalOut;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private MumueRunnable mumue;
+    private final Main main = new Main();
 
-    public void runMumue(MumueRunnable mumue, int port) {
-        this.mumue = mumue;
-        originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
+    public void run(int port, String... arguments) {
+        redirectConsoleOutput();
+
         Callable<String> telnet = new TelnetCallable(port);
-
-        mumueFuture = executorService.submit(mumue);
-        telnetOutput = executorService.schedule(telnet, 5, TimeUnit.SECONDS);
         Runnable killer = () -> {
+            main.stop();
             mumueFuture.cancel(true);
             telnetOutput.cancel(true);
         };
 
+        mumueFuture = executorService.submit(() -> main.run(arguments));
+        telnetOutput = executorService.schedule(telnet, 5, TimeUnit.SECONDS);
         killerFuture = executorService.schedule(killer, 10, TimeUnit.SECONDS);
     }
 
@@ -38,14 +39,23 @@ public class MumueRunner {
     }
 
     public String getConsoleOutput() {
-            return outputStream.toString();
+        return outputStream.toString();
     }
 
-    public void stop() {
-        mumue.stop();
+    public synchronized void stop() {
+        main.stop();
         telnetOutput.cancel(true);
         mumueFuture.cancel(true);
         killerFuture.cancel(true);
+        resetConsoleOutput();
+    }
+
+    private void redirectConsoleOutput() {
+        originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+    }
+
+    private void resetConsoleOutput() {
         System.setOut(originalOut);
     }
 }

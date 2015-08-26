@@ -8,10 +8,10 @@ public interface ConfigurationDefaults {
     String DATABASE_PASSWORD = "mumuedatabase";
     String DATABASE_PATH = "./mumuedatabase";
     String DATABASE_USERNAME = "mumuedatabase";
-    int TELNET_PORT = 9999;
+    String DATABASE_URL = "jdbc:h2:" + ConfigurationDefaults.DATABASE_PATH + ";MV_STORE=FALSE;MVCC=FALSE";
 
+    int TELNET_PORT = 9999;
     // Primary configuration section
     String SERVER_LOCALE = "en-US";
     long LAST_COMPONENT_ID = 0L;
-    String DATABASE_URL = "";
 }

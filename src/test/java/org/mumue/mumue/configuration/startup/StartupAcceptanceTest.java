@@ -1,11 +1,12 @@
 package org.mumue.mumue.configuration.startup;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.mumue.mumue.acceptance.MumueRunnable;
 import org.mumue.mumue.acceptance.MumueRunner;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.configuration.commandline.CommandLineOptionName;
@@ -20,40 +21,46 @@ import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class StartupAcceptanceTest {
-    public static final String WELCOME_TO_MUMUE = "Welcome to Mumue!";
     @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    private static final MumueRunner mumueRunner = new MumueRunner();
+    public static final String WELCOME_TO_MUMUE = "Welcome to Mumue!";
+    private static final String defaultDatabaseFilePath = ConfigurationDefaults.DATABASE_PATH + ".h2.db";
+    private final MumueRunner mumueRunner = new MumueRunner();
 
     @After
-    public void afterEach() {
+    public void afterEachTest() {
         mumueRunner.stop();
+        //noinspection ResultOfMethodCallIgnored
+        FileUtils.getFile(defaultDatabaseFilePath).delete();
     }
 
-    @After
-    public void afterClass() {
-        mumueRunner.stop();
+    @Test
+    public void whenNoConfigurationProvidedUseDefaultDatabase() {
+        mumueRunner.run(ConfigurationDefaults.TELNET_PORT);
+
+        String expected = "Database Url: " + ConfigurationDefaults.DATABASE_URL;
+        assertThat(mumueRunner.getTelnetOutput(), containsString(WELCOME_TO_MUMUE));
+        assertThat(mumueRunner.getConsoleOutput(), containsString(expected));
+        File file = FileUtils.getFile(defaultDatabaseFilePath);
+        assertTrue(file.exists());
     }
 
     @Test
     public void useDefaultTelnetPort() {
-        MumueRunnable mumue = new MumueRunnable();
-        mumueRunner.runMumue(mumue, ConfigurationDefaults.TELNET_PORT);
+        mumueRunner.run(ConfigurationDefaults.TELNET_PORT);
 
-        assertThat(mumueRunner.getTelnetOutput(), containsString("Welcome to Mumue!"));
-        //noinspection ResultOfMethodCallIgnored
-        new File(ConfigurationDefaults.DATABASE_PATH).delete();
+        assertThat(mumueRunner.getTelnetOutput(), containsString(WELCOME_TO_MUMUE));
     }
 
     @Test
-    public void useProvidedConfigurationFile() {
+    public void useProvidedTelnetPort() {
         Integer port = new Random().nextInt(1000) + 1024;
         Properties properties = defaultProperties();
         properties.setProperty(StartupConfigurationOptionName.TELNET_PORT, port.toString());
         String configurationFile = setupConfigurationFile(properties);
 
-        MumueRunnable mumue = new MumueRunnable("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
-        mumueRunner.runMumue(mumue, port);
+        mumueRunner.run(port, "--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
 
         assertThat(mumueRunner.getTelnetOutput(), containsString(WELCOME_TO_MUMUE));
     }
@@ -69,8 +76,7 @@ public class StartupAcceptanceTest {
 
         String configurationFile = setupConfigurationFile(properties);
 
-        MumueRunnable mumue = new MumueRunnable("--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
-        mumueRunner.runMumue(mumue, ConfigurationDefaults.TELNET_PORT);
+        mumueRunner.run(ConfigurationDefaults.TELNET_PORT, "--" + CommandLineOptionName.STARTUP_CONFIGURATION_PATH, configurationFile);
 
         String expected = "Database Url: jdbc:h2:./" + fileName + ";MV_STORE=FALSE;MVCC=FALSE";
         assertThat(mumueRunner.getTelnetOutput(), containsString(WELCOME_TO_MUMUE));
