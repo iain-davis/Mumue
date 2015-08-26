@@ -1,35 +1,35 @@
 package org.mumue.mumue.connection;
 
+import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.threading.InfiniteLoopBody;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.mumue.mumue.configuration.Configuration;
-import org.mumue.mumue.threading.InfiniteLoopBody;
-
 public class Acceptor extends CleanCloser implements InfiniteLoopBody {
     private final int port;
     private final ConnectionManager connectionManager;
-    private final SocketFactory socketFactory;
+    private final ServerSocketFactory serverSocketFactory;
     private final ConnectionFactory connectionFactory;
     private final Configuration configuration;
     private ServerSocket serverSocket;
 
     public Acceptor(int port, ConnectionManager connectionManager, Configuration configuration) {
-        this(port, connectionManager, new SocketFactory(), new ConnectionFactory(), configuration);
+        this(port, connectionManager, new ServerSocketFactory(), new ConnectionFactory(), configuration);
     }
 
-    Acceptor(int port, ConnectionManager connectionManager, SocketFactory socketFactory, ConnectionFactory connectionFactory, Configuration configuration) {
+    Acceptor(int port, ConnectionManager connectionManager, ServerSocketFactory serverSocketFactory, ConnectionFactory connectionFactory, Configuration configuration) {
         this.port = port;
         this.connectionManager = connectionManager;
-        this.socketFactory = socketFactory;
+        this.serverSocketFactory = serverSocketFactory;
         this.connectionFactory = connectionFactory;
         this.configuration = configuration;
     }
 
     @Override
     public boolean prepare() {
-        serverSocket = socketFactory.createSocket(port);
+        serverSocket = serverSocketFactory.createSocket(port);
         return true;
     }
 

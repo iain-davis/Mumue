@@ -1,11 +1,10 @@
 package org.mumue.mumue.configuration.online;
 
+import org.apache.commons.lang3.StringUtils;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import org.apache.commons.lang3.StringUtils;
-
-import org.mumue.mumue.configuration.ConfigurationDefaults;
 
 @Singleton
 public class OnlineConfiguration {
@@ -18,11 +17,16 @@ public class OnlineConfiguration {
 
     public String getServerLocale() {
         String value = dao.getConfigurationOption(OnlineConfigurationOptionName.SERVER_LOCALE);
-        return StringUtils.isBlank(value) ? ConfigurationDefaults.SERVER_LOCALE : value;
+        return StringUtils.isEmpty(value) ? ConfigurationDefaults.SERVER_LOCALE : value;
     }
 
     public long getLastComponentId() {
         String value = dao.getConfigurationOption(OnlineConfigurationOptionName.LAST_COMPONENT_ID);
-        return StringUtils.isBlank(value) ? ConfigurationDefaults.LAST_COMPONENT_ID : Long.parseLong(value);
+        return StringUtils.isEmpty(value) ? ConfigurationDefaults.LAST_COMPONENT_ID : Long.parseLong(value);
+    }
+
+    public int getTelnetPort() {
+        String value = dao.getConfigurationOption(OnlineConfigurationOptionName.TELNET_PORT);
+        return StringUtils.isEmpty(value) ? ConfigurationDefaults.TELNET_PORT : Integer.parseInt(value);
     }
 }

@@ -35,7 +35,7 @@ public class Configuration {
     }
 
     public int getTelnetPort() {
-        return startupConfiguration.getTelnetPort();
+        return onlineConfiguration.getTelnetPort();
     }
 
     public String getDatabaseUsername() {

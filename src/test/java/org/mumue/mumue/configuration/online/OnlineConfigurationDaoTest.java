@@ -23,6 +23,22 @@ public class OnlineConfigurationDaoTest {
     }
 
     @Test
+    public void returnEmptyStringWhenEmpty() {
+        String option = RandomStringUtils.randomAlphabetic(13);
+        insertOption(option, "");
+
+        assertThat(dao.getConfigurationOption(option), equalTo(""));
+    }
+
+    @Test
+    public void returnEmptyStringWhenBlank() {
+        String option = RandomStringUtils.randomAlphabetic(13);
+        insertOption(option, "   \t\r\n");
+
+        assertThat(dao.getConfigurationOption(option), equalTo(""));
+    }
+    
+    @Test
     public void getConfigurationOptionWhenOptionNotPresent() {
         String option = RandomStringUtils.randomAlphabetic(13);
         assertThat(dao.getConfigurationOption(option), equalTo(""));

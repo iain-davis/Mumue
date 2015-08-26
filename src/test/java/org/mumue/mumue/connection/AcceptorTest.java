@@ -27,14 +27,14 @@ public class AcceptorTest {
     @Mock Connection connection;
     @Mock Configuration configuration;
     @Mock ServerSocket serverSocket;
-    @Mock SocketFactory socketFactory;
+    @Mock ServerSocketFactory serverSocketFactory;
     @Mock ConnectionFactory connectionFactory;
 
     private final ConnectionManager connectionManager = new ConnectionManager();
 
     @Before
     public void beforeEach() throws IOException {
-        when(socketFactory.createSocket(anyInt())).thenReturn(serverSocket);
+        when(serverSocketFactory.createSocket(anyInt())).thenReturn(serverSocket);
         when(serverSocket.accept()).thenReturn(socket);
         when(connectionFactory.create(socket, configuration)).thenReturn(connection);
     }
@@ -42,17 +42,17 @@ public class AcceptorTest {
     @Test
     public void prepareUsesSpecifiedPort() {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
 
-        verify(socketFactory).createSocket(port);
+        verify(serverSocketFactory).createSocket(port);
     }
 
     @Test
     public void prepareReturnsTrue() {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         assertTrue(acceptor.prepare());
     }
@@ -60,7 +60,7 @@ public class AcceptorTest {
     @Test
     public void executeCreatesConnectionUsingSocket() {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
         acceptor.execute();
@@ -71,7 +71,7 @@ public class AcceptorTest {
     @Test
     public void executeReturnsTrue() {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
 
@@ -81,7 +81,7 @@ public class AcceptorTest {
     @Test
     public void executeGivesConnectionToConnectionManager() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
         acceptor.execute();
@@ -92,7 +92,7 @@ public class AcceptorTest {
     @Test
     public void executeHandlesIOException() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
 
@@ -106,7 +106,7 @@ public class AcceptorTest {
 
     @Test
     public void cleanupClosesServerSocket() throws IOException {
-        Acceptor acceptor = new Acceptor(9999, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(9999, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
         acceptor.cleanup();
@@ -116,7 +116,7 @@ public class AcceptorTest {
 
     @Test
     public void cleanupReturnsTrue() throws IOException {
-        Acceptor acceptor = new Acceptor(9999, connectionManager, socketFactory, connectionFactory, configuration);
+        Acceptor acceptor = new Acceptor(9999, connectionManager, serverSocketFactory, connectionFactory, configuration);
 
         acceptor.prepare();
         assertTrue(acceptor.cleanup());

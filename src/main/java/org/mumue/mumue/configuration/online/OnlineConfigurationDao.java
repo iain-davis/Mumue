@@ -19,6 +19,6 @@ class OnlineConfigurationDao {
 
     public String getConfigurationOption(String optionName) {
         ResultSetHandler resultSetHandler = new ScalarHandler<>(CONFIGURATION_OPTION_VALUE_COLUMN);
-        return StringUtils.defaultString((String) database.query(CONFIGURATION_OPTION_QUERY, resultSetHandler, optionName));
+        return StringUtils.defaultIfBlank((String) database.query(CONFIGURATION_OPTION_QUERY, resultSetHandler, optionName), "");
     }
 }
