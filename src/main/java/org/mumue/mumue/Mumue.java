@@ -14,18 +14,23 @@ import javax.inject.Inject;
 
 public class Mumue {
     private final ConfigurationInitializer configurationInitializer;
-    private QueryRunnerInitializer queryRunnerInitializer = new QueryRunnerInitializer();
-    private DatabaseAccessorInitializer databaseAccessorInitializer = new DatabaseAccessorInitializer();
-    private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
-    private AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder = new AcceptorLoopRunnerBuilder();
-    private ThreadFactory threadFactory = new ThreadFactory();
+    private final QueryRunnerInitializer queryRunnerInitializer;
+    private final DatabaseAccessorInitializer databaseAccessorInitializer;
+    private final DatabaseInitializer databaseInitializer;
+    private final AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
+    private final ThreadFactory threadFactory;
 
-    private ConnectionManager connectionManager = new ConnectionManager();
+    private final ConnectionManager connectionManager = new ConnectionManager();
     private InfiniteLoopRunner acceptorLoop;
 
     @Inject
-    public Mumue(ConfigurationInitializer configurationInitializer) {//, QueryRunnerInitializer queryRunnerInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory, ConnectionManager connectionManager) {
+    public Mumue(ConfigurationInitializer configurationInitializer, QueryRunnerInitializer queryRunnerInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory) {
         this.configurationInitializer = configurationInitializer;
+        this.queryRunnerInitializer = queryRunnerInitializer;
+        this.databaseAccessorInitializer = databaseAccessorInitializer;
+        this.databaseInitializer = databaseInitializer;
+        this.acceptorLoopRunnerBuilder = acceptorLoopRunnerBuilder;
+        this.threadFactory = threadFactory;
     }
 
     public void run() {
