@@ -100,6 +100,17 @@ public class DatabaseConfigurationTest {
     }
 
     @Test
+    public void whenUrlIsNullAndPathIsNullReturnsH2DefaultPathBasedUrl() {
+        String expected = "jdbc:h2:" + ConfigurationDefaults.DATABASE_PATH + ";MV_STORE=FALSE;MVCC=FALSE";
+
+        Properties properties = new Properties();
+
+        DatabaseConfiguration configuration = new DatabaseConfiguration(properties);
+
+        assertThat(configuration.getUrl(), equalTo(expected));
+    }
+
+    @Test
     public void whenUrlIsEmptyReturnsH2PathBasedUrl() {
         String path = RandomStringUtils.randomAlphabetic(17);
         String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";

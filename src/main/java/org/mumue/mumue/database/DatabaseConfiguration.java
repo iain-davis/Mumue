@@ -34,7 +34,7 @@ class DatabaseConfiguration {
     public String getUrl() {
         String url = properties.getProperty(DATABASE_URL);
         if (StringUtils.isBlank(url)) {
-            return "jdbc:h2:" + properties.getProperty(DATABASE_PATH) + ";MV_STORE=FALSE;MVCC=FALSE";
+            return "jdbc:h2:" + getPath() + ";MV_STORE=FALSE;MVCC=FALSE";
         }
         return url;
     }
