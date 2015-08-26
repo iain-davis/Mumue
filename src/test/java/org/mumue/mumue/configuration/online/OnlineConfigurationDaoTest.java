@@ -1,25 +1,16 @@
 package org.mumue.mumue.configuration.online;
 
-import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.acceptance.DatabaseHelper;
-
-import java.sql.SQLException;
+import org.mumue.mumue.database.DatabaseAccessor;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class OnlineConfigurationDaoTest {
-    private OnlineConfigurationDao dao;
-    private QueryRunner queryRunner;
-
-    @Before
-    public void beforeEach() throws SQLException {
-        queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-        dao = new OnlineConfigurationDao();
-    }
+    private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
+    private final OnlineConfigurationDao dao = new OnlineConfigurationDao(database);
 
     @Test
     public void getConfigurationOption() {
@@ -38,10 +29,6 @@ public class OnlineConfigurationDaoTest {
     }
 
     private void insertOption(String name, String value) {
-        try {
-            queryRunner.update("insert into configuration_options (name, value) values (?, ?)", name, value);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
+        database.update("insert into configuration_options (name, value) values (?, ?)", name, value);
     }
 }

@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.sql.DataSource;
 
-public class DataSourceProvider implements Provider<DataSource> {
+class DataSourceProvider implements Provider<DataSource> {
     private final DatabaseConfiguration configuration;
 
     @Inject

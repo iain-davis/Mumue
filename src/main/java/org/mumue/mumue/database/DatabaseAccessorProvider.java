@@ -1,15 +1,13 @@
 package org.mumue.mumue.database;
 
-import org.apache.commons.dbutils.QueryRunner;
+import javax.inject.Inject;
 
 public class DatabaseAccessorProvider {
     private static DatabaseAccessor databaseAccessor;
 
-    public DatabaseAccessor create(QueryRunner queryRunner) {
-        if (databaseAccessor == null) {
-            databaseAccessor = new DatabaseAccessor(queryRunner);
-        }
-        return databaseAccessor;
+    @Inject
+    public DatabaseAccessorProvider(DatabaseAccessor databaseAccessor) {
+        DatabaseAccessorProvider.databaseAccessor = databaseAccessor;
     }
 
     public static DatabaseAccessor get() {

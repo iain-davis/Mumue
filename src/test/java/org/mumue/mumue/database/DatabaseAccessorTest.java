@@ -1,30 +1,25 @@
 package org.mumue.mumue.database;
 
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mumue.mumue.database.MyVarargMatcher.myVarargMatcher;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
+import static org.mumue.mumue.database.MyVarargMatcher.myVarargMatcher;
 
 public class DatabaseAccessorTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
-    @Mock QueryRunner queryRunner;
-    @InjectMocks DatabaseAccessor database;
+
+    private final QueryRunner queryRunner = mock(QueryRunner.class);
+    private final DatabaseAccessor database = new DatabaseAccessor(queryRunner);
 
     private final String sql = RandomStringUtils.randomAlphabetic(17);
     private final ResultSetHandler rsh = new ResultHandler();

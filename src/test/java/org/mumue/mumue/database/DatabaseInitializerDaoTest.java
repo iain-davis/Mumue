@@ -1,48 +1,47 @@
 package org.mumue.mumue.database;
 
+import org.junit.Test;
+import org.mumue.mumue.acceptance.DatabaseHelper;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
-import org.mumue.mumue.acceptance.DatabaseHelper;
-
 public class DatabaseInitializerDaoTest {
-    private final DatabaseInitializerDao dao = new DatabaseInitializerDao();
+
     @Test
     public void hasSchemaReturnsTrue() {
-        DatabaseHelper.setupTestDatabaseWithSchema();
+        DatabaseInitializerDao dao = new DatabaseInitializerDao(DatabaseHelper.setupTestDatabaseWithSchema());
         assertTrue(dao.hasSchema());
     }
 
     @Test
     public void hasSchemaReturnsFalse() {
-        DatabaseHelper.setupTestDatabaseWithoutSchema();
+        DatabaseInitializerDao dao = new DatabaseInitializerDao(DatabaseHelper.setupTestDatabaseWithoutSchema());
         assertFalse(dao.hasSchema());
     }
 
     @Test
     public void hasDataReturnsTrue() {
-        DatabaseHelper.setupTestDatabaseWithDefaultData();
+        DatabaseInitializerDao dao = new DatabaseInitializerDao(DatabaseHelper.setupTestDatabaseWithDefaultData());
         assertTrue(dao.hasData());
     }
 
     @Test
     public void hasDataReturnsFalse() {
-        DatabaseHelper.setupTestDatabaseWithSchema();
+        DatabaseInitializerDao dao = new DatabaseInitializerDao(DatabaseHelper.setupTestDatabaseWithSchema());
         assertFalse(dao.hasData());
     }
 
     @Test
     public void loadSchema() {
-        DatabaseHelper.setupTestDatabaseWithoutSchema();
+        DatabaseInitializerDao dao = new DatabaseInitializerDao(DatabaseHelper.setupTestDatabaseWithoutSchema());
         dao.loadSchema();
         assertTrue(dao.hasSchema());
     }
 
     @Test
     public void loadDefaultData() {
-        DatabaseHelper.setupTestDatabaseWithSchema();
+        DatabaseInitializerDao dao = new DatabaseInitializerDao(DatabaseHelper.setupTestDatabaseWithSchema());
         dao.loadDefaultData();
         assertTrue(dao.hasData());
     }

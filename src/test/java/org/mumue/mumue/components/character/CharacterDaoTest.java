@@ -1,25 +1,23 @@
 package org.mumue.mumue.components.character;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Test;
+import org.mumue.mumue.acceptance.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseAccessor;
+import org.mumue.mumue.importer.GlobalConstants;
+
+import java.time.Instant;
+import java.util.List;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-import java.sql.SQLException;
-import java.time.Instant;
-import java.util.List;
-
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
-
-import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.acceptance.DatabaseHelper;
-
 public class CharacterDaoTest {
-    private final QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-    private CharacterDao dao = new CharacterDao();
+    private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
+    private CharacterDao dao = new CharacterDao(database);
 
     @Test
     public void getCharacterNeverReturnsNull() {
@@ -136,10 +134,6 @@ public class CharacterDaoTest {
                 + "values (" + characterId + ", '" + name + "', '" + RandomStringUtils.randomAlphabetic(16) + "', "
                 + "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, "
                 + universeId + ", '" + playerId + "');";
-        try {
-            queryRunner.update(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        database.update(sql);
     }
 }

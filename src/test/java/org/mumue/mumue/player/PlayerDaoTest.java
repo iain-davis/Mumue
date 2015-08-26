@@ -1,22 +1,17 @@
 package org.mumue.mumue.player;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
-
-import java.sql.SQLException;
-
-import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-
 import org.mumue.mumue.acceptance.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseAccessor;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.*;
+import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 public class PlayerDaoTest {
-    private final QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-    private PlayerDao dao = new PlayerDao();
+    private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
+    private final PlayerDao dao = new PlayerDao(database);
 
     @Test
     public void successfulAuthentication() {
@@ -104,10 +99,6 @@ public class PlayerDaoTest {
         String sql = "insert into players (id, loginId, password, locale, created, lastModified, lastUsed, useCount)"
                 + " values (" + id + ", '" + loginId + "','" + password + "', '" + RandomStringUtils.randomAlphabetic(5) + "', "
                 + "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0);";
-        try {
-            queryRunner.update(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        database.update(sql);
     }
 }

@@ -1,8 +1,9 @@
 package org.mumue.mumue.database;
 
+import javax.inject.Inject;
+
 public class DatabaseAccessorInitializer {
-    private DatabaseAccessorProvider provider = new DatabaseAccessorProvider();
-    public void initialize() {
-        provider.create(QueryRunnerProvider.get());
+    @Inject
+    public DatabaseAccessorInitializer(DatabaseAccessorProvider provider) {
     }
 }

@@ -1,25 +1,19 @@
 package org.mumue.mumue.interpreter;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
+import org.mumue.mumue.acceptance.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseAccessor;
+
+import java.util.Collection;
+
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import java.sql.SQLException;
-import java.util.Collection;
-
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-
-import org.mumue.mumue.acceptance.DatabaseHelper;
-
 public class CommandEntryDaoTest {
-    private final QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-    private CommandEntryDao dao = new CommandEntryDao();
+    private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
+    private CommandEntryDao dao = new CommandEntryDao(database);
 
     @Test
     public void getCommandsNeverReturnsNull() {
@@ -54,10 +48,6 @@ public class CommandEntryDaoTest {
     private void insertCommand(String display) {
         String sql = "insert into commands (display, minimumPartial, commandIdentifier, token)"
                 + " values ('" + display + "', '" + display + "', 'say', false)";
-        try {
-            queryRunner.update(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        database.update(sql);
     }
 }

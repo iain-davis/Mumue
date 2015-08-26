@@ -1,22 +1,20 @@
 package org.mumue.mumue.components.universe;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Test;
+import org.mumue.mumue.acceptance.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseAccessor;
+
+import java.util.Collection;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import java.sql.SQLException;
-import java.util.Collection;
-
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
-
-import org.mumue.mumue.acceptance.DatabaseHelper;
-
 public class UniverseDaoTest {
-    private final QueryRunner queryRunner = DatabaseHelper.setupTestDatabaseWithSchema();
-    private UniverseDao dao = new UniverseDao();
+    private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
+    private final UniverseDao dao = new UniverseDao(database);
 
     @Test
     public void getUniverseNeverReturnsNull() {
@@ -70,10 +68,6 @@ public class UniverseDaoTest {
         String sql = "insert into universes (id, name, description, created, lastUsed, lastModified, useCount) " +
                 "values (" + id + ", '" + name + "', '" + description + "', " +
                 "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0);";
-        try {
-            queryRunner.update(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        database.update(sql);
     }
 }
