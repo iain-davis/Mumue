@@ -34,7 +34,6 @@ public class Mumue {
 
     public void run() {
         Configuration configuration = configurationInitializer.initialize();
-        System.out.println("Database Url: " + configuration.getDatabaseUrl());
         databaseInitializer.initialize();
 
         acceptorLoop = startAcceptorLoop(configuration);

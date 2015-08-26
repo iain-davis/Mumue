@@ -10,7 +10,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.configuration.commandline.CommandLineConfiguration;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
-import org.mumue.mumue.configuration.startup.StartupConfiguration;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +22,6 @@ public class ConfigurationTest {
 
     @Mock CommandLineConfiguration commandLineConfiguration;
     @Mock OnlineConfiguration onlineConfiguration;
-    @Mock StartupConfiguration startupConfiguration;
     @Mock ComponentIdManager componentIdManager;
     @InjectMocks Configuration configuration;
 
@@ -58,34 +56,5 @@ public class ConfigurationTest {
         long id = RandomUtils.nextLong(100, 200);
         when(componentIdManager.getNewComponentId(onlineConfiguration)).thenReturn(id);
         assertThat(configuration.getNewComponentId(), equalTo(id));
-    }
-
-    @Test
-    public void getDatabaseUsername() {
-        String databaseUsername = RandomStringUtils.randomAlphabetic(5);
-        when(startupConfiguration.getDatabaseUsername()).thenReturn(databaseUsername);
-        assertThat(configuration.getDatabaseUsername(), equalTo(databaseUsername));
-    }
-
-    @Test
-    public void getDatabasePassword() {
-        String databasePassword = RandomStringUtils.randomAlphabetic(5);
-        when(startupConfiguration.getDatabasePassword()).thenReturn(databasePassword);
-        assertThat(configuration.getDatabasePassword(), equalTo(databasePassword));
-    }
-
-    @Test
-    public void getDatabasePath() {
-        String databasePath = RandomStringUtils.randomAlphabetic(5);
-        when(startupConfiguration.getDatabasePath()).thenReturn(databasePath);
-        assertThat(configuration.getDatabasePath(), equalTo(databasePath));
-    }
-
-    @Test
-    public void getDatabaseUrl() {
-        String url = RandomStringUtils.randomAlphabetic(5);
-        when(startupConfiguration.getDatabaseUrl()).thenReturn(url);
-
-        assertThat(configuration.getDatabaseUrl(), equalTo(url));
     }
 }
