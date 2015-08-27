@@ -6,7 +6,6 @@ import org.mumue.mumue.configuration.ConfigurationDefaults;
 import javax.inject.Singleton;
 import java.util.Properties;
 
-@Singleton
 class DatabaseConfiguration {
     static final String DATABASE_PASSWORD = "database-password";
     static final String DATABASE_PATH = "database-path";

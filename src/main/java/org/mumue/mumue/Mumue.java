@@ -39,7 +39,7 @@ public class Mumue {
         acceptorLoop = startAcceptorLoop(configuration);
 
         //noinspection StatementWithEmptyBody
-        while (acceptorLoop.isRunning() && !configuration.isTest()) ;
+        while (acceptorLoop.isRunning()) ;
 
         stop();
     }

@@ -8,34 +8,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mumue.mumue.configuration.commandline.CommandLineConfiguration;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class ConfigurationTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
 
-    @Mock CommandLineConfiguration commandLineConfiguration;
     @Mock OnlineConfiguration onlineConfiguration;
     @Mock ComponentIdManager componentIdManager;
     @InjectMocks Configuration configuration;
-
-    @Test
-    public void isTestReturnsTrue() {
-        when(commandLineConfiguration.isTest()).thenReturn(true);
-        assertTrue(configuration.isTest());
-    }
-
-    @Test
-    public void isTestReturnsFalse() {
-        when(commandLineConfiguration.isTest()).thenReturn(false);
-        assertFalse(configuration.isTest());
-    }
 
     @Test
     public void getTelnetPort() {
