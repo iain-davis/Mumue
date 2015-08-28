@@ -1,6 +1,5 @@
-package org.mumue.mumue.acceptance;
+package org.mumue.mumue;
 
-import org.mumue.mumue.Main;
 import org.mumue.mumue.importer.GlobalConstants;
 
 import java.io.ByteArrayOutputStream;

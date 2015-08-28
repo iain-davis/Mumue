@@ -1,4 +1,4 @@
-package org.mumue.mumue.acceptance;
+package org.mumue.mumue;
 
 import org.apache.commons.net.telnet.TelnetClient;
 import org.mumue.mumue.importer.GlobalConstants;

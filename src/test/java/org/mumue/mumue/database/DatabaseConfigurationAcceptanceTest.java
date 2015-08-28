@@ -2,7 +2,7 @@ package org.mumue.mumue.database;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.mumue.mumue.acceptance.MumueRunner;
+import org.mumue.mumue.MumueRunner;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 
 import java.io.File;
