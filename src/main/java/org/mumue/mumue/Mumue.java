@@ -27,7 +27,13 @@ public class Mumue {
     private InfiniteLoopRunner acceptorLoop;
 
     @Inject
-    public Mumue(ConfigurationInitializer configurationInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DataSource dataSource, DatabaseAccessorProvider databaseAccessorProvider, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory, ConnectionManager connectionManager) {
+    public Mumue(DataSource dataSource, DatabaseInitializer databaseInitializer,
+                 ConfigurationInitializer configurationInitializer,
+                 DatabaseAccessorInitializer databaseAccessorInitializer,
+                 DatabaseAccessorProvider databaseAccessorProvider,
+                 AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder,
+                 ThreadFactory threadFactory,
+                 ConnectionManager connectionManager) {
         this.configurationInitializer = configurationInitializer;
         this.dataSource = dataSource;
         this.databaseAccessorProvider = databaseAccessorProvider;

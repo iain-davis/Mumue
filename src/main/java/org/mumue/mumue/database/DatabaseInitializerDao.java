@@ -19,10 +19,6 @@ public class DatabaseInitializerDao {
         this.database = database;
     }
 
-    public DatabaseInitializerDao() {
-        this(DatabaseAccessorProvider.get());
-    }
-
     public boolean hasSchema() {
         ResultSetHandler<Long> resultSetHandler = new ScalarHandler<>(1);
         long found = database.query(CHECK_CONFIGURATION_TABLE_EXISTENCE, resultSetHandler);
