@@ -1,4 +1,4 @@
-package org.mumue.mumue.acceptance;
+package noshposh;
 
 import org.junit.Test;
 

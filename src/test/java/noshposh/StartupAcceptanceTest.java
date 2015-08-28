@@ -1,4 +1,4 @@
-package org.mumue.mumue.acceptance;
+package noshposh;
 
 import org.junit.Ignore;
 
@@ -6,7 +6,7 @@ import org.junit.Ignore;
 public class StartupAcceptanceTest {
 //    @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 //    public static final String WELCOME_TO_MUMUE = "Welcome to Mumue!";
-//    private static final String defaultDatabaseFilePath = ConfigurationDefaults.DATABASE_PATH + ".h2.db";
+//    private static final String defaultDatabaseFilePath = ConfigurationDefaults.DEFAULT_PATH + ".h2.db";
 //    private final MumueRunner mumueRunner = new MumueRunner();
 //
 //    @After
@@ -14,17 +14,6 @@ public class StartupAcceptanceTest {
 //        mumueRunner.stop();
 //        //noinspection ResultOfMethodCallIgnored
 //        FileUtils.getFile(defaultDatabaseFilePath).delete();
-//    }
-//
-//    @Test
-//    public void whenNoConfigurationProvidedUseDefaultDatabase() {
-//        mumueRunner.run(ConfigurationDefaults.TELNET_PORT);
-//
-//        String expected = "Database Url: " + ConfigurationDefaults.DATABASE_URL;
-//        assertThat(mumueRunner.getTelnetOutput(), containsString(WELCOME_TO_MUMUE));
-//        assertThat(mumueRunner.getConsoleOutput(), containsString(expected));
-//        File file = FileUtils.getFile(defaultDatabaseFilePath);
-//        assertTrue(file.exists());
 //    }
 //
 //    @Test
@@ -81,10 +70,10 @@ public class StartupAcceptanceTest {
 //        try {
 //            Properties properties = new Properties();
 //            File database = temporaryFolder.newFile("acceptance.h2.db");
-//            properties.setProperty(StartupConfigurationOptionName.DATABASE_PATH, database.getAbsolutePath());
+//            properties.setProperty(StartupConfigurationOptionName.DEFAULT_PATH, database.getAbsolutePath());
 //            properties.setProperty(StartupConfigurationOptionName.TELNET_PORT, String.valueOf(ConfigurationDefaults.TELNET_PORT));
-//            properties.setProperty(StartupConfigurationOptionName.DATABASE_PASSWORD, ConfigurationDefaults.DATABASE_PASSWORD);
-//            properties.setProperty(StartupConfigurationOptionName.DATABASE_USERNAME, ConfigurationDefaults.DATABASE_USERNAME);
+//            properties.setProperty(StartupConfigurationOptionName.DEFAULT_PASSWORD, ConfigurationDefaults.DEFAULT_PASSWORD);
+//            properties.setProperty(StartupConfigurationOptionName.DEFAULT_USERNAME, ConfigurationDefaults.DEFAULT_USERNAME);
 //            return properties;
 //        } catch (IOException exception) {
 //            throw new RuntimeException(exception);

@@ -28,7 +28,7 @@ public class DatabaseHelper {
 
     public static BasicDataSource setupDataSource() {
         BasicDataSource source = new BasicDataSource();
-        source.setDriverClassName(SqlConstants.DRIVER_CLASS_NAME);
+        source.setDriverClassName("org.h2.Driver");
         source.setUsername("user");
         source.setPassword("password");
         source.setUrl(TestConstants.MEMORY_DATABASE);

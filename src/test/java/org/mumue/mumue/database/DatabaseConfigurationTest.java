@@ -2,7 +2,6 @@ package org.mumue.mumue.database;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.mumue.mumue.configuration.ConfigurationDefaults;
 
 import java.util.Properties;
 
@@ -14,7 +13,7 @@ public class DatabaseConfigurationTest {
     public void returnsDefaultDriverName() {
         DatabaseConfiguration configuration = new DatabaseConfiguration(new Properties());
 
-        assertThat(configuration.getDriverName(), equalTo(SqlConstants.DRIVER_CLASS_NAME));
+        assertThat(configuration.getDriverName(), equalTo(DatabaseConfiguration.DEFAULT_DRIVER_CLASS_NAME));
     }
 
     @Test
@@ -33,7 +32,7 @@ public class DatabaseConfigurationTest {
     public void returnsDefaultPath() {
         DatabaseConfiguration configuration = new DatabaseConfiguration(new Properties());
 
-        assertThat(configuration.getPath(), equalTo(ConfigurationDefaults.DATABASE_PATH));
+        assertThat(configuration.getPath(), equalTo(DatabaseConfiguration.DEFAULT_PATH));
     }
 
     @Test
@@ -52,7 +51,7 @@ public class DatabaseConfigurationTest {
     public void returnsDefaultUsername() {
         DatabaseConfiguration configuration = new DatabaseConfiguration(new Properties());
 
-        assertThat(configuration.getUsername(), equalTo(ConfigurationDefaults.DATABASE_USERNAME));
+        assertThat(configuration.getUsername(), equalTo(DatabaseConfiguration.DEFAULT_USERNAME));
     }
 
     @Test
@@ -71,7 +70,7 @@ public class DatabaseConfigurationTest {
     public void returnsDefaultPassword() {
         DatabaseConfiguration configuration = new DatabaseConfiguration(new Properties());
 
-        assertThat(configuration.getPassword(), equalTo(ConfigurationDefaults.DATABASE_PASSWORD));
+        assertThat(configuration.getPassword(), equalTo(DatabaseConfiguration.DEFAULT_PASSWORD));
     }
 
     @Test
@@ -101,7 +100,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void whenUrlIsNullAndPathIsNullReturnsH2DefaultPathBasedUrl() {
-        String expected = "jdbc:h2:" + ConfigurationDefaults.DATABASE_PATH + ";MV_STORE=FALSE;MVCC=FALSE";
+        String expected = "jdbc:h2:" + DatabaseConfiguration.DEFAULT_PATH + ";MV_STORE=FALSE;MVCC=FALSE";
 
         Properties properties = new Properties();
 

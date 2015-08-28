@@ -17,7 +17,7 @@ public class DatabaseConfigurationAcceptanceTest {
     public void whenNoDatabaseConfigurationFileProvidedUseDefaultPath() {
         cleanupDatabase();
         MumueRunner runner = new MumueRunner();
-        File file = FileUtils.getFile(ConfigurationDefaults.DATABASE_PATH + ".h2.db");
+        File file = FileUtils.getFile(DatabaseConfiguration.DEFAULT_PATH + ".h2.db");
         runner.run(ConfigurationDefaults.TELNET_PORT);
         runner.stopAfterTelnet();
         assertThat(file.exists(), is(true));
@@ -27,7 +27,7 @@ public class DatabaseConfigurationAcceptanceTest {
 
     private void cleanupDatabase() {
         try {
-            FileUtils.forceDelete(FileUtils.getFile(ConfigurationDefaults.DATABASE_PATH + ".h2.db"));
+            FileUtils.forceDelete(FileUtils.getFile(DatabaseConfiguration.DEFAULT_PATH + ".h2.db"));
         } catch (FileNotFoundException ignored) {
         } catch (IOException exception) {
             exception.printStackTrace();

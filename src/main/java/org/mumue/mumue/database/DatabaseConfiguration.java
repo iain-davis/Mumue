@@ -1,12 +1,14 @@
 package org.mumue.mumue.database;
 
 import org.apache.commons.lang3.StringUtils;
-import org.mumue.mumue.configuration.ConfigurationDefaults;
 
-import javax.inject.Singleton;
 import java.util.Properties;
 
 class DatabaseConfiguration {
+    static final String DEFAULT_DRIVER_CLASS_NAME = "org.h2.Driver";
+    static final String DEFAULT_PASSWORD = "mumuedatabase";
+    static final String DEFAULT_PATH = "./mumuedatabase";
+    static final String DEFAULT_USERNAME = "mumuedatabase";
     static final String DATABASE_PASSWORD = "database-password";
     static final String DATABASE_PATH = "database-path";
     static final String DATABASE_USERNAME = "database-username";
@@ -19,15 +21,15 @@ class DatabaseConfiguration {
     }
 
     public String getPath() {
-        return properties.getProperty(DATABASE_PATH, ConfigurationDefaults.DATABASE_PATH);
+        return properties.getProperty(DATABASE_PATH, DEFAULT_PATH);
     }
 
     public String getUsername() {
-        return properties.getProperty(DATABASE_USERNAME, ConfigurationDefaults.DATABASE_USERNAME);
+        return properties.getProperty(DATABASE_USERNAME, DEFAULT_USERNAME);
     }
 
     public String getPassword() {
-        return properties.getProperty(DATABASE_PASSWORD, ConfigurationDefaults.DATABASE_PASSWORD);
+        return properties.getProperty(DATABASE_PASSWORD, DEFAULT_PASSWORD);
     }
 
     public String getUrl() {
@@ -39,6 +41,6 @@ class DatabaseConfiguration {
     }
 
     public String getDriverName() {
-        return properties.getProperty(DATABASE_DRIVER_NAME, SqlConstants.DRIVER_CLASS_NAME);
+        return properties.getProperty(DATABASE_DRIVER_NAME, DEFAULT_DRIVER_CLASS_NAME);
     }
 }
