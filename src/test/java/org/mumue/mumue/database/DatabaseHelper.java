@@ -3,7 +3,7 @@ package org.mumue.mumue.database;
 import javax.sql.DataSource;
 
 public class DatabaseHelper {
-    private static final String MEMORY_DATABASE = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
+    static final String MEMORY_DATABASE = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String QUERY_PURGE_DATABASE = "DROP ALL OBJECTS";
 
     public static DatabaseAccessor setupTestDatabaseWithDefaultData() {
