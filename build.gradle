@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'com.github.nwillc.vplugin'
 
 repositories {
     mavenCentral()
@@ -8,8 +7,6 @@ repositories {
 def excludeHamcrest = { exclude module: 'hamcrest-core' }
 
 dependencies {
-    classpath 'com.github.nwillc:vplugin:1.+'
-
     // General
     compile 'commons-cli:commons-cli:1.3'
     compile 'org.apache.commons:commons-lang3:3.4'

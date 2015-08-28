@@ -2,7 +2,7 @@ package org.mumue.mumue.interpreter;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.mumue.mumue.acceptance.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.database.DatabaseAccessor;
 
 import java.util.Collection;

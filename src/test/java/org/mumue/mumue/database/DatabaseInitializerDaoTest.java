@@ -1,7 +1,6 @@
 package org.mumue.mumue.database;
 
 import org.junit.Test;
-import org.mumue.mumue.acceptance.DatabaseHelper;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

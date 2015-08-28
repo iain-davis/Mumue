@@ -3,7 +3,7 @@ package org.mumue.mumue.components.universe;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
-import org.mumue.mumue.acceptance.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.database.DatabaseAccessor;
 
 import java.util.Collection;
