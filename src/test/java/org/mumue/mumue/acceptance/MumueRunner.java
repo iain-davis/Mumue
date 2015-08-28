@@ -1,6 +1,7 @@
 package org.mumue.mumue.acceptance;
 
 import org.mumue.mumue.Main;
+import org.mumue.mumue.importer.GlobalConstants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,12 +14,12 @@ public class MumueRunner {
     private ScheduledFuture<?> killerFuture;
     private PrintStream originalOut;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private final Main main = new Main();
+    private Main main = new Main();
 
     public void run(int port, String... arguments) {
         redirectConsoleOutput();
 
-        Callable<String> telnet = new TelnetCallable(port);
+        Callable<String> telnet = new TelnetCallable(port, outputStream);
         Runnable killer = () -> {
             main.stop();
             mumueFuture.cancel(true);
@@ -26,14 +27,14 @@ public class MumueRunner {
         };
 
         mumueFuture = executorService.submit(() -> main.run(arguments));
-        telnetOutput = executorService.schedule(telnet, 5, TimeUnit.SECONDS);
+        telnetOutput = executorService.submit(telnet);
         killerFuture = executorService.schedule(killer, 10, TimeUnit.SECONDS);
     }
 
     public String getTelnetOutput() {
         try {
             return telnetOutput.get();
-        } catch (ExecutionException|InterruptedException exception) {
+        } catch (ExecutionException | InterruptedException exception) {
             throw new RuntimeException(exception);
         }
     }
@@ -48,6 +49,14 @@ public class MumueRunner {
         mumueFuture.cancel(true);
         killerFuture.cancel(true);
         resetConsoleOutput();
+        //noinspection StatementWithEmptyBody
+        while(!mumueFuture.isDone());
+    }
+
+    public synchronized void stopAfterTelnet() {
+        //noinspection StatementWithEmptyBody
+        while (!outputStream.toString().contains(GlobalConstants.TELNET_LISTENING));
+        stop();
     }
 
     private void redirectConsoleOutput() {

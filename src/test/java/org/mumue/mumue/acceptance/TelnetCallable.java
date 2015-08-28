@@ -1,20 +1,25 @@
 package org.mumue.mumue.acceptance;
 
 import org.apache.commons.net.telnet.TelnetClient;
+import org.mumue.mumue.importer.GlobalConstants;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Callable;
 
 public class TelnetCallable implements Callable<String> {
     private final int port;
+    private final ByteArrayOutputStream consoleOutputStream;
 
-    public TelnetCallable(int port) {
+    public TelnetCallable(int port, ByteArrayOutputStream consoleOutputStream) {
         this.port = port;
+        this.consoleOutputStream = consoleOutputStream;
     }
 
     @Override
     public String call() throws Exception {
+        while (!consoleOutputStream.toString().contains(GlobalConstants.TELNET_LISTENING)) {}
         TelnetClient client = new TelnetClient();
         try {
             client.connect("localhost", port);

@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection;
 
 import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class Acceptor extends CleanCloser implements InfiniteLoopBody {
 
     @Override
     public boolean prepare() {
+        System.out.println(GlobalConstants.TELNET_LISTENING + port);
         serverSocket = serverSocketFactory.createSocket(port);
         return true;
     }

@@ -1,5 +1,6 @@
 package org.mumue.mumue;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.configuration.ConfigurationInitializer;
 import org.mumue.mumue.connection.AcceptorLoopRunnerBuilder;
@@ -11,8 +12,11 @@ import org.mumue.mumue.threading.InfiniteLoopRunner;
 import org.mumue.mumue.threading.ThreadFactory;
 
 import javax.inject.Inject;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
 public class Mumue {
+    private final DataSource dataSource;
     private final ConfigurationInitializer configurationInitializer;
     private final DatabaseAccessorProvider databaseAccessorProvider;
     private final DatabaseInitializer databaseInitializer;
@@ -23,8 +27,9 @@ public class Mumue {
     private InfiniteLoopRunner acceptorLoop;
 
     @Inject
-    public Mumue(ConfigurationInitializer configurationInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DatabaseAccessorProvider databaseAccessorProvider, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory, ConnectionManager connectionManager) {
+    public Mumue(ConfigurationInitializer configurationInitializer, DatabaseAccessorInitializer databaseAccessorInitializer, DataSource dataSource, DatabaseAccessorProvider databaseAccessorProvider, DatabaseInitializer databaseInitializer, AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder, ThreadFactory threadFactory, ConnectionManager connectionManager) {
         this.configurationInitializer = configurationInitializer;
+        this.dataSource = dataSource;
         this.databaseAccessorProvider = databaseAccessorProvider;
         this.databaseInitializer = databaseInitializer;
         this.acceptorLoopRunnerBuilder = acceptorLoopRunnerBuilder;
@@ -54,5 +59,14 @@ public class Mumue {
 
     public void stop() {
         acceptorLoop.stop();
+        closeDatabase();
+    }
+
+    private void closeDatabase() {
+        try {
+            ((BasicDataSource)dataSource).close();
+        } catch (SQLException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 }
