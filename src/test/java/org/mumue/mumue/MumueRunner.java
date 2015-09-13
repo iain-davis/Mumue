@@ -4,10 +4,14 @@ import org.apache.commons.io.FileUtils;
 import org.mumue.mumue.importer.GlobalConstants;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class MumueRunner {
     public static final String WELCOME_TO_MUMUE = "Welcome to Mumue!";
@@ -60,12 +64,12 @@ public class MumueRunner {
         killerFuture.cancel(true);
         resetConsoleOutput();
         //noinspection StatementWithEmptyBody
-        while(!mumueFuture.isDone());
+        while (!mumueFuture.isDone()) ;
     }
 
     public synchronized void stopAfterTelnet() {
         //noinspection StatementWithEmptyBody
-        while (!outputStream.toString().contains(GlobalConstants.TELNET_LISTENING));
+        while (!outputStream.toString().contains(GlobalConstants.TELNET_LISTENING)) ;
         stop();
     }
 
@@ -79,11 +83,7 @@ public class MumueRunner {
     }
 
     public void cleanupDatabase() {
-        try {
-            FileUtils.forceDelete(FileUtils.getFile("./mumuedatabase.h2.db"));
-        } catch (FileNotFoundException ignored) {
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+        FileUtils.getFile("./mumuedatabase.h2.db").deleteOnExit();
+        FileUtils.getFile("./mumuedatabase.trace.db").deleteOnExit();
     }
 }
