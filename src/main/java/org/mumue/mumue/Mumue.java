@@ -1,68 +1,71 @@
 package org.mumue.mumue;
 
+import com.google.inject.Injector;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.configuration.ConfigurationInitializer;
-import org.mumue.mumue.connection.AcceptorLoopRunnerBuilder;
+import org.mumue.mumue.connection.ConnectionFactory;
 import org.mumue.mumue.connection.ConnectionManager;
+import org.mumue.mumue.connection.Acceptor;
+import org.mumue.mumue.connection.ServerSocketFactory;
+import org.mumue.mumue.database.DatabaseAccessorProvider;
 import org.mumue.mumue.database.DatabaseInitializer;
 import org.mumue.mumue.threading.InfiniteLoopRunner;
-import org.mumue.mumue.threading.ThreadFactory;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Mumue {
     private final DataSource dataSource;
     private final ConfigurationInitializer configurationInitializer;
     private final DatabaseInitializer databaseInitializer;
-    private final AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
-    private final ThreadFactory threadFactory;
-
     private final ConnectionManager connectionManager;
-    private InfiniteLoopRunner acceptorLoop;
+    private final Injector injector;
+    private Future<?> acceptorTask;
 
+    @SuppressWarnings("UnusedParameters")
     @Inject
     public Mumue(DataSource dataSource, DatabaseInitializer databaseInitializer,
                  ConfigurationInitializer configurationInitializer,
-                 AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder,
-                 ThreadFactory threadFactory,
-                 ConnectionManager connectionManager) {
+                 ConnectionManager connectionManager,
+                 Injector injector,
+                 DatabaseAccessorProvider databaseAccessorProvider) {
         this.configurationInitializer = configurationInitializer;
         this.dataSource = dataSource;
         this.databaseInitializer = databaseInitializer;
-        this.acceptorLoopRunnerBuilder = acceptorLoopRunnerBuilder;
-        this.threadFactory = threadFactory;
         this.connectionManager = connectionManager;
+        this.injector = injector;
     }
 
     public void run() {
         Configuration configuration = configurationInitializer.initialize();
         databaseInitializer.initialize();
 
-        acceptorLoop = startAcceptorLoop(configuration);
+        Acceptor acceptor = new Acceptor(
+                injector.getInstance(ServerSocketFactory.class),
+                injector.getInstance(ConnectionFactory.class),
+                injector.getInstance(Configuration.class),
+                connectionManager,
+                configuration.getTelnetPort()
+        );
 
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        acceptorTask = executorService.submit(new InfiniteLoopRunner(acceptor));
         //noinspection StatementWithEmptyBody
-        while (acceptorLoop.isRunning()) ;
+        while(!acceptorTask.isDone()) {}
 
-        stop();
-    }
-
-    private InfiniteLoopRunner startAcceptorLoop(Configuration configuration) {
-        InfiniteLoopRunner connectionAcceptorLoop = acceptorLoopRunnerBuilder.build(configuration, connectionManager);
-
-        Thread thread = threadFactory.create(connectionAcceptorLoop, "Connection Acceptor Thread");
-        thread.start();
-        return connectionAcceptorLoop;
+        cleanup();
     }
 
     public void stop() {
-        acceptorLoop.stop();
-        closeDatabase();
+        acceptorTask.cancel(true);
     }
 
-    private void closeDatabase() {
+    private void cleanup() {
         try {
             ((BasicDataSource)dataSource).close();
         } catch (SQLException exception) {

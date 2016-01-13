@@ -1,8 +1,6 @@
 package org.mumue.mumue.threading;
 
-import org.mumue.mumue.connection.CleanCloser;
-
-public class InfiniteLoopRunner extends CleanCloser implements Runnable {
+public class InfiniteLoopRunner implements Runnable {
     private final InfiniteLoopBody body;
     private boolean running = true;
 

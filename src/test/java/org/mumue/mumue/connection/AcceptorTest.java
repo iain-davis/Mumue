@@ -5,9 +5,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.configuration.Configuration;
 
 import java.io.IOException;
@@ -15,110 +12,101 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AcceptorTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Rule public ExpectedException thrown = ExpectedException.none();
-    @Mock Socket socket;
-    @Mock Connection connection;
-    @Mock Configuration configuration;
-    @Mock ServerSocket serverSocket;
-    @Mock ServerSocketFactory serverSocketFactory;
-    @Mock ConnectionFactory connectionFactory;
-
+    private final ServerSocket serverSocket = mock(ServerSocket.class);
+    private final MockServerSocketFactory serverSocketFactory = new MockServerSocketFactory(serverSocket);
+    private final MockConnectionFactory connectionFactory = new MockConnectionFactory();
+    private final Socket clientSocket = mock(Socket.class);
+    private final Configuration configuration = mock(Configuration.class);
     private final ConnectionManager connectionManager = new ConnectionManager();
+    private final Connection connection = new Connection(configuration);
 
     @Before
-    public void beforeEach() throws IOException {
-        when(serverSocketFactory.createSocket(anyInt())).thenReturn(serverSocket);
-        when(serverSocket.accept()).thenReturn(socket);
-        when(connectionFactory.create(socket, configuration)).thenReturn(connection);
+    public void beforeEach() {
+        connectionManager.getConnections().clear();
     }
 
     @Test
-    public void prepareUsesSpecifiedPort() {
+    public void usesSpecifiedPort() {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
+        new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, port);
 
-        acceptor.prepare();
-
-        verify(serverSocketFactory).createSocket(port);
+        assertThat(serverSocketFactory.port, equalTo(port));
     }
 
     @Test
-    public void prepareReturnsTrue() {
-        int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
+    public void createsConnectionFromAcceptedSocket() throws IOException {
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, 1024);
 
-        assertTrue(acceptor.prepare());
-    }
+        when(serverSocket.accept()).thenReturn(clientSocket);
 
-    @Test
-    public void executeCreatesConnectionUsingSocket() {
-        int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
-
-        acceptor.prepare();
         acceptor.execute();
 
-        verify(connectionFactory).create(socket, configuration);
+        assertSame(connectionFactory.socket, clientSocket);
     }
 
     @Test
-    public void executeReturnsTrue() {
-        int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
+    public void createsConnectionFromAcceptedSocketUsingConfiguration() {
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, 1024);
 
-        acceptor.prepare();
-
-        assertTrue(acceptor.execute());
-    }
-
-    @Test
-    public void executeGivesConnectionToConnectionManager() throws IOException {
-        int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
-
-        acceptor.prepare();
         acceptor.execute();
 
-        assertThat(connectionManager.getConnections(), hasItem(connection));
+        assertSame(connectionFactory.configuration, configuration);
+    }
+
+    @Test
+    public void addsNewConnectionToConnectionManager() {
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, 1024);
+
+        acceptor.execute();
+
+        assertThat(connectionManager.getConnections().size(), equalTo(1));
+        assertSame(connectionManager.getConnections().firstElement(), connection);
     }
 
     @Test
     public void executeHandlesIOException() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(port, connectionManager, serverSocketFactory, connectionFactory, configuration);
-
-        acceptor.prepare();
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, port);
 
         when(serverSocket.accept()).thenThrow(new IOException());
 
-        thrown.expectMessage("Error accepting client connection on port " + port);
         thrown.expect(RuntimeException.class);
+        thrown.expectMessage("Error accepting client connecting to port " + port);
 
         acceptor.execute();
     }
 
-    @Test
-    public void cleanupClosesServerSocket() throws IOException {
-        Acceptor acceptor = new Acceptor(9999, connectionManager, serverSocketFactory, connectionFactory, configuration);
+    private class MockServerSocketFactory extends ServerSocketFactory {
+        private int port;
+        private final ServerSocket serverSocket;
 
-        acceptor.prepare();
-        acceptor.cleanup();
+        private MockServerSocketFactory(ServerSocket serverSocket) {
+            this.serverSocket = serverSocket;
+        }
 
-        verify(serverSocket, atLeastOnce()).close();
+        @Override
+        public ServerSocket createSocket(int port) {
+            this.port = port;
+            return serverSocket;
+        }
     }
 
-    @Test
-    public void cleanupReturnsTrue() throws IOException {
-        Acceptor acceptor = new Acceptor(9999, connectionManager, serverSocketFactory, connectionFactory, configuration);
+    private class MockConnectionFactory extends ConnectionFactory {
+        private Socket socket;
+        private Configuration configuration;
 
-        acceptor.prepare();
-        assertTrue(acceptor.cleanup());
+        @Override
+        public Connection create(Socket socket, Configuration configuration) {
+            this.socket = socket;
+            this.configuration = configuration;
+            return connection;
+        }
     }
 }

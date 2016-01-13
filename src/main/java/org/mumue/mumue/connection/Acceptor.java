@@ -1,37 +1,29 @@
 package org.mumue.mumue.connection;
 
 import org.mumue.mumue.configuration.Configuration;
-import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Acceptor extends CleanCloser implements InfiniteLoopBody {
-    private final int port;
-    private final ConnectionManager connectionManager;
-    private final ServerSocketFactory serverSocketFactory;
+public class Acceptor implements InfiniteLoopBody {
+    private final ServerSocket serverSocket;
     private final ConnectionFactory connectionFactory;
     private final Configuration configuration;
-    private ServerSocket serverSocket;
+    private final ConnectionManager connectionManager;
+    private final int port;
 
-    public Acceptor(int port, ConnectionManager connectionManager, Configuration configuration) {
-        this(port, connectionManager, new ServerSocketFactory(), new ConnectionFactory(), configuration);
-    }
-
-    Acceptor(int port, ConnectionManager connectionManager, ServerSocketFactory serverSocketFactory, ConnectionFactory connectionFactory, Configuration configuration) {
-        this.port = port;
-        this.connectionManager = connectionManager;
-        this.serverSocketFactory = serverSocketFactory;
+    public Acceptor(ServerSocketFactory factory, ConnectionFactory connectionFactory, Configuration configuration, ConnectionManager connectionManager, int port) {
         this.connectionFactory = connectionFactory;
         this.configuration = configuration;
+        this.connectionManager = connectionManager;
+        this.serverSocket = factory.createSocket(port);
+        this.port = port;
     }
 
     @Override
     public boolean prepare() {
-        System.out.println(GlobalConstants.TELNET_LISTENING + port);
-        serverSocket = serverSocketFactory.createSocket(port);
         return true;
     }
 
@@ -41,23 +33,14 @@ public class Acceptor extends CleanCloser implements InfiniteLoopBody {
             Socket clientSocket = serverSocket.accept();
             Connection connection = connectionFactory.create(clientSocket, configuration);
             connectionManager.add(connection);
-            return true;
         } catch (IOException exception) {
-            throw new RuntimeException("Error accepting client connection on port " + port, exception);
+            throw new RuntimeException("Error accepting client connecting to port " + port, exception);
         }
+        return true;
     }
 
     @Override
     public boolean cleanup() {
-        close(serverSocket);
         return true;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public ConnectionManager getConnectionManager() {
-        return connectionManager;
     }
 }
