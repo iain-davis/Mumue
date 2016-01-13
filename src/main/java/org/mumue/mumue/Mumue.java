@@ -24,6 +24,7 @@ public class Mumue {
     private final ConfigurationInitializer configurationInitializer;
     private final DatabaseInitializer databaseInitializer;
     private final ConnectionManager connectionManager;
+    private final ExecutorService executorService;
     private final Injector injector;
     private Future<?> acceptorTask;
 
@@ -33,12 +34,14 @@ public class Mumue {
                  ConfigurationInitializer configurationInitializer,
                  ConnectionManager connectionManager,
                  Injector injector,
-                 DatabaseAccessorProvider databaseAccessorProvider) {
+                 DatabaseAccessorProvider databaseAccessorProvider,
+                 ExecutorService executorService) {
         this.configurationInitializer = configurationInitializer;
         this.dataSource = dataSource;
         this.databaseInitializer = databaseInitializer;
         this.connectionManager = connectionManager;
         this.injector = injector;
+        this.executorService = executorService;
     }
 
     public void run() {
@@ -53,7 +56,6 @@ public class Mumue {
                 configuration.getTelnetPort()
         );
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
         acceptorTask = executorService.submit(new InfiniteLoopRunner(acceptor));
         //noinspection StatementWithEmptyBody
         while(!acceptorTask.isDone()) {}

@@ -14,7 +14,10 @@ public class Main {
     }
 
     public void run(String... arguments) {
-        Injector injector = Guice.createInjector(new DatabaseModule(databaseConfigurationLoader.load()));
+        Injector injector = Guice.createInjector(
+                new DatabaseModule(databaseConfigurationLoader.load()),
+                new MainModule()
+        );
         mumue = injector.getInstance(Mumue.class);
         mumue.run();
     }
