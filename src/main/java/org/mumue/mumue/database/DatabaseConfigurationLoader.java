@@ -11,8 +11,7 @@ public class DatabaseConfigurationLoader {
     }
 
     public DatabaseConfiguration load(String filePath) {
-        Properties properties = loadProperties(filePath);
-        return createConfiguration(properties);
+        return createConfiguration(loadProperties(filePath));
     }
 
     private DatabaseConfiguration createConfiguration(Properties properties) {

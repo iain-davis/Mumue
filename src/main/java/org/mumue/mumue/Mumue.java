@@ -5,8 +5,6 @@ import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.configuration.ConfigurationInitializer;
 import org.mumue.mumue.connection.AcceptorLoopRunnerBuilder;
 import org.mumue.mumue.connection.ConnectionManager;
-import org.mumue.mumue.database.DatabaseAccessorInitializer;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
 import org.mumue.mumue.database.DatabaseInitializer;
 import org.mumue.mumue.threading.InfiniteLoopRunner;
 import org.mumue.mumue.threading.ThreadFactory;
@@ -18,7 +16,6 @@ import java.sql.SQLException;
 public class Mumue {
     private final DataSource dataSource;
     private final ConfigurationInitializer configurationInitializer;
-    private final DatabaseAccessorProvider databaseAccessorProvider;
     private final DatabaseInitializer databaseInitializer;
     private final AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder;
     private final ThreadFactory threadFactory;
@@ -29,14 +26,11 @@ public class Mumue {
     @Inject
     public Mumue(DataSource dataSource, DatabaseInitializer databaseInitializer,
                  ConfigurationInitializer configurationInitializer,
-                 DatabaseAccessorInitializer databaseAccessorInitializer,
-                 DatabaseAccessorProvider databaseAccessorProvider,
                  AcceptorLoopRunnerBuilder acceptorLoopRunnerBuilder,
                  ThreadFactory threadFactory,
                  ConnectionManager connectionManager) {
         this.configurationInitializer = configurationInitializer;
         this.dataSource = dataSource;
-        this.databaseAccessorProvider = databaseAccessorProvider;
         this.databaseInitializer = databaseInitializer;
         this.acceptorLoopRunnerBuilder = acceptorLoopRunnerBuilder;
         this.threadFactory = threadFactory;
