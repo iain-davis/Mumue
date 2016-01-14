@@ -25,13 +25,13 @@ public class ConnectionFactoryTest {
 
     @Test
     public void createReturnsConnection() {
-        assertThat(connectionFactory.create(socket, configuration), instanceOf(Connection.class));
+        assertThat(connectionFactory.create(socket), instanceOf(Connection.class));
     }
 
     @Test
     public void createInitializesConnection() {
-        connectionFactory.create(socket, configuration);
+        connectionFactory.create(socket);
 
-        verify(connectionInitializer).initialize(eq(socket), any(Connection.class), eq(configuration));
+        verify(connectionInitializer).initialize(eq(socket), any(Connection.class));
     }
 }

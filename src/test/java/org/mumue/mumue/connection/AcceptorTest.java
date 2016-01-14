@@ -1,11 +1,13 @@
 package org.mumue.mumue.connection;
 
+import com.google.inject.Guice;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.threading.InfiniteLoopRunnerStarter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -35,14 +37,14 @@ public class AcceptorTest {
     @Test
     public void usesSpecifiedPort() {
         int port = RandomUtils.nextInt(2048, 4096);
-        new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, port);
+        new Acceptor(serverSocketFactory, connectionFactory, connectionManager, port);
 
         assertThat(serverSocketFactory.port, equalTo(port));
     }
 
     @Test
     public void createsConnectionFromAcceptedSocket() throws IOException {
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, 1024);
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager, 1024);
 
         when(serverSocket.accept()).thenReturn(clientSocket);
 
@@ -52,17 +54,8 @@ public class AcceptorTest {
     }
 
     @Test
-    public void createsConnectionFromAcceptedSocketUsingConfiguration() {
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, 1024);
-
-        acceptor.execute();
-
-        assertSame(connectionFactory.configuration, configuration);
-    }
-
-    @Test
     public void addsNewConnectionToConnectionManager() {
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, 1024);
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager, 1024);
 
         acceptor.execute();
 
@@ -73,7 +66,7 @@ public class AcceptorTest {
     @Test
     public void executeHandlesIOException() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, configuration, connectionManager, port);
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager, port);
 
         when(serverSocket.accept()).thenThrow(new IOException());
 
@@ -100,12 +93,14 @@ public class AcceptorTest {
 
     private class MockConnectionFactory extends ConnectionFactory {
         private Socket socket;
-        private Configuration configuration;
+
+        public MockConnectionFactory() {
+            super(Guice.createInjector(), new ConnectionInitializer(Guice.createInjector(), new InfiniteLoopRunnerStarter()));
+        }
 
         @Override
-        public Connection create(Socket socket, Configuration configuration) {
+        public Connection create(Socket socket) {
             this.socket = socket;
-            this.configuration = configuration;
             return connection;
         }
     }

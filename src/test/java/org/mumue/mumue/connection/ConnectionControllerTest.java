@@ -7,15 +7,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.NoOperation;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ConnectionControllerTest {
     private final Configuration configuration = mock(Configuration.class);
     private final Connection connection = new Connection(configuration);
@@ -23,13 +25,13 @@ public class ConnectionControllerTest {
 
     @Test
     public void prepareReturnsTrue() {
-        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage);
         assertTrue(controller.prepare());
     }
 
     @Test
     public void executeExecutesStage() {
-        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage);
         controller.execute();
 
         verify(stage).execute(connection, configuration);
@@ -37,7 +39,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void executeMovesToNextStage() {
-        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage);
         NoOperation next = new NoOperation();
         when(stage.execute(connection, configuration)).thenReturn(next);
 
@@ -48,13 +50,13 @@ public class ConnectionControllerTest {
 
     @Test
     public void executeReturnsTrue() {
-        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage);
         assertTrue(controller.execute());
     }
 
     @Test
     public void cleanupReturnsTrue() {
-        ConnectionController controller = new ConnectionController(connection, configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage);
         assertTrue(controller.cleanup());
     }
 }

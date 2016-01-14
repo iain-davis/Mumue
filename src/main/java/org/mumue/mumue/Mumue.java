@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class Mumue {
@@ -51,7 +50,6 @@ public class Mumue {
         Acceptor acceptor = new Acceptor(
                 injector.getInstance(ServerSocketFactory.class),
                 injector.getInstance(ConnectionFactory.class),
-                injector.getInstance(Configuration.class),
                 connectionManager,
                 configuration.getTelnetPort()
         );

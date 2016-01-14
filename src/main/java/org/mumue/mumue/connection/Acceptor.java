@@ -10,13 +10,11 @@ import java.net.Socket;
 public class Acceptor implements InfiniteLoopBody {
     private final ServerSocket serverSocket;
     private final ConnectionFactory connectionFactory;
-    private final Configuration configuration;
     private final ConnectionManager connectionManager;
     private final int port;
 
-    public Acceptor(ServerSocketFactory factory, ConnectionFactory connectionFactory, Configuration configuration, ConnectionManager connectionManager, int port) {
+    public Acceptor(ServerSocketFactory factory, ConnectionFactory connectionFactory, ConnectionManager connectionManager, int port) {
         this.connectionFactory = connectionFactory;
-        this.configuration = configuration;
         this.connectionManager = connectionManager;
         this.serverSocket = factory.createSocket(port);
         this.port = port;
@@ -31,7 +29,7 @@ public class Acceptor implements InfiniteLoopBody {
     public boolean execute() {
         try {
             Socket clientSocket = serverSocket.accept();
-            Connection connection = connectionFactory.create(clientSocket, configuration);
+            Connection connection = connectionFactory.create(clientSocket);
             connectionManager.add(connection);
         } catch (IOException exception) {
             throw new RuntimeException("Error accepting client connecting to port " + port, exception);

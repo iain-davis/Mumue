@@ -8,6 +8,8 @@ import org.mumue.mumue.text.TextQueue;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.Configuration;
 
+import javax.inject.Inject;
+
 public class Connection {
     private TextQueue inputQueue = new TextQueue();
     private TextQueue outputQueue = new TextQueue();
@@ -16,6 +18,7 @@ public class Connection {
     private Map<String, Long> menuOptionIds = new HashMap<>();
     private Configuration configuration;
 
+    @Inject
     public Connection(Configuration configuration) {
         this.configuration = configuration;
     }
