@@ -3,7 +3,6 @@ package org.mumue.mumue.connection.stages.login;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,7 +32,9 @@ public class WelcomeTest {
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(eq(TextName.Welcome), anyString())).thenReturn(welcome);
+        String serverLocale = RandomStringUtils.randomAlphabetic(7);
+        when(configuration.getServerLocale()).thenReturn(serverLocale);
+        when(textMaker.getText(eq(TextName.Welcome), eq(serverLocale))).thenReturn(welcome);
     }
 
     @Test
