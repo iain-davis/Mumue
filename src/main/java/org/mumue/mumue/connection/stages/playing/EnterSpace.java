@@ -1,13 +1,13 @@
 package org.mumue.mumue.connection.stages.playing;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
-import org.mumue.mumue.components.space.SpaceDao;
 import org.mumue.mumue.components.space.Space;
+import org.mumue.mumue.components.space.SpaceDao;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
-
-import javax.inject.Inject;
 
 public class EnterSpace implements ConnectionStage {
     private final Injector injector;

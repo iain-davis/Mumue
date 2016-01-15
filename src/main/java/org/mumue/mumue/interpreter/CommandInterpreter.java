@@ -1,8 +1,8 @@
 package org.mumue.mumue.interpreter;
 
-import javax.inject.Inject;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.inject.Inject;
 
 public class CommandInterpreter {
     private final CommandListBuilder commandListBuilder;

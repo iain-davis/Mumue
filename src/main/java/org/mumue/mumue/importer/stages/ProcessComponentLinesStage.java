@@ -6,10 +6,6 @@ import java.util.Map.Entry;
 
 import org.mumue.mumue.importer.ImportBucket;
 import org.mumue.mumue.importer.ImporterStage;
-import org.mumue.mumue.importer.components.properties.IntegerProperty;
-import org.mumue.mumue.importer.components.properties.LockProperty;
-import org.mumue.mumue.importer.components.properties.ReferenceProperty;
-import org.mumue.mumue.importer.components.properties.StringProperty;
 import org.mumue.mumue.importer.components.Artifact;
 import org.mumue.mumue.importer.components.Component;
 import org.mumue.mumue.importer.components.GameCharacter;
@@ -18,6 +14,10 @@ import org.mumue.mumue.importer.components.LinkSource;
 import org.mumue.mumue.importer.components.Ownable;
 import org.mumue.mumue.importer.components.Program;
 import org.mumue.mumue.importer.components.Space;
+import org.mumue.mumue.importer.components.properties.IntegerProperty;
+import org.mumue.mumue.importer.components.properties.LockProperty;
+import org.mumue.mumue.importer.components.properties.ReferenceProperty;
+import org.mumue.mumue.importer.components.properties.StringProperty;
 
 public class ProcessComponentLinesStage extends ImporterStage {
     @Override

@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
-
 import org.mumue.mumue.components.ComponentResultSetProcessor;
 
 public class PlayerRowProcessor extends BasicRowProcessor {

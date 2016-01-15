@@ -1,22 +1,22 @@
 package org.mumue.mumue;
 
+import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import javax.inject.Inject;
+import javax.sql.DataSource;
+
 import com.google.inject.Injector;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.configuration.ConfigurationInitializer;
+import org.mumue.mumue.connection.Acceptor;
 import org.mumue.mumue.connection.ConnectionFactory;
 import org.mumue.mumue.connection.ConnectionManager;
-import org.mumue.mumue.connection.Acceptor;
 import org.mumue.mumue.connection.ServerSocketFactory;
 import org.mumue.mumue.database.DatabaseAccessorProvider;
 import org.mumue.mumue.database.DatabaseInitializer;
 import org.mumue.mumue.threading.InfiniteLoopRunner;
-
-import javax.inject.Inject;
-import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class Mumue {
     private final DataSource dataSource;

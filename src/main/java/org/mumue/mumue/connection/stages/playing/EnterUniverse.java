@@ -1,5 +1,9 @@
 package org.mumue.mumue.connection.stages.playing;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
@@ -8,10 +12,6 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
-
-import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EnterUniverse implements ConnectionStage {
     private final Injector injector;

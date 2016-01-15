@@ -1,13 +1,13 @@
 package org.mumue.mumue.components.character;
 
+import java.sql.Timestamp;
+import java.util.List;
+import javax.inject.Inject;
+
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-
-import javax.inject.Inject;
-import java.sql.Timestamp;
-import java.util.List;
 
 public class CharacterDao {
     private static final String GET_BY_UNIVERSE_QUERY = "select * from characters where name = ? and universeId = ?";

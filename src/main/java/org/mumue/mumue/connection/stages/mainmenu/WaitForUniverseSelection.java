@@ -1,5 +1,7 @@
 package org.mumue.mumue.connection.stages.mainmenu;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
@@ -9,8 +11,6 @@ import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
-
-import javax.inject.Inject;
 
 public class WaitForUniverseSelection implements ConnectionStage {
     private final Injector injector;

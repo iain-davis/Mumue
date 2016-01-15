@@ -1,13 +1,13 @@
 package org.mumue.mumue.database;
 
+import static org.junit.Assert.assertSame;
+
+import java.util.Properties;
+import javax.sql.DataSource;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
-
-import javax.sql.DataSource;
-import java.util.Properties;
-
-import static org.junit.Assert.assertSame;
 
 public class DatabaseModuleTest {
     private final DatabaseConfiguration configuration = new DatabaseConfiguration(new Properties());

@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
-
 import org.mumue.mumue.components.NameableComponentResultSetProcessor;
 
 public class UniverseRowProcessor extends BasicRowProcessor {

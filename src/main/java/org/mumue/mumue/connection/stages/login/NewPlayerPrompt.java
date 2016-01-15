@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.stages.login;
 
 import java.util.Map;
+import javax.inject.Inject;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Injector;
@@ -9,8 +10,6 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
-
-import javax.inject.Inject;
 
 public class NewPlayerPrompt implements ConnectionStage {
     private final Injector injector;

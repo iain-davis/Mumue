@@ -1,10 +1,9 @@
 package org.mumue.mumue.connection;
 
 import java.net.Socket;
+import javax.inject.Inject;
 
 import com.google.inject.Injector;
-
-import javax.inject.Inject;
 
 public class ConnectionFactory {
     private final Injector injector;

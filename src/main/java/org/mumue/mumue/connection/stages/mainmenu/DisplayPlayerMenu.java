@@ -1,5 +1,7 @@
 package org.mumue.mumue.connection.stages.mainmenu;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
@@ -7,8 +9,6 @@ import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
-
-import javax.inject.Inject;
 
 public class DisplayPlayerMenu implements ConnectionStage {
     private final Injector injector;

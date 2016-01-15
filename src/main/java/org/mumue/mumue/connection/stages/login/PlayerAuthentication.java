@@ -1,5 +1,7 @@
 package org.mumue.mumue.connection.stages.login;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
@@ -11,8 +13,6 @@ import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
-
-import javax.inject.Inject;
 
 public class PlayerAuthentication implements ConnectionStage {
     private final Injector injector;

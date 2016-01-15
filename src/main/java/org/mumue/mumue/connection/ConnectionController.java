@@ -1,12 +1,12 @@
 package org.mumue.mumue.connection;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
-import org.mumue.mumue.threading.InfiniteLoopBody;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.login.Welcome;
-
-import javax.inject.Inject;
+import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class ConnectionController implements InfiniteLoopBody {
     private final Configuration configuration;

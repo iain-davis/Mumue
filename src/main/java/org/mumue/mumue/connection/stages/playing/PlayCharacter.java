@@ -1,5 +1,10 @@
 package org.mumue.mumue.connection.stages.playing;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
+
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
@@ -9,11 +14,6 @@ import org.mumue.mumue.interpreter.commands.Command;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.utility.StringUtilities;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.inject.Inject;
 
 public class PlayCharacter implements ConnectionStage {
     private final CommandInterpreter commandInterpreter;

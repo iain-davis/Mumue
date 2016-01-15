@@ -1,9 +1,9 @@
 package org.mumue.mumue.configuration;
 
-import org.mumue.mumue.configuration.online.OnlineConfiguration;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import org.mumue.mumue.configuration.online.OnlineConfiguration;
 
 @Singleton
 public class Configuration {

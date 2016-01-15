@@ -14,11 +14,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
+import org.mumue.mumue.importer.stages.ContentsChainStage;
 import org.mumue.mumue.importer.stages.GenerateRawComponentsStage;
 import org.mumue.mumue.importer.stages.LinkSourceChainStage;
 import org.mumue.mumue.importer.stages.LoadLinesStage;
-import org.mumue.mumue.importer.stages.ContentsChainStage;
 import org.mumue.mumue.importer.stages.PlayerGenerationStage;
 import org.mumue.mumue.importer.stages.ProcessComponentLinesStage;
 import org.mumue.mumue.importer.stages.SeparateSectionsStage;

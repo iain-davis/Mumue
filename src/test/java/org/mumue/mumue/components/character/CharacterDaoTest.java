@@ -1,19 +1,19 @@
 package org.mumue.mumue.components.character;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
-import org.mumue.mumue.database.DatabaseHelper;
-import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.importer.GlobalConstants;
-
-import java.time.Instant;
-import java.util.List;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
+
+import java.time.Instant;
+import java.util.List;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Test;
+import org.mumue.mumue.database.DatabaseAccessor;
+import org.mumue.mumue.database.DatabaseHelper;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class CharacterDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();

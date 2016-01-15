@@ -10,13 +10,10 @@ import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.threading.InfiniteLoopRunnerStarter;
 

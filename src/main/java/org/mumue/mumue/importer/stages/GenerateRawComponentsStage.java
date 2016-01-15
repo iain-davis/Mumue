@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.mumue.mumue.importer.ImportBucket;
-import org.mumue.mumue.importer.components.GameCharacter;
-import org.mumue.mumue.importer.components.Space;
 import org.mumue.mumue.importer.ImporterStage;
 import org.mumue.mumue.importer.components.Artifact;
+import org.mumue.mumue.importer.components.GameCharacter;
 import org.mumue.mumue.importer.components.Link;
 import org.mumue.mumue.importer.components.Program;
+import org.mumue.mumue.importer.components.Space;
 
 public class GenerateRawComponentsStage extends ImporterStage {
     @Override

@@ -1,12 +1,12 @@
 package org.mumue.mumue.configuration.online;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.mumue.mumue.database.DatabaseHelper;
-import org.mumue.mumue.database.DatabaseAccessor;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
+import org.mumue.mumue.database.DatabaseAccessor;
+import org.mumue.mumue.database.DatabaseHelper;
 
 public class OnlineConfigurationDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();

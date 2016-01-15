@@ -1,10 +1,10 @@
 package org.mumue.mumue.components.space;
 
+import javax.inject.Inject;
+
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-
-import javax.inject.Inject;
 
 public class SpaceDao {
     private static final String GET_QUERY = "select * from spaces where id = ?";

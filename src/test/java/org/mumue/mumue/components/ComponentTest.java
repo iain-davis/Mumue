@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class ComponentTest {

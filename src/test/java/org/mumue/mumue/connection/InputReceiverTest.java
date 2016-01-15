@@ -20,7 +20,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import org.mumue.mumue.text.TextQueue;
 
 @RunWith(MockitoJUnitRunner.class)

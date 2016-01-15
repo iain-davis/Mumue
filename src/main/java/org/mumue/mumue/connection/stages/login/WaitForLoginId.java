@@ -1,12 +1,12 @@
 package org.mumue.mumue.connection.stages.login;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.player.PlayerDao;
-
-import javax.inject.Inject;
 
 public class WaitForLoginId implements ConnectionStage {
     private final Injector injector;

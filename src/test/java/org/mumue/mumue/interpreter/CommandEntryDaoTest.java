@@ -1,15 +1,19 @@
 package org.mumue.mumue.interpreter;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.mumue.mumue.database.DatabaseHelper;
-import org.mumue.mumue.database.DatabaseAccessor;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.Collection;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
+import org.mumue.mumue.database.DatabaseAccessor;
+import org.mumue.mumue.database.DatabaseHelper;
 
 public class CommandEntryDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
