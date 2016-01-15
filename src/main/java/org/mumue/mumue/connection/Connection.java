@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.player.Player;
@@ -61,7 +62,7 @@ public class Connection {
     }
 
     public String getLocale() {
-        if (getPlayer() == null) {
+        if (getPlayer() == null || StringUtils.isBlank(getPlayer().getLocale())) {
             return configuration.getServerLocale();
         }
         return getPlayer().getLocale();

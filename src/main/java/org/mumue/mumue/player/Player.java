@@ -3,9 +3,9 @@ package org.mumue.mumue.player;
 import org.mumue.mumue.components.Component;
 
 public class Player extends Component {
-    String loginId = "";
-    String locale = "";
-    boolean administrator = false;
+    private String loginId = "";
+    private String locale = "";
+    private boolean administrator = false;
 
     public String getLoginId() {
         return loginId;

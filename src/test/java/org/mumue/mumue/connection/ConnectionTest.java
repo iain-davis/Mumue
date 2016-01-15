@@ -69,4 +69,17 @@ public class ConnectionTest {
 
         assertThat(locale, equalTo(expected));
     }
+
+    @Test
+    public void getLocaleWhenPlayerDoesNotHaveALocaleReturnsServerLocale() {
+        Player player = new Player();
+        player.setLocale("");
+        connection.setPlayer(player);
+        String expected = RandomStringUtils.randomAlphabetic(5);
+        when(configuration.getServerLocale()).thenReturn(expected);
+
+        String locale = connection.getLocale();
+
+        assertThat(locale, equalTo(expected));
+    }
 }
