@@ -13,10 +13,8 @@ public class CommandPose implements Command {
         String s = command.equals(";") ? "" : " ";
         GameCharacter character = connection.getCharacter();
         String output = character.getName() + s + arguments + "\\r\\n";
-        for (Connection otherConnection : connectionManager.getConnections()) {
-            if (otherConnection.getCharacter().getLocationId() == character.getLocationId()) {
-                otherConnection.getOutputQueue().push(output);
-            }
-        }
+        long locationId = character.getLocationId();
+        connectionManager.getConnections().stream().filter(otherConnection -> otherConnection.getCharacter().getLocationId() == locationId)
+                .forEach(otherConnection -> otherConnection.getOutputQueue().push(output));
     }
 }
