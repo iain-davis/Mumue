@@ -4,23 +4,18 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
 
 import javax.inject.Inject;
 import java.sql.Timestamp;
 import java.util.List;
 
 public class CharacterDao {
-    private final DatabaseAccessor database;
     private static final String GET_BY_UNIVERSE_QUERY = "select * from characters where name = ? and universeId = ?";
+    private final DatabaseAccessor database;
 
     @Inject
     public CharacterDao(DatabaseAccessor database) {
         this.database = database;
-    }
-
-    public CharacterDao() {
-        this.database = DatabaseAccessorProvider.get();
     }
 
     public GameCharacter getCharacter(String name, long universeId) {

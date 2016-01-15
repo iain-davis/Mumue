@@ -29,7 +29,7 @@ import org.mumue.mumue.text.TextMaker;
 
 public class CommandSayDirectedTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock TextMaker textMaker = new TextMaker();
+    @Mock TextMaker textMaker;
     @Mock ConnectionManager connectionManager;
     @Mock Configuration configuration;
     @InjectMocks CommandSayDirected command;

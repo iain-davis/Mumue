@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -13,13 +14,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import org.mumue.mumue.interpreter.commands.CommandSay;
 
 public class CommandInterpreterTest {
@@ -27,9 +22,8 @@ public class CommandInterpreterTest {
     private final Map<String, CommandSyntax> commandList = new HashMap<>();
     private final CommandSay command = new CommandSay();
 
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock CommandListBuilder commandListBuilder;
-    @InjectMocks CommandInterpreter interpreter = new CommandInterpreter();
+    private final CommandListBuilder commandListBuilder = mock(CommandListBuilder.class);
+    private final CommandInterpreter interpreter = new CommandInterpreter(commandListBuilder);
 
     @Before
     public void beforeEach() {

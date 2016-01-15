@@ -1,13 +1,12 @@
 package org.mumue.mumue.interpreter.commands;
 
 import org.apache.commons.lang3.StringUtils;
-
-import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.text.TextMaker;
+import org.mumue.mumue.text.TextName;
 
 public class CommandSayDirected implements Command {
     private ConnectionManager connectionManager = new ConnectionManager();

@@ -7,40 +7,40 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.util.Properties;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
+import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.mainmenu.DisplayPlayerMenu;
+import org.mumue.mumue.database.DatabaseConfiguration;
+import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
-import org.mumue.mumue.connection.stages.ConnectionStage;
 
 public class PlayerAuthenticationTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock Configuration configuration;
-    @Mock PlayerDao dao;
-    @Mock TextMaker textMaker;
-    @Mock CurrentTimestampProvider currentTimestampProvider;
-    @Mock PlayerBuilder playerBuilder;
-    @InjectMocks PlayerAuthentication stage;
+    private final Configuration configuration = mock(Configuration.class);
+    private final TextMaker textMaker = mock(TextMaker.class);
+    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+    private final PlayerDao playerDao = mock(PlayerDao.class);
+    private final CurrentTimestampProvider currentTimestampProvider = mock(CurrentTimestampProvider.class);
+    private final PlayerBuilder playerBuilder = mock(PlayerBuilder.class);
+    private final PlayerAuthentication stage = new PlayerAuthentication(injector, currentTimestampProvider, playerBuilder, playerDao, textMaker);
 
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
     private final String password = RandomStringUtils.randomAlphanumeric(17);
@@ -57,14 +57,14 @@ public class PlayerAuthenticationTest {
         when(currentTimestampProvider.get()).thenReturn(timestamp);
         when(textMaker.getText(Matchers.eq(TextName.LoginFailed), anyString())).thenReturn(loginFailed);
         when(textMaker.getText(eq(TextName.LoginSuccess), anyString())).thenReturn(loginSuccess);
-        when(dao.getPlayer(loginId, password)).thenReturn(player);
-        when(dao.playerExistsFor(loginId)).thenReturn(true);
+        when(playerDao.getPlayer(loginId, password)).thenReturn(player);
+        when(playerDao.playerExistsFor(loginId)).thenReturn(true);
         when(playerBuilder.build()).thenReturn(player);
     }
 
     @Test
     public void executeWithValidCredentialsReturnsNextStage() {
-        when(dao.authenticate(loginId, password)).thenReturn(true);
+        when(playerDao.authenticate(loginId, password)).thenReturn(true);
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -73,7 +73,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithValidCredentialsSetsPlayerOnConnection() {
-        when(dao.authenticate(loginId, password)).thenReturn(true);
+        when(playerDao.authenticate(loginId, password)).thenReturn(true);
 
         stage.execute(connection, configuration);
 
@@ -82,7 +82,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithValidCredentialsSetsLastUsed() {
-        when(dao.authenticate(loginId, password)).thenReturn(true);
+        when(playerDao.authenticate(loginId, password)).thenReturn(true);
 
         stage.execute(connection, configuration);
 
@@ -91,7 +91,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithValidCredentialsCountsUse() {
-        when(dao.authenticate(loginId, password)).thenReturn(true);
+        when(playerDao.authenticate(loginId, password)).thenReturn(true);
 
         long expected = player.getUseCount() + 1;
 
@@ -102,7 +102,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithValidCredentialsPutsLoginSuccessMessageOnOutputQueue() {
-        when(dao.authenticate(loginId, password)).thenReturn(true);
+        when(playerDao.authenticate(loginId, password)).thenReturn(true);
 
         stage.execute(connection, configuration);
 
@@ -111,7 +111,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithInvalidCredentialsReturnsLoginPromptStage() {
-        when(dao.authenticate(loginId, password)).thenReturn(false);
+        when(playerDao.authenticate(loginId, password)).thenReturn(false);
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -127,7 +127,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithNewPlayerUsesBuilder() {
-        when(dao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
 
         stage.execute(connection, configuration);
 
@@ -136,7 +136,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithNewPlayerSetsLoginId() {
-        when(dao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
 
         stage.execute(connection, configuration);
 
@@ -145,7 +145,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithNewPlayerDisplaysMenu() {
-        when(dao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
 
         ConnectionStage next = stage.execute(connection, configuration);
 
@@ -154,10 +154,10 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithNewPlayerAddsPlayer() {
-        when(dao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
 
         stage.execute(connection, configuration);
 
-        verify(dao).createPlayer(player, password);
+        verify(playerDao).createPlayer(player, password);
     }
 }

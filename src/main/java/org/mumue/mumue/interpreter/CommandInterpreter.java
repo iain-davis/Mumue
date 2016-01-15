@@ -1,10 +1,16 @@
 package org.mumue.mumue.interpreter;
 
+import javax.inject.Inject;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class CommandInterpreter {
-    private CommandListBuilder commandListBuilder = new CommandListBuilder();
+    private final CommandListBuilder commandListBuilder;
+
+    @Inject
+    public CommandInterpreter(CommandListBuilder commandListBuilder) {
+        this.commandListBuilder = commandListBuilder;
+    }
 
     public CommandResult interpret(String text) {
         Map<String, CommandSyntax> commandList = commandListBuilder.build();

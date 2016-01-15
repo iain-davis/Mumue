@@ -25,13 +25,13 @@ public class ConnectionControllerTest {
 
     @Test
     public void prepareReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
         assertTrue(controller.prepare());
     }
 
     @Test
     public void executeExecutesStage() {
-        ConnectionController controller = new ConnectionController(configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
         controller.execute();
 
         verify(stage).execute(connection, configuration);
@@ -39,7 +39,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void executeMovesToNextStage() {
-        ConnectionController controller = new ConnectionController(configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
         NoOperation next = new NoOperation();
         when(stage.execute(connection, configuration)).thenReturn(next);
 
@@ -50,13 +50,13 @@ public class ConnectionControllerTest {
 
     @Test
     public void executeReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
         assertTrue(controller.execute());
     }
 
     @Test
     public void cleanupReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage);
+        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
         assertTrue(controller.cleanup());
     }
 }

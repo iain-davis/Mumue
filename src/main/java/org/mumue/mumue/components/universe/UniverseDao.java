@@ -4,7 +4,6 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -18,10 +17,6 @@ public class UniverseDao {
     @Inject
     public UniverseDao(DatabaseAccessor database) {
         this.database = database;
-    }
-
-    public UniverseDao() {
-        this(DatabaseAccessorProvider.get());
     }
 
     public Collection<Universe> getUniverses() {

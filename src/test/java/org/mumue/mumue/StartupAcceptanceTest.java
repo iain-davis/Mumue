@@ -1,6 +1,7 @@
 package org.mumue.mumue;
 
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 
@@ -13,6 +14,7 @@ public class StartupAcceptanceTest {
         new MumueRunner().cleanupDatabase();
     }
 
+    @Ignore
     @Test
     public void useDefaultTelnetPort() {
         MumueRunner runner = new MumueRunner();

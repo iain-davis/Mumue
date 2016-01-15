@@ -4,37 +4,39 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Properties;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
+import org.mumue.mumue.database.DatabaseConfiguration;
+import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.text.TextMaker;
+import org.mumue.mumue.text.TextName;
 
 public class WaitForNewPlayerSelectionTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock TextMaker textMaker;
-    @Mock Configuration configuration;
-    @InjectMocks WaitForNewPlayerSelection stage;
+    private static final String YES = RandomStringUtils.randomAlphabetic(3);
+    private static final String SERVER_LOCALE = RandomStringUtils.randomAlphabetic(7);
 
+    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+    private final TextMaker textMaker = mock(TextMaker.class);
+    private final Configuration configuration = mock(Configuration.class);
     private final Connection connection = new Connection(configuration);
-    private final String yes = RandomStringUtils.randomAlphabetic(3);
-    private String serverLocale = RandomStringUtils.randomAlphabetic(7);
+
+    private final WaitForNewPlayerSelection stage = new WaitForNewPlayerSelection(injector, textMaker);
 
     @Before
     public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(TextName.Yes, serverLocale)).thenReturn(yes);
+        when(configuration.getServerLocale()).thenReturn(SERVER_LOCALE);
+        when(textMaker.getText(TextName.Yes, SERVER_LOCALE)).thenReturn(YES);
     }
 
     @Test
@@ -47,7 +49,7 @@ public class WaitForNewPlayerSelectionTest {
     @Test
     public void withYesInputProgressToNextStage() {
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(7));
-        connection.getInputQueue().push(yes);
+        connection.getInputQueue().push(YES);
         ConnectionStage next = stage.execute(connection, configuration);
 
         assertThat(next, instanceOf(PasswordPrompt.class));
@@ -57,7 +59,7 @@ public class WaitForNewPlayerSelectionTest {
     public void withYesInputRetainsLoginId() {
         String loginId = RandomStringUtils.randomAlphabetic(7);
         connection.getInputQueue().push(loginId);
-        connection.getInputQueue().push(yes);
+        connection.getInputQueue().push(YES);
         stage.execute(connection, configuration);
 
         assertThat(connection.getInputQueue(), hasItem(loginId));

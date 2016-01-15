@@ -3,18 +3,16 @@ package org.mumue.mumue.components.space;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
+
+import javax.inject.Inject;
 
 public class SpaceDao {
     private static final String GET_QUERY = "select * from spaces where id = ?";
     private final DatabaseAccessor database;
 
+    @Inject
     public SpaceDao(DatabaseAccessor database) {
         this.database = database;
-    }
-
-    public SpaceDao() {
-        this(DatabaseAccessorProvider.get());
     }
 
     public Space getSpace(long spaceId) {

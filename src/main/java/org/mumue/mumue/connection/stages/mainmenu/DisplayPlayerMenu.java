@@ -1,14 +1,24 @@
 package org.mumue.mumue.connection.stages.mainmenu;
 
-import org.mumue.mumue.player.Player;
-import org.mumue.mumue.text.TextName;
+import com.google.inject.Injector;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
+import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextMaker;
+import org.mumue.mumue.text.TextName;
+
+import javax.inject.Inject;
 
 public class DisplayPlayerMenu implements ConnectionStage {
-    private TextMaker textMaker = new TextMaker();
+    private final Injector injector;
+    private final TextMaker textMaker;
+
+    @Inject
+    public DisplayPlayerMenu(Injector injector, TextMaker textMaker) {
+        this.injector = injector;
+        this.textMaker = textMaker;
+    }
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
@@ -18,6 +28,6 @@ public class DisplayPlayerMenu implements ConnectionStage {
             menu = textMaker.getText(TextName.AdministratorMainMenu, connection.getLocale()) + menu;
         }
         connection.getOutputQueue().push(menu);
-        return new WaitForPlayerMenuChoice();
+        return injector.getInstance(WaitForPlayerMenuChoice.class);
     }
 }

@@ -1,5 +1,6 @@
 package org.mumue.mumue.connection.stages.mainmenu;
 
+import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
@@ -7,9 +8,19 @@ import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+import javax.inject.Inject;
+
 public class WaitForPlayerMenuChoice implements ConnectionStage {
-    private TextMaker textMaker = new TextMaker();
-    private CharacterDao dao = new CharacterDao();
+    private final Injector injector;
+    private final CharacterDao characterDao;
+    private final TextMaker textMaker;
+
+    @Inject
+    public WaitForPlayerMenuChoice(Injector injector, CharacterDao characterDao, TextMaker textMaker) {
+        this.injector = injector;
+        this.characterDao = characterDao;
+        this.textMaker = textMaker;
+    }
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
@@ -20,31 +31,31 @@ public class WaitForPlayerMenuChoice implements ConnectionStage {
         switch (input.toUpperCase()) {
             case "P":
                 if (playerHasCharacters(connection.getPlayer().getId())) {
-                    return new CharacterSelectionPrompt();
+                    return injector.getInstance(CharacterSelectionPrompt.class);
                 }
                 return handleCharacterNeeded(connection);
             case "C":
-                return new UniverseSelectionPrompt();
+                return injector.getInstance(UniverseSelectionPrompt.class);
             default:
                 return handleInvalidOption(connection);
         }
     }
 
     private boolean playerHasCharacters(long playerId) {
-        return !dao.getCharacters(playerId).isEmpty();
+        return !characterDao.getCharacters(playerId).isEmpty();
     }
 
     private ConnectionStage handleCharacterNeeded(Connection connection) {
         String locale = connection.getPlayer().getLocale();
         String text = textMaker.getText(TextName.CharacterNeeded, locale);
         connection.getOutputQueue().push(text);
-        return new UniverseSelectionPrompt();
+        return injector.getInstance(UniverseSelectionPrompt.class);
     }
 
     private ConnectionStage handleInvalidOption(Connection connection) {
         String locale = connection.getPlayer().getLocale();
         String text = textMaker.getText(TextName.InvalidOption, locale);
         connection.getOutputQueue().push(text);
-        return new DisplayPlayerMenu();
+        return injector.getInstance(DisplayPlayerMenu.class);
     }
 }

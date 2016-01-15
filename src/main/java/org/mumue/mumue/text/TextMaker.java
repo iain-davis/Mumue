@@ -5,8 +5,20 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
+import javax.inject.Inject;
+
 public class TextMaker {
-    private TextDao textDao = new TextDao();
+    public static final String TEXT_VARIABLE_LOGIN_ID = "loginId";
+    private final TextDao textDao;
+
+    @Inject
+    public TextMaker(TextDao textDao) {
+        this.textDao = textDao;
+    }
+
+    public TextMaker() {
+        this(new TextDao());
+    }
 
     public String getText(TextName textName, String locale) {
         String text = textDao.getText(textName, locale);

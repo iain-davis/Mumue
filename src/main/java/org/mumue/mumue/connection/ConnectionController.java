@@ -46,4 +46,9 @@ public class ConnectionController implements InfiniteLoopBody {
     public ConnectionStage getStage() {
         return stage;
     }
+
+    public ConnectionController withConnection(Connection connection) {
+        this.connection = connection;
+        return this;
+    }
 }

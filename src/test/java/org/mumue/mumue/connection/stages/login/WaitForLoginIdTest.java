@@ -3,38 +3,28 @@ package org.mumue.mumue.connection.stages.login;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import org.mockito.runners.MockitoJUnitRunner;
+import java.util.Properties;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
-import org.mumue.mumue.player.Player;
+import org.mumue.mumue.database.DatabaseConfiguration;
+import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.PlayerDao;
 
-@RunWith(MockitoJUnitRunner.class)
 public class WaitForLoginIdTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock Player player;
-    @Mock Configuration configuration;
-    @Mock PlayerDao dao;
-    @InjectMocks WaitForLoginId stage;
-
+    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+    private final Configuration configuration = mock(Configuration.class);
+    private final PlayerDao dao = mock(PlayerDao.class);
     private final Connection connection = new Connection(configuration);
-
-    @Before
-    public void beforeEach() {
-    }
+    private final WaitForLoginId stage = new WaitForLoginId(injector, dao);
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {

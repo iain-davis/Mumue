@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Properties;
 
-class DatabaseConfiguration {
+public class DatabaseConfiguration {
     static final String DEFAULT_DRIVER_CLASS_NAME = "org.h2.Driver";
     static final String DEFAULT_PASSWORD = "mumuedatabase";
     static final String DEFAULT_PATH = "./mumuedatabase";

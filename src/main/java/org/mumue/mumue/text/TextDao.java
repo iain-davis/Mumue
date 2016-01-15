@@ -5,11 +5,14 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseAccessorProvider;
 
+import javax.inject.Inject;
+
 public class TextDao {
     public static final String QUERY_TEXT = "select text from text where name = ? and locale = ?";
     public static final String TEXT_COLUMN = "text";
     private final DatabaseAccessor database;
 
+    @Inject
     public TextDao(DatabaseAccessor database) {
         this.database = database;
     }

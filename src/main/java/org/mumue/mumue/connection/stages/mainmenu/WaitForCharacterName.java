@@ -1,5 +1,6 @@
 package org.mumue.mumue.connection.stages.mainmenu;
 
+import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.UniverseDao;
@@ -10,10 +11,21 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+import javax.inject.Inject;
+
 public class WaitForCharacterName implements ConnectionStage {
-    private TextMaker textMaker = new TextMaker();
-    private CharacterDao characterDao = new CharacterDao();
-    private UniverseDao universeDao = new UniverseDao();
+    private final Injector injector;
+    private final CharacterDao characterDao;
+    private final TextMaker textMaker;
+    private final UniverseDao universeDao;
+
+    @Inject
+    public WaitForCharacterName(Injector injector, CharacterDao characterDao, TextMaker textMaker, UniverseDao universeDao) {
+        this.injector = injector;
+        this.characterDao = characterDao;
+        this.textMaker = textMaker;
+        this.universeDao = universeDao;
+    }
 
     @Override
     public ConnectionStage execute(Connection connection, Configuration configuration) {
@@ -28,13 +40,13 @@ public class WaitForCharacterName implements ConnectionStage {
         if (nameTakenInUniverse(name, universeId)) {
             String text = textMaker.getText(TextName.CharacterNameAlreadyExists, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return new CharacterNamePrompt();
+            return injector.getInstance(CharacterNamePrompt.class);
         }
 
         if (nameTakenByOtherPlayer(name, connection.getPlayer().getId())) {
             String text = textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return new CharacterNamePrompt();
+            return injector.getInstance(CharacterNamePrompt.class);
         }
 
         character.setName(name);
@@ -43,7 +55,7 @@ public class WaitForCharacterName implements ConnectionStage {
         character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
         character.setHomeLocationId(character.getLocationId());
         characterDao.createCharacter(character);
-        return new DisplayPlayerMenu();
+        return injector.getInstance(DisplayPlayerMenu.class);
     }
 
     private boolean nameTakenByOtherPlayer(String name, long playerId) {
