@@ -1,14 +1,14 @@
 package org.mumue.mumue.components.universe;
 
-import java.util.Collection;
-import java.util.List;
-import javax.inject.Inject;
-
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseAccessorProvider;
+
+import javax.inject.Inject;
+import java.util.Collection;
+import java.util.List;
 
 public class UniverseDao {
     private static final String GET_QUERY = "select * from universes where id = ?";

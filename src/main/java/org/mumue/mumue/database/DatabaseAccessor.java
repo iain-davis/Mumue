@@ -1,11 +1,11 @@
 package org.mumue.mumue.database;
 
-import java.sql.SQLException;
-import javax.inject.Inject;
-import javax.sql.DataSource;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+
+import javax.inject.Inject;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
 public class DatabaseAccessor {
     private final QueryRunner queryRunner;

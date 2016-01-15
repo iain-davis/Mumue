@@ -2,12 +2,13 @@ package org.mumue.mumue.connection;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.inject.Inject;
 
-import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextQueue;
+import org.mumue.mumue.components.character.GameCharacter;
+import org.mumue.mumue.configuration.Configuration;
+
+import javax.inject.Inject;
 
 public class Connection {
     private TextQueue inputQueue = new TextQueue();

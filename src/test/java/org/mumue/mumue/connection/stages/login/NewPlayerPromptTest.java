@@ -15,11 +15,12 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
+import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
-import org.mumue.mumue.text.TextName;
 
 public class NewPlayerPromptTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();

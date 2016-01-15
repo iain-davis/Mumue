@@ -2,6 +2,7 @@ package org.mumue.mumue.importer.components.properties;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class ReferencePropertyTest {

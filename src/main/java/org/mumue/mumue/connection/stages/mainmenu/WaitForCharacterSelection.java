@@ -1,12 +1,12 @@
 package org.mumue.mumue.connection.stages.mainmenu;
 
-import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.playing.EnterUniverse;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
+import org.mumue.mumue.components.character.CharacterDao;
+import org.mumue.mumue.connection.stages.ConnectionStage;
 
 public class WaitForCharacterSelection implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();

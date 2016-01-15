@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,10 +16,11 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
+import org.mumue.mumue.text.TextMaker;
 
 public class PasswordPromptTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();

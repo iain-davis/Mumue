@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
+
 import org.mumue.mumue.importer.ImportBucket;
 import org.mumue.mumue.importer.ImporterStageTestHelper;
 import org.mumue.mumue.importer.components.GameCharacter;

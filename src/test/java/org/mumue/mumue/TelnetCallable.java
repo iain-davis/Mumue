@@ -1,12 +1,12 @@
 package org.mumue.mumue;
 
+import org.apache.commons.net.telnet.TelnetClient;
+import org.mumue.mumue.importer.GlobalConstants;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Callable;
-
-import org.apache.commons.net.telnet.TelnetClient;
-import org.mumue.mumue.importer.GlobalConstants;
 
 public class TelnetCallable implements Callable<String> {
     private final int port;

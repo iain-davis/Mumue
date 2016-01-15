@@ -1,10 +1,10 @@
 package org.mumue.mumue.connection.stages.login;
 
+import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
-import org.mumue.mumue.text.TextName;
 
 public class PasswordPrompt implements ConnectionStage {
     private TextMaker textMaker = new TextMaker();

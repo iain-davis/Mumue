@@ -1,11 +1,14 @@
 package org.mumue.mumue.importer.stages;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.importer.ImportBucket;
 import org.mumue.mumue.importer.components.Component;

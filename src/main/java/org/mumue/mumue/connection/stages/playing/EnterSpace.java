@@ -1,7 +1,7 @@
 package org.mumue.mumue.connection.stages.playing;
 
-import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.space.SpaceDao;
+import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;

@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.importer.components.properties.PropertyTree;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class Component {
     private Long id = GlobalConstants.REFERENCE_UNKNOWN;

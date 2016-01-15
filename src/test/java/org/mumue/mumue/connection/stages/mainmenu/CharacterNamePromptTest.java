@@ -16,13 +16,14 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
+import org.mumue.mumue.connection.stages.ConnectionStage;
 
 public class CharacterNamePromptTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();

@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import org.mumue.mumue.components.NameableComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)

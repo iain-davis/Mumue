@@ -1,13 +1,13 @@
 package org.mumue.mumue.player;
 
-import java.sql.Timestamp;
-import javax.inject.Inject;
-
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseAccessorProvider;
+
+import javax.inject.Inject;
+import java.sql.Timestamp;
 
 public class PlayerDao {
     private static final String AUTHENTICATION_QUERY = "select count(*) from players where loginId = ? and password = ?";

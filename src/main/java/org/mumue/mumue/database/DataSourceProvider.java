@@ -1,10 +1,10 @@
 package org.mumue.mumue.database;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.sql.DataSource;
-
-import org.apache.commons.dbcp2.BasicDataSource;
 
 class DataSourceProvider implements Provider<DataSource> {
     private final DatabaseConfiguration configuration;

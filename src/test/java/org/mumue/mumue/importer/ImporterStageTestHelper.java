@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.mumue.mumue.importer.components.Artifact;
+
 import org.mumue.mumue.importer.components.Component;
 import org.mumue.mumue.importer.components.GameCharacter;
-import org.mumue.mumue.importer.components.Homeable;
-import org.mumue.mumue.importer.components.Link;
 import org.mumue.mumue.importer.components.LinkSource;
 import org.mumue.mumue.importer.components.Ownable;
+import org.mumue.mumue.player.Player;
+import org.mumue.mumue.importer.components.Artifact;
+import org.mumue.mumue.importer.components.Homeable;
+import org.mumue.mumue.importer.components.Link;
 import org.mumue.mumue.importer.components.Program;
 import org.mumue.mumue.importer.components.Space;
-import org.mumue.mumue.player.Player;
 
 public class ImporterStageTestHelper {
     protected void addOneDatabaseItemToList(List<String> list, String id, String flags, int propLines, int codaLines) {

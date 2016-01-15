@@ -1,11 +1,11 @@
 package org.mumue.mumue.database;
 
-import javax.inject.Inject;
-
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.configuration.online.OnlineConfigurationOptionName;
+
+import javax.inject.Inject;
 
 public class DatabaseInitializerDao {
     static final String DEFAULT_DATA_SCRIPT = "RUNSCRIPT FROM 'classpath:org/mumue/mumue/database/defaultData.sql'";

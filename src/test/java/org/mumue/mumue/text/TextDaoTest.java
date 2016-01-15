@@ -1,14 +1,14 @@
 package org.mumue.mumue.text;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
+import org.mumue.mumue.database.DatabaseHelper;
+import org.mumue.mumue.database.DatabaseAccessor;
 
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseHelper;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TextDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();

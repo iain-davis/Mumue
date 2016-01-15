@@ -1,9 +1,9 @@
 package org.mumue.mumue.database;
 
+import com.google.inject.AbstractModule;
+
 import javax.inject.Singleton;
 import javax.sql.DataSource;
-
-import com.google.inject.AbstractModule;
 
 public class DatabaseModule extends AbstractModule {
     private final DatabaseConfiguration configuration;

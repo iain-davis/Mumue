@@ -1,12 +1,12 @@
 package org.mumue.mumue;
 
-import static org.junit.Assert.assertSame;
-
-import java.util.concurrent.ExecutorService;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
+
+import java.util.concurrent.ExecutorService;
+
+import static org.junit.Assert.assertSame;
 
 public class MainModuleTest {
     @Test

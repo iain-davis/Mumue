@@ -10,6 +10,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import org.mumue.mumue.importer.ImportBucket;
 
 public class LoadLinesStageTest {

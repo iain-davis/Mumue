@@ -1,12 +1,12 @@
 package org.mumue.mumue.database;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Test;
 
 import java.util.Properties;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 public class DatabaseConfigurationTest {
     @Test
