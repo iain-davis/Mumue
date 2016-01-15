@@ -1,11 +1,11 @@
 package org.mumue.mumue;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
 
 public class StartupAcceptanceTest {
     @AfterClass

@@ -1,11 +1,11 @@
 package org.mumue.mumue.connection;
 
-import org.junit.Test;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 import java.util.Random;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 public class ServerSocketFactoryTest {
     private final ServerSocketFactory builder = new ServerSocketFactory();

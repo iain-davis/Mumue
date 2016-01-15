@@ -10,15 +10,14 @@ import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.mumue.mumue.importer.ImportBucket;
 import org.mumue.mumue.importer.ImporterStageTestHelper;
+import org.mumue.mumue.importer.components.Artifact;
 import org.mumue.mumue.importer.components.Component;
 import org.mumue.mumue.importer.components.GameCharacter;
-import org.mumue.mumue.importer.components.Space;
-import org.mumue.mumue.importer.components.Artifact;
 import org.mumue.mumue.importer.components.Link;
 import org.mumue.mumue.importer.components.Program;
+import org.mumue.mumue.importer.components.Space;
 
 public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
     GenerateRawComponentsStage stage = new GenerateRawComponentsStage();

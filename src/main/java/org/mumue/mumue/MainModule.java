@@ -1,11 +1,11 @@
 package org.mumue.mumue;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-
-import javax.inject.Singleton;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import javax.inject.Singleton;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 
 public class MainModule extends AbstractModule {
     @Override

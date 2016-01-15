@@ -1,5 +1,15 @@
 package org.mumue.mumue.connection;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import com.google.inject.Guice;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
@@ -8,16 +18,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.threading.InfiniteLoopRunnerStarter;
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class AcceptorTest {
     @Rule public ExpectedException thrown = ExpectedException.none();

@@ -14,14 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.GameCharacter;
+import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.space.SpaceBuilder;
 import org.mumue.mumue.components.space.SpaceDao;
 import org.mumue.mumue.configuration.Configuration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 
 public class EnterSpaceTest {

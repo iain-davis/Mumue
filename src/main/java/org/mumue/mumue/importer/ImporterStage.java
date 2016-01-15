@@ -1,7 +1,6 @@
 package org.mumue.mumue.importer;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.mumue.mumue.importer.components.Component;
 
 public abstract class ImporterStage {

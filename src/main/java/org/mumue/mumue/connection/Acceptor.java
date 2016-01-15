@@ -1,11 +1,10 @@
 package org.mumue.mumue.connection;
 
-import org.mumue.mumue.configuration.Configuration;
-import org.mumue.mumue.threading.InfiniteLoopBody;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class Acceptor implements InfiniteLoopBody {
     private final ServerSocket serverSocket;

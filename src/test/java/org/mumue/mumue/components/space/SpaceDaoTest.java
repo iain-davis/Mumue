@@ -1,14 +1,14 @@
 package org.mumue.mumue.components.space;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
-import org.mumue.mumue.database.DatabaseHelper;
-import org.mumue.mumue.database.DatabaseAccessor;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.Test;
+import org.mumue.mumue.database.DatabaseAccessor;
+import org.mumue.mumue.database.DatabaseHelper;
 
 public class SpaceDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();

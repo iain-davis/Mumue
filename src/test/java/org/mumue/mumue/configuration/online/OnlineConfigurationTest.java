@@ -1,5 +1,11 @@
 package org.mumue.mumue.configuration.online;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.when;
+
+import java.util.Random;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Rule;
@@ -9,12 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
-
-import java.util.Random;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.when;
 
 public class OnlineConfigurationTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();

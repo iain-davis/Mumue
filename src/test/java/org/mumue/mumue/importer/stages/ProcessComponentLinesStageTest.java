@@ -12,18 +12,17 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.mumue.mumue.importer.ImportBucket;
-import org.mumue.mumue.importer.components.properties.IntegerProperty;
-import org.mumue.mumue.importer.components.properties.LockProperty;
-import org.mumue.mumue.importer.components.properties.ReferenceProperty;
-import org.mumue.mumue.importer.components.properties.StringProperty;
 import org.mumue.mumue.importer.components.Artifact;
 import org.mumue.mumue.importer.components.Component;
 import org.mumue.mumue.importer.components.GameCharacter;
 import org.mumue.mumue.importer.components.Link;
 import org.mumue.mumue.importer.components.Program;
 import org.mumue.mumue.importer.components.Space;
+import org.mumue.mumue.importer.components.properties.IntegerProperty;
+import org.mumue.mumue.importer.components.properties.LockProperty;
+import org.mumue.mumue.importer.components.properties.ReferenceProperty;
+import org.mumue.mumue.importer.components.properties.StringProperty;
 
 public class ProcessComponentLinesStageTest {
     private ProcessComponentLinesStage stage = new ProcessComponentLinesStage();

@@ -1,8 +1,8 @@
 package org.mumue.mumue.database;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
 
 class DatabaseConfiguration {
     static final String DEFAULT_DRIVER_CLASS_NAME = "org.h2.Driver";

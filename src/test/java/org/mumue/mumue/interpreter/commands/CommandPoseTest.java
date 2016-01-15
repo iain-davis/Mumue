@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.Configuration;

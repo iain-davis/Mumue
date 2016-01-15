@@ -1,8 +1,5 @@
 package org.mumue.mumue;
 
-import org.apache.commons.io.FileUtils;
-import org.mumue.mumue.importer.GlobalConstants;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.concurrent.Callable;
@@ -12,6 +9,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class MumueRunner {
     public static final String WELCOME_TO_MUMUE = "Welcome to Mumue!";
