@@ -1,9 +1,16 @@
 package org.mumue.mumue.interpreter;
 
+import javax.inject.Inject;
+
 import org.mumue.mumue.interpreter.commands.Command;
 
 public class CommandSyntaxBuilder {
-    private CommandNameMapProvider provider = new CommandNameMapProvider();
+    private final CommandNameMapProvider provider;
+
+    @Inject
+    public CommandSyntaxBuilder(CommandNameMapProvider provider) {
+        this.provider = provider;
+    }
 
     public CommandSyntax build(CommandEntry entry) {
         CommandSyntax syntax = new CommandSyntax();

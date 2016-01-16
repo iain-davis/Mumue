@@ -6,17 +6,25 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Properties;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mumue.mumue.database.DatabaseConfiguration;
+import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.interpreter.commands.CommandSay;
 
 public class CommandSyntaxBuilderTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
+    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+
     private final CommandEntry entry = new CommandEntry();
-    private final CommandSyntaxBuilder builder = new CommandSyntaxBuilder();
+    private final CommandSyntaxBuilder builder = new CommandSyntaxBuilder(new CommandNameMapProvider(injector));
 
     @Before
     public void beforeEach() {
