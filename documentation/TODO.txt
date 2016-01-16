@@ -1,12 +1,10 @@
-- Need to save the most recent component id.
-- Configure player color mode.
-- Redesign so that TextMaker gets with parameters are testable
-- Reconsider TextMaker's API
+- CommandPose adds space only if the first character of the text is alphabetic.
+- Add poseToExcept to ConnectionManager
+- poseTo should append new line
+- CommandSay use poseTo
+- CommandSayDirected use poseTo
+- CommandPage?
 - Target not found message requires a parameter (directed say)
-- Characters should have an output Queue (their connection's queue)...ultimately mobiles will too.
-- Players should have an output Queue (their connection's queue)?
-- ComponentCollection idea
-- ConnectionInitializer needs better testing
-- ANSI Filter for output
+- Need to save the most recent component id.
 - MPI Stripping Filter
 - MUF Interpreter
