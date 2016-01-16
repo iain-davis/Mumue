@@ -85,6 +85,40 @@ public class ConnectionManagerTest {
         assertThat(nonReceiver.getOutputQueue(), not(hasItem(text)));
     }
 
+    @Test
+    public void poseToAllAtLocationExcept() {
+        long locationId = new Random().nextLong();
+        Connection included = connection(locationId);
+        Connection except = connection(locationId);
+
+        connectionManager.add(included);
+        connectionManager.add(except);
+
+        String text = RandomStringUtils.randomAlphabetic(25);
+        connectionManager.poseTo(locationId, "", text, except);
+
+            assertThat(included.getOutputQueue(), hasItem(text));
+        assertThat(except.getOutputQueue(), not(hasItem(text)));
+    }
+
+    @Test
+    public void poseToAllAtLocationExceptMultiple() {
+        long locationId = new Random().nextLong();
+        Connection included = connection(locationId);
+        Connection except1 = connection(locationId);
+        Connection except2 = connection(locationId);
+
+        connectionManager.add(included);
+        connectionManager.add(except1);
+        connectionManager.add(except2);
+
+        String text = RandomStringUtils.randomAlphabetic(25);
+        connectionManager.poseTo(locationId, "", text, except1, except2);
+
+        assertThat(included.getOutputQueue(), hasItem(text));
+        assertThat(except1.getOutputQueue(), not(hasItem(text)));
+    }
+
     private Connection connection(long locationId) {
         GameCharacter character = new GameCharacter();
         character.setLocationId(locationId);
