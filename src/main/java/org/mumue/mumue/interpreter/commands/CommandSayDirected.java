@@ -5,6 +5,7 @@ import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -14,19 +15,14 @@ public class CommandSayDirected implements Command {
 
     @Override
     public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration) {
-        int spacePosition = arguments.indexOf(" ");
-        if (spacePosition == -1) {
-            respondToLackOfMessage(connection);
-            return;
-        }
-        String sayText = arguments.substring(spacePosition + 1);
-
-        if (StringUtils.isBlank(sayText)) {
-            respondToLackOfMessage(connection);
+        String sayText = arguments.substring(arguments.indexOf(" ") + 1);
+        if (includesMessageText(arguments) || StringUtils.isBlank(sayText)) {
+            String text = textMaker.getText(TextName.MissingSayText, connection.getLocale());
+            connection.getOutputQueue().push(text);
             return;
         }
 
-        String targetName = findTarget(arguments.substring(0, spacePosition));
+        String targetName = findTarget(extractTargetName(arguments));
         if (targetName.equals("")) {
             String text = textMaker.getText(TextName.TargetBeingNotFound, connection.getLocale());
             connection.getOutputQueue().push(text);
@@ -42,9 +38,12 @@ public class CommandSayDirected implements Command {
         }
     }
 
-    private void respondToLackOfMessage(Connection connection) {
-        String text = textMaker.getText(TextName.MissingSayText, connection.getLocale());
-        connection.getOutputQueue().push(text);
+    private String extractTargetName(String arguments) {
+        return arguments.substring(0, arguments.indexOf(" "));
+    }
+
+    private boolean includesMessageText(String arguments) {
+        return arguments.indexOf(" ") == -1;
     }
 
     private String findTarget(String matchString) {
