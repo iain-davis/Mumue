@@ -1,4 +1,3 @@
-- CommandPose adds space only if the first character of the text is alphabetic.
 - Add poseToExcept to ConnectionManager
 - poseTo should append new line
 - CommandSay use poseTo
