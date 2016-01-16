@@ -3,38 +3,29 @@ package org.mumue.mumue.interpreter.commands;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
-
-import java.util.Vector;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class CommandPoseTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock ConnectionManager connectionManager;
-    @Mock Configuration configuration;
-    @InjectMocks CommandPose commandPose;
+    private final ConnectionManager connectionManager = new ConnectionManager();
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final GameCharacter poser = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
-    private final Connection posingConnection = new Connection(configuration).withCharacter(poser);
-    private final Vector<Connection> connections = new Vector<>();
+    private final Connection posingConnection = TestObjectBuilder.connection().withCharacter(poser);
+
+    private final CommandPose commandPose = new CommandPose();
 
     @Before
     public void beforeEach() {
-        connections.add(posingConnection);
-        when(connectionManager.getConnections()).thenReturn(connections);
+        connectionManager.add(posingConnection);
     }
 
     @Test
@@ -61,11 +52,11 @@ public class CommandPoseTest {
 
     @Test
     public void poseSeenByOtherCharacterInRoom() {
-        Connection inRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
+        Connection inRoomConnection = TestObjectBuilder.connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String message = RandomStringUtils.randomAlphabetic(35);
         String expected = poser.getName() + " " + message + "\\r\\n";
-        connections.add(inRoomConnection);
+        connectionManager.add(inRoomConnection);
 
         commandPose.execute(posingConnection, ":", message, configuration);
 
@@ -73,11 +64,11 @@ public class CommandPoseTest {
     }
 
     @Test
-    public void poseNotSeenByCharacterInOtherRoom() {
-        Connection otherRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
+    public void poseNotSeenByCharacterInOtherLocation() {
+        Connection otherRoomConnection = TestObjectBuilder.connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String message = RandomStringUtils.randomAlphabetic(35);
-        connections.add(otherRoomConnection);
+        connectionManager.add(otherRoomConnection);
 
         commandPose.execute(posingConnection, ":", message, configuration);
 

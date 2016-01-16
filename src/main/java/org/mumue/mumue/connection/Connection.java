@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextQueue;
 
@@ -16,10 +16,10 @@ public class Connection {
     private GameCharacter character = new GameCharacter();
     private Player player;
     private Map<String, Long> menuOptionIds = new HashMap<>();
-    private Configuration configuration;
+    private ApplicationConfiguration configuration;
 
     @Inject
-    public Connection(Configuration configuration) {
+    public Connection(ApplicationConfiguration configuration) {
         this.configuration = configuration;
     }
 

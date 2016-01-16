@@ -12,12 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.player.Player;
 
 public class ConnectionTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock Configuration configuration;
+    @Mock
+    ApplicationConfiguration configuration;
     @InjectMocks Connection connection;
 
     @Test

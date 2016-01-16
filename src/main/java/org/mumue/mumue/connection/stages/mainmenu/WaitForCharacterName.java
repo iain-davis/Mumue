@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.UniverseDao;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.importer.GlobalConstants;
@@ -28,7 +28,7 @@ public class WaitForCharacterName implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         if (connection.getInputQueue().isEmpty()) {
             return this;
         }

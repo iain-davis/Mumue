@@ -3,7 +3,7 @@ package org.mumue.mumue.connection.stages.mainmenu;
 import javax.inject.Inject;
 
 import com.google.inject.Injector;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.player.Player;
@@ -21,7 +21,7 @@ public class DisplayPlayerMenu implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         Player player = connection.getPlayer();
         String menu = textMaker.getText(TextName.PlayerMainMenu, connection.getLocale());
         if (player.isAdministrator()) {

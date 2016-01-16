@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
@@ -24,7 +24,7 @@ public class CharacterSelectionPrompt implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         StringBuilder builder = new StringBuilder("\\r\\n");
         Integer optionCount = 0;
         for (GameCharacter character : characterDao.getCharacters(connection.getPlayer().getId())) {

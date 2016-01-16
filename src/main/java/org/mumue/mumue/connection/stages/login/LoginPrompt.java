@@ -3,7 +3,7 @@ package org.mumue.mumue.connection.stages.login;
 import javax.inject.Inject;
 
 import com.google.inject.Injector;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
@@ -20,7 +20,7 @@ public class LoginPrompt implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.LoginPrompt, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
         return injector.getInstance(WaitForLoginId.class);

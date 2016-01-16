@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.interpreter.CommandInterpreter;
@@ -26,7 +26,7 @@ public class PlayCharacter implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         if (connection.getInputQueue().isEmpty()) {
             return this;
         }
@@ -49,7 +49,7 @@ public class PlayCharacter implements ConnectionStage {
         return this;
     }
 
-    private ConnectionStage executeCommand(Connection connection, Configuration configuration, CommandResult result) {
+    private ConnectionStage executeCommand(Connection connection, ApplicationConfiguration configuration, CommandResult result) {
         Command command = result.getCommand();
         command.execute(connection, result.getCommandString(), result.getCommandArguments(), configuration);
         return this;

@@ -19,7 +19,7 @@ import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.space.SpaceBuilder;
 import org.mumue.mumue.components.space.SpaceDao;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
@@ -27,7 +27,7 @@ import org.mumue.mumue.database.DatabaseModule;
 
 public class EnterSpaceTest {
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final SpaceDao spaceDao = mock(SpaceDao.class);
     private final EnterSpace stage = new EnterSpace(injector, spaceDao);
 

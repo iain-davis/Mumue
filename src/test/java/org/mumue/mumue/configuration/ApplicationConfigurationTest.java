@@ -14,12 +14,13 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
 
-public class ConfigurationTest {
+public class ApplicationConfigurationTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
 
     @Mock OnlineConfiguration onlineConfiguration;
     @Mock ComponentIdManager componentIdManager;
-    @InjectMocks Configuration configuration;
+    @InjectMocks
+    ApplicationConfiguration configuration;
 
     @Test
     public void getTelnetPort() {

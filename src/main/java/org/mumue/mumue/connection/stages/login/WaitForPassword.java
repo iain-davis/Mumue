@@ -3,7 +3,7 @@ package org.mumue.mumue.connection.stages.login;
 import javax.inject.Inject;
 
 import com.google.inject.Injector;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 
@@ -16,7 +16,7 @@ public class WaitForPassword implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         if (connection.getInputQueue().size() < 2) {
             return this;
         }

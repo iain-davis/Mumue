@@ -3,7 +3,7 @@ package org.mumue.mumue.connection.stages.login;
 import javax.inject.Inject;
 
 import com.google.inject.Injector;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
 import org.mumue.mumue.connection.stages.ConnectionStage;
@@ -31,7 +31,7 @@ public class PlayerAuthentication implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         String loginId = connection.getInputQueue().pop();
         String password = connection.getInputQueue().pop();
         Player player = playerBuilder.build();
@@ -50,7 +50,7 @@ public class PlayerAuthentication implements ConnectionStage {
         return injector.getInstance(DisplayPlayerMenu.class);
     }
 
-    private Player loginSuccess(Connection connection, Configuration configuration, String loginId, String password) {
+    private Player loginSuccess(Connection connection, ApplicationConfiguration configuration, String loginId, String password) {
         Player player = playerDao.getPlayer(loginId, password);
         player.setLastModified(currentTimestampProvider.get());
         player.countUse();
@@ -59,7 +59,7 @@ public class PlayerAuthentication implements ConnectionStage {
         return player;
     }
 
-    private ConnectionStage loginFailure(Connection connection, Configuration configuration) {
+    private ConnectionStage loginFailure(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
         return injector.getInstance(LoginPrompt.class);

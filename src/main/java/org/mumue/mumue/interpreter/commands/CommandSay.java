@@ -1,7 +1,7 @@
 package org.mumue.mumue.interpreter.commands;
 
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 
@@ -9,7 +9,7 @@ public class CommandSay implements Command {
     private ConnectionManager connectionManager = new ConnectionManager();
 
     @Override
-    public void execute(Connection connection, String command, String arguments, Configuration configuration) {
+    public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration) {
         GameCharacter character = connection.getCharacter();
         String message = ", \"" + arguments + "\"\\r\\n";
         String youSay = "You say" + message;

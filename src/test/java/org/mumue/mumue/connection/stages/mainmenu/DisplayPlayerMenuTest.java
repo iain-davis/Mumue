@@ -14,7 +14,7 @@ import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
@@ -33,7 +33,7 @@ public class DisplayPlayerMenuTest {
     private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
     private final String locale = RandomStringUtils.randomAlphabetic(15);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final Connection connection = new Connection(configuration).withPlayer(player);
 
     @Before

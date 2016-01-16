@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import com.google.inject.Injector;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
@@ -26,7 +26,7 @@ public class EnterUniverse implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         Universe universe = dao.getUniverse(connection.getCharacter().getUniverseId());
         Map<String, String> variables = new HashMap<>();
         variables.put("universe name", universe.getName());

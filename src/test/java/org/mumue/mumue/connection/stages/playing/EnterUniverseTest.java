@@ -22,7 +22,7 @@ import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseDao;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
@@ -34,7 +34,7 @@ import org.mumue.mumue.text.TextName;
 
 public class EnterUniverseTest {
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
 
     private final UniverseDao dao = mock(UniverseDao.class);

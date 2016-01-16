@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.player.Player;
@@ -30,7 +30,8 @@ public class CommandSayDirectedTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock TextMaker textMaker;
     @Mock ConnectionManager connectionManager;
-    @Mock Configuration configuration;
+    @Mock
+    ApplicationConfiguration configuration;
     @InjectMocks CommandSayDirected command;
 
     private final String locale = RandomStringUtils.randomAlphabetic(16);

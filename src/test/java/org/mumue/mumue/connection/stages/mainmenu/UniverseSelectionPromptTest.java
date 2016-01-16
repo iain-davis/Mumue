@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
@@ -39,7 +39,7 @@ public class UniverseSelectionPromptTest {
     private final String locale = RandomStringUtils.randomAlphabetic(15);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
 
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final Connection connection = new Connection(configuration).withPlayer(player);
 
     @Before

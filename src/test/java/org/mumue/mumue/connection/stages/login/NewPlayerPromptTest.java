@@ -16,7 +16,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
@@ -28,7 +28,7 @@ public class NewPlayerPromptTest {
     private static final String NEW_PLAYER_NAME = RandomStringUtils.randomAlphabetic(13);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final NewPlayerPrompt stage = new NewPlayerPrompt(injector, textMaker);
 
     private final Connection connection = new Connection(configuration);

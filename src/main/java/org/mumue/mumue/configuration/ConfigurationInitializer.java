@@ -3,14 +3,14 @@ package org.mumue.mumue.configuration;
 import javax.inject.Inject;
 
 public class ConfigurationInitializer {
-    private Configuration configuration;
+    private ApplicationConfiguration configuration;
 
     @Inject
-    public ConfigurationInitializer(Configuration configuration) {
+    public ConfigurationInitializer(ApplicationConfiguration configuration) {
         this.configuration = configuration;
     }
 
-    public Configuration initialize() {
+    public ApplicationConfiguration initialize() {
         return configuration;
     }
 }

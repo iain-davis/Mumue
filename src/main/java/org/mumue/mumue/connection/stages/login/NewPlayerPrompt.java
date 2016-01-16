@@ -5,7 +5,7 @@ import javax.inject.Inject;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Injector;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.text.TextMaker;
@@ -22,7 +22,7 @@ public class NewPlayerPrompt implements ConnectionStage {
     }
 
     @Override
-    public ConnectionStage execute(Connection connection, Configuration configuration) {
+    public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         Map<String, String> variables = ImmutableMap.<String, String>builder()
                 .put(TextMaker.TEXT_VARIABLE_LOGIN_ID, connection.getInputQueue().peek())
                 .build();

@@ -14,13 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.threading.InfiniteLoopRunnerStarter;
 
 public class ConnectionInitializerTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
     @Mock Connection connection;
-    @Mock Configuration configuration;
+    @Mock
+    ApplicationConfiguration configuration;
     @Mock Socket socket;
     @Mock InfiniteLoopRunnerStarter infiniteLoopRunnerStarter;
     @Mock Injector injector;

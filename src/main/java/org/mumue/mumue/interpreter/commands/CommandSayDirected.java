@@ -2,7 +2,7 @@ package org.mumue.mumue.interpreter.commands;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.text.TextMaker;
@@ -13,7 +13,7 @@ public class CommandSayDirected implements Command {
     private TextMaker textMaker = new TextMaker();
 
     @Override
-    public void execute(Connection connection, String command, String arguments, Configuration configuration) {
+    public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration) {
         int spacePosition = arguments.indexOf(" ");
         if (spacePosition == -1) {
             respondToLackOfMessage(connection);

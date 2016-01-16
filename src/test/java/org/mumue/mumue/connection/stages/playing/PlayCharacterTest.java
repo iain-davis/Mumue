@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.interpreter.CommandInterpreter;
@@ -36,7 +36,8 @@ public class PlayCharacterTest {
     @Mock CommandResult result;
     @Mock CommandInterpreter commandInterpreter;
     @Mock TextMaker textMaker;
-    @Mock Configuration configuration;
+    @Mock
+    ApplicationConfiguration configuration;
     @InjectMocks PlayCharacter stage;
 
     private final String locale = RandomStringUtils.randomAlphabetic(16);

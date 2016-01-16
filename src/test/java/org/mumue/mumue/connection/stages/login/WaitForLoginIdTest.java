@@ -12,7 +12,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
@@ -21,7 +21,7 @@ import org.mumue.mumue.player.PlayerDao;
 
 public class WaitForLoginIdTest {
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final PlayerDao dao = mock(PlayerDao.class);
     private final Connection connection = new Connection(configuration);
     private final WaitForLoginId stage = new WaitForLoginId(injector, dao);

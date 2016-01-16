@@ -3,22 +3,22 @@ package org.mumue.mumue.connection;
 import javax.inject.Inject;
 
 import com.google.inject.Injector;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.login.Welcome;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class ConnectionController implements InfiniteLoopBody {
-    private final Configuration configuration;
+    private final ApplicationConfiguration configuration;
     private Connection connection;
     private ConnectionStage stage;
 
     @Inject
-    public ConnectionController(Injector injector, Configuration configuration) {
+    public ConnectionController(Injector injector, ApplicationConfiguration configuration) {
         this(configuration, injector.getInstance(Welcome.class));
     }
 
-    public ConnectionController(Configuration configuration, ConnectionStage stage) {
+    public ConnectionController(ApplicationConfiguration configuration, ConnectionStage stage) {
         this.configuration = configuration;
         this.stage = stage;
     }

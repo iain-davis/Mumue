@@ -6,16 +6,16 @@ import javax.inject.Singleton;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
 
 @Singleton
-public class Configuration {
+public class ApplicationConfiguration {
     private final OnlineConfiguration onlineConfiguration;
     private final ComponentIdManager componentIdManager;
 
     @Inject
-    public Configuration(OnlineConfiguration onlineConfiguration) {
+    public ApplicationConfiguration(OnlineConfiguration onlineConfiguration) {
         this(onlineConfiguration, new ComponentIdManager());
     }
 
-    public Configuration(OnlineConfiguration onlineConfiguration, ComponentIdManager componentIdManager) {
+    public ApplicationConfiguration(OnlineConfiguration onlineConfiguration, ComponentIdManager componentIdManager) {
         this.onlineConfiguration = onlineConfiguration;
         this.componentIdManager = componentIdManager;
     }

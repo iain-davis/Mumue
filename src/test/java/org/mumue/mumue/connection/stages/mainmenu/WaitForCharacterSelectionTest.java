@@ -17,7 +17,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.CharacterDao;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.playing.EnterUniverse;
@@ -34,7 +34,7 @@ public class WaitForCharacterSelectionTest {
 
     private final WaitForCharacterSelection stage = new WaitForCharacterSelection(injector, characterDao, textMaker);
 
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final String message = RandomStringUtils.randomAlphabetic(17);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final Connection connection = new Connection(configuration).withPlayer(new PlayerBuilder().withLocale(locale).build());

@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 import com.google.inject.Injector;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationInitializer;
 import org.mumue.mumue.connection.Acceptor;
 import org.mumue.mumue.connection.ConnectionFactory;
@@ -44,7 +44,7 @@ public class Mumue {
     }
 
     public void run() {
-        Configuration configuration = configurationInitializer.initialize();
+        ApplicationConfiguration configuration = configurationInitializer.initialize();
         databaseInitializer.initialize();
 
         Acceptor acceptor = new Acceptor(

@@ -8,13 +8,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.connection.stages.NoOperation;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class ConnectionControllerTest {
-    private final Configuration configuration = mock(Configuration.class);
-    private final Connection connection = new Connection(configuration);
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final Connection connection = TestObjectBuilder.connection();
     private final ConnectionStage stage = mock(ConnectionStage.class);
 
     @Test

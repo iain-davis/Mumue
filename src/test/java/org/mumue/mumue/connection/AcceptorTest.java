@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.threading.InfiniteLoopRunnerStarter;
 
 public class AcceptorTest {
@@ -25,7 +25,7 @@ public class AcceptorTest {
     private final MockServerSocketFactory serverSocketFactory = new MockServerSocketFactory(serverSocket);
     private final MockConnectionFactory connectionFactory = new MockConnectionFactory();
     private final Socket clientSocket = mock(Socket.class);
-    private final Configuration configuration = mock(Configuration.class);
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final Connection connection = new Connection(configuration);
 

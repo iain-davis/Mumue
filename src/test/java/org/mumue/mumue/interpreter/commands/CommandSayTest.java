@@ -18,13 +18,14 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.configuration.Configuration;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 
 public class CommandSayTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock Configuration configuration;
+    @Mock
+    ApplicationConfiguration configuration;
     @Mock ConnectionManager connectionManager;
     @InjectMocks CommandSay command;
     private final Vector<Connection> connections = new Vector<>();

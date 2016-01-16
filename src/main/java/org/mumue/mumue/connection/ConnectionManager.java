@@ -12,4 +12,10 @@ public class ConnectionManager {
     public Vector<Connection> getConnections() {
         return connections;
     }
+
+    public void poseTo(long locationId, String characterName, String text) {
+        connections.stream()
+                .filter(connection -> connection.getCharacter().getLocationId() == locationId)
+                .forEach(connection -> connection.getOutputQueue().push(characterName + text));
+    }
 }
