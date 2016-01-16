@@ -4,5 +4,5 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 
 public interface Command {
-    void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration);
+    public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration);
 }

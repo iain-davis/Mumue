@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class StringUtilitiesTest {
     @Test
     public void returnOneString() {
         String string = RandomStringUtils.randomAlphabetic(17);
-        Collection<String> stringCollection = new ArrayList<>(Collections.singletonList(string));
+        Collection<String> stringCollection = new ArrayList<>(Arrays.asList(string));
 
         assertThat(StringUtilities.commaIfy(stringCollection, ""), equalTo(string));
     }

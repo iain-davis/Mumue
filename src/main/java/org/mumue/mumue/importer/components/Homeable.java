@@ -1,6 +1,7 @@
 package org.mumue.mumue.importer.components;
 
 public interface Homeable {
-    Component getHome();
-    void setHome(Component home);
+    public Component getHome();
+
+    public void setHome(Component home);
 }
