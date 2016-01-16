@@ -1,7 +1,9 @@
 package org.mumue.mumue.interpreter.commands;
 
+import java.util.Map;
 import javax.inject.Inject;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -30,9 +32,11 @@ public class CommandSayDirected implements Command {
             return;
         }
 
-        String targetName = findTarget(extractTargetName(arguments));
+        String targetNameSpecified = extractTargetName(arguments);
+        String targetName = findTarget(targetNameSpecified);
         if (targetName.equals("")) {
-            String text = textMaker.getText(TextName.TargetBeingNotFound, connection.getLocale());
+            Map<String, String> variables = ImmutableMap.of("target name", targetNameSpecified);
+            String text = textMaker.getText(TextName.TargetBeingNotFound, connection.getLocale(), variables);
             connection.getOutputQueue().push(text);
             return;
         }
@@ -44,10 +48,6 @@ public class CommandSayDirected implements Command {
 
     private String extractTargetName(String arguments) {
         return arguments.substring(0, arguments.indexOf(" "));
-    }
-
-    private boolean excludesMessageText(String arguments) {
-        return !arguments.contains(" ");
     }
 
     private String findTarget(String matchString) {

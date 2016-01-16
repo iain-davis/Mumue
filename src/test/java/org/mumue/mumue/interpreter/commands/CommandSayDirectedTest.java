@@ -3,6 +3,8 @@ package org.mumue.mumue.interpreter.commands;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyMapOf;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -114,7 +116,7 @@ public class CommandSayDirectedTest {
         Connection sayerConnection = connection(player, character("", 0));
         connectionManager.add(sayerConnection);
 
-        when(textMaker.getText(TextName.TargetBeingNotFound, locale)).thenReturn(responseMessage);
+        when(textMaker.getText(eq(TextName.TargetBeingNotFound), eq(locale), anyMapOf(String.class, String.class))).thenReturn(responseMessage);
 
         command.execute(sayerConnection, "`", otherTarget + " " + message, configuration);
 

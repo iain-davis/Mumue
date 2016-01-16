@@ -1,9 +1,5 @@
-- Add poseToExcept to ConnectionManager
 - poseTo should append new line
-- CommandSay use poseTo
-- CommandSayDirected use poseTo
 - CommandPage?
-- Target not found message requires a parameter (directed say)
 - Need to save the most recent component id.
 - MPI Stripping Filter
 - MUF Interpreter
