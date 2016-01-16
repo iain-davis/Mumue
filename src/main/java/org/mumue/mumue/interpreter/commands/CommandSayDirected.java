@@ -7,6 +7,7 @@ import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -23,7 +24,7 @@ public class CommandSayDirected implements Command {
     @Override
     public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration) {
         String sayText = arguments.substring(arguments.indexOf(" ") + 1);
-        if (includesMessageText(arguments) || StringUtils.isBlank(sayText)) {
+        if (StringUtils.isBlank(sayText)) {
             String text = textMaker.getText(TextName.MissingSayText, connection.getLocale());
             connection.getOutputQueue().push(text);
             return;
@@ -37,20 +38,16 @@ public class CommandSayDirected implements Command {
         }
 
         GameCharacter character = connection.getCharacter();
-        String message = character.getName() + " says to " + targetName + ", \"" + sayText + "\"\\r\\n";
-        for (Connection otherConnection : connectionManager.getConnections()) {
-            if (character.getLocationId() == otherConnection.getCharacter().getLocationId()) {
-                otherConnection.getOutputQueue().push(message);
-            }
-        }
+        String message = " says to " + targetName + ", \"" + sayText + "\"" + GlobalConstants.NEW_LINE;
+        connectionManager.poseTo(character.getLocationId(), character.getName(), message);
     }
 
     private String extractTargetName(String arguments) {
         return arguments.substring(0, arguments.indexOf(" "));
     }
 
-    private boolean includesMessageText(String arguments) {
-        return arguments.indexOf(" ") == -1;
+    private boolean excludesMessageText(String arguments) {
+        return !arguments.contains(" ");
     }
 
     private String findTarget(String matchString) {
