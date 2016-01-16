@@ -15,7 +15,6 @@ import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
@@ -39,7 +38,7 @@ public class NewPlayerPromptTest {
     public void beforeEach() {
         connection.getInputQueue().push(NEW_PLAYER_NAME);
         when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(Matchers.eq(TextName.NewPlayerPrompt), eq(serverLocale), anyMap())).thenReturn(prompt);
+        when(textMaker.getText(eq(TextName.NewPlayerPrompt), eq(serverLocale), anyMap())).thenReturn(prompt);
     }
 
     @Test

@@ -31,7 +31,7 @@ public enum Color {
     private final String ansiCode;
     private final String glowName;
 
-    private Color(String ansiCode, String glowName) {
+    Color(String ansiCode, String glowName) {
         this.ansiCode = ansiCode;
         this.glowName = glowName;
     }

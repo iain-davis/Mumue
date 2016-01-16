@@ -1,7 +1,6 @@
 package org.mumue.mumue.importer.components;
 
 public interface Ownable {
-    public Component getOwner();
-
-    public void setOwner(Component owner);
+    Component getOwner();
+    void setOwner(Component owner);
 }
