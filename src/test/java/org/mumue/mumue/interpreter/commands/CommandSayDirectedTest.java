@@ -44,7 +44,7 @@ public class CommandSayDirectedTest {
 
         command.execute(sayerConnection, "`", targetName + " " + message, configuration);
 
-        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.NEW_LINE;
+        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }
 
@@ -60,7 +60,7 @@ public class CommandSayDirectedTest {
 
         command.execute(sayerConnection, "`", targetName + " " + message, configuration);
 
-        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.NEW_LINE;
+        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }
 
@@ -81,7 +81,7 @@ public class CommandSayDirectedTest {
 
         command.execute(sayerConnection, "`", targetName.substring(0, RandomUtils.nextInt(3, 6)) + " " + message, configuration);
 
-        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.NEW_LINE;
+        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }
 
@@ -102,7 +102,7 @@ public class CommandSayDirectedTest {
 
         command.execute(sayerConnection, "`", targetName.toLowerCase() + " " + message, configuration);
 
-        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.NEW_LINE;
+        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }
 
@@ -185,7 +185,7 @@ public class CommandSayDirectedTest {
 
         command.execute(sayerConnection, "`", targetName + " " + message, configuration);
 
-        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.NEW_LINE;
+        String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(inRoomConnection.getOutputQueue(), hasItem(expected));
     }
 

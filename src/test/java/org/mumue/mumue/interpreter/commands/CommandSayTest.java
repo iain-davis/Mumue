@@ -34,7 +34,7 @@ public class CommandSayTest {
         String saying = RandomStringUtils.randomAlphabetic(17);
         command.execute(sayerConnection, "", saying, configuration);
 
-        String expected = "You say, \"" + saying + "\"" + GlobalConstants.NEW_LINE;
+        String expected = "You say, \"" + saying + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(sayerConnection.getOutputQueue().size(), equalTo(1));
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }
@@ -50,7 +50,7 @@ public class CommandSayTest {
 
         command.execute(sayerConnection, "", saying, configuration);
 
-        String expected = sayer.getName() + " says, \"" + saying + "\"" + GlobalConstants.NEW_LINE;
+        String expected = sayer.getName() + " says, \"" + saying + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(otherConnection.getOutputQueue().size(), equalTo(1));
         assertThat(otherConnection.getOutputQueue(), hasItem(expected));
     }

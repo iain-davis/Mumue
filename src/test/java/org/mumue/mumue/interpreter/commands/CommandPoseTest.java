@@ -40,7 +40,7 @@ public class CommandPoseTest {
     public void poseSeenByPoserWithSpace() {
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
-        String expected = poser.getName() + " " + text + GlobalConstants.NEW_LINE;
+        String expected = poser.getName() + " " + text + GlobalConstants.TCP_LINE_SEPARATOR;
 
         commandPose.execute(posingConnection, ":", text, configuration);
 
@@ -53,7 +53,7 @@ public class CommandPoseTest {
         assumeThat(Character.isAlphabetic(leadingCharacter), is(false));
         String text = leadingCharacter + RandomStringUtils.randomAlphabetic(25);
         commandPose.execute(posingConnection, ":", text, configuration);
-        String expected = poser.getName() + text + GlobalConstants.NEW_LINE;
+        String expected = poser.getName() + text + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat("" + leadingCharacter, posingConnection.getOutputQueue(), hasItem(expected));
     }
 
@@ -71,7 +71,7 @@ public class CommandPoseTest {
         Connection inRoomConnection = TestObjectBuilder.connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
-        String expected = poser.getName() + " " + text + GlobalConstants.NEW_LINE;
+        String expected = poser.getName() + " " + text + GlobalConstants.TCP_LINE_SEPARATOR;
         connectionManager.add(inRoomConnection);
 
         commandPose.execute(posingConnection, ":", text, configuration);

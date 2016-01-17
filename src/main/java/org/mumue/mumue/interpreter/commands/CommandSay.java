@@ -11,7 +11,7 @@ public class CommandSay implements Command {
 
     @Override
     public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration) {
-        String message = ", \"" + arguments + "\"" + GlobalConstants.NEW_LINE;
+        String message = ", \"" + arguments + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         GameCharacter character = connection.getCharacter();
         connectionManager.poseTo(character.getLocationId(), character.getName(), " says" + message, connection);
         connection.getOutputQueue().push("You say" + message);

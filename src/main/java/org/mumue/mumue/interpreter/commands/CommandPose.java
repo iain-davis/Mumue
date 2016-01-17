@@ -13,6 +13,6 @@ public class CommandPose implements Command {
     public void execute(Connection connection, String command, String arguments, ApplicationConfiguration configuration) {
         String space = Character.isAlphabetic(arguments.charAt(0)) ? " " : "";
         GameCharacter character = connection.getCharacter();
-        connectionManager.poseTo(character.getLocationId(), character.getName(), space + arguments + GlobalConstants.NEW_LINE);
+        connectionManager.poseTo(character.getLocationId(), character.getName(), space + arguments + GlobalConstants.TCP_LINE_SEPARATOR);
     }
 }

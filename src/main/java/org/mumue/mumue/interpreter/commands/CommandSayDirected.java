@@ -42,7 +42,7 @@ public class CommandSayDirected implements Command {
         }
 
         GameCharacter character = connection.getCharacter();
-        String message = " says to " + targetName + ", \"" + sayText + "\"" + GlobalConstants.NEW_LINE;
+        String message = " says to " + targetName + ", \"" + sayText + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         connectionManager.poseTo(character.getLocationId(), character.getName(), message);
     }
 
