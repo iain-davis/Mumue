@@ -13,24 +13,24 @@ import org.mumue.mumue.database.DatabaseInitializer;
 import org.mumue.mumue.threading.InfiniteLoopRunner;
 
 public class Mumue {
-    private final ApplicationConfiguration configuration;
-    private final DataSource dataSource;
-    private final DatabaseInitializer databaseInitializer;
-    private final ExecutorService executorService;
     private final Acceptor acceptor;
+    private final ApplicationConfiguration configuration;
+    private final DatabaseInitializer database;
+    private final DataSource dataSource;
+    private final ExecutorService executorService;
     private Future<?> acceptorTask;
 
     @Inject
-    public Mumue(ApplicationConfiguration configuration, DataSource dataSource, DatabaseInitializer databaseInitializer, ExecutorService executorService, Acceptor acceptor) {
-        this.configuration = configuration;
-        this.dataSource = dataSource;
-        this.databaseInitializer = databaseInitializer;
-        this.executorService = executorService;
+    public Mumue(Acceptor acceptor, ApplicationConfiguration configuration, DatabaseInitializer database, DataSource dataSource, ExecutorService executorService) {
         this.acceptor = acceptor;
+        this.configuration = configuration;
+        this.database = database;
+        this.dataSource = dataSource;
+        this.executorService = executorService;
     }
 
     public void run() {
-        databaseInitializer.initialize();
+        database.initialize();
 
         acceptor.setPort(configuration.getTelnetPort());
         acceptorTask = executorService.submit(new InfiniteLoopRunner(acceptor));
