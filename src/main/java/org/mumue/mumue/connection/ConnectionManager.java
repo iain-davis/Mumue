@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 
+import org.mumue.mumue.importer.GlobalConstants;
+
 public class ConnectionManager {
     private static final Vector<Connection> connections = new Vector<>();
 
@@ -20,8 +22,9 @@ public class ConnectionManager {
     }
 
     public void poseTo(long locationId, String characterName, String text, Collection<Connection> exceptions) {
+        String message = characterName + text + GlobalConstants.TCP_LINE_SEPARATOR;
         connections.stream()
                 .filter(connection -> connection.getCharacter().getLocationId() == locationId && !exceptions.contains(connection))
-                .forEach(connection -> connection.getOutputQueue().push(characterName + text));
+                .forEach(connection -> connection.getOutputQueue().push(message));
     }
 }

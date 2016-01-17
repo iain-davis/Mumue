@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.GameCharacter;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class ConnectionManagerTest {
@@ -38,7 +39,8 @@ public class ConnectionManagerTest {
         String text = RandomStringUtils.randomAlphabetic(25);
         connectionManager.poseTo(locationId, "", text);
 
-        assertThat(receiver.getOutputQueue(), hasItem(text));
+        String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
+        assertThat(receiver.getOutputQueue(), hasItem(expected));
     }
 
     @Test
@@ -51,7 +53,8 @@ public class ConnectionManagerTest {
         String text = RandomStringUtils.randomAlphabetic(25);
         connectionManager.poseTo(locationId, characterName, text);
 
-        assertThat(receiver.getOutputQueue(), hasItem(characterName + text));
+        String expected = characterName + text + GlobalConstants.TCP_LINE_SEPARATOR;
+        assertThat(receiver.getOutputQueue(), hasItem(expected));
     }
 
     @Test
@@ -62,11 +65,11 @@ public class ConnectionManagerTest {
         }
 
         String text = RandomStringUtils.randomAlphabetic(25);
-        System.out.println(text);
         connectionManager.poseTo(locationId, "", text);
 
         for (Connection connection : connectionManager.getConnections()) {
-            assertThat(connection.getOutputQueue(), hasItem(text));
+            String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
+            assertThat(connection.getOutputQueue(), hasItem(expected));
         }
     }
 
@@ -81,8 +84,9 @@ public class ConnectionManagerTest {
         String text = RandomStringUtils.randomAlphabetic(25);
         connectionManager.poseTo(locationId, "", text);
 
-        assertThat(receiver.getOutputQueue(), hasItem(text));
-        assertThat(nonReceiver.getOutputQueue(), not(hasItem(text)));
+        String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
+        assertThat(receiver.getOutputQueue(), hasItem(expected));
+        assertThat(nonReceiver.getOutputQueue(), not(hasItem(expected)));
     }
 
     @Test
@@ -97,8 +101,9 @@ public class ConnectionManagerTest {
         String text = RandomStringUtils.randomAlphabetic(25);
         connectionManager.poseTo(locationId, "", text, except);
 
-            assertThat(included.getOutputQueue(), hasItem(text));
-        assertThat(except.getOutputQueue(), not(hasItem(text)));
+        String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
+        assertThat(included.getOutputQueue(), hasItem(expected));
+        assertThat(except.getOutputQueue(), not(hasItem(expected)));
     }
 
     @Test
@@ -115,8 +120,9 @@ public class ConnectionManagerTest {
         String text = RandomStringUtils.randomAlphabetic(25);
         connectionManager.poseTo(locationId, "", text, except1, except2);
 
-        assertThat(included.getOutputQueue(), hasItem(text));
-        assertThat(except1.getOutputQueue(), not(hasItem(text)));
+        String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
+        assertThat(included.getOutputQueue(), hasItem(expected));
+        assertThat(except1.getOutputQueue(), not(hasItem(expected)));
     }
 
     private Connection connection(long locationId) {

@@ -40,11 +40,10 @@ public class CommandPoseTest {
     public void poseSeenByPoserWithSpace() {
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
-        String expected = poser.getName() + " " + text + GlobalConstants.TCP_LINE_SEPARATOR;
 
         commandPose.execute(posingConnection, ":", text, configuration);
 
-        System.out.println(posingConnection.getOutputQueue());
+        String expected = poser.getName() + " " + text + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(posingConnection.getOutputQueue(), hasItem(expected));
     }
 

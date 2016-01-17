@@ -8,6 +8,7 @@ import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -25,15 +26,15 @@ public class CharacterSelectionPrompt implements ConnectionStage {
 
     @Override
     public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
-        StringBuilder builder = new StringBuilder(GlobalConstants.NEW_LINE);
+        StringBuilder builder = new StringBuilder(GlobalConstants.TCP_LINE_SEPARATOR);
         Integer optionCount = 0;
         for (GameCharacter character : characterDao.getCharacters(connection.getPlayer().getId())) {
             optionCount++;
             connection.getMenuOptionIds().put(optionCount.toString(), character.getId());
             builder.append(optionCount.toString()).append(") ");
-            builder.append(character.getName()).append(GlobalConstants.NEW_LINE);
+            builder.append(character.getName()).append(GlobalConstants.TCP_LINE_SEPARATOR);
         }
-        builder.append(GlobalConstants.NEW_LINE);
+        builder.append(GlobalConstants.TCP_LINE_SEPARATOR);
         connection.getOutputQueue().push(builder.toString());
         String text = textMaker.getText(TextName.CharacterSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);

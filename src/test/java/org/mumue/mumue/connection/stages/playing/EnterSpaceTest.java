@@ -24,6 +24,7 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class EnterSpaceTest {
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
@@ -54,7 +55,7 @@ public class EnterSpaceTest {
     public void executeDisplaySpaceTitleAndDescription() {
         stage.execute(connection, configuration);
 
-        String expected = name + GlobalConstants.NEW_LINE + description + GlobalConstants.NEW_LINE;
+        String expected = name + GlobalConstants.TCP_LINE_SEPARATOR + description + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(connection.getOutputQueue(), hasItem(expected));
     }
 }

@@ -24,6 +24,7 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.stages.ConnectionStage;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.text.TextMaker;
@@ -71,7 +72,7 @@ public class UniverseSelectionPromptTest {
         when(universeDao.getUniverses()).thenReturn(universes);
         stage.execute(connection, configuration);
 
-        String expected = GlobalConstants.NEW_LINE + universe.getId() + ") " + universe.getName() + GlobalConstants.NEW_LINE;
+        String expected = GlobalConstants.TCP_LINE_SEPARATOR + universe.getId() + ") " + universe.getName() + GlobalConstants.TCP_LINE_SEPARATOR;
 
         assertThat(connection.getOutputQueue(), hasItem(expected));
     }
