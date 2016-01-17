@@ -7,7 +7,6 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
 
 public class PlayerDao {
     private static final String AUTHENTICATION_QUERY = "select count(*) from players where loginId = ? and password = ?";
@@ -19,10 +18,6 @@ public class PlayerDao {
     @Inject
     public PlayerDao(DatabaseAccessor database) {
         this.database = database;
-    }
-
-    public PlayerDao(){
-        this.database = DatabaseAccessorProvider.get();
     }
 
     public boolean authenticate(String login, String password) {

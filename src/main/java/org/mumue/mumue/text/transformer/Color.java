@@ -2,6 +2,7 @@ package org.mumue.mumue.text.transformer;
 
 public enum Color {
     Reset                ("0",    "^NORMAL^"),
+    ResetShortHand       ("0",    "^ ^"),
     BlackForeground      ("30",   "^BLACK^"),
     DarkRedForeground    ("31",   "^CRIMSON^"),
     DarkGreenForeground  ("32",   "^FOREST^"),
@@ -31,7 +32,7 @@ public enum Color {
     private final String ansiCode;
     private final String glowName;
 
-    private Color(String ansiCode, String glowName) {
+    Color(String ansiCode, String glowName) {
         this.ansiCode = ansiCode;
         this.glowName = glowName;
     }

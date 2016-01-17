@@ -1,4 +1,3 @@
-- poseTo should append new line
 - CommandPage?
 - Need to save the most recent component id.
 - MPI Stripping Filter
