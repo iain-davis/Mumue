@@ -15,7 +15,7 @@ public class DatabaseAccessor {
         this.queryRunner = new QueryRunner(dataSource);
     }
 
-    public DatabaseAccessor(QueryRunner queryRunner) {
+    DatabaseAccessor(QueryRunner queryRunner) {
         this.queryRunner = queryRunner;
     }
 
