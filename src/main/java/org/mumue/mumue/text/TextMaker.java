@@ -15,10 +15,6 @@ public class TextMaker {
         this.textDao = textDao;
     }
 
-    public TextMaker() {
-        this(new TextDao());
-    }
-
     public String getText(TextName textName, String locale) {
         String text = textDao.getText(textName, locale);
         if (StringUtils.isBlank(text)) {

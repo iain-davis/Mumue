@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
 
 public class TextDao {
     public static final String QUERY_TEXT = "select text from text where name = ? and locale = ?";
@@ -15,10 +14,6 @@ public class TextDao {
     @Inject
     public TextDao(DatabaseAccessor database) {
         this.database = database;
-    }
-
-    public TextDao() {
-        this(DatabaseAccessorProvider.get());
     }
 
     public String getText(TextName textName, String locale) {

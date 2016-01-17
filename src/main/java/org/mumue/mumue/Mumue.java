@@ -14,7 +14,6 @@ import org.mumue.mumue.connection.Acceptor;
 import org.mumue.mumue.connection.ConnectionFactory;
 import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.connection.ServerSocketFactory;
-import org.mumue.mumue.database.DatabaseAccessorProvider;
 import org.mumue.mumue.database.DatabaseInitializer;
 import org.mumue.mumue.threading.InfiniteLoopRunner;
 
@@ -27,13 +26,11 @@ public class Mumue {
     private final Injector injector;
     private Future<?> acceptorTask;
 
-    @SuppressWarnings("UnusedParameters")
     @Inject
     public Mumue(DataSource dataSource, DatabaseInitializer databaseInitializer,
                  ConfigurationInitializer configurationInitializer,
                  ConnectionManager connectionManager,
                  Injector injector,
-                 DatabaseAccessorProvider databaseAccessorProvider,
                  ExecutorService executorService) {
         this.configurationInitializer = configurationInitializer;
         this.dataSource = dataSource;
