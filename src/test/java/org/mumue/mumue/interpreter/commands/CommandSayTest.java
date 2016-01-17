@@ -34,7 +34,7 @@ public class CommandSayTest {
         String saying = RandomStringUtils.randomAlphabetic(17);
         command.execute(sayerConnection, "", saying, configuration);
 
-        String expected = "You say, \"" + saying + "\"\\r\\n";
+        String expected = "You say, \"" + saying + "\"" + GlobalConstants.NEW_LINE;
         assertThat(sayerConnection.getOutputQueue().size(), equalTo(1));
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));
     }

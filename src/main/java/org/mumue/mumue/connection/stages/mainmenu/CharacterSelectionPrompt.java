@@ -25,15 +25,15 @@ public class CharacterSelectionPrompt implements ConnectionStage {
 
     @Override
     public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
-        StringBuilder builder = new StringBuilder("\\r\\n");
+        StringBuilder builder = new StringBuilder(GlobalConstants.NEW_LINE);
         Integer optionCount = 0;
         for (GameCharacter character : characterDao.getCharacters(connection.getPlayer().getId())) {
             optionCount++;
             connection.getMenuOptionIds().put(optionCount.toString(), character.getId());
             builder.append(optionCount.toString()).append(") ");
-            builder.append(character.getName()).append("\\r\\n");
+            builder.append(character.getName()).append(GlobalConstants.NEW_LINE);
         }
-        builder.append("\\r\\n");
+        builder.append(GlobalConstants.NEW_LINE);
         connection.getOutputQueue().push(builder.toString());
         String text = textMaker.getText(TextName.CharacterSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);

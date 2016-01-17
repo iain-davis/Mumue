@@ -22,7 +22,7 @@ public class EnterSpace implements ConnectionStage {
     @Override
     public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
         Space space = spaceDao.getSpace(connection.getCharacter().getLocationId());
-        String text = space.getName() + "\\r\\n" + space.getDescription() + "\\r\\n";
+        String text = space.getName() + GlobalConstants.NEW_LINE + space.getDescription() + GlobalConstants.NEW_LINE;
         connection.getOutputQueue().push(text);
         return injector.getInstance(PlayCharacter.class);
     }

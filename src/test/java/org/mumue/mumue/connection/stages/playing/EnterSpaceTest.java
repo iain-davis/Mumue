@@ -54,7 +54,7 @@ public class EnterSpaceTest {
     public void executeDisplaySpaceTitleAndDescription() {
         stage.execute(connection, configuration);
 
-        String expected = name + "\\r\\n" + description + "\\r\\n";
+        String expected = name + GlobalConstants.NEW_LINE + description + GlobalConstants.NEW_LINE;
         assertThat(connection.getOutputQueue(), hasItem(expected));
     }
 }

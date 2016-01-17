@@ -71,7 +71,7 @@ public class UniverseSelectionPromptTest {
         when(universeDao.getUniverses()).thenReturn(universes);
         stage.execute(connection, configuration);
 
-        String expected = "\\r\\n" + universe.getId() + ") " + universe.getName() + "\\r\\n";
+        String expected = GlobalConstants.NEW_LINE + universe.getId() + ") " + universe.getName() + GlobalConstants.NEW_LINE;
 
         assertThat(connection.getOutputQueue(), hasItem(expected));
     }

@@ -25,9 +25,9 @@ public class UniverseSelectionPrompt implements ConnectionStage {
 
     @Override
     public ConnectionStage execute(Connection connection, ApplicationConfiguration configuration) {
-        StringBuilder builder = new StringBuilder("\\r\\n");
+        StringBuilder builder = new StringBuilder(GlobalConstants.NEW_LINE);
         for (Universe universe : universeDao.getUniverses()) {
-            builder.append(universe.getId()).append(") ").append(universe.getName()).append("\\r\\n");
+            builder.append(universe.getId()).append(") ").append(universe.getName()).append(GlobalConstants.NEW_LINE);
         }
         connection.getOutputQueue().push(builder.toString());
 

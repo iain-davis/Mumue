@@ -40,7 +40,7 @@ public class CommandPoseTest {
     public void poseSeenByPoserWithSpace() {
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
-        String expected = poser.getName() + " " + text + "\\r\\n";
+        String expected = poser.getName() + " " + text + GlobalConstants.NEW_LINE;
 
         commandPose.execute(posingConnection, ":", text, configuration);
 
@@ -71,7 +71,7 @@ public class CommandPoseTest {
         Connection inRoomConnection = TestObjectBuilder.connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
-        String expected = poser.getName() + " " + text + "\\r\\n";
+        String expected = poser.getName() + " " + text + GlobalConstants.NEW_LINE;
         connectionManager.add(inRoomConnection);
 
         commandPose.execute(posingConnection, ":", text, configuration);
