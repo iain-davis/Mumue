@@ -2,6 +2,7 @@ apply plugin: 'java'
 
 task fatJar(type: Jar) {
     manifest {
+        //noinspection GroovyAssignabilityCheck
         attributes 'Main-Class': 'org.mumue.mumue.Main'
     }
     baseName = project.name + '-all'

@@ -3,7 +3,7 @@ package org.mumue.mumue.connection.stages.login;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.anyMapOf;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,7 +39,7 @@ public class NewPlayerPromptTest {
     public void beforeEach() {
         connection.getInputQueue().push(NEW_PLAYER_NAME);
         when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(Matchers.eq(TextName.NewPlayerPrompt), eq(serverLocale), anyMap())).thenReturn(prompt);
+        when(textMaker.getText(Matchers.eq(TextName.NewPlayerPrompt), eq(serverLocale), anyMapOf(String.class, String.class))).thenReturn(prompt);
     }
 
     @Test
@@ -55,5 +55,4 @@ public class NewPlayerPromptTest {
 
         assertThat(connection.getOutputQueue(), hasItem(prompt));
     }
-
 }

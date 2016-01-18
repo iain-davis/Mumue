@@ -2,25 +2,34 @@ package org.mumue.mumue.connection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class AcceptorTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
+    private static final PrintStream ORIGINAL_CONSOLE_OUTPUT = System.out;
+    private static final ByteArrayOutputStream CONSOLE_OUTPUT = new ByteArrayOutputStream();
+
     private final ServerSocket serverSocket = mock(ServerSocket.class);
     private final ServerSocketFactory serverSocketFactory = mock(ServerSocketFactory.class);
     private final ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
@@ -29,9 +38,31 @@ public class AcceptorTest {
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final Connection connection = new Connection(configuration);
 
+    @BeforeClass
+    public static void beforeClass() {
+        System.setOut(new PrintStream(CONSOLE_OUTPUT));
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        System.setOut(ORIGINAL_CONSOLE_OUTPUT);
+    }
+
     @Before
     public void beforeEach() {
         connectionManager.getConnections().clear();
+    }
+
+    @Test
+    public void displayMessageToConsole() {
+        CONSOLE_OUTPUT.reset();
+        int port = RandomUtils.nextInt(2048, 4096);
+        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager);
+        acceptor.setPort(port);
+
+        acceptor.prepare();
+
+        assertThat(CONSOLE_OUTPUT.toString(), startsWith(GlobalConstants.TELNET_LISTENING + port));
     }
 
     @Test
@@ -92,4 +123,5 @@ public class AcceptorTest {
         acceptor.prepare();
         acceptor.execute();
     }
+
 }

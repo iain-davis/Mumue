@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.inject.Inject;
 
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class Acceptor implements InfiniteLoopBody {
@@ -23,6 +24,7 @@ public class Acceptor implements InfiniteLoopBody {
 
     @Override
     public boolean prepare() {
+        System.out.println(GlobalConstants.TELNET_LISTENING + port);
         serverSocket = serverSocketFactory.createSocket(port);
         return true;
     }
