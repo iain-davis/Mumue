@@ -85,5 +85,6 @@ public class MumueRunner {
     public void cleanupDatabase() {
         FileUtils.getFile("./mumuedatabase.h2.db").deleteOnExit();
         FileUtils.getFile("./mumuedatabase.trace.db").deleteOnExit();
+        FileUtils.getFile("./mumuedatabase.lock.db").deleteOnExit();
     }
 }

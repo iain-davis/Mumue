@@ -9,15 +9,16 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 
 public class StartupAcceptanceTest {
+    private static final MumueRunner mumueRunner = new MumueRunner();
+
     @AfterClass
     public static void tearDown() {
-        new MumueRunner().cleanupDatabase();
+        mumueRunner.cleanupDatabase();
     }
 
-    @Ignore
     @Test
     public void useDefaultTelnetPort() {
-        MumueRunner runner = new MumueRunner();
+        MumueRunner runner = mumueRunner;
         runner.run(ConfigurationDefaults.TELNET_PORT);
 
         assertThat(runner.getTelnetOutput(), containsString(MumueRunner.WELCOME_TO_MUMUE));
