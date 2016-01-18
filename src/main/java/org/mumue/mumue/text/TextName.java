@@ -27,7 +27,7 @@ public enum TextName {
 
     private final String name;
 
-    private TextName(String name) {
+    TextName(String name) {
         this.name = name;
     }
 

@@ -19,6 +19,7 @@ public class TelnetCallable implements Callable<String> {
 
     @Override
     public String call() throws Exception {
+        //noinspection StatementWithEmptyBody
         while (!consoleOutputStream.toString().contains(GlobalConstants.TELNET_LISTENING)) {}
         TelnetClient client = new TelnetClient();
         try {
