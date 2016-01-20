@@ -24,10 +24,6 @@ public class ApplicationConfiguration {
         return onlineConfiguration.getServerLocale();
     }
 
-    public int getTelnetPort() {
-        return onlineConfiguration.getTelnetPort();
-    }
-
     public long getNewComponentId() {
         return componentIdManager.getNewComponentId(onlineConfiguration);
     }

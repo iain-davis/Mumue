@@ -16,20 +16,5 @@ public class TestObjectBuilder {
         public MockApplicationConfiguration() {
             super(null);
         }
-
-        @Override
-        public String getServerLocale() {
-            return super.getServerLocale();
-        }
-
-        @Override
-        public int getTelnetPort() {
-            return super.getTelnetPort();
-        }
-
-        @Override
-        public long getNewComponentId() {
-            return super.getNewComponentId();
-        }
     }
 }

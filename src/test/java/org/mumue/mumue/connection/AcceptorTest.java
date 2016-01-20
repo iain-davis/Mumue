@@ -23,10 +23,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class AcceptorTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
+    private static final Random RANDOM = new Random();
     private static final PrintStream ORIGINAL_CONSOLE_OUTPUT = System.out;
     private static final ByteArrayOutputStream CONSOLE_OUTPUT = new ByteArrayOutputStream();
 
@@ -56,50 +58,50 @@ public class AcceptorTest {
     @Test
     public void displayMessageToConsole() {
         CONSOLE_OUTPUT.reset();
-        int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager);
-        acceptor.setPort(port);
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
+        Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
 
         acceptor.prepare();
 
-        assertThat(CONSOLE_OUTPUT.toString(), startsWith(GlobalConstants.TELNET_LISTENING + port));
+        assertThat(CONSOLE_OUTPUT.toString(), startsWith(GlobalConstants.TELNET_LISTENING + portConfiguration.getPort()));
     }
 
     @Test
     public void usesSpecifiedPort() {
-        int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager);
-        acceptor.setPort(port);
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
+        Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
 
         acceptor.prepare();
 
-        verify(serverSocketFactory).createSocket(port);
+        verify(serverSocketFactory).createSocket(portConfiguration.getPort());
     }
 
     @Test
     public void createsConnectionFromAcceptedSocket() throws IOException {
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager);
-        int port = new Random().nextInt(65535);
-        acceptor.setPort(port);
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
+        Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
 
-        when(serverSocketFactory.createSocket(port)).thenReturn(serverSocket);
+        when(serverSocketFactory.createSocket(portConfiguration.getPort())).thenReturn(serverSocket);
         when(serverSocket.accept()).thenReturn(clientSocket);
 
         acceptor.prepare();
         acceptor.execute();
 
-        verify(connectionFactory).create(clientSocket);
+        verify(connectionFactory).create(clientSocket, portConfiguration);
     }
 
     @Test
     public void addsNewConnectionToConnectionManager() throws IOException {
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager);
-        int port = new Random().nextInt(65535);
-        acceptor.setPort(port);
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
+        Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
 
-        when(serverSocketFactory.createSocket(port)).thenReturn(serverSocket);
+        when(serverSocketFactory.createSocket(portConfiguration.getPort())).thenReturn(serverSocket);
         when(serverSocket.accept()).thenReturn(clientSocket);
-        when(connectionFactory.create(clientSocket)).thenReturn(connection);
+        when(connectionFactory.create(clientSocket, portConfiguration)).thenReturn(connection);
 
         acceptor.prepare();
         acceptor.execute();
@@ -111,8 +113,9 @@ public class AcceptorTest {
     @Test
     public void executeHandlesIOException() throws IOException {
         int port = RandomUtils.nextInt(2048, 4096);
-        Acceptor acceptor = new Acceptor(serverSocketFactory, connectionFactory, connectionManager);
-        acceptor.setPort(port);
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setPort(port);
+        Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
 
         when(serverSocketFactory.createSocket(port)).thenReturn(serverSocket);
         when(serverSocket.accept()).thenThrow(new IOException());
@@ -123,5 +126,4 @@ public class AcceptorTest {
         acceptor.prepare();
         acceptor.execute();
     }
-
 }

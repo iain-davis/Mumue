@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextQueue;
 
@@ -17,6 +18,7 @@ public class Connection {
     private Player player;
     private Map<String, Long> menuOptionIds = new HashMap<>();
     private ApplicationConfiguration configuration;
+    private PortConfiguration portConfiguration = new PortConfiguration();
 
     @Inject
     public Connection(ApplicationConfiguration configuration) {
@@ -66,5 +68,13 @@ public class Connection {
             return configuration.getServerLocale();
         }
         return getPlayer().getLocale();
+    }
+
+    public PortConfiguration getPortConfiguration() {
+        return portConfiguration;
+    }
+
+    public void setPortConfiguration(PortConfiguration portConfiguration) {
+        this.portConfiguration = portConfiguration;
     }
 }

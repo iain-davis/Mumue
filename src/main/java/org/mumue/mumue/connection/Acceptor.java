@@ -5,27 +5,29 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.inject.Inject;
 
+import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class Acceptor implements InfiniteLoopBody {
-    private final ServerSocketFactory serverSocketFactory;
     private final ConnectionFactory connectionFactory;
     private final ConnectionManager connectionManager;
+    private final PortConfiguration portConfiguration;
+    private final ServerSocketFactory serverSocketFactory;
     private ServerSocket serverSocket;
-    private int port;
 
     @Inject
-    public Acceptor(ServerSocketFactory serverSocketFactory, ConnectionFactory connectionFactory, ConnectionManager connectionManager) {
-        this.serverSocketFactory = serverSocketFactory;
+    public Acceptor(ConnectionFactory connectionFactory, ConnectionManager connectionManager, PortConfiguration portConfiguration, ServerSocketFactory serverSocketFactory) {
         this.connectionFactory = connectionFactory;
         this.connectionManager = connectionManager;
+        this.portConfiguration = portConfiguration;
+        this.serverSocketFactory = serverSocketFactory;
     }
 
     @Override
     public boolean prepare() {
-        System.out.println(GlobalConstants.TELNET_LISTENING + port);
-        serverSocket = serverSocketFactory.createSocket(port);
+        System.out.println(GlobalConstants.TELNET_LISTENING + portConfiguration.getPort());
+        serverSocket = serverSocketFactory.createSocket(portConfiguration.getPort());
         return true;
     }
 
@@ -33,10 +35,10 @@ public class Acceptor implements InfiniteLoopBody {
     public boolean execute() {
         try {
             Socket clientSocket = serverSocket.accept();
-            Connection connection = connectionFactory.create(clientSocket);
+            Connection connection = connectionFactory.create(clientSocket, portConfiguration);
             connectionManager.add(connection);
         } catch (IOException exception) {
-            throw new RuntimeException("Error accepting client connecting to port " + port, exception);
+            throw new RuntimeException("Error accepting client connecting to port " + portConfiguration.getPort(), exception);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
@@ -49,7 +51,7 @@ public class Acceptor implements InfiniteLoopBody {
         return true;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public PortConfiguration getPortConfiguration() {
+        return portConfiguration;
     }
 }

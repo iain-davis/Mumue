@@ -24,9 +24,4 @@ public class OnlineConfiguration {
         String value = dao.getConfigurationOption(OnlineConfigurationOptionName.LAST_COMPONENT_ID);
         return StringUtils.isEmpty(value) ? ConfigurationDefaults.LAST_COMPONENT_ID : Long.parseLong(value);
     }
-
-    public int getTelnetPort() {
-        String value = dao.getConfigurationOption(OnlineConfigurationOptionName.TELNET_PORT);
-        return StringUtils.isEmpty(value) ? ConfigurationDefaults.TELNET_PORT : Integer.parseInt(value);
-    }
 }

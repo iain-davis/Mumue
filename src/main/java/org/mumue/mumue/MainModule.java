@@ -10,10 +10,8 @@ import com.google.inject.Provides;
 public class MainModule extends AbstractModule {
     @Override
     protected void configure() {
-
     }
 
-    @SuppressWarnings("unused")
     @Provides
     @Singleton
     public ExecutorService providesExecutorService() {

@@ -1,21 +1,19 @@
+insert into configuration_ports (id, port, type, supportsMenus) values (0, 4201, 'TELNET', true);
+insert into configuration_ports (id, port, type, supportsMenus) values (1, 4202, 'TELNET', false);
+
 insert into configuration_options (id, name, value) values (0, 'database schema version', '0.0');
 insert into configuration_options (id, name, value) values (1, 'server locale', 'en-US');
 insert into configuration_options (id, name, value) values (2, 'last component id', '0');
+insert into configuration_options (id, name, value) values (3, 'telnet port', '4201');
+insert into configuration_options (id, name, value) values (4, 'menu-less telnet port', '4202');
 
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (0, 'say', 's', 'say', false);
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (1, 'say', '"', 'say', true);
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (2, 'say', '''', 'say', true);
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (3, 'pose', 'po', 'pose', false);
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (4, 'pose', ':', 'pose', true);
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (5, 'pose', ';', 'pose', true);
-insert into commands (id, display, minimumPartial, commandIdentifier, token)
-              values (6, 'directed say', '`', 'directed say', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (0, 'say', 's', 'say', false);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (1, 'say', '"', 'say', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (2, 'say', '''', 'say', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (3, 'pose', 'po', 'pose', false);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (4, 'pose', ':', 'pose', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (5, 'pose', ';', 'pose', true);
+insert into commands (id, display, minimumPartial, commandIdentifier, token) values (6, 'directed say', '`', 'directed say', true);
 
 insert into text (id, locale, name, text) values ( 0, 'en-US', 'welcome screen', 'Welcome to Mumue!\r\n');
 insert into text (id, locale, name, text) values ( 1, 'en-US', 'login prompt', '\r\nEnter your login ID: ');
