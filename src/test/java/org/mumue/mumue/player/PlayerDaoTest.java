@@ -6,12 +6,16 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
+import java.util.Random;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class PlayerDaoTest {
+    private static final Random RANDOM = new Random();
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private final PlayerDao dao = new PlayerDao(database);
 
@@ -19,7 +23,7 @@ public class PlayerDaoTest {
     public void successfulAuthentication() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(16);
-        insertPlayer(1, loginId, password);
+        insertPlayer(loginId, password);
 
         assertTrue(dao.authenticate(loginId, password));
     }
@@ -27,7 +31,7 @@ public class PlayerDaoTest {
     @Test
     public void playerExistsForReturnsTrue() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
-        insertPlayer(1, loginId, RandomStringUtils.randomAlphabetic(16));
+        insertPlayer(loginId, RandomStringUtils.randomAlphabetic(16));
 
         assertTrue(dao.playerExistsFor(loginId));
     }
@@ -35,7 +39,7 @@ public class PlayerDaoTest {
     @Test
     public void playerExistsForReturnsFalse() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
-        insertPlayer(1, loginId, RandomStringUtils.randomAlphabetic(16));
+        insertPlayer(loginId, RandomStringUtils.randomAlphabetic(16));
 
         assertFalse(dao.playerExistsFor(RandomStringUtils.randomAlphabetic(13)));
     }
@@ -45,7 +49,7 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(16);
         String otherLogin = RandomStringUtils.randomAlphabetic(15);
-        insertPlayer(1, loginId, password);
+        insertPlayer(loginId, password);
 
         assertFalse(dao.authenticate(otherLogin, password));
     }
@@ -55,20 +59,59 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         String otherPassword = RandomStringUtils.randomAlphabetic(15);
-        insertPlayer(1, loginId, password);
+        insertPlayer(loginId, password);
 
         assertFalse(dao.authenticate(loginId, otherPassword));
     }
 
     @Test
-    public void getPlayerReturnsPlayer() {
+    public void getPlayerByIdReturnsPlayer() {
+        long id = RANDOM.nextInt(1000) + 10;
         String loginId = RandomStringUtils.randomAlphabetic(3);
         String password = RandomStringUtils.randomAlphabetic(4);
-        insertPlayer(1, loginId, password);
+        insertPlayer(id, loginId, password);
+
+        Player player = dao.getPlayer(id);
+
+        assertThat(player.getId(), equalTo(id));
+        assertThat(player.getLoginId(), equalTo(loginId));
+    }
+
+    @Test
+    public void getPlayerByIdWhenPlayerDoesNotExist() {
+        int id = RANDOM.nextInt(1000) + 10;
+        String loginId = RandomStringUtils.randomAlphabetic(3);
+        String password = RandomStringUtils.randomAlphabetic(4);
+        insertPlayer(id, loginId, password);
+
+        Player player = dao.getPlayer(id * 2);
+
+        assertThat(player.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getPlayerByLoginReturnsPlayer() {
+        long id = RANDOM.nextInt(1000) + 10;
+        String loginId = RandomStringUtils.randomAlphabetic(3);
+        String password = RandomStringUtils.randomAlphabetic(4);
+        insertPlayer(id, loginId, password);
+
 
         Player player = dao.getPlayer(loginId, password);
 
+        assertThat(player.getId(), equalTo(id));
         assertThat(player.getLoginId(), equalTo(loginId));
+    }
+
+    @Test
+    public void getPlayerByLoginWhenDoesNotExist() {
+        String loginId = RandomStringUtils.randomAlphabetic(3);
+        String password = RandomStringUtils.randomAlphabetic(4);
+        insertPlayer(loginId, password);
+
+        Player player = dao.getPlayer(RandomStringUtils.randomAlphabetic(4), password);
+
+        assertThat(player.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test
@@ -76,7 +119,7 @@ public class PlayerDaoTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         String otherPassword = RandomStringUtils.randomAlphabetic(15);
-        insertPlayer(1, loginId, password);
+        insertPlayer(loginId, password);
 
         Player player = dao.getPlayer(loginId, otherPassword);
 
@@ -95,6 +138,10 @@ public class PlayerDaoTest {
 
         Player player = dao.getPlayer(expected.getLoginId(), password);
         assertReflectionEquals(expected, player);
+    }
+
+    private void insertPlayer(String loginId, String password) {
+        insertPlayer(RANDOM.nextInt(10000000), loginId, password);
     }
 
     private void insertPlayer(long id, String loginId, String password) {

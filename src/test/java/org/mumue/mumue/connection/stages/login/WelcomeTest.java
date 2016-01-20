@@ -15,6 +15,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
@@ -39,8 +40,20 @@ public class WelcomeTest {
 
     @Test
     public void executeReturnsLoginPromptStage() {
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setSupportsMenus(true);
+        connection.setPortConfiguration(portConfiguration);
         assertThat(stage.execute(connection, configuration), instanceOf(LoginPrompt.class));
     }
+
+    @Test
+    public void executeReturnsConnectCommandPromptStage() {
+        PortConfiguration portConfiguration = new PortConfiguration();
+        portConfiguration.setSupportsMenus(false);
+        connection.setPortConfiguration(portConfiguration);
+        assertThat(stage.execute(connection, configuration), instanceOf(WelcomeCommandsDisplay.class));
+    }
+
 
     @Test
     public void executePutsWelcomeOnOutputQueue() {

@@ -22,7 +22,11 @@ public enum TextName {
     AmbiguousCommand("ambiguous command"),
     NewPlayerPrompt("new player prompt"),
     AndText("and text"),
-    Yes("yes")
+    Yes("yes"),
+    WelcomeCommands("welcome screen commands"),
+    MissingPassword("connect missing password"),
+    MissingCharacterName("connect missing character name"),
+    CharacterDoesNotExist("connect character does not exist")
     ;
 
     private final String name;
