@@ -35,8 +35,7 @@ public class Acceptor implements InfiniteLoopBody {
     public boolean execute() {
         try {
             Socket clientSocket = serverSocket.accept();
-            Connection connection = connectionFactory.create(clientSocket, portConfiguration);
-            connectionManager.add(connection);
+            connectionManager.add(connectionFactory.create(clientSocket, portConfiguration));
         } catch (IOException exception) {
             throw new RuntimeException("Error accepting client connecting to port " + portConfiguration.getPort(), exception);
         } catch (Exception exception) {
