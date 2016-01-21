@@ -1,5 +1,7 @@
 package org.mumue.mumue.connection.stages.login;
 
+import javax.inject.Inject;
+
 import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
@@ -19,6 +21,7 @@ public class WaitForWelcomeScreenCommand implements ConnectionStage {
     private final PlayerDao playerDao;
     private final TextMaker textMaker;
 
+    @Inject
     public WaitForWelcomeScreenCommand(Injector injector, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
         this.injector = injector;
         this.characterDao = characterDao;
@@ -61,6 +64,8 @@ public class WaitForWelcomeScreenCommand implements ConnectionStage {
         } else {
             Player player = playerDao.getPlayer(character.getPlayerId());
             if (playerDao.authenticate(player.getLoginId(), password)) {
+                connection.setCharacter(character);
+                connection.setPlayer(player);
                 return injector.getInstance(EnterUniverse.class);
             } else {
                 connection.getOutputQueue().push(textMaker.getText(TextName.LoginFailed, connection.getLocale()));

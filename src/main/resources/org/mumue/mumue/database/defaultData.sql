@@ -4,8 +4,6 @@ insert into configuration_ports (id, port, type, supportsMenus) values (1, 4202,
 insert into configuration_options (id, name, value) values (0, 'database schema version', '0.0');
 insert into configuration_options (id, name, value) values (1, 'server locale', 'en-US');
 insert into configuration_options (id, name, value) values (2, 'last component id', '0');
-insert into configuration_options (id, name, value) values (3, 'telnet port', '4201');
-insert into configuration_options (id, name, value) values (4, 'menu-less telnet port', '4202');
 
 insert into commands (id, display, minimumPartial, commandIdentifier, token) values (0, 'say', 's', 'say', false);
 insert into commands (id, display, minimumPartial, commandIdentifier, token) values (1, 'say', '"', 'say', true);
@@ -40,10 +38,10 @@ insert into text (id, locale, name, text) values (21, 'en-US', 'yes', 'yes');
 insert into text (id, locale, name, text) values (22, 'en-US', 'welcome screen commands', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 insert into text (id, locale, name, text) values (23, 'en-US', 'connect missing password', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 insert into text (id, locale, name, text) values (24, 'en-US', 'connect missing character name', 'Use ''connect <character name> <password>'' to play a character.\r\n');
-insert into text (id, locale, name, text) values (24, 'en-US', 'connect character does not exist', 'Use ''connect <character name> <password>'' to play a character.\r\n');
+insert into text (id, locale, name, text) values (25, 'en-US', 'connect character does not exist', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
-            values  (0, 'first', 'first password', 'en-US',
+            values  (0, 'first', 'first', 'en-US',
                      timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0,
                      true
             );

@@ -46,15 +46,50 @@ public class WaitForWelcomeScreenCommandTest {
         String characterName = RandomStringUtils.randomAlphabetic(16);
         String password = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
+        Player player = new Player();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
         ConnectionStage returned = stage.execute(connection, configuration);
 
         assertThat(returned, instanceOf(EnterUniverse.class));
+    }
+
+    @Test
+    public void connectCommandPutsCharacterOnConnection() {
+        String characterName = RandomStringUtils.randomAlphabetic(16);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        GameCharacter character = createCharacter();
+        Player player = new Player();
+
+        when(characterDao.getCharacter(characterName)).thenReturn(character);
+        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
+        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+
+        connection.getInputQueue().push("connect " + characterName + " " + password);
+        stage.execute(connection, configuration);
+
+        assertSame(connection.getCharacter(), character);
+    }
+
+    @Test
+    public void connectCommandPutsPlayerOnConnection() {
+        String characterName = RandomStringUtils.randomAlphabetic(16);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        GameCharacter character = createCharacter();
+        Player player = new Player();
+
+        when(characterDao.getCharacter(characterName)).thenReturn(character);
+        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
+        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+
+        connection.getInputQueue().push("connect " + characterName + " " + password);
+        stage.execute(connection, configuration);
+
+        assertSame(connection.getPlayer(), player);
     }
 
     @Test
