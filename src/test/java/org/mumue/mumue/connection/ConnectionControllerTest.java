@@ -9,14 +9,14 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
-import org.mumue.mumue.connection.stages.ConnectionStage;
-import org.mumue.mumue.connection.stages.NoOperation;
+import org.mumue.mumue.connection.states.ConnectionState;
+import org.mumue.mumue.connection.states.NoOperation;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class ConnectionControllerTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final Connection connection = TestObjectBuilder.connection();
-    private final ConnectionStage stage = mock(ConnectionStage.class);
+    private final ConnectionState stage = mock(ConnectionState.class);
 
     @Test
     public void prepareReturnsTrue() {

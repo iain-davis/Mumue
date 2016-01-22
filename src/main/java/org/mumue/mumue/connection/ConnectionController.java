@@ -4,21 +4,21 @@ import javax.inject.Inject;
 
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
-import org.mumue.mumue.connection.stages.ConnectionStage;
-import org.mumue.mumue.connection.stages.login.Welcome;
+import org.mumue.mumue.connection.states.ConnectionState;
+import org.mumue.mumue.connection.states.login.Welcome;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class ConnectionController implements InfiniteLoopBody {
     private final ApplicationConfiguration configuration;
     private Connection connection;
-    private ConnectionStage stage;
+    private ConnectionState stage;
 
     @Inject
     public ConnectionController(Injector injector, ApplicationConfiguration configuration) {
         this(configuration, injector.getInstance(Welcome.class));
     }
 
-    public ConnectionController(ApplicationConfiguration configuration, ConnectionStage stage) {
+    public ConnectionController(ApplicationConfiguration configuration, ConnectionState stage) {
         this.configuration = configuration;
         this.stage = stage;
     }
@@ -43,7 +43,7 @@ public class ConnectionController implements InfiniteLoopBody {
         return true;
     }
 
-    public ConnectionStage getStage() {
+    public ConnectionState getStage() {
         return stage;
     }
 
