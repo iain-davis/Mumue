@@ -11,16 +11,20 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.connection.states.NoOperation;
+import org.mumue.mumue.connection.states.StateCollection;
+import org.mumue.mumue.connection.states.StateName;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class ConnectionControllerTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final Connection connection = TestObjectBuilder.connection();
     private final ConnectionState stage = mock(ConnectionState.class);
+    private final StateCollection stateCollection = mock(StateCollection.class);
 
     @Test
     public void prepareReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
+        when(stateCollection.get(StateName.DisplayWelcome)).thenReturn(new NoOperation());
+        ConnectionController controller = new ConnectionController(configuration, stateCollection).withConnection(connection);
         assertTrue(controller.prepare());
     }
 

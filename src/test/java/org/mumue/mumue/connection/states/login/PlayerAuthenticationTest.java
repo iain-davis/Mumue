@@ -24,6 +24,7 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
 import org.mumue.mumue.connection.states.ConnectionState;
+import org.mumue.mumue.connection.states.DisplayLoginPrompt;
 import org.mumue.mumue.connection.states.mainmenu.DisplayPlayerMenu;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
@@ -115,7 +116,7 @@ public class PlayerAuthenticationTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(LoginPrompt.class));
+        assertThat(next, instanceOf(DisplayLoginPrompt.class));
     }
 
     @Test

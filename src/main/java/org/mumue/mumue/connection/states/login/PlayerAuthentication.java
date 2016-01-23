@@ -7,6 +7,7 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
 import org.mumue.mumue.connection.states.ConnectionState;
+import org.mumue.mumue.connection.states.DisplayLoginPrompt;
 import org.mumue.mumue.connection.states.mainmenu.DisplayPlayerMenu;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
@@ -62,7 +63,7 @@ public class PlayerAuthentication implements ConnectionState {
     private ConnectionState loginFailure(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
-        return injector.getInstance(LoginPrompt.class);
+        return injector.getInstance(DisplayLoginPrompt.class);
     }
 
     private boolean playerAuthenticates(String loginId, String password) {

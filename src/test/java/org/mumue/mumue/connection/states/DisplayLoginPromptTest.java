@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
@@ -17,16 +17,18 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.connection.states.DisplayLoginPrompt;
+import org.mumue.mumue.connection.states.login.WaitForLoginId;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class LoginPromptTest {
+public class DisplayLoginPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
-    private final LoginPrompt stage = new LoginPrompt(injector, textMaker);
+    private final DisplayLoginPrompt stage = new DisplayLoginPrompt(injector, textMaker);
 
     private final Connection connection = new Connection(configuration);
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);

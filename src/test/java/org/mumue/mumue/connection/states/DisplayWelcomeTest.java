@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.instanceOf;
@@ -17,15 +17,17 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.connection.states.login.WelcomeCommandsDisplay;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WelcomeTest {
+public class DisplayWelcomeTest {
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final Welcome stage = new Welcome(injector, textMaker);
+    private final StateCollection stateCollection = mock(StateCollection.class);
+    private final DisplayWelcome stage = new DisplayWelcome(stateCollection, injector, textMaker);
 
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final Connection connection = new Connection(configuration);
@@ -36,6 +38,7 @@ public class WelcomeTest {
         String serverLocale = RandomStringUtils.randomAlphabetic(7);
         when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(textMaker.getText(eq(TextName.Welcome), eq(serverLocale))).thenReturn(welcome);
+        when(stateCollection.get(StateName.DisplayLoginPrompt)).thenReturn(new DisplayLoginPrompt(injector, textMaker));
     }
 
     @Test
@@ -43,7 +46,7 @@ public class WelcomeTest {
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setSupportsMenus(true);
         connection.setPortConfiguration(portConfiguration);
-        assertThat(stage.execute(connection, configuration), instanceOf(LoginPrompt.class));
+        assertThat(stage.execute(connection, configuration), instanceOf(DisplayLoginPrompt.class));
     }
 
     @Test
