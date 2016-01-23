@@ -20,6 +20,7 @@ import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerDao;
+import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
@@ -32,9 +33,10 @@ public class CommandDrivenPromptHandlerTest {
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final PlayerDao playerDao = mock(PlayerDao.class);
+    private final PlayerRepository playerRepository = mock(PlayerRepository.class);
     private final StateCollection stateCollection = mock(StateCollection.class);
 
-    private final CommandDrivenPromptHandler stage = new CommandDrivenPromptHandler(mock(PlayerConnected.class), characterDao, playerDao, textMaker);
+    private final CommandDrivenPromptHandler stage = new CommandDrivenPromptHandler(mock(PlayerConnected.class), characterDao, playerDao, playerRepository, textMaker);
 
     @Before
     public void beforeEach() {
@@ -49,7 +51,7 @@ public class CommandDrivenPromptHandlerTest {
         Player player = new Player();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(stateCollection.get(StateName.EnterUniverse)).thenReturn(new EnterUniverse(stateCollection, null, null));
 
@@ -67,7 +69,7 @@ public class CommandDrivenPromptHandlerTest {
         Player player = new Player();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
@@ -84,7 +86,7 @@ public class CommandDrivenPromptHandlerTest {
         Player player = new Player();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
@@ -100,7 +102,7 @@ public class CommandDrivenPromptHandlerTest {
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
 
         connection.getInputQueue().push("ConNeCt " + characterName + " " + password);
@@ -116,7 +118,7 @@ public class CommandDrivenPromptHandlerTest {
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
 
         connection.getInputQueue().push("con " + characterName + " " + password);
@@ -132,7 +134,7 @@ public class CommandDrivenPromptHandlerTest {
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.MissingPassword, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
@@ -151,7 +153,7 @@ public class CommandDrivenPromptHandlerTest {
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.MissingCharacterName, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
@@ -171,7 +173,7 @@ public class CommandDrivenPromptHandlerTest {
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
@@ -191,7 +193,7 @@ public class CommandDrivenPromptHandlerTest {
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(new GameCharacter());
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(new Player());
+        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.CharacterDoesNotExist, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
@@ -216,7 +218,7 @@ public class CommandDrivenPromptHandlerTest {
         player.setId(character.getPlayerId());
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
         when(playerDao.authenticate(login, password)).thenReturn(false);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.LoginFailed, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);

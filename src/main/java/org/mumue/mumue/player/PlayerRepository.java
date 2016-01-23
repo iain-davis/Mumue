@@ -1,7 +1,6 @@
 package org.mumue.mumue.player;
 
 import java.sql.Timestamp;
-
 import javax.inject.Inject;
 
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -17,6 +16,13 @@ public class PlayerRepository implements Repository<Player> {
     @Inject
     public PlayerRepository(DatabaseAccessor database) {
         this.database = database;
+    }
+
+    @Override
+    public Player get(long id) {
+        PlayerSpecification playerSpecification = new PlayerSpecification();
+        playerSpecification.setId(id);
+        return get(playerSpecification);
     }
 
     @Override

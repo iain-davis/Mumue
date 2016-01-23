@@ -10,6 +10,8 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerDao;
+import org.mumue.mumue.player.PlayerRepository;
+import org.mumue.mumue.player.PlayerSpecification;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -17,14 +19,16 @@ public class CommandDrivenPromptHandler implements ConnectionState {
     private final PlayerConnected playerConnected;
     private final CharacterDao characterDao;
     private final PlayerDao playerDao;
+    private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
     @Singleton
-    public CommandDrivenPromptHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
+    public CommandDrivenPromptHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerDao playerDao, PlayerRepository playerRepository, TextMaker textMaker) {
         this.playerConnected = playerConnected;
         this.characterDao = characterDao;
         this.playerDao = playerDao;
+        this.playerRepository = playerRepository;
         this.textMaker = textMaker;
     }
 
@@ -61,7 +65,7 @@ public class CommandDrivenPromptHandler implements ConnectionState {
             connection.getOutputQueue().push(textMaker.getText(TextName.CharacterDoesNotExist, connection.getLocale()));
             return this;
         } else {
-            Player player = playerDao.getPlayer(character.getPlayerId());
+            Player player = playerRepository.get(character.getPlayerId());
             if (playerDao.authenticate(player.getLoginId(), password)) {
                 connection.setCharacter(character);
                 connection.setPlayer(player);

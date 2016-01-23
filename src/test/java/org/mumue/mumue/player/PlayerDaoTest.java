@@ -17,7 +17,7 @@ import org.mumue.mumue.importer.GlobalConstants;
 public class PlayerDaoTest {
     private static final Random RANDOM = new Random();
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
-    private final PlayerDao dao = new PlayerDao(database);
+    private final PlayerDao dao = new PlayerDao(database, new PlayerRepository(database));
 
     @Test
     public void successfulAuthentication() {
@@ -62,31 +62,6 @@ public class PlayerDaoTest {
         insertPlayer(loginId, password);
 
         assertFalse(dao.authenticate(loginId, otherPassword));
-    }
-
-    @Test
-    public void getPlayerByIdReturnsPlayer() {
-        long id = RANDOM.nextInt(1000) + 10;
-        String loginId = RandomStringUtils.randomAlphabetic(3);
-        String password = RandomStringUtils.randomAlphabetic(4);
-        insertPlayer(id, loginId, password);
-
-        Player player = dao.getPlayer(id);
-
-        assertThat(player.getId(), equalTo(id));
-        assertThat(player.getLoginId(), equalTo(loginId));
-    }
-
-    @Test
-    public void getPlayerByIdWhenPlayerDoesNotExist() {
-        int id = RANDOM.nextInt(1000) + 10;
-        String loginId = RandomStringUtils.randomAlphabetic(3);
-        String password = RandomStringUtils.randomAlphabetic(4);
-        insertPlayer(id, loginId, password);
-
-        Player player = dao.getPlayer(id * 2);
-
-        assertThat(player.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test
