@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
-import org.mumue.mumue.connection.states.mainmenu.DisplayPlayerMenu;
 
 public class PlayerConnected implements ConnectionState {
     private final CurrentTimestampProvider currentTimestampProvider;

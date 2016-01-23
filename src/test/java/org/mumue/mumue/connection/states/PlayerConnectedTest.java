@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
-import org.mumue.mumue.connection.states.mainmenu.DisplayPlayerMenu;
 import org.mumue.mumue.player.Player;
 
 public class PlayerConnectedTest {

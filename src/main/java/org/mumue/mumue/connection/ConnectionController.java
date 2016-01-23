@@ -6,6 +6,7 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.connection.states.StateCollection;
 import org.mumue.mumue.connection.states.StateName;
+import org.mumue.mumue.connection.states.WelcomeDisplay;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
 public class ConnectionController implements InfiniteLoopBody {
@@ -14,13 +15,9 @@ public class ConnectionController implements InfiniteLoopBody {
     private ConnectionState stage;
 
     @Inject
-    public ConnectionController(ApplicationConfiguration configuration, StateCollection stateCollection) {
-        this(configuration, stateCollection.get(StateName.WelcomeDisplay));
-    }
-
-    public ConnectionController(ApplicationConfiguration configuration, ConnectionState stage) {
+    public ConnectionController(ApplicationConfiguration configuration, WelcomeDisplay welcomeDisplay) {
         this.configuration = configuration;
-        this.stage = stage;
+        this.stage = welcomeDisplay;
     }
 
     public void setConnection(Connection connection) {

@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
@@ -12,6 +13,7 @@ public class WelcomeDisplay implements ConnectionState {
     private final TextMaker textMaker;
 
     @Inject
+    @Singleton
     public WelcomeDisplay(StateCollection stateCollection, TextMaker textMaker) {
         this.stateCollection = stateCollection;
         this.textMaker = textMaker;

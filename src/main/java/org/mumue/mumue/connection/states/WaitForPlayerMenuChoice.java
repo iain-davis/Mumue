@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.mainmenu;
+package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
@@ -6,7 +6,6 @@ import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
