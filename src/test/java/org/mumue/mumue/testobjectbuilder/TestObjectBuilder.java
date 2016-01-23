@@ -4,6 +4,7 @@ import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.player.PlayerBuilder;
 
 public class TestObjectBuilder {
     public static Connection connection() {
@@ -16,6 +17,10 @@ public class TestObjectBuilder {
 
     public static CharacterBuilder character() {
         return new CharacterBuilder();
+    }
+
+    public static PlayerBuilder player() {
+        return new PlayerBuilder();
     }
 
     private static class MockApplicationConfiguration extends ApplicationConfiguration {
