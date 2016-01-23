@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
@@ -16,8 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.DisplayLoginPrompt;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.text.TextMaker;
@@ -73,6 +71,6 @@ public class WaitForNewPlayerSelectionTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(DisplayLoginPrompt.class));
+        assertThat(next, instanceOf(LoginIdPrompt.class));
     }
 }

@@ -1,20 +1,18 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.player.PlayerDao;
 
-public class WaitForLoginId implements ConnectionState {
-    private final Injector injector;
+public class LoginIdPromptHandler implements ConnectionState {
+    private final StateCollection stateCollection;
     private final PlayerDao playerDao;
 
     @Inject
-    public WaitForLoginId(Injector injector, PlayerDao playerDao) {
-        this.injector = injector;
+    public LoginIdPromptHandler(StateCollection stateCollection, PlayerDao playerDao) {
+        this.stateCollection = stateCollection;
         this.playerDao = playerDao;
     }
 
@@ -23,9 +21,9 @@ public class WaitForLoginId implements ConnectionState {
         if (connection.getInputQueue().isEmpty()) {
             return this;
         } else if (playerDao.playerExistsFor(getLoginId(connection))) {
-            return injector.getInstance(PasswordPrompt.class);
+            return stateCollection.get(StateName.PasswordPrompt);
         }
-        return injector.getInstance(NewPlayerPrompt.class);
+        return stateCollection.get(StateName.NewPlayerPrompt);
     }
 
     private String getLoginId(Connection connection) {

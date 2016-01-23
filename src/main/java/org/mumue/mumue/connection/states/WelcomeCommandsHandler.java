@@ -1,29 +1,26 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.playing.EnterUniverse;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForWelcomeScreenCommand implements ConnectionState {
-    private final Injector injector;
+public class WelcomeCommandsHandler implements ConnectionState {
+    private final StateCollection stateCollection;
     private final CharacterDao characterDao;
     private final PlayerDao playerDao;
     private final TextMaker textMaker;
 
     @Inject
-    public WaitForWelcomeScreenCommand(Injector injector, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
-        this.injector = injector;
+    public WelcomeCommandsHandler(StateCollection stateCollection, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
+        this.stateCollection = stateCollection;
         this.characterDao = characterDao;
         this.playerDao = playerDao;
         this.textMaker = textMaker;
@@ -66,7 +63,7 @@ public class WaitForWelcomeScreenCommand implements ConnectionState {
             if (playerDao.authenticate(player.getLoginId(), password)) {
                 connection.setCharacter(character);
                 connection.setPlayer(player);
-                return injector.getInstance(EnterUniverse.class);
+                return stateCollection.get(StateName.EnterUniverse);
             } else {
                 connection.getOutputQueue().push(textMaker.getText(TextName.LoginFailed, connection.getLocale()));
                 return this;

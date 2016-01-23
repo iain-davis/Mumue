@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -23,8 +23,6 @@ import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.DisplayLoginPrompt;
 import org.mumue.mumue.connection.states.mainmenu.DisplayPlayerMenu;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
@@ -116,7 +114,7 @@ public class PlayerAuthenticationTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(DisplayLoginPrompt.class));
+        assertThat(next, instanceOf(LoginIdPrompt.class));
     }
 
     @Test

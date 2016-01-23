@@ -25,23 +25,23 @@ public class StateCollectionTest {
 
     @Test
     public void statesCollectionContainsWelcome() {
-        ConnectionState state = stateCollection.get(StateName.DisplayWelcome);
+        ConnectionState state = stateCollection.get(StateName.WelcomeDisplay);
 
-        assertThat(state, instanceOf(DisplayWelcome.class));
+        assertThat(state, instanceOf(WelcomeDisplay.class));
     }
 
     @Test
     public void statesCollectionCachesStates() {
-        ConnectionState state1 = stateCollection.get(StateName.DisplayWelcome);
-        ConnectionState state2 = stateCollection.get(StateName.DisplayWelcome);
+        ConnectionState state1 = stateCollection.get(StateName.WelcomeDisplay);
+        ConnectionState state2 = stateCollection.get(StateName.WelcomeDisplay);
 
         assertThat(state1, sameInstance(state2));
     }
 
     @Test
     public void statesCollectionContainsLoginPrompt() {
-        ConnectionState state = stateCollection.get(StateName.DisplayLoginPrompt);
+        ConnectionState state = stateCollection.get(StateName.LoginIdPrompt);
 
-        assertThat(state, instanceOf(DisplayLoginPrompt.class));
+        assertThat(state, instanceOf(LoginIdPrompt.class));
     }
 }

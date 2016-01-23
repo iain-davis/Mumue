@@ -1,18 +1,17 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
 
-public class WaitForPassword implements ConnectionState {
-    private final Injector injector;
+public class PasswordPromptHandler implements ConnectionState {
+    private final StateCollection stateCollection;
 
     @Inject
-    public WaitForPassword(Injector injector) {
-        this.injector = injector;
+    public PasswordPromptHandler(StateCollection stateCollection) {
+        this.stateCollection = stateCollection;
     }
 
     @Override
@@ -20,6 +19,6 @@ public class WaitForPassword implements ConnectionState {
         if (connection.getInputQueue().size() < 2) {
             return this;
         }
-        return injector.getInstance(PlayerAuthentication.class);
+        return stateCollection.get(StateName.PlayerAuthentication);
     }
 }

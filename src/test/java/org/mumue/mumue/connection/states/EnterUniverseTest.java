@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.playing;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
@@ -8,10 +8,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
@@ -24,21 +20,18 @@ import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class EnterUniverseTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
+    private final StateCollection stateCollection = mock(StateCollection.class);
 
     private final UniverseDao dao = mock(UniverseDao.class);
-    private final EnterUniverse stage = new EnterUniverse(injector, textMaker, dao);
+    private final EnterUniverse stage = new EnterUniverse(stateCollection, textMaker, dao);
 
     private final String message = RandomStringUtils.randomAlphabetic(25);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
@@ -54,6 +47,7 @@ public class EnterUniverseTest {
     public void beforeEach() {
         when(textMaker.getText(Matchers.eq(TextName.EnterUniverse), eq(locale), any())).thenReturn(message);
         when(dao.getUniverse(universeId)).thenReturn(universe);
+        when(stateCollection.get(StateName.EnterSpace)).thenReturn(new EnterSpace(stateCollection, null));
     }
 
     @Test

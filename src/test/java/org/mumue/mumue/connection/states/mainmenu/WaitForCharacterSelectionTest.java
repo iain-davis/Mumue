@@ -20,7 +20,7 @@ import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.playing.EnterUniverse;
+import org.mumue.mumue.connection.states.EnterUniverse;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.PlayerBuilder;

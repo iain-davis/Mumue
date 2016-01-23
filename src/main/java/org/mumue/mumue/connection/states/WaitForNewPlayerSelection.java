@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
@@ -6,7 +6,8 @@ import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.DisplayLoginPrompt;
+import org.mumue.mumue.connection.states.LoginIdPrompt;
+import org.mumue.mumue.connection.states.PasswordPrompt;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -32,7 +33,7 @@ public class WaitForNewPlayerSelection implements ConnectionState {
                 connection.getInputQueue().push(loginId);
                 return injector.getInstance(PasswordPrompt.class);
             } else {
-                return injector.getInstance(DisplayLoginPrompt.class);
+                return injector.getInstance(LoginIdPrompt.class);
             }
         }
     }

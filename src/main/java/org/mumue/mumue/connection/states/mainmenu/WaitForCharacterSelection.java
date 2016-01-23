@@ -7,7 +7,7 @@ import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.playing.EnterUniverse;
+import org.mumue.mumue.connection.states.EnterUniverse;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 

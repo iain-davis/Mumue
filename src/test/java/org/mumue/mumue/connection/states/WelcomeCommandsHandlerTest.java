@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.login;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -8,38 +8,38 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
 import java.util.Random;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.playing.EnterUniverse;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForWelcomeScreenCommandTest {
+public class WelcomeCommandsHandlerTest {
     private static final Random RANDOM = new Random();
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
 
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final PlayerDao playerDao = mock(PlayerDao.class);
-    private final WaitForWelcomeScreenCommand stage = new WaitForWelcomeScreenCommand(injector, characterDao, playerDao, textMaker);
+    private final StateCollection stateCollection = mock(StateCollection.class);
+
+    private final WelcomeCommandsHandler stage = new WelcomeCommandsHandler(stateCollection, characterDao, playerDao, textMaker);
+
+    @Before
+    public void beforeEach() {
+        when(stateCollection.get(StateName.EnterUniverse)).thenReturn(new EnterUniverse(stateCollection, null, null));
+    }
 
     @Test
     public void connectCommand() {
@@ -51,6 +51,7 @@ public class WaitForWelcomeScreenCommandTest {
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerDao.getPlayer(character.getPlayerId())).thenReturn(player);
         when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+        when(stateCollection.get(StateName.EnterUniverse)).thenReturn(new EnterUniverse(stateCollection, null, null));
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);

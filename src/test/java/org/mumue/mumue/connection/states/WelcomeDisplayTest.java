@@ -7,38 +7,32 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.login.WelcomeCommandsDisplay;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class DisplayWelcomeTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
-    private final TextMaker textMaker = mock(TextMaker.class);
-    private final StateCollection stateCollection = mock(StateCollection.class);
-    private final DisplayWelcome stage = new DisplayWelcome(stateCollection, injector, textMaker);
-
+public class WelcomeDisplayTest {
+    private final String welcome = RandomStringUtils.randomAlphanumeric(17);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final Connection connection = new Connection(configuration);
-    private final String welcome = RandomStringUtils.randomAlphanumeric(17);
+
+    private final TextMaker textMaker = mock(TextMaker.class);
+    private final StateCollection stateCollection = mock(StateCollection.class);
+
+    private final WelcomeDisplay welcomeDisplay = new WelcomeDisplay(stateCollection, textMaker);
 
     @Before
     public void beforeEach() {
         String serverLocale = RandomStringUtils.randomAlphabetic(7);
         when(configuration.getServerLocale()).thenReturn(serverLocale);
         when(textMaker.getText(eq(TextName.Welcome), eq(serverLocale))).thenReturn(welcome);
-        when(stateCollection.get(StateName.DisplayLoginPrompt)).thenReturn(new DisplayLoginPrompt(injector, textMaker));
+        when(stateCollection.get(StateName.LoginIdPrompt)).thenReturn(new LoginIdPrompt(stateCollection, textMaker));
+        when(stateCollection.get(StateName.WelcomeCommandsDisplay)).thenReturn(new WelcomeCommandsPrompt(stateCollection, textMaker));
     }
 
     @Test
@@ -46,7 +40,7 @@ public class DisplayWelcomeTest {
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setSupportsMenus(true);
         connection.setPortConfiguration(portConfiguration);
-        assertThat(stage.execute(connection, configuration), instanceOf(DisplayLoginPrompt.class));
+        assertThat(welcomeDisplay.execute(connection, configuration), instanceOf(LoginIdPrompt.class));
     }
 
     @Test
@@ -54,13 +48,13 @@ public class DisplayWelcomeTest {
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setSupportsMenus(false);
         connection.setPortConfiguration(portConfiguration);
-        assertThat(stage.execute(connection, configuration), instanceOf(WelcomeCommandsDisplay.class));
+        assertThat(welcomeDisplay.execute(connection, configuration), instanceOf(WelcomeCommandsPrompt.class));
     }
 
 
     @Test
     public void executePutsWelcomeOnOutputQueue() {
-        stage.execute(connection, configuration);
+        welcomeDisplay.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(welcome));
     }

@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.playing;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
@@ -6,10 +6,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
@@ -21,16 +17,12 @@ import org.mumue.mumue.components.space.SpaceBuilder;
 import org.mumue.mumue.components.space.SpaceDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class EnterSpaceTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final SpaceDao spaceDao = mock(SpaceDao.class);
-    private final EnterSpace stage = new EnterSpace(injector, spaceDao);
+    private final StateCollection stateCollection = mock(StateCollection.class);
 
     private final long locationId = RandomUtils.nextLong(100, 200);
     private final GameCharacter character = new CharacterBuilder().withLocationId(locationId).build();
@@ -39,21 +31,24 @@ public class EnterSpaceTest {
     private final String description = RandomStringUtils.randomAlphabetic(35);
     private final Space space = new SpaceBuilder().withName(name).withDescription(description).build();
 
+    private final EnterSpace enterSpace = new EnterSpace(stateCollection, spaceDao);
+
     @Before
     public void beforeEach() {
         when(spaceDao.getSpace(locationId)).thenReturn(space);
+        when(stateCollection.get(StateName.PlayCharacter)).thenReturn(new PlayCharacter(null, null));
     }
 
     @Test
     public void executeReturnsPlayCharacter() {
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = enterSpace.execute(connection, configuration);
 
         assertThat(next, instanceOf(PlayCharacter.class));
     }
 
     @Test
     public void executeDisplaySpaceTitleAndDescription() {
-        stage.execute(connection, configuration);
+        enterSpace.execute(connection, configuration);
 
         String expected = name + GlobalConstants.TCP_LINE_SEPARATOR + description + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(connection.getOutputQueue(), hasItem(expected));

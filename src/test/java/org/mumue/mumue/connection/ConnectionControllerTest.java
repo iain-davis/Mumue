@@ -23,7 +23,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void prepareReturnsTrue() {
-        when(stateCollection.get(StateName.DisplayWelcome)).thenReturn(new NoOperation());
+        when(stateCollection.get(StateName.WelcomeDisplay)).thenReturn(new NoOperation());
         ConnectionController controller = new ConnectionController(configuration, stateCollection).withConnection(connection);
         assertTrue(controller.prepare());
     }

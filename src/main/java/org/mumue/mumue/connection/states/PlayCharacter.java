@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.playing;
+package org.mumue.mumue.connection.states;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.interpreter.CommandInterpreter;
 import org.mumue.mumue.interpreter.CommandResult;
 import org.mumue.mumue.interpreter.commands.Command;

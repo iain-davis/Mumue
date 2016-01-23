@@ -13,8 +13,7 @@ import org.mumue.mumue.connection.Connection;
 
 public class NoOperationTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock
-    ApplicationConfiguration configuration;
+    @Mock ApplicationConfiguration configuration;
     private final Connection connection = new Connection(configuration);
 
     @Test

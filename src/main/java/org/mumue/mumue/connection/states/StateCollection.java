@@ -2,7 +2,6 @@ package org.mumue.mumue.connection.states;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.inject.Inject;
 
 import com.google.inject.Injector;

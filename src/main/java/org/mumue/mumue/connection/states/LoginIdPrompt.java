@@ -2,21 +2,18 @@ package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.login.WaitForLoginId;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class DisplayLoginPrompt implements ConnectionState {
-    private final Injector injector;
+public class LoginIdPrompt implements ConnectionState {
+    private final StateCollection stateCollection;
     private final TextMaker textMaker;
 
     @Inject
-    public DisplayLoginPrompt(Injector injector, TextMaker textMaker) {
-        this.injector = injector;
+    public LoginIdPrompt(StateCollection stateCollection, TextMaker textMaker) {
+        this.stateCollection = stateCollection;
         this.textMaker = textMaker;
     }
 
@@ -24,6 +21,6 @@ public class DisplayLoginPrompt implements ConnectionState {
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.LoginPrompt, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
-        return injector.getInstance(WaitForLoginId.class);
+        return stateCollection.get(StateName.LoginIdPromptHandler);
     }
 }

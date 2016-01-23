@@ -1,26 +1,24 @@
-package org.mumue.mumue.connection.states.playing;
+package org.mumue.mumue.connection.states;
 
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class EnterUniverse implements ConnectionState {
-    private final Injector injector;
+    private final StateCollection stateCollection;
     private final TextMaker textMaker;
     private final UniverseDao dao;
 
     @Inject
-    public EnterUniverse(Injector injector, TextMaker textMaker, UniverseDao dao) {
-        this.injector = injector;
+    public EnterUniverse(StateCollection stateCollection, TextMaker textMaker, UniverseDao dao) {
+        this.stateCollection = stateCollection;
         this.textMaker = textMaker;
         this.dao = dao;
     }
@@ -32,6 +30,6 @@ public class EnterUniverse implements ConnectionState {
         variables.put("universe name", universe.getName());
         String text = textMaker.getText(TextName.EnterUniverse, connection.getLocale(), variables);
         connection.getOutputQueue().push(text);
-        return injector.getInstance(EnterSpace.class);
+        return stateCollection.get(StateName.EnterSpace);
     }
 }

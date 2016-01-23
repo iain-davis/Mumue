@@ -1,4 +1,4 @@
-package org.mumue.mumue.connection.states.playing;
+package org.mumue.mumue.connection.states;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.sameInstance;
@@ -21,7 +21,6 @@ import org.mockito.junit.MockitoRule;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.interpreter.CommandInterpreter;
 import org.mumue.mumue.interpreter.CommandResult;
 import org.mumue.mumue.interpreter.CommandStatus;
@@ -36,8 +35,7 @@ public class PlayCharacterTest {
     @Mock CommandResult result;
     @Mock CommandInterpreter commandInterpreter;
     @Mock TextMaker textMaker;
-    @Mock
-    ApplicationConfiguration configuration;
+    @Mock ApplicationConfiguration configuration;
     @InjectMocks PlayCharacter stage;
 
     private final String locale = RandomStringUtils.randomAlphabetic(16);

@@ -15,7 +15,7 @@ public class ConnectionController implements InfiniteLoopBody {
 
     @Inject
     public ConnectionController(ApplicationConfiguration configuration, StateCollection stateCollection) {
-        this(configuration, stateCollection.get(StateName.DisplayWelcome));
+        this(configuration, stateCollection.get(StateName.WelcomeDisplay));
     }
 
     public ConnectionController(ApplicationConfiguration configuration, ConnectionState stage) {

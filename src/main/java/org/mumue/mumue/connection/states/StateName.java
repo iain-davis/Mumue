@@ -1,8 +1,18 @@
 package org.mumue.mumue.connection.states;
 
 public enum StateName {
-    DisplayLoginPrompt(org.mumue.mumue.connection.states.DisplayLoginPrompt.class),
-    DisplayWelcome(DisplayWelcome.class),
+    EnterSpace(EnterSpace.class),
+    EnterUniverse(EnterUniverse.class),
+    LoginIdPrompt(LoginIdPrompt.class),
+    LoginIdPromptHandler(LoginIdPromptHandler.class),
+    NewPlayerPrompt(NewPlayerPrompt.class),
+    PasswordPrompt(PasswordPrompt.class),
+    PasswordPromptHandler(PasswordPromptHandler.class),
+    PlayCharacter(PlayCharacter.class),
+    PlayerAuthentication(PlayerAuthentication.class),
+    WelcomeDisplay(WelcomeDisplay.class),
+    WelcomeCommandsDisplay(WelcomeCommandsPrompt.class),
+    WelcomeCommandsHandler(WelcomeCommandsHandler.class),
     NoOperationState(NoOperation.class)
     ;
 
