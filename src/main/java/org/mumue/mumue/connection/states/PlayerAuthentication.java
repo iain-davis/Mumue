@@ -2,26 +2,31 @@ package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.player.PlayerDao;
+import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class PlayerAuthentication implements ConnectionState {
-    private final Injector injector;
+    private final LoginIdPrompt loginIdPrompt;
     private final PlayerBuilder playerBuilder;
+    private final PlayerConnected playerConnected;
     private final PlayerDao playerDao;
+    private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
-    public PlayerAuthentication(Injector injector, PlayerBuilder playerBuilder, PlayerDao playerDao, TextMaker textMaker) {
-        this.injector = injector;
+    public PlayerAuthentication(LoginIdPrompt loginIdPrompt, PlayerBuilder playerBuilder, PlayerConnected playerConnected, PlayerDao playerDao, PlayerRepository playerRepository, TextMaker textMaker) {
+        this.loginIdPrompt = loginIdPrompt;
         this.playerBuilder = playerBuilder;
+        this.playerConnected = playerConnected;
         this.playerDao = playerDao;
+        this.playerRepository = playerRepository;
         this.textMaker = textMaker;
     }
 
@@ -29,36 +34,23 @@ public class PlayerAuthentication implements ConnectionState {
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         String loginId = connection.getInputQueue().pop();
         String password = connection.getInputQueue().pop();
-        Player player = playerBuilder.build();
+        Player player;
 
         if (playerDao.playerExistsFor(loginId)) {
-            if (playerAuthenticates(loginId, password)) {
-                player = loginSuccess(connection, configuration, loginId, password);
+            player = playerRepository.get(loginId, password);
+            if (player.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
+                String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
+                connection.getOutputQueue().push(text);
+                return loginIdPrompt;
             } else {
-                return loginFailure(connection, configuration);
+                String text = textMaker.getText(TextName.LoginSuccess, configuration.getServerLocale());
+                connection.getOutputQueue().push(text);
             }
         } else {
-            player.setLoginId(loginId);
+            player = playerBuilder.withLoginId(loginId).build();
             playerDao.createPlayer(player, password);
         }
         connection.setPlayer(player);
-        return injector.getInstance(PlayerConnected.class);
-    }
-
-    private Player loginSuccess(Connection connection, ApplicationConfiguration configuration, String loginId, String password) {
-        Player player = playerDao.getPlayer(loginId, password);
-        String text = textMaker.getText(TextName.LoginSuccess, configuration.getServerLocale());
-        connection.getOutputQueue().push(text);
-        return player;
-    }
-
-    private ConnectionState loginFailure(Connection connection, ApplicationConfiguration configuration) {
-        String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
-        connection.getOutputQueue().push(text);
-        return injector.getInstance(LoginIdPrompt.class);
-    }
-
-    private boolean playerAuthenticates(String loginId, String password) {
-        return playerDao.authenticate(loginId, password);
+        return playerConnected;
     }
 }

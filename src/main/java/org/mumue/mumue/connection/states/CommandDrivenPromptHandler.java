@@ -11,7 +11,6 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.player.PlayerRepository;
-import org.mumue.mumue.player.PlayerSpecification;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 

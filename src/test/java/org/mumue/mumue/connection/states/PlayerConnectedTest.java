@@ -18,7 +18,6 @@ import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerRepository;
-import org.mumue.mumue.player.PlayerSpecification;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class PlayerConnectedTest {
@@ -82,9 +81,7 @@ public class PlayerConnectedTest {
 
         playerConnected.execute(connection, configuration);
 
-        PlayerSpecification specification = new PlayerSpecification();
-        specification.setId(player.getId());
-        Player returned = playerRepository.get(specification);
+        Player returned = playerRepository.get(player.getId());
 
         assertThat(returned.getUseCount(), equalTo(player.getUseCount()));
         assertThat(returned.getLastUsed(), equalTo(player.getLastUsed()));

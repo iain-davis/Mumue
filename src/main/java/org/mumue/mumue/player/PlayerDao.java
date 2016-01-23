@@ -11,7 +11,6 @@ import org.mumue.mumue.database.DatabaseAccessor;
 public class PlayerDao {
     private static final String AUTHENTICATION_QUERY = "select count(*) from players where loginId = ? and password = ?";
     private static final String GET_BY_LOGIN_QUERY = "select * from players where loginId = ? and password = ?";
-    private static final String GET_BY_ID_QUERY = "select * from players where id = ?";
     private static final String INSERT_QUERY = "insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator) values (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GET_QUERY_BY_LOGIN_ID = "select * from players where loginId = ?";
     private final DatabaseAccessor database;
@@ -27,15 +26,6 @@ public class PlayerDao {
         ResultSetHandler resultSetHandler = new ScalarHandler<>(1);
         long count = (Long) database.query(AUTHENTICATION_QUERY, resultSetHandler, login, password);
         return count == 1;
-    }
-
-    public Player getPlayer(String login, String password) {
-        ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class, new PlayerRowProcessor());
-        Player player = database.query(GET_BY_LOGIN_QUERY, resultSetHandler, login, password);
-        if (player == null) {
-            return new Player();
-        }
-        return player;
     }
 
     public boolean playerExistsFor(String loginId) {

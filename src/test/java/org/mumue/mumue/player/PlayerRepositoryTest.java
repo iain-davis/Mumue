@@ -14,26 +14,33 @@ import org.mumue.mumue.database.DatabaseHelper;
 
 public class PlayerRepositoryTest {
     private static final Random RANDOM = new Random();
-
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private final PlayerRepository repository = new PlayerRepository(database);
 
     @Test
     public void getNeverReturnsNull() {
-        PlayerSpecification playerSpecification = new PlayerSpecification();
-
-        assertThat(repository.get(playerSpecification), notNullValue());
+        assertThat(repository.get(RANDOM.nextInt(100) + 100), notNullValue());
     }
 
     @Test
     public void getReturnsPlayerById() {
         long id = RANDOM.nextInt(100);
         DatabaseHelper.insertPlayer(database, id);
-        PlayerSpecification playerSpecification = new PlayerSpecification();
-        playerSpecification.setId(id);
 
-        assertThat(repository.get(playerSpecification), notNullValue());
-        assertThat(repository.get(playerSpecification).getId(), equalTo(id));
+        Player returned = repository.get(id);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(id));
+    }
+
+    @Test
+    public void getReturnsPlayerByLoginIdAndPassword() {
+        String loginId = RandomStringUtils.randomAlphabetic(16);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        DatabaseHelper.insertPlayer(database, loginId, password);
+
+        Player returned = repository.get(loginId, password);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getLoginId(), equalTo(loginId));
     }
 
     @Test
@@ -48,9 +55,7 @@ public class PlayerRepositoryTest {
         expected.setAdministrator(RANDOM.nextBoolean());
         repository.save(expected);
 
-        PlayerSpecification specification = new PlayerSpecification();
-        specification.setId(expected.getId());
-        Player player = repository.get(specification);
+        Player player = repository.get(expected.getId());
 
         assertThat(player.getLoginId(), equalTo(expected.getLoginId()));
         assertThat(player.getLocale(), equalTo(expected.getLocale()));

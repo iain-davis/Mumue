@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.mumue.mumue.Repository;
-import org.mumue.mumue.Specification;
 import org.mumue.mumue.database.DatabaseAccessor;
 
 public class PlayerRepository implements Repository<Player> {
@@ -20,16 +19,14 @@ public class PlayerRepository implements Repository<Player> {
 
     @Override
     public Player get(long id) {
-        PlayerSpecification playerSpecification = new PlayerSpecification();
-        playerSpecification.setId(id);
-        return get(playerSpecification);
+        ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class, new PlayerRowProcessor());
+        Player player = database.query("select * from players where id = ?", resultSetHandler, id);
+        return player == null ? new Player() : player;
     }
 
-    @Override
-    public Player get(Specification<Player> specification) {
-        PlayerSpecification playerSpecification = (PlayerSpecification) specification;
+    public Player get(String loginId, String password) {
         ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class, new PlayerRowProcessor());
-        Player player = database.query("select * from players where id = ?", resultSetHandler, playerSpecification.getId());
+        Player player = database.query("select * from players where loginId = ? and password = ?", resultSetHandler, loginId, password);
         return player == null ? new Player() : player;
     }
 
