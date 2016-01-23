@@ -3,6 +3,7 @@ package org.mumue.mumue.connection.states;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
@@ -17,6 +18,7 @@ public class EnterUniverse implements ConnectionState {
     private final UniverseDao dao;
 
     @Inject
+    @Singleton
     public EnterUniverse(StateCollection stateCollection, TextMaker textMaker, UniverseDao dao) {
         this.stateCollection = stateCollection;
         this.textMaker = textMaker;

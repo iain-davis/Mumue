@@ -26,7 +26,7 @@ public class WelcomeCommandsPromptTest {
     @Before
     public void beforeEach() {
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
-        when(stateCollection.get(StateName.WelcomeCommandsHandler)).thenReturn(new WelcomeCommandsHandler(null,null,null, null));
+        when(stateCollection.get(StateName.WelcomeCommandsHandler)).thenReturn(new WelcomeCommandsHandler(null, null,null, null));
     }
 
     @Test

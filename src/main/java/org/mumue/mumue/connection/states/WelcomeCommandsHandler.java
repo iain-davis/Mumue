@@ -13,14 +13,14 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class WelcomeCommandsHandler implements ConnectionState {
-    private final StateCollection stateCollection;
+    private final PlayerConnected playerConnected;
     private final CharacterDao characterDao;
     private final PlayerDao playerDao;
     private final TextMaker textMaker;
 
     @Inject
-    public WelcomeCommandsHandler(StateCollection stateCollection, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
-        this.stateCollection = stateCollection;
+    public WelcomeCommandsHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
+        this.playerConnected = playerConnected;
         this.characterDao = characterDao;
         this.playerDao = playerDao;
         this.textMaker = textMaker;
@@ -63,7 +63,7 @@ public class WelcomeCommandsHandler implements ConnectionState {
             if (playerDao.authenticate(player.getLoginId(), password)) {
                 connection.setCharacter(character);
                 connection.setPlayer(player);
-                return stateCollection.get(StateName.EnterUniverse);
+                return playerConnected;
             } else {
                 connection.getOutputQueue().push(textMaker.getText(TextName.LoginFailed, connection.getLocale()));
                 return this;

@@ -34,7 +34,7 @@ public class WelcomeCommandsHandlerTest {
     private final PlayerDao playerDao = mock(PlayerDao.class);
     private final StateCollection stateCollection = mock(StateCollection.class);
 
-    private final WelcomeCommandsHandler stage = new WelcomeCommandsHandler(stateCollection, characterDao, playerDao, textMaker);
+    private final WelcomeCommandsHandler stage = new WelcomeCommandsHandler(mock(PlayerConnected.class), characterDao, playerDao, textMaker);
 
     @Before
     public void beforeEach() {
@@ -56,7 +56,7 @@ public class WelcomeCommandsHandlerTest {
         connection.getInputQueue().push("connect " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
 
-        assertThat(returned, instanceOf(EnterUniverse.class));
+        assertThat(returned, instanceOf(PlayerConnected.class));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class WelcomeCommandsHandlerTest {
         connection.getInputQueue().push("ConNeCt " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
 
-        assertThat(returned, instanceOf(EnterUniverse.class));
+        assertThat(returned, instanceOf(PlayerConnected.class));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class WelcomeCommandsHandlerTest {
         connection.getInputQueue().push("con " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
 
-        assertThat(returned, instanceOf(EnterUniverse.class));
+        assertThat(returned, instanceOf(PlayerConnected.class));
     }
 
     @Test

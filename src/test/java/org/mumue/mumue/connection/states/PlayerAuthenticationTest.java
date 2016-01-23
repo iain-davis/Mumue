@@ -23,7 +23,6 @@ import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
-import org.mumue.mumue.connection.states.mainmenu.DisplayPlayerMenu;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
@@ -39,7 +38,7 @@ public class PlayerAuthenticationTest {
     private final PlayerDao playerDao = mock(PlayerDao.class);
     private final CurrentTimestampProvider currentTimestampProvider = mock(CurrentTimestampProvider.class);
     private final PlayerBuilder playerBuilder = mock(PlayerBuilder.class);
-    private final PlayerAuthentication stage = new PlayerAuthentication(injector, currentTimestampProvider, playerBuilder, playerDao, textMaker);
+    private final PlayerAuthentication stage = new PlayerAuthentication(injector, playerBuilder, playerDao, textMaker);
 
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
     private final String password = RandomStringUtils.randomAlphanumeric(17);
@@ -62,12 +61,12 @@ public class PlayerAuthenticationTest {
     }
 
     @Test
-    public void executeWithValidCredentialsReturnsNextStage() {
+    public void executeWithValidCredentialsReturnsNextState() {
         when(playerDao.authenticate(loginId, password)).thenReturn(true);
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(DisplayPlayerMenu.class));
+        assertThat(next, instanceOf(PlayerConnected.class));
     }
 
     @Test
@@ -77,26 +76,6 @@ public class PlayerAuthenticationTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getPlayer(), sameInstance(player));
-    }
-
-    @Test
-    public void executeWithValidCredentialsSetsLastUsed() {
-        when(playerDao.authenticate(loginId, password)).thenReturn(true);
-
-        stage.execute(connection, configuration);
-
-        assertThat(player.getLastUsed(), equalTo(timestamp));
-    }
-
-    @Test
-    public void executeWithValidCredentialsCountsUse() {
-        when(playerDao.authenticate(loginId, password)).thenReturn(true);
-
-        long expected = player.getUseCount() + 1;
-
-        stage.execute(connection, configuration);
-
-        assertThat(player.getUseCount(), equalTo(expected));
     }
 
     @Test
@@ -140,15 +119,6 @@ public class PlayerAuthenticationTest {
         stage.execute(connection, configuration);
 
         assertThat(connection.getPlayer().getLoginId(), equalTo(loginId));
-    }
-
-    @Test
-    public void executeWithNewPlayerDisplaysMenu() {
-        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
-
-        ConnectionState next = stage.execute(connection, configuration);
-
-        assertThat(next, instanceOf(DisplayPlayerMenu.class));
     }
 
     @Test

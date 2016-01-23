@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.states.mainmenu;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -15,6 +16,7 @@ public class DisplayPlayerMenu implements ConnectionState {
     private final TextMaker textMaker;
 
     @Inject
+    @Singleton
     public DisplayPlayerMenu(Injector injector, TextMaker textMaker) {
         this.injector = injector;
         this.textMaker = textMaker;
