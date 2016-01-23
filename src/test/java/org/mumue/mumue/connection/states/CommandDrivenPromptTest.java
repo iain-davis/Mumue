@@ -7,43 +7,35 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WelcomeCommandsPromptTest {
-    private final StateCollection stateCollection = mock(StateCollection.class);
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+public class CommandDrivenPromptTest {
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
-
-    private final WelcomeCommandsPrompt welcomeCommandsPrompt = new WelcomeCommandsPrompt(stateCollection, textMaker);
-
-    @Before
-    public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
-        when(stateCollection.get(StateName.WelcomeCommandsHandler)).thenReturn(new WelcomeCommandsHandler(null, null,null, null));
-    }
+    private final CommandDrivenPrompt commandDrivenPrompt = new CommandDrivenPrompt(mock(CommandDrivenPromptHandler.class), textMaker);
 
     @Test
     public void returnWaitForWelcomeScreenCommand() {
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
 
-        ConnectionState returned = welcomeCommandsPrompt.execute(connection, configuration);
-        assertThat(returned, instanceOf(WelcomeCommandsHandler.class));
+        ConnectionState returned = commandDrivenPrompt.execute(connection, configuration);
+
+        assertThat(returned, instanceOf(CommandDrivenPromptHandler.class));
     }
 
     @Test
     public void displayCommands() {
         String text = RandomStringUtils.randomAlphabetic(13);
-
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
-        welcomeCommandsPrompt.execute(connection, configuration);
+        commandDrivenPrompt.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(text));
     }

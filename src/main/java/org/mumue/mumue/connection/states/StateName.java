@@ -11,8 +11,8 @@ public enum StateName {
     PlayCharacter(PlayCharacter.class),
     PlayerAuthentication(PlayerAuthentication.class),
     WelcomeDisplay(WelcomeDisplay.class),
-    WelcomeCommandsDisplay(WelcomeCommandsPrompt.class),
-    WelcomeCommandsHandler(WelcomeCommandsHandler.class),
+    WelcomeCommandsDisplay(CommandDrivenPrompt.class),
+    WelcomeCommandsHandler(CommandDrivenPromptHandler.class),
     NoOperationState(NoOperation.class)
     ;
 

@@ -2,6 +2,7 @@ package org.mumue.mumue.testobjectbuilder;
 
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 
 public class TestObjectBuilder {
@@ -20,6 +21,11 @@ public class TestObjectBuilder {
     private static class MockApplicationConfiguration extends ApplicationConfiguration {
         public MockApplicationConfiguration() {
             super(null);
+        }
+
+        @Override
+        public String getServerLocale() {
+            return ConfigurationDefaults.SERVER_LOCALE;
         }
     }
 }

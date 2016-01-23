@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
@@ -12,14 +13,15 @@ import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WelcomeCommandsHandler implements ConnectionState {
+public class CommandDrivenPromptHandler implements ConnectionState {
     private final PlayerConnected playerConnected;
     private final CharacterDao characterDao;
     private final PlayerDao playerDao;
     private final TextMaker textMaker;
 
     @Inject
-    public WelcomeCommandsHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
+    @Singleton
+    public CommandDrivenPromptHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerDao playerDao, TextMaker textMaker) {
         this.playerConnected = playerConnected;
         this.characterDao = characterDao;
         this.playerDao = playerDao;

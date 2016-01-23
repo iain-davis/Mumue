@@ -9,13 +9,15 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class WelcomeDisplay implements ConnectionState {
-    private final StateCollection stateCollection;
+    private final CommandDrivenPrompt commandDrivenPrompt;
+    private final LoginIdPrompt loginIdPrompt;
     private final TextMaker textMaker;
 
     @Inject
     @Singleton
-    public WelcomeDisplay(StateCollection stateCollection, TextMaker textMaker) {
-        this.stateCollection = stateCollection;
+    public WelcomeDisplay(CommandDrivenPrompt commandDrivenPrompt, LoginIdPrompt loginIdPrompt, TextMaker textMaker) {
+        this.commandDrivenPrompt = commandDrivenPrompt;
+        this.loginIdPrompt = loginIdPrompt;
         this.textMaker = textMaker;
     }
 
@@ -24,9 +26,9 @@ public class WelcomeDisplay implements ConnectionState {
         String text = textMaker.getText(TextName.Welcome, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
         if (connection.getPortConfiguration().isSupportsMenus()) {
-            return stateCollection.get(StateName.LoginIdPrompt);
+            return loginIdPrompt;
         } else {
-            return stateCollection.get(StateName.WelcomeCommandsDisplay);
+            return commandDrivenPrompt;
         }
     }
 }

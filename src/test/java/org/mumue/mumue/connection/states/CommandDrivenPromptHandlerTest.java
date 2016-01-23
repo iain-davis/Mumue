@@ -24,7 +24,7 @@ import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WelcomeCommandsHandlerTest {
+public class CommandDrivenPromptHandlerTest {
     private static final Random RANDOM = new Random();
 
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
@@ -34,7 +34,7 @@ public class WelcomeCommandsHandlerTest {
     private final PlayerDao playerDao = mock(PlayerDao.class);
     private final StateCollection stateCollection = mock(StateCollection.class);
 
-    private final WelcomeCommandsHandler stage = new WelcomeCommandsHandler(mock(PlayerConnected.class), characterDao, playerDao, textMaker);
+    private final CommandDrivenPromptHandler stage = new CommandDrivenPromptHandler(mock(PlayerConnected.class), characterDao, playerDao, textMaker);
 
     @Before
     public void beforeEach() {
