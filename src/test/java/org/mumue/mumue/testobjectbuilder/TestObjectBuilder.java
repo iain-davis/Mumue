@@ -1,5 +1,7 @@
 package org.mumue.mumue.testobjectbuilder;
 
+import java.util.Random;
+
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
@@ -24,6 +26,8 @@ public class TestObjectBuilder {
     }
 
     private static class MockApplicationConfiguration extends ApplicationConfiguration {
+        private long lastComponentId = 100L * new Random().nextInt(37);
+
         public MockApplicationConfiguration() {
             super(null);
         }
@@ -31,6 +35,12 @@ public class TestObjectBuilder {
         @Override
         public String getServerLocale() {
             return ConfigurationDefaults.SERVER_LOCALE;
+        }
+
+        @Override
+        public long getNewComponentId() {
+            lastComponentId++;
+            return lastComponentId;
         }
     }
 }

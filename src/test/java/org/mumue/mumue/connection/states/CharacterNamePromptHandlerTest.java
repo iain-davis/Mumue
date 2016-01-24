@@ -10,10 +10,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
@@ -26,15 +22,12 @@ import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForCharacterNameTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+public class CharacterNamePromptHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
@@ -50,7 +43,7 @@ public class WaitForCharacterNameTest {
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
 
-    private final WaitForCharacterName stage = new WaitForCharacterName(injector, characterDao, textMaker, universeDao);
+    private final CharacterNamePromptHandler stage = new CharacterNamePromptHandler(mock(CharacterNamePrompt.class), mock(PlayerMenuDisplay.class), characterDao, textMaker, universeDao);
 
     @Before
     public void beforeEach() {

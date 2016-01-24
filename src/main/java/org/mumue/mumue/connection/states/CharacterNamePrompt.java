@@ -9,13 +9,13 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterNamePrompt implements ConnectionState {
-    private final WaitForCharacterName waitForCharacterName;
+    private final CharacterNamePromptHandler characterNamePromptHandler;
     private final TextMaker textMaker;
 
     @Inject
     @Singleton
-    public CharacterNamePrompt(WaitForCharacterName waitForCharacterName, TextMaker textMaker) {
-        this.waitForCharacterName = waitForCharacterName;
+    public CharacterNamePrompt(CharacterNamePromptHandler characterNamePromptHandler, TextMaker textMaker) {
+        this.characterNamePromptHandler = characterNamePromptHandler;
         this.textMaker = textMaker;
     }
 
@@ -23,6 +23,6 @@ public class CharacterNamePrompt implements ConnectionState {
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.CharacterNamePrompt, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return waitForCharacterName;
+        return characterNamePromptHandler;
     }
 }
