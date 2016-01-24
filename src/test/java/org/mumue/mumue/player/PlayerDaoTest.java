@@ -2,7 +2,6 @@ package org.mumue.mumue.player;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 import java.util.Random;
 
@@ -15,7 +14,7 @@ public class PlayerDaoTest {
     private static final Random RANDOM = new Random();
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private final PlayerRepository playerRepository = new PlayerRepository(database);
-    private final PlayerDao dao = new PlayerDao(database, playerRepository);
+    private final PlayerDao dao = new PlayerDao(database);
 
     @Test
     public void successfulAuthentication() {
@@ -60,20 +59,6 @@ public class PlayerDaoTest {
         insertPlayer(loginId, password);
 
         assertFalse(dao.authenticate(loginId, otherPassword));
-    }
-
-    @Test
-    public void addPlayer() {
-        Player expected = new PlayerBuilder().withId(1)
-                .withLocale(RandomStringUtils.randomAlphabetic(13))
-                .withLoginId(RandomStringUtils.randomAlphabetic(14))
-                .build();
-        String password = RandomStringUtils.randomAlphabetic(12);
-
-        dao.createPlayer(expected, password);
-
-        Player player = playerRepository.get(expected.getLoginId(), password);
-        assertReflectionEquals(expected, player);
     }
 
     private void insertPlayer(String loginId, String password) {

@@ -44,15 +44,25 @@ public class PlayerRepositoryTest {
     }
 
     @Test
+    public void addInsertsPlayerIntoDatabase() {
+        String password = RandomStringUtils.randomAlphabetic(13);
+        Player expected = createPlayer();
+
+        repository.add(expected, password);
+
+        Player player = repository.get(expected.getLoginId(), password);
+
+        assertThat(player.getLoginId(), equalTo(expected.getLoginId()));
+        assertThat(player.getLocale(), equalTo(expected.getLocale()));
+        assertThat(player.getLastUsed(), equalTo(expected.getLastUsed()));
+        assertThat(player.getLastModified(), equalTo(expected.getLastModified()));
+        assertThat(player.getUseCount(), equalTo(expected.getUseCount()));
+        assertThat(player.isAdministrator(), equalTo(expected.isAdministrator()));
+    }
+
+    @Test
     public void savePlayer() {
-        Player expected = new Player();
-        expected.setId(DatabaseHelper.insertPlayer(database));
-        expected.countUse();
-        expected.setLoginId(RandomStringUtils.randomAlphabetic(16));
-        expected.setLocale(RandomStringUtils.randomAlphabetic(5));
-        expected.setLastUsed(Instant.now());
-        expected.setLastModified(Instant.now());
-        expected.setAdministrator(RANDOM.nextBoolean());
+        Player expected = createPlayer();
         repository.save(expected);
 
         Player player = repository.get(expected.getId());
@@ -64,5 +74,17 @@ public class PlayerRepositoryTest {
         assertThat(player.getUseCount(), equalTo(expected.getUseCount()));
         assertThat(player.isAdministrator(), equalTo(expected.isAdministrator()));
 
+    }
+
+    public Player createPlayer() {
+        Player expected = new Player();
+        expected.setId(DatabaseHelper.insertPlayer(database));
+        expected.countUse();
+        expected.setLoginId(RandomStringUtils.randomAlphabetic(16));
+        expected.setLocale(RandomStringUtils.randomAlphabetic(5));
+        expected.setLastUsed(Instant.now());
+        expected.setLastModified(Instant.now());
+        expected.setAdministrator(RANDOM.nextBoolean());
+        return expected;
     }
 }

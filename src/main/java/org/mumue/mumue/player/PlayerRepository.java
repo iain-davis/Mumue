@@ -9,7 +9,6 @@ import org.mumue.mumue.Repository;
 import org.mumue.mumue.database.DatabaseAccessor;
 
 public class PlayerRepository implements Repository<Player> {
-    private static final String UPDATE_QUERY = "update players SET loginId=?, locale=?, lastUsed=?, lastModified=?, useCount=?, administrator=?";
     private final DatabaseAccessor database;
 
     @Inject
@@ -24,6 +23,19 @@ public class PlayerRepository implements Repository<Player> {
         return player == null ? new Player() : player;
     }
 
+    public void add(Player player, String password) {
+        database.update("insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator) values (?, ?, ?, ?, ?, ?, ?, ?)",
+                player.getLoginId(), password, player.getLocale(),
+                Timestamp.from(player.getCreated()), Timestamp.from(player.getLastUsed()), Timestamp.from(player.getLastModified()),
+                player.getUseCount(), player.isAdministrator()
+        );
+    }
+
+    @Override
+    public void add(Player player) {
+        throw new UnsupportedOperationException();
+    }
+
     public Player get(String loginId, String password) {
         ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class, new PlayerRowProcessor());
         Player player = database.query("select * from players where loginId = ? and password = ?", resultSetHandler, loginId, password);
@@ -32,7 +44,8 @@ public class PlayerRepository implements Repository<Player> {
 
     @Override
     public void save(Player player) {
-        database.update(UPDATE_QUERY, player.getLoginId(), player.getLocale(),
+        database.update("update players SET loginId=?, locale=?, lastUsed=?, lastModified=?, useCount=?, administrator=?",
+                player.getLoginId(), player.getLocale(),
                 Timestamp.from(player.getLastUsed()), Timestamp.from(player.getLastModified()),
                 player.getUseCount(), player.isAdministrator()
         );

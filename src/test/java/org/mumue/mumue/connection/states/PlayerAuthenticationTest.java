@@ -108,12 +108,4 @@ public class PlayerAuthenticationTest {
         assertThat(connection.getPlayer().getLoginId(), equalTo(loginId));
     }
 
-    @Test
-    public void executeWithNewPlayerAddsPlayer() {
-        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
-
-        stage.execute(connection, configuration);
-
-        verify(playerDao).createPlayer(any(Player.class), eq(password));
-    }
 }

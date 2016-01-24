@@ -48,7 +48,7 @@ public class PlayerAuthentication implements ConnectionState {
             }
         } else {
             player = playerBuilder.withLoginId(loginId).build();
-            playerDao.createPlayer(player, password);
+            playerRepository.add(player, password);
         }
         connection.setPlayer(player);
         return playerConnected;
