@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
@@ -12,6 +13,7 @@ public class CharacterNamePrompt implements ConnectionState {
     private final TextMaker textMaker;
 
     @Inject
+    @Singleton
     public CharacterNamePrompt(WaitForCharacterName waitForCharacterName, TextMaker textMaker) {
         this.waitForCharacterName = waitForCharacterName;
         this.textMaker = textMaker;

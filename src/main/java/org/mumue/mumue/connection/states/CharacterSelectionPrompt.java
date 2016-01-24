@@ -1,8 +1,8 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -12,13 +12,14 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterSelectionPrompt implements ConnectionState {
-    private final Injector injector;
+    private final WaitForCharacterSelection waitForCharacterSelection;
     private final TextMaker textMaker;
     private final CharacterDao characterDao;
 
     @Inject
-    public CharacterSelectionPrompt(Injector injector, TextMaker textMaker, CharacterDao characterDao) {
-        this.injector = injector;
+    @Singleton
+    public CharacterSelectionPrompt(WaitForCharacterSelection waitForCharacterSelection, TextMaker textMaker, CharacterDao characterDao) {
+        this.waitForCharacterSelection = waitForCharacterSelection;
         this.textMaker = textMaker;
         this.characterDao = characterDao;
     }
@@ -37,6 +38,6 @@ public class CharacterSelectionPrompt implements ConnectionState {
         connection.getOutputQueue().push(builder.toString());
         String text = textMaker.getText(TextName.CharacterSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return injector.getInstance(WaitForCharacterSelection.class);
+        return waitForCharacterSelection;
     }
 }

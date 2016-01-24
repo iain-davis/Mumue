@@ -9,10 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
@@ -21,43 +18,38 @@ import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.player.PlayerBuilder;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterSelectionPromptTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
-
     private final CharacterDao dao = mock(CharacterDao.class);
-    private final CharacterSelectionPrompt stage = new CharacterSelectionPrompt(injector, textMaker, dao);
-
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
-    private final String locale = RandomStringUtils.randomAlphabetic(15);
-    private final Player player = new PlayerBuilder().withLocale(locale).withLoginId(RandomStringUtils.randomAlphabetic(7)).build();
+    private final Player player = TestObjectBuilder.player().withLoginId(RandomStringUtils.randomAlphabetic(7)).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
+    private final CharacterSelectionPrompt characterSelectionPrompt = new CharacterSelectionPrompt(mock(WaitForCharacterSelection.class), textMaker, dao);
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(TextName.CharacterSelectionPrompt, locale)).thenReturn(prompt);
+        when(textMaker.getText(TextName.CharacterSelectionPrompt, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(prompt);
         when(dao.getCharacters(player.getId())).thenReturn(new ArrayList<>());
     }
 
     @Test
     public void returnWaitForCharacterSelection() {
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = characterSelectionPrompt.execute(connection, configuration);
         assertNotNull(next);
         assertThat(next, instanceOf(WaitForCharacterSelection.class));
     }
 
     @Test
     public void putPromptOnOutputQueue() {
-        stage.execute(connection, configuration);
+        characterSelectionPrompt.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(prompt));
     }
@@ -69,7 +61,7 @@ public class CharacterSelectionPromptTest {
         List<GameCharacter> characters = setupCharacters(name1, name2);
         when(dao.getCharacters(player.getId())).thenReturn(characters);
 
-        stage.execute(connection, configuration);
+        characterSelectionPrompt.execute(connection, configuration);
 
         String expected = "\\r\\n1) " + name1 + "\\r\\n2) " + name2 + "\\r\\n\\r\\n";
         assertThat(connection.getOutputQueue(), hasItem(expected));
@@ -82,7 +74,7 @@ public class CharacterSelectionPromptTest {
         List<GameCharacter> characters = setupCharacters(id1, id2);
         when(dao.getCharacters(player.getId())).thenReturn(characters);
 
-        stage.execute(connection, configuration);
+        characterSelectionPrompt.execute(connection, configuration);
 
         assertThat(connection.getMenuOptionIds().values(), hasItem(id1));
         assertThat(connection.getMenuOptionIds().values(), hasItem(id2));
