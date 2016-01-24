@@ -10,15 +10,15 @@ import org.mumue.mumue.player.PlayerRepository;
 
 public class PlayerConnected implements ConnectionState {
     private final CurrentTimestampProvider currentTimestampProvider;
-    private final DisplayPlayerMenu displayPlayerMenu;
+    private final PlayerMenuDisplay playerMenuDisplay;
     private final EnterUniverse enterUniverse;
     private final PlayerRepository playerRepository;
 
     @Inject
     @Singleton
-    public PlayerConnected(CurrentTimestampProvider currentTimestampProvider, DisplayPlayerMenu displayPlayerMenu, EnterUniverse enterUniverse, PlayerRepository playerRepository) {
+    public PlayerConnected(CurrentTimestampProvider currentTimestampProvider, PlayerMenuDisplay playerMenuDisplay, EnterUniverse enterUniverse, PlayerRepository playerRepository) {
         this.currentTimestampProvider = currentTimestampProvider;
-        this.displayPlayerMenu = displayPlayerMenu;
+        this.playerMenuDisplay = playerMenuDisplay;
         this.enterUniverse = enterUniverse;
         this.playerRepository = playerRepository;
     }
@@ -29,7 +29,7 @@ public class PlayerConnected implements ConnectionState {
         connection.getPlayer().setLastUsed(currentTimestampProvider.get());
         playerRepository.save(connection.getPlayer());
         if (connection.getPortConfiguration().isSupportsMenus()) {
-            return displayPlayerMenu;
+            return playerMenuDisplay;
         }
         return enterUniverse;
     }

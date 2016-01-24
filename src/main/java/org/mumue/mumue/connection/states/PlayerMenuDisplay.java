@@ -10,14 +10,14 @@ import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class DisplayPlayerMenu implements ConnectionState {
-    private final Injector injector;
+public class PlayerMenuDisplay implements ConnectionState {
+    private final WaitForPlayerMenuChoice waitForPlayerMenuChoice;
     private final TextMaker textMaker;
 
     @Inject
     @Singleton
-    public DisplayPlayerMenu(Injector injector, TextMaker textMaker) {
-        this.injector = injector;
+    public PlayerMenuDisplay(WaitForPlayerMenuChoice waitForPlayerMenuChoice, TextMaker textMaker) {
+        this.waitForPlayerMenuChoice = waitForPlayerMenuChoice;
         this.textMaker = textMaker;
     }
 
@@ -29,6 +29,6 @@ public class DisplayPlayerMenu implements ConnectionState {
             menu = textMaker.getText(TextName.AdministratorMainMenu, connection.getLocale()) + menu;
         }
         connection.getOutputQueue().push(menu);
-        return injector.getInstance(WaitForPlayerMenuChoice.class);
+        return waitForPlayerMenuChoice;
     }
 }

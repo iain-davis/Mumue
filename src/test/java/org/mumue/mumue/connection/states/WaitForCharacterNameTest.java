@@ -80,7 +80,7 @@ public class WaitForCharacterNameTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(DisplayPlayerMenu.class));
+        assertThat(next, instanceOf(PlayerMenuDisplay.class));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class WaitForCharacterNameTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(DisplayPlayerMenu.class));
+        assertThat(next, instanceOf(PlayerMenuDisplay.class));
     }
 
     @Test

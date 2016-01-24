@@ -54,7 +54,7 @@ public class WaitForCharacterName implements ConnectionState {
         character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
         character.setHomeLocationId(character.getLocationId());
         characterDao.createCharacter(character);
-        return injector.getInstance(DisplayPlayerMenu.class);
+        return injector.getInstance(PlayerMenuDisplay.class);
     }
 
     private boolean nameTakenByOtherPlayer(String name, long playerId) {

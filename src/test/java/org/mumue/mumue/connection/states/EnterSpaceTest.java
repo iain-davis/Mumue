@@ -10,7 +10,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.space.SpaceBuilder;
@@ -18,25 +17,22 @@ import org.mumue.mumue.components.space.SpaceDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class EnterSpaceTest {
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
-    private final SpaceDao spaceDao = mock(SpaceDao.class);
-    private final StateCollection stateCollection = mock(StateCollection.class);
-
     private final long locationId = RandomUtils.nextLong(100, 200);
-    private final GameCharacter character = new CharacterBuilder().withLocationId(locationId).build();
-    private final Connection connection = new Connection(configuration).withCharacter(character);
     private final String name = RandomStringUtils.randomAlphabetic(25);
     private final String description = RandomStringUtils.randomAlphabetic(35);
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final SpaceDao spaceDao = mock(SpaceDao.class);
+    private final GameCharacter character = TestObjectBuilder.character().withLocationId(locationId).build();
+    private final Connection connection = new Connection(configuration).withCharacter(character);
     private final Space space = new SpaceBuilder().withName(name).withDescription(description).build();
-
-    private final EnterSpace enterSpace = new EnterSpace(stateCollection, spaceDao);
+    private final EnterSpace enterSpace = new EnterSpace(mock(PlayCharacter.class), spaceDao);
 
     @Before
     public void beforeEach() {
         when(spaceDao.getSpace(locationId)).thenReturn(space);
-        when(stateCollection.get(StateName.PlayCharacter)).thenReturn(new PlayCharacter(null, null));
     }
 
     @Test

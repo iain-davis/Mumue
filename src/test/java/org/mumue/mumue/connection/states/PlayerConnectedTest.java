@@ -29,7 +29,7 @@ public class PlayerConnectedTest {
     private final Player player = TestObjectBuilder.player().withId(RANDOM.nextInt(10000)).build();
 
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final PlayerConnected playerConnected = new PlayerConnected(timestampProvider, mock(DisplayPlayerMenu.class), mock(EnterUniverse.class), playerRepository);
+    private final PlayerConnected playerConnected = new PlayerConnected(timestampProvider, mock(PlayerMenuDisplay.class), mock(EnterUniverse.class), playerRepository);
     private final Instant lastUsed = Instant.now();
 
     @Before
@@ -45,7 +45,7 @@ public class PlayerConnectedTest {
 
         ConnectionState returned = playerConnected.execute(connection, configuration);
 
-        assertThat(returned, instanceOf(DisplayPlayerMenu.class));
+        assertThat(returned, instanceOf(PlayerMenuDisplay.class));
     }
 
     @Test

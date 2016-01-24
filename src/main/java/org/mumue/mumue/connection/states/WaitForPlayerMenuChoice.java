@@ -55,6 +55,6 @@ public class WaitForPlayerMenuChoice implements ConnectionState {
         String locale = connection.getPlayer().getLocale();
         String text = textMaker.getText(TextName.InvalidOption, locale);
         connection.getOutputQueue().push(text);
-        return injector.getInstance(DisplayPlayerMenu.class);
+        return injector.getInstance(PlayerMenuDisplay.class);
     }
 }

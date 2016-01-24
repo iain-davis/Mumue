@@ -24,7 +24,7 @@ import org.mumue.mumue.text.TextName;
 
 public class CommandDrivenPromptHandlerTest {
     private static final Random RANDOM = new Random();
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
@@ -133,7 +133,6 @@ public class CommandDrivenPromptHandlerTest {
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(player);
-        when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.MissingPassword, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         connection.getInputQueue().push("con " + characterName);
@@ -147,7 +146,6 @@ public class CommandDrivenPromptHandlerTest {
     public void rejectConnectWhenMissingCharacterName() {
         String text = RandomStringUtils.randomAlphabetic(13);
 
-        when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.MissingCharacterName, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         connection.getInputQueue().push("con");
@@ -166,7 +164,6 @@ public class CommandDrivenPromptHandlerTest {
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(6) + " " + characterName + " " + password);
@@ -183,7 +180,6 @@ public class CommandDrivenPromptHandlerTest {
         String password = RandomStringUtils.randomAlphabetic(13);
 
         when(characterDao.getCharacter(characterName)).thenReturn(new GameCharacter());
-        when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.CharacterDoesNotExist, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
@@ -208,7 +204,6 @@ public class CommandDrivenPromptHandlerTest {
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(player);
         when(playerRepository.get(login, password)).thenReturn(new Player());
-        when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.LoginFailed, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
