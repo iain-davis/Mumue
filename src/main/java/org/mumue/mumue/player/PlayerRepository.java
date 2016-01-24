@@ -24,7 +24,9 @@ public class PlayerRepository implements Repository<Player> {
     }
 
     public Player get(String loginId) {
-        return null;
+        ResultSetHandler<Player> resultSetHandler = new BeanHandler<>(Player.class, new PlayerRowProcessor());
+        Player player = database.query("select * from players where loginId = ?", resultSetHandler, loginId);
+        return player == null ? new Player() : player;
     }
 
     public Player get(String loginId, String password) {

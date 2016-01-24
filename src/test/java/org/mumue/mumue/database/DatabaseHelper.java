@@ -43,6 +43,10 @@ public class DatabaseHelper {
         return insertPlayer(database, id, RandomStringUtils.randomAlphabetic(16), RandomStringUtils.randomAlphabetic(13));
     }
 
+    public static long insertPlayer(DatabaseAccessor database, String loginId) {
+        return insertPlayer(database, loginId, RandomStringUtils.randomAlphabetic(13));
+    }
+
     public static long insertPlayer(DatabaseAccessor database, String loginId, String password) {
         return insertPlayer(database, RANDOM.nextInt(10000000), loginId, password);
     }

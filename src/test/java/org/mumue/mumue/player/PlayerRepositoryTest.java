@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class PlayerRepositoryTest {
     private static final Random RANDOM = new Random();
@@ -23,7 +24,7 @@ public class PlayerRepositoryTest {
     }
 
     @Test
-    public void getReturnsPlayerById() {
+    public void getByIdReturnsPlayer() {
         long id = RANDOM.nextInt(100);
         DatabaseHelper.insertPlayer(database, id);
 
@@ -33,7 +34,50 @@ public class PlayerRepositoryTest {
     }
 
     @Test
-    public void getReturnsPlayerByLoginIdAndPassword() {
+    public void getByIdReturnsUnknownPlayer() {
+        long id = RANDOM.nextInt(100);
+        DatabaseHelper.insertPlayer(database, id);
+
+        Player returned = repository.get(id * 2);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getByLoginIdReturnsPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(16);
+        DatabaseHelper.insertPlayer(database, loginId);
+
+        Player returned = repository.get(loginId);
+
+        assertThat(returned, notNullValue());
+        assertThat(returned.getLoginId(), equalTo(loginId));
+    }
+
+    @Test
+    public void getByLoginIdAndIncorrectReturnsUnknownPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(7);
+        DatabaseHelper.insertPlayer(database);
+
+        Player returned = repository.get(loginId);
+
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getByLoginIdAndIsNullReturnsUnknownPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(7);
+        DatabaseHelper.insertPlayer(database);
+
+        Player returned = repository.get(null);
+
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getByLoginIdAndPasswordReturnsPlayer() {
         String loginId = RandomStringUtils.randomAlphabetic(16);
         String password = RandomStringUtils.randomAlphabetic(13);
         DatabaseHelper.insertPlayer(database, loginId, password);
@@ -41,6 +85,49 @@ public class PlayerRepositoryTest {
         Player returned = repository.get(loginId, password);
         assertThat(returned, notNullValue());
         assertThat(returned.getLoginId(), equalTo(loginId));
+    }
+
+    @Test
+    public void getByLoginIdAndPasswordLoginIdIncorrectReturnsUnknownPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(16);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        DatabaseHelper.insertPlayer(database, loginId, password);
+
+        Player returned = repository.get("SOME_OTHER", password);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getByLoginIdAndPasswordLoginIdIsNullReturnsUnknownPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(16);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        DatabaseHelper.insertPlayer(database, loginId, password);
+
+        Player returned = repository.get(null, password);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getByLoginIdAndPasswordPasswordIncorrectReturnsUnknownPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(16);
+        String password = RandomStringUtils.randomAlphabetic(13);
+        DatabaseHelper.insertPlayer(database, loginId);
+
+        Player returned = repository.get(loginId, password);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
+    }
+
+    @Test
+    public void getByLoginIdAndPasswordPasswordIsNullReturnsUnknownPlayer() {
+        String loginId = RandomStringUtils.randomAlphabetic(16);
+        DatabaseHelper.insertPlayer(database, loginId);
+
+        Player returned = repository.get(loginId, null);
+        assertThat(returned, notNullValue());
+        assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test
