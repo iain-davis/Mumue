@@ -32,7 +32,7 @@ public class CharacterSelectionPromptTest {
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final Player player = TestObjectBuilder.player().withLoginId(RandomStringUtils.randomAlphabetic(7)).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final CharacterSelectionPrompt characterSelectionPrompt = new CharacterSelectionPrompt(mock(WaitForCharacterSelection.class), textMaker, dao);
+    private final CharacterSelectionPrompt characterSelectionPrompt = new CharacterSelectionPrompt(mock(CharacterSelectionPromptHandler.class), textMaker, dao);
 
     @Before
     public void beforeEach() {
@@ -44,7 +44,7 @@ public class CharacterSelectionPromptTest {
     public void returnWaitForCharacterSelection() {
         ConnectionState next = characterSelectionPrompt.execute(connection, configuration);
         assertNotNull(next);
-        assertThat(next, instanceOf(WaitForCharacterSelection.class));
+        assertThat(next, instanceOf(CharacterSelectionPromptHandler.class));
     }
 
     @Test

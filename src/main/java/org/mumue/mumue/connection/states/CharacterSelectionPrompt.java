@@ -12,14 +12,14 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterSelectionPrompt implements ConnectionState {
-    private final WaitForCharacterSelection waitForCharacterSelection;
+    private final CharacterSelectionPromptHandler characterSelectionPromptHandler;
     private final TextMaker textMaker;
     private final CharacterDao characterDao;
 
     @Inject
     @Singleton
-    public CharacterSelectionPrompt(WaitForCharacterSelection waitForCharacterSelection, TextMaker textMaker, CharacterDao characterDao) {
-        this.waitForCharacterSelection = waitForCharacterSelection;
+    public CharacterSelectionPrompt(CharacterSelectionPromptHandler characterSelectionPromptHandler, TextMaker textMaker, CharacterDao characterDao) {
+        this.characterSelectionPromptHandler = characterSelectionPromptHandler;
         this.textMaker = textMaker;
         this.characterDao = characterDao;
     }
@@ -38,6 +38,6 @@ public class CharacterSelectionPrompt implements ConnectionState {
         connection.getOutputQueue().push(builder.toString());
         String text = textMaker.getText(TextName.CharacterSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return waitForCharacterSelection;
+        return characterSelectionPromptHandler;
     }
 }

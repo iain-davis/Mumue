@@ -2,21 +2,22 @@ package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForCharacterSelection implements ConnectionState {
-    private final Injector injector;
+public class CharacterSelectionPromptHandler implements ConnectionState {
+    private final CharacterSelectionPrompt characterSelectionPrompt;
+    private final EnterUniverse enterUniverse;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
 
     @Inject
-    public WaitForCharacterSelection(Injector injector, CharacterDao characterDao, TextMaker textMaker) {
-        this.injector = injector;
+    public CharacterSelectionPromptHandler(CharacterSelectionPrompt characterSelectionPrompt, EnterUniverse enterUniverse, CharacterDao characterDao, TextMaker textMaker) {
+        this.characterSelectionPrompt = characterSelectionPrompt;
+        this.enterUniverse = enterUniverse;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
     }
@@ -31,9 +32,9 @@ public class WaitForCharacterSelection implements ConnectionState {
         if (characterId == null) {
             String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return injector.getInstance(CharacterSelectionPrompt.class);
+            return characterSelectionPrompt;
         }
         connection.setCharacter(characterDao.getCharacter(characterId));
-        return injector.getInstance(EnterUniverse.class);
+        return enterUniverse;
     }
 }

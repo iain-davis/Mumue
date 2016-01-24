@@ -8,45 +8,37 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
-import org.mumue.mumue.player.PlayerBuilder;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForCharacterSelectionTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+public class CharacterSelectionPromptHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
-
-    private final WaitForCharacterSelection stage = new WaitForCharacterSelection(injector, characterDao, textMaker);
-
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final String message = RandomStringUtils.randomAlphabetic(17);
     private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final Connection connection = new Connection(configuration).withPlayer(new PlayerBuilder().withLocale(locale).build());
+    private final Connection connection = new Connection(configuration).withPlayer(TestObjectBuilder.player().build());
+    private final CharacterSelectionPromptHandler characterSelectionPromptHandler = new CharacterSelectionPromptHandler(mock(CharacterSelectionPrompt.class), mock(EnterUniverse.class), characterDao, textMaker);
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
     }
 
     @Test
     public void returnWaitForSelectionWithoutInput() {
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = characterSelectionPromptHandler.execute(connection, configuration);
 
-        assertThat(next, sameInstance(stage));
+        assertThat(next, sameInstance(characterSelectionPromptHandler));
     }
 
     @Test
@@ -54,7 +46,7 @@ public class WaitForCharacterSelectionTest {
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
         connection.getMenuOptionIds().put(text, RandomUtils.nextLong(100, 200));
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = characterSelectionPromptHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(EnterUniverse.class));
     }
@@ -66,7 +58,7 @@ public class WaitForCharacterSelectionTest {
         connection.getMenuOptionIds().put(option, characterId);
         connection.getInputQueue().push(option);
 
-        stage.execute(connection, configuration);
+        characterSelectionPromptHandler.execute(connection, configuration);
 
         verify(characterDao).getCharacter(characterId);
     }
@@ -79,7 +71,7 @@ public class WaitForCharacterSelectionTest {
         connection.getInputQueue().push(badSelection);
         connection.getMenuOptionIds().put(option, characterId);
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = characterSelectionPromptHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(CharacterSelectionPrompt.class));
     }
@@ -92,7 +84,7 @@ public class WaitForCharacterSelectionTest {
         connection.getInputQueue().push(badSelection);
         connection.getMenuOptionIds().put(option, characterId);
 
-        stage.execute(connection, configuration);
+        characterSelectionPromptHandler.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(message));
     }
