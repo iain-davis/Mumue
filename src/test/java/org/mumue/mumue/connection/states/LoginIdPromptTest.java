@@ -20,16 +20,14 @@ public class LoginIdPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final StateCollection stateCollection = mock(StateCollection.class);
-
     private final LoginIdPrompt stage = new LoginIdPrompt(stateCollection, textMaker);
-
     private final Connection connection = new Connection(configuration);
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Before
     public void beforeEach() {
         when(textMaker.getText(Matchers.eq(TextName.LoginPrompt), anyString())).thenReturn(prompt);
-        when(stateCollection.get(StateName.LoginIdPromptHandler)).thenReturn(new LoginIdPromptHandler(stateCollection, null));
+        when(stateCollection.get(StateName.LoginIdPromptHandler)).thenReturn(new LoginIdPromptHandler(null, null));
     }
 
     @Test

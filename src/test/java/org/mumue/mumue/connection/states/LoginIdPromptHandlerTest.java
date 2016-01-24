@@ -6,19 +6,22 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Random;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.player.PlayerDao;
+import org.mumue.mumue.player.PlayerRepository;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class LoginIdPromptHandlerTest {
     private final StateCollection stateCollection = mock(StateCollection.class);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
-    private final PlayerDao dao = mock(PlayerDao.class);
+    private final PlayerRepository playerRepository = mock(PlayerRepository.class);
     private final Connection connection = new Connection(configuration);
-    private final LoginIdPromptHandler stage = new LoginIdPromptHandler(stateCollection, dao);
+    private final LoginIdPromptHandler stage = new LoginIdPromptHandler(stateCollection, playerRepository);
 
     @Before
     public void beforeEach() {
@@ -37,7 +40,8 @@ public class LoginIdPromptHandlerTest {
     public void executeWithValidLoginIdPromptsForPassword() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(dao.playerExistsFor(loginId)).thenReturn(true);
+
+        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().withId(1L).build());
 
         ConnectionState next = stage.execute(connection, configuration);
 
@@ -48,7 +52,7 @@ public class LoginIdPromptHandlerTest {
     public void executeWithInvalidLoginIdPromptsForNewPlayer() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(dao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().build());
 
         ConnectionState next = stage.execute(connection, configuration);
 
@@ -59,7 +63,7 @@ public class LoginIdPromptHandlerTest {
     public void executeWithValidIdLeavesLoginIdOnQueue() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(dao.playerExistsFor(loginId)).thenReturn(true);
+        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().withId(1L).build());
 
         stage.execute(connection, configuration);
 
@@ -70,7 +74,7 @@ public class LoginIdPromptHandlerTest {
     public void executeWithInValidIdLeavesLoginIdOnQueue() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(dao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().build());
 
         stage.execute(connection, configuration);
 

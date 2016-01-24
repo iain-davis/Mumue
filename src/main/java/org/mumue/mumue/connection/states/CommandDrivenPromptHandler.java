@@ -9,7 +9,6 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
@@ -17,16 +16,14 @@ import org.mumue.mumue.text.TextName;
 public class CommandDrivenPromptHandler implements ConnectionState {
     private final PlayerConnected playerConnected;
     private final CharacterDao characterDao;
-    private final PlayerDao playerDao;
     private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
     @Singleton
-    public CommandDrivenPromptHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerDao playerDao, PlayerRepository playerRepository, TextMaker textMaker) {
+    public CommandDrivenPromptHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerRepository playerRepository, TextMaker textMaker) {
         this.playerConnected = playerConnected;
         this.characterDao = characterDao;
-        this.playerDao = playerDao;
         this.playerRepository = playerRepository;
         this.textMaker = textMaker;
     }
@@ -65,7 +62,7 @@ public class CommandDrivenPromptHandler implements ConnectionState {
             return this;
         } else {
             Player player = playerRepository.get(character.getPlayerId());
-            if (playerDao.authenticate(player.getLoginId(), password)) {
+            if (authenticate(player, password)) {
                 connection.setCharacter(character);
                 connection.setPlayer(player);
                 return playerConnected;
@@ -74,5 +71,9 @@ public class CommandDrivenPromptHandler implements ConnectionState {
                 return this;
             }
         }
+    }
+
+    private boolean authenticate(Player player, String password) {
+        return playerRepository.get(player.getLoginId(), password).getId() != GlobalConstants.REFERENCE_UNKNOWN;
     }
 }

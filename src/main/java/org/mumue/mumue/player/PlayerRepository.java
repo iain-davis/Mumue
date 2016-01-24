@@ -23,17 +23,8 @@ public class PlayerRepository implements Repository<Player> {
         return player == null ? new Player() : player;
     }
 
-    public void add(Player player, String password) {
-        database.update("insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator) values (?, ?, ?, ?, ?, ?, ?, ?)",
-                player.getLoginId(), password, player.getLocale(),
-                Timestamp.from(player.getCreated()), Timestamp.from(player.getLastUsed()), Timestamp.from(player.getLastModified()),
-                player.getUseCount(), player.isAdministrator()
-        );
-    }
-
-    @Override
-    public void add(Player player) {
-        throw new UnsupportedOperationException();
+    public Player get(String loginId) {
+        return null;
     }
 
     public Player get(String loginId, String password) {
@@ -49,5 +40,18 @@ public class PlayerRepository implements Repository<Player> {
                 Timestamp.from(player.getLastUsed()), Timestamp.from(player.getLastModified()),
                 player.getUseCount(), player.isAdministrator()
         );
+    }
+
+    public void add(Player player, String password) {
+        database.update("insert into players (loginId, password, locale, created, lastUsed, lastModified, useCount, administrator) values (?, ?, ?, ?, ?, ?, ?, ?)",
+                player.getLoginId(), password, player.getLocale(),
+                Timestamp.from(player.getCreated()), Timestamp.from(player.getLastUsed()), Timestamp.from(player.getLastModified()),
+                player.getUseCount(), player.isAdministrator()
+        );
+    }
+
+    @Override
+    public void add(Player player) {
+        throw new UnsupportedOperationException();
     }
 }

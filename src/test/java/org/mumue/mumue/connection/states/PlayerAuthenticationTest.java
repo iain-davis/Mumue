@@ -5,11 +5,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -24,7 +22,6 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
-import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
@@ -33,11 +30,9 @@ import org.mumue.mumue.text.TextName;
 public class PlayerAuthenticationTest {
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final PlayerDao playerDao = mock(PlayerDao.class);
     private final CurrentTimestampProvider currentTimestampProvider = mock(CurrentTimestampProvider.class);
-    private final PlayerBuilder playerBuilder = mock(PlayerBuilder.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-    private final PlayerAuthentication stage = new PlayerAuthentication(mock(LoginIdPrompt.class), new PlayerBuilder(), mock(PlayerConnected.class), playerDao, playerRepository, textMaker);
+    private final PlayerAuthentication stage = new PlayerAuthentication(mock(LoginIdPrompt.class), new PlayerBuilder(), mock(PlayerConnected.class), playerRepository, textMaker);
 
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
     private final String password = RandomStringUtils.randomAlphanumeric(17);
@@ -45,7 +40,7 @@ public class PlayerAuthenticationTest {
     private final String loginSuccess = "SUCCESS: " + RandomStringUtils.randomAlphanumeric(16);
     private final Instant timestamp = Instant.now();
     private final Player player = TestObjectBuilder.player().withId(new Random().nextInt(100) + 10).build();
-    private final Connection connection = new Connection(configuration);
+    private final Connection connection = TestObjectBuilder.connection();
 
     @Before
     public void beforeEach() {
@@ -54,10 +49,8 @@ public class PlayerAuthenticationTest {
         when(currentTimestampProvider.get()).thenReturn(timestamp);
         when(textMaker.getText(Matchers.eq(TextName.LoginFailed), anyString())).thenReturn(loginFailed);
         when(textMaker.getText(eq(TextName.LoginSuccess), anyString())).thenReturn(loginSuccess);
+        when(playerRepository.get(loginId)).thenReturn(player);
         when(playerRepository.get(loginId, password)).thenReturn(player);
-        when(playerDao.playerExistsFor(loginId)).thenReturn(true);
-        when(playerBuilder.build()).thenReturn(player);
-        when(playerBuilder.withLoginId(anyString())).thenReturn(playerBuilder);
     }
 
     @Test
@@ -101,7 +94,7 @@ public class PlayerAuthenticationTest {
 
     @Test
     public void executeWithNewPlayerSetsLoginId() {
-        when(playerDao.playerExistsFor(loginId)).thenReturn(false);
+        when(playerRepository.get(loginId)).thenReturn(new Player());
 
         stage.execute(connection, configuration);
 

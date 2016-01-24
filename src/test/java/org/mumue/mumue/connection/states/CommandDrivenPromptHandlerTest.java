@@ -4,14 +4,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
@@ -19,7 +17,6 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.player.PlayerDao;
 import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
@@ -27,33 +24,25 @@ import org.mumue.mumue.text.TextName;
 
 public class CommandDrivenPromptHandlerTest {
     private static final Random RANDOM = new Random();
-
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
-    private final PlayerDao playerDao = mock(PlayerDao.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-    private final StateCollection stateCollection = mock(StateCollection.class);
 
-    private final CommandDrivenPromptHandler stage = new CommandDrivenPromptHandler(mock(PlayerConnected.class), characterDao, playerDao, playerRepository, textMaker);
-
-    @Before
-    public void beforeEach() {
-        when(stateCollection.get(StateName.EnterUniverse)).thenReturn(new EnterUniverse(stateCollection, null, null));
-    }
+    private final CommandDrivenPromptHandler stage = new CommandDrivenPromptHandler(mock(PlayerConnected.class), characterDao, playerRepository, textMaker);
 
     @Test
     public void connectCommand() {
         String characterName = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.randomAlphabetic(14);
         String password = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
-        Player player = new Player();
+        Player player = createPlayer(loginId);
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(player);
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
-        when(stateCollection.get(StateName.EnterUniverse)).thenReturn(new EnterUniverse(stateCollection, null, null));
+        when(playerRepository.get(loginId, password)).thenReturn(player);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
@@ -64,13 +53,14 @@ public class CommandDrivenPromptHandlerTest {
     @Test
     public void connectCommandPutsCharacterOnConnection() {
         String characterName = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
-        Player player = new Player();
+        Player player = createPlayer(loginId);
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(player);
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+        when(playerRepository.get(loginId, password)).thenReturn(player);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
         stage.execute(connection, configuration);
@@ -81,13 +71,15 @@ public class CommandDrivenPromptHandlerTest {
     @Test
     public void connectCommandPutsPlayerOnConnection() {
         String characterName = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
-        Player player = new Player();
+        Player player = createPlayer(loginId);
+
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(player);
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+        when(playerRepository.get(loginId, password)).thenReturn(player);
 
         connection.getInputQueue().push("connect " + characterName + " " + password);
         stage.execute(connection, configuration);
@@ -98,12 +90,14 @@ public class CommandDrivenPromptHandlerTest {
     @Test
     public void connectCommandWorksMixedCase() {
         String characterName = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
+        Player player = createPlayer(loginId);
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
+        when(playerRepository.get(loginId, password)).thenReturn(player);
 
         connection.getInputQueue().push("ConNeCt " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
@@ -114,12 +108,14 @@ public class CommandDrivenPromptHandlerTest {
     @Test
     public void connectCommandWorksTruncated() {
         String characterName = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.randomAlphabetic(17);
         String password = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
+        Player player = createPlayer(loginId);
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
+        when(playerRepository.get(loginId, password)).thenReturn(player);
 
         connection.getInputQueue().push("con " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
@@ -130,12 +126,13 @@ public class CommandDrivenPromptHandlerTest {
     @Test
     public void rejectConnectWhenMissingPassword() {
         String characterName = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.randomAlphabetic(17);
         String text = RandomStringUtils.randomAlphabetic(13);
         GameCharacter character = createCharacter();
+        Player player = createPlayer(loginId);
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
+        when(playerRepository.get(character.getPlayerId())).thenReturn(player);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.MissingPassword, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
@@ -149,12 +146,7 @@ public class CommandDrivenPromptHandlerTest {
     @Test
     public void rejectConnectWhenMissingCharacterName() {
         String text = RandomStringUtils.randomAlphabetic(13);
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        GameCharacter character = createCharacter();
 
-        when(characterDao.getCharacter(characterName)).thenReturn(character);
-        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.MissingCharacterName, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
@@ -174,7 +166,6 @@ public class CommandDrivenPromptHandlerTest {
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
@@ -190,11 +181,8 @@ public class CommandDrivenPromptHandlerTest {
         String text = RandomStringUtils.randomAlphabetic(13);
         String characterName = RandomStringUtils.randomAlphabetic(16);
         String password = RandomStringUtils.randomAlphabetic(13);
-        GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(new GameCharacter());
-        when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
-        when(playerDao.authenticate(anyString(), anyString())).thenReturn(true);
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.CharacterDoesNotExist, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
@@ -219,7 +207,7 @@ public class CommandDrivenPromptHandlerTest {
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(player);
-        when(playerDao.authenticate(login, password)).thenReturn(false);
+        when(playerRepository.get(login, password)).thenReturn(new Player());
         when(configuration.getServerLocale()).thenReturn(ConfigurationDefaults.SERVER_LOCALE);
         when(textMaker.getText(TextName.LoginFailed, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
@@ -232,5 +220,12 @@ public class CommandDrivenPromptHandlerTest {
 
     private GameCharacter createCharacter() {
         return TestObjectBuilder.character().withId(RANDOM.nextInt(1000)).withPlayerId(RANDOM.nextInt(1000) + 1000).build();
+    }
+
+    private Player createPlayer(String loginId) {
+        Player player = new Player();
+        player.setId(RANDOM.nextInt(100) + 1);
+        player.setLoginId(loginId);
+        return player;
     }
 }

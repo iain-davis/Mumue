@@ -19,7 +19,7 @@ public class PasswordPromptHandlerTest {
 
     @Before
     public void beforeEach() {
-        when(stateCollection.get(StateName.PlayerAuthentication)).thenReturn(new PlayerAuthentication(null, null, null, null, null, null));
+        when(stateCollection.get(StateName.PlayerAuthentication)).thenReturn(new PlayerAuthentication(null, null, null, null, null));
     }
 
     @Test
