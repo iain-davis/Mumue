@@ -13,31 +13,31 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class PasswordPromptTest {
-    private final StateCollection stateCollection = mock(StateCollection.class);
+    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final PasswordPrompt stage = new PasswordPrompt(stateCollection, textMaker);
     private final Connection connection = new Connection(configuration);
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final PasswordPrompt passwordPrompt = new PasswordPrompt(connectionStateService, textMaker);
 
     @Before
     public void beforeEach() {
         when(textMaker.getText(Matchers.eq(TextName.PasswordPrompt), anyString())).thenReturn(prompt);
-        when(stateCollection.get(StateName.PasswordPromptHandler)).thenReturn(new PasswordPromptHandler(stateCollection));
     }
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(connection, configuration), instanceOf(PasswordPromptHandler.class));
+        assertThat(passwordPrompt.execute(connection, configuration), instanceOf(PasswordHandler.class));
     }
 
     @Test
     public void executePutsLoginPromptOnOutputQueue() {
-        stage.execute(connection, configuration);
+        passwordPrompt.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(prompt));
     }

@@ -12,18 +12,16 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CharacterNamePromptHandler implements ConnectionState {
-    private final CharacterNamePrompt characterNamePrompt;
-    private final PlayerMenuDisplay playerMenuDisplay;
+@Singleton
+public class CharacterNameHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
     private final UniverseDao universeDao;
 
     @Inject
-    @Singleton
-    public CharacterNamePromptHandler(CharacterNamePrompt characterNamePrompt, PlayerMenuDisplay playerMenuDisplay, CharacterDao characterDao, TextMaker textMaker, UniverseDao universeDao) {
-        this.characterNamePrompt = characterNamePrompt;
-        this.playerMenuDisplay = playerMenuDisplay;
+    public CharacterNameHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, TextMaker textMaker, UniverseDao universeDao) {
+        this.connectionStateService = connectionStateService;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
         this.universeDao = universeDao;
@@ -42,13 +40,13 @@ public class CharacterNamePromptHandler implements ConnectionState {
         if (nameTakenInUniverse(name, universeId)) {
             String text = textMaker.getText(TextName.CharacterNameAlreadyExists, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return characterNamePrompt;
+            return connectionStateService.get(CharacterNamePrompt.class);
         }
 
         if (nameTakenByOtherPlayer(name, connection.getPlayer().getId())) {
             String text = textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return characterNamePrompt;
+            return connectionStateService.get(CharacterNamePrompt.class);
         }
 
         character.setName(name);
@@ -57,7 +55,7 @@ public class CharacterNamePromptHandler implements ConnectionState {
         character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
         character.setHomeLocationId(character.getLocationId());
         characterDao.createCharacter(character);
-        return playerMenuDisplay;
+        return connectionStateService.get(PlayerMenuPrompt.class);
     }
 
     private boolean nameTakenByOtherPlayer(String name, long playerId) {

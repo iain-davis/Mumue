@@ -1,17 +1,18 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 
-public class PasswordPromptHandler implements ConnectionState {
-    private final StateCollection stateCollection;
+@Singleton
+public class PasswordHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
 
     @Inject
-    public PasswordPromptHandler(StateCollection stateCollection) {
-        this.stateCollection = stateCollection;
+    public PasswordHandler(ConnectionStateService connectionStateService) {
+        this.connectionStateService = connectionStateService;
     }
 
     @Override
@@ -19,6 +20,6 @@ public class PasswordPromptHandler implements ConnectionState {
         if (connection.getInputQueue().size() < 2) {
             return this;
         }
-        return stateCollection.get(StateName.PlayerAuthentication);
+        return connectionStateService.get(PlayerAuthentication.class);
     }
 }

@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
@@ -11,18 +12,17 @@ import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+@Singleton
 public class PlayerAuthentication implements ConnectionState {
-    private final LoginIdPrompt loginIdPrompt;
+    private final ConnectionStateService connectionStateService;
     private final PlayerBuilder playerBuilder;
-    private final PlayerConnected playerConnected;
     private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
-    public PlayerAuthentication(LoginIdPrompt loginIdPrompt, PlayerBuilder playerBuilder, PlayerConnected playerConnected, PlayerRepository playerRepository, TextMaker textMaker) {
-        this.loginIdPrompt = loginIdPrompt;
+    public PlayerAuthentication(ConnectionStateService connectionStateService, PlayerBuilder playerBuilder, PlayerRepository playerRepository, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.playerBuilder = playerBuilder;
-        this.playerConnected = playerConnected;
         this.playerRepository = playerRepository;
         this.textMaker = textMaker;
     }
@@ -38,7 +38,7 @@ public class PlayerAuthentication implements ConnectionState {
             if (player.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
                 String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
                 connection.getOutputQueue().push(text);
-                return loginIdPrompt;
+                return connectionStateService.get(LoginIdPrompt.class);
             } else {
                 String text = textMaker.getText(TextName.LoginSuccess, configuration.getServerLocale());
                 connection.getOutputQueue().push(text);
@@ -48,7 +48,7 @@ public class PlayerAuthentication implements ConnectionState {
             playerRepository.add(player, password);
         }
         connection.setPlayer(player);
-        return playerConnected;
+        return connectionStateService.get(PlayerConnected.class);
     }
 
     public boolean isValid(String loginId) {

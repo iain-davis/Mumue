@@ -6,34 +6,25 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
-public class LoginIdPromptHandlerTest {
-    private final StateCollection stateCollection = mock(StateCollection.class);
+public class LoginIdHandlerTest {
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
     private final Connection connection = new Connection(configuration);
-    private final LoginIdPromptHandler stage = new LoginIdPromptHandler(stateCollection, playerRepository);
-
-    @Before
-    public void beforeEach() {
-        when(stateCollection.get(StateName.PasswordPrompt)).thenReturn(new PasswordPrompt(stateCollection, null));
-        when(stateCollection.get(StateName.NewPlayerPrompt)).thenReturn(new NewPlayerPrompt(null, null));
-    }
+    private final LoginIdHandler stage = new LoginIdHandler(connectionStateService, playerRepository);
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(LoginIdPromptHandler.class));
+        assertThat(next, instanceOf(LoginIdHandler.class));
     }
 
     @Test

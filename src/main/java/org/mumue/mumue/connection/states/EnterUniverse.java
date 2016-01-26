@@ -12,15 +12,15 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+@Singleton
 public class EnterUniverse implements ConnectionState {
-    private final EnterSpace enterSpace;
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
     private final UniverseDao dao;
 
     @Inject
-    @Singleton
-    public EnterUniverse(EnterSpace enterSpace, TextMaker textMaker, UniverseDao dao) {
-        this.enterSpace = enterSpace;
+    public EnterUniverse(ConnectionStateService connectionStateService, TextMaker textMaker, UniverseDao dao) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
         this.dao = dao;
     }
@@ -32,6 +32,6 @@ public class EnterUniverse implements ConnectionState {
         variables.put("universe name", universe.getName());
         String text = textMaker.getText(TextName.EnterUniverse, connection.getLocale(), variables);
         connection.getOutputQueue().push(text);
-        return enterSpace;
+        return connectionStateService.get(EnterSpace.class);
     }
 }

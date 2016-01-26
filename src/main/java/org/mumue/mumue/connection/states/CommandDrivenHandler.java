@@ -13,16 +13,16 @@ import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CommandDrivenPromptHandler implements ConnectionState {
-    private final PlayerConnected playerConnected;
+@Singleton
+public class CommandDrivenHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final CharacterDao characterDao;
     private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
-    @Singleton
-    public CommandDrivenPromptHandler(PlayerConnected playerConnected, CharacterDao characterDao, PlayerRepository playerRepository, TextMaker textMaker) {
-        this.playerConnected = playerConnected;
+    public CommandDrivenHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, PlayerRepository playerRepository, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.characterDao = characterDao;
         this.playerRepository = playerRepository;
         this.textMaker = textMaker;
@@ -65,7 +65,7 @@ public class CommandDrivenPromptHandler implements ConnectionState {
             if (authenticate(player, password)) {
                 connection.setCharacter(character);
                 connection.setPlayer(player);
-                return playerConnected;
+                return connectionStateService.get(PlayerConnected.class);
             } else {
                 connection.getOutputQueue().push(textMaker.getText(TextName.LoginFailed, connection.getLocale()));
                 return this;

@@ -2,22 +2,20 @@ package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.LoginIdPrompt;
-import org.mumue.mumue.connection.states.PasswordPrompt;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForNewPlayerSelection implements ConnectionState {
-    private final Injector injector;
+@Singleton
+public class NewPlayerHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
 
     @Inject
-    public WaitForNewPlayerSelection(Injector injector, TextMaker textMaker) {
-        this.injector = injector;
+    public NewPlayerHandler(ConnectionStateService connectionStateService, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
     }
 
@@ -31,9 +29,9 @@ public class WaitForNewPlayerSelection implements ConnectionState {
             String answer = connection.getInputQueue().pop();
             if (answer.equals(yes)) {
                 connection.getInputQueue().push(loginId);
-                return injector.getInstance(PasswordPrompt.class);
+                return connectionStateService.get(PasswordPrompt.class);
             } else {
-                return injector.getInstance(LoginIdPrompt.class);
+                return connectionStateService.get(LoginIdPrompt.class);
             }
         }
     }

@@ -24,10 +24,11 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CharacterNamePromptHandlerTest {
+public class CharacterNameHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
@@ -42,8 +43,8 @@ public class CharacterNamePromptHandlerTest {
     private final GameCharacter character = new GameCharacter();
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
-
-    private final CharacterNamePromptHandler stage = new CharacterNamePromptHandler(mock(CharacterNamePrompt.class), mock(PlayerMenuDisplay.class), characterDao, textMaker, universeDao);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateService, characterDao, textMaker, universeDao);
 
     @Before
     public void beforeEach() {
@@ -73,7 +74,7 @@ public class CharacterNamePromptHandlerTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayerMenuDisplay.class));
+        assertThat(next, instanceOf(PlayerMenuPrompt.class));
     }
 
     @Test
@@ -83,7 +84,7 @@ public class CharacterNamePromptHandlerTest {
 
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayerMenuDisplay.class));
+        assertThat(next, instanceOf(PlayerMenuPrompt.class));
     }
 
     @Test

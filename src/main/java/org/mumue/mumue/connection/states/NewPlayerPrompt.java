@@ -2,21 +2,22 @@ package org.mumue.mumue.connection.states;
 
 import java.util.Map;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+@Singleton
 public class NewPlayerPrompt implements ConnectionState {
-    private final Injector injector;
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
 
     @Inject
-    public NewPlayerPrompt(Injector injector, TextMaker textMaker) {
-        this.injector = injector;
+    public NewPlayerPrompt(ConnectionStateService connectionStateService, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
     }
 
@@ -27,6 +28,6 @@ public class NewPlayerPrompt implements ConnectionState {
                 .build();
         String text = textMaker.getText(TextName.NewPlayerPrompt, configuration.getServerLocale(), variables);
         connection.getOutputQueue().push(text);
-        return injector.getInstance(WaitForNewPlayerSelection.class);
+        return connectionStateService.get(NewPlayerHandler.class);
     }
 }

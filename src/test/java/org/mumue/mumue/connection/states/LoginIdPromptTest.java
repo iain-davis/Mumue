@@ -13,26 +13,26 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class LoginIdPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
-    private final StateCollection stateCollection = mock(StateCollection.class);
-    private final LoginIdPrompt stage = new LoginIdPrompt(stateCollection, textMaker);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final LoginIdPrompt stage = new LoginIdPrompt(connectionStateService, textMaker);
     private final Connection connection = new Connection(configuration);
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 
     @Before
     public void beforeEach() {
         when(textMaker.getText(Matchers.eq(TextName.LoginPrompt), anyString())).thenReturn(prompt);
-        when(stateCollection.get(StateName.LoginIdPromptHandler)).thenReturn(new LoginIdPromptHandler(null, null));
     }
 
     @Test
     public void executeReturnsNextStage() {
-        assertThat(stage.execute(connection, configuration), instanceOf(LoginIdPromptHandler.class));
+        assertThat(stage.execute(connection, configuration), instanceOf(LoginIdHandler.class));
     }
 
     @Test

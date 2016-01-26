@@ -11,61 +11,48 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.player.PlayerBuilder;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForPlayerMenuChoiceTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+public class PlayerMenuHandlerTest {
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
 
-    private final WaitForPlayerMenuChoice stage = new WaitForPlayerMenuChoice(injector, characterDao, textMaker);
-
-    private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final String serverLocale = RandomStringUtils.randomAlphabetic(15);
     private final long id = RandomUtils.nextLong(100, 200);
-    private final Player player = new PlayerBuilder().withId(id).withLocale(locale).build();
+    private final Player player = TestObjectBuilder.player().withId(id).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-
-    @Before
-    public void beforeEach() {
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-    }
+    private final PlayerMenuHandler playerMenuHandler = new PlayerMenuHandler(connectionStateService, characterDao, textMaker);
 
     @Test
     public void neverReturnNull() {
-        assertNotNull(stage.execute(connection, configuration));
+        assertNotNull(playerMenuHandler.execute(connection, configuration));
     }
 
     @Test
     public void continueWaitOnNoInput() {
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
-        assertThat(next, sameInstance(stage));
+        assertThat(next, sameInstance(playerMenuHandler));
     }
 
     @Test
     public void goToUniverseSelectionOnCInput() {
         connection.getInputQueue().push("C");
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(UniverseSelectionPrompt.class));
     }
@@ -74,7 +61,7 @@ public class WaitForPlayerMenuChoiceTest {
     public void acceptLowerCase() {
         connection.getInputQueue().push("c");
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(UniverseSelectionPrompt.class));
     }
@@ -82,9 +69,9 @@ public class WaitForPlayerMenuChoiceTest {
     @Test
     public void playerSelectsPWithoutCharactersGoToUniverseSelectionPrompt() {
         connection.getInputQueue().push("P");
-        when(textMaker.getText(TextName.CharacterNeeded, locale)).thenReturn(RandomStringUtils.randomAlphabetic(17));
+        when(textMaker.getText(TextName.CharacterNeeded, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(RandomStringUtils.randomAlphabetic(17));
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(UniverseSelectionPrompt.class));
     }
@@ -92,10 +79,10 @@ public class WaitForPlayerMenuChoiceTest {
     @Test
     public void playerSelectsPWithoutCharactersPutCharacterNeededMessageOnQueue() {
         String message = RandomStringUtils.randomAlphabetic(17);
-        when(textMaker.getText(TextName.CharacterNeeded, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNeeded, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
         connection.getInputQueue().push("P");
 
-        stage.execute(connection, configuration);
+        playerMenuHandler.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(message));
 
@@ -108,7 +95,7 @@ public class WaitForPlayerMenuChoiceTest {
         when(characterDao.getCharacters(player.getId())).thenReturn(characters);
         connection.getInputQueue().push("P");
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(CharacterSelectionPrompt.class));
     }
@@ -116,21 +103,20 @@ public class WaitForPlayerMenuChoiceTest {
     @Test
     public void redisplayMenuOnInvalidInput() {
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
-        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn("");
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
-        assertThat(next, instanceOf(PlayerMenuDisplay.class));
+        assertThat(next, instanceOf(PlayerMenuPrompt.class));
     }
 
     @Test
     public void displayInvalidOptionMessageOnInvalidInput() {
         String message = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
-        when(configuration.getServerLocale()).thenReturn(serverLocale);
-        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
-        stage.execute(connection, configuration);
+        playerMenuHandler.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(message));
 

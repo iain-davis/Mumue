@@ -22,15 +22,15 @@ import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CommandDrivenPromptHandlerTest {
+public class CommandDrivenHandlerTest {
     private static final Random RANDOM = new Random();
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-
-    private final CommandDrivenPromptHandler stage = new CommandDrivenPromptHandler(mock(PlayerConnected.class), characterDao, playerRepository, textMaker);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final CommandDrivenHandler stage = new CommandDrivenHandler(connectionStateService, characterDao, playerRepository, textMaker);
 
     @Test
     public void connectCommand() {

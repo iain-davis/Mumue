@@ -2,7 +2,6 @@ package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -11,14 +10,14 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForUniverseSelection implements ConnectionState {
-    private final Injector injector;
+public class UniverseSelectionHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
     private final UniverseDao universeDao;
 
     @Inject
-    public WaitForUniverseSelection(Injector injector, TextMaker textMaker, UniverseDao universeDao) {
-        this.injector = injector;
+    public UniverseSelectionHandler(ConnectionStateService connectionStateService, TextMaker textMaker, UniverseDao universeDao) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
         this.universeDao = universeDao;
     }
@@ -38,12 +37,12 @@ public class WaitForUniverseSelection implements ConnectionState {
         }
 
         connection.getCharacter().setUniverseId(universeId);
-        return injector.getInstance(CharacterNamePrompt.class);
+        return connectionStateService.get(CharacterNamePrompt.class);
     }
 
     private ConnectionState promptForUniverseAgain(Connection connection) {
         String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return injector.getInstance(UniverseSelectionPrompt.class);
+        return connectionStateService.get(UniverseSelectionPrompt.class);
     }
 }

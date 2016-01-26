@@ -28,7 +28,8 @@ public class EnterSpaceTest {
     private final GameCharacter character = TestObjectBuilder.character().withLocationId(locationId).build();
     private final Connection connection = new Connection(configuration).withCharacter(character);
     private final Space space = new SpaceBuilder().withName(name).withDescription(description).build();
-    private final EnterSpace enterSpace = new EnterSpace(mock(PlayCharacter.class), spaceDao);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final EnterSpace enterSpace = new EnterSpace(connectionStateService, spaceDao);
 
     @Before
     public void beforeEach() {

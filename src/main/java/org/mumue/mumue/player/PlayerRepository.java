@@ -37,8 +37,8 @@ public class PlayerRepository implements Repository<Player> {
 
     @Override
     public void save(Player player) {
-        database.update("update players SET loginId=?, locale=?, lastUsed=?, lastModified=?, useCount=?, administrator=?",
-                player.getLoginId(), player.getLocale(),
+        database.update("update players SET locale=?, lastUsed=?, lastModified=?, useCount=?, administrator=?",
+                player.getLocale(),
                 Timestamp.from(player.getLastUsed()), Timestamp.from(player.getLastModified()),
                 player.getUseCount(), player.isAdministrator()
         );

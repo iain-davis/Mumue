@@ -20,14 +20,14 @@ import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CharacterSelectionPromptHandlerTest {
+public class CharacterSelectionHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final String message = RandomStringUtils.randomAlphabetic(17);
-    private final String locale = RandomStringUtils.randomAlphabetic(16);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
     private final Connection connection = new Connection(configuration).withPlayer(TestObjectBuilder.player().build());
-    private final CharacterSelectionPromptHandler characterSelectionPromptHandler = new CharacterSelectionPromptHandler(mock(CharacterSelectionPrompt.class), mock(EnterUniverse.class), characterDao, textMaker);
+    private final CharacterSelectionHandler characterSelectionHandler = new CharacterSelectionHandler(connectionStateService, characterDao, textMaker);
 
     @Before
     public void beforeEach() {
@@ -36,9 +36,9 @@ public class CharacterSelectionPromptHandlerTest {
 
     @Test
     public void returnWaitForSelectionWithoutInput() {
-        ConnectionState next = characterSelectionPromptHandler.execute(connection, configuration);
+        ConnectionState next = characterSelectionHandler.execute(connection, configuration);
 
-        assertThat(next, sameInstance(characterSelectionPromptHandler));
+        assertThat(next, sameInstance(characterSelectionHandler));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CharacterSelectionPromptHandlerTest {
         String text = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(text);
         connection.getMenuOptionIds().put(text, RandomUtils.nextLong(100, 200));
-        ConnectionState next = characterSelectionPromptHandler.execute(connection, configuration);
+        ConnectionState next = characterSelectionHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(EnterUniverse.class));
     }
@@ -58,7 +58,7 @@ public class CharacterSelectionPromptHandlerTest {
         connection.getMenuOptionIds().put(option, characterId);
         connection.getInputQueue().push(option);
 
-        characterSelectionPromptHandler.execute(connection, configuration);
+        characterSelectionHandler.execute(connection, configuration);
 
         verify(characterDao).getCharacter(characterId);
     }
@@ -71,7 +71,7 @@ public class CharacterSelectionPromptHandlerTest {
         connection.getInputQueue().push(badSelection);
         connection.getMenuOptionIds().put(option, characterId);
 
-        ConnectionState next = characterSelectionPromptHandler.execute(connection, configuration);
+        ConnectionState next = characterSelectionHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(CharacterSelectionPrompt.class));
     }
@@ -84,7 +84,7 @@ public class CharacterSelectionPromptHandlerTest {
         connection.getInputQueue().push(badSelection);
         connection.getMenuOptionIds().put(option, characterId);
 
-        characterSelectionPromptHandler.execute(connection, configuration);
+        characterSelectionHandler.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(message));
     }

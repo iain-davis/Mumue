@@ -22,14 +22,15 @@ public class CharacterNamePromptTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final CharacterNamePrompt characterNamePrompt = new CharacterNamePrompt(mock(CharacterNamePromptHandler.class), textMaker);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final CharacterNamePrompt characterNamePrompt = new CharacterNamePrompt(connectionStateService, textMaker);
 
     @Test
     public void nextStageIsWaitForPlayerName() {
         when(textMaker.getText(TextName.CharacterNamePrompt, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(prompt);
         ConnectionState next = characterNamePrompt.execute(connection, configuration);
 
-        assertThat(next, instanceOf(CharacterNamePromptHandler.class));
+        assertThat(next, instanceOf(CharacterNameHandler.class));
     }
 
     @Test

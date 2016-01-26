@@ -2,21 +2,22 @@ package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForPlayerMenuChoice implements ConnectionState {
-    private final Injector injector;
+@Singleton
+public class PlayerMenuHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
 
     @Inject
-    public WaitForPlayerMenuChoice(Injector injector, CharacterDao characterDao, TextMaker textMaker) {
-        this.injector = injector;
+    public PlayerMenuHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
     }
@@ -30,11 +31,11 @@ public class WaitForPlayerMenuChoice implements ConnectionState {
         switch (input.toUpperCase()) {
             case "P":
                 if (playerHasCharacters(connection.getPlayer().getId())) {
-                    return injector.getInstance(CharacterSelectionPrompt.class);
+                    return connectionStateService.get(CharacterSelectionPrompt.class);
                 }
                 return handleCharacterNeeded(connection);
             case "C":
-                return injector.getInstance(UniverseSelectionPrompt.class);
+                return connectionStateService.get(UniverseSelectionPrompt.class);
             default:
                 return handleInvalidOption(connection);
         }
@@ -45,16 +46,14 @@ public class WaitForPlayerMenuChoice implements ConnectionState {
     }
 
     private ConnectionState handleCharacterNeeded(Connection connection) {
-        String locale = connection.getPlayer().getLocale();
-        String text = textMaker.getText(TextName.CharacterNeeded, locale);
+        String text = textMaker.getText(TextName.CharacterNeeded, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return injector.getInstance(UniverseSelectionPrompt.class);
+        return connectionStateService.get(UniverseSelectionPrompt.class);
     }
 
     private ConnectionState handleInvalidOption(Connection connection) {
-        String locale = connection.getPlayer().getLocale();
-        String text = textMaker.getText(TextName.InvalidOption, locale);
+        String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return injector.getInstance(PlayerMenuDisplay.class);
+        return connectionStateService.get(PlayerMenuPrompt.class);
     }
 }

@@ -3,21 +3,20 @@ package org.mumue.mumue.connection.states;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class PlayerMenuDisplay implements ConnectionState {
-    private final WaitForPlayerMenuChoice waitForPlayerMenuChoice;
+@Singleton
+public class PlayerMenuPrompt implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
 
     @Inject
-    @Singleton
-    public PlayerMenuDisplay(WaitForPlayerMenuChoice waitForPlayerMenuChoice, TextMaker textMaker) {
-        this.waitForPlayerMenuChoice = waitForPlayerMenuChoice;
+    public PlayerMenuPrompt(ConnectionStateService connectionStateService, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
     }
 
@@ -29,6 +28,6 @@ public class PlayerMenuDisplay implements ConnectionState {
             menu = textMaker.getText(TextName.AdministratorMainMenu, connection.getLocale()) + menu;
         }
         connection.getOutputQueue().push(menu);
-        return waitForPlayerMenuChoice;
+        return connectionStateService.get(PlayerMenuHandler.class);
     }
 }

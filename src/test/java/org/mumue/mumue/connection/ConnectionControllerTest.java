@@ -20,13 +20,13 @@ public class ConnectionControllerTest {
 
     @Test
     public void prepareReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
+        ConnectionController controller = new ConnectionController(configuration, connectionStateService, stage).withConnection(connection);
         assertTrue(controller.prepare());
     }
 
     @Test
     public void executeExecutesStage() {
-        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
+        ConnectionController controller = new ConnectionController(configuration, connectionStateService, stage).withConnection(connection);
         controller.execute();
 
         verify(stage).execute(connection, configuration);
@@ -34,24 +34,24 @@ public class ConnectionControllerTest {
 
     @Test
     public void executeMovesToNextStage() {
-        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
+        ConnectionController controller = new ConnectionController(configuration, connectionStateService, stage).withConnection(connection);
         NoOperation next = new NoOperation();
         when(stage.execute(connection, configuration)).thenReturn(next);
 
         controller.execute();
 
-        assertThat(controller.getStage(), sameInstance(next));
+        assertThat(controller.getState(), sameInstance(next));
     }
 
     @Test
     public void executeReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
+        ConnectionController controller = new ConnectionController(configuration, connectionStateService, stage).withConnection(connection);
         assertTrue(controller.execute());
     }
 
     @Test
     public void cleanupReturnsTrue() {
-        ConnectionController controller = new ConnectionController(configuration, stage).withConnection(connection);
+        ConnectionController controller = new ConnectionController(configuration, connectionStateService, stage).withConnection(connection);
         assertTrue(controller.cleanup());
     }
 }

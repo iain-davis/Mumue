@@ -154,7 +154,6 @@ public class PlayerRepositoryTest {
 
         Player player = repository.get(expected.getId());
 
-        assertThat(player.getLoginId(), equalTo(expected.getLoginId()));
         assertThat(player.getLocale(), equalTo(expected.getLocale()));
         assertThat(player.getLastUsed(), equalTo(expected.getLastUsed()));
         assertThat(player.getLastModified(), equalTo(expected.getLastModified()));

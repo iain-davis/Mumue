@@ -9,14 +9,14 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
 
+@Singleton
 public class EnterSpace implements ConnectionState {
-    private final PlayCharacter playCharacter;
+    private final ConnectionStateService connectionStateService;
     private final SpaceDao spaceDao;
 
     @Inject
-    @Singleton
-    public EnterSpace(PlayCharacter playCharacter, SpaceDao spaceDao) {
-        this.playCharacter = playCharacter;
+    public EnterSpace(ConnectionStateService connectionStateService, SpaceDao spaceDao) {
+        this.connectionStateService = connectionStateService;
         this.spaceDao = spaceDao;
     }
 
@@ -25,6 +25,6 @@ public class EnterSpace implements ConnectionState {
         Space space = spaceDao.getSpace(connection.getCharacter().getLocationId());
         String text = space.getName() + GlobalConstants.TCP_LINE_SEPARATOR + space.getDescription() + GlobalConstants.TCP_LINE_SEPARATOR;
         connection.getOutputQueue().push(text);
-        return playCharacter;
+        return connectionStateService.get(PlayCharacter.class);
     }
 }

@@ -9,14 +9,14 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerRepository;
 
-public class LoginIdPromptHandler implements ConnectionState {
-    private final StateCollection stateCollection;
+@Singleton
+public class LoginIdHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final PlayerRepository playerRepository;
 
     @Inject
-    @Singleton
-    public LoginIdPromptHandler(StateCollection stateCollection, PlayerRepository playerRepository) {
-        this.stateCollection = stateCollection;
+    public LoginIdHandler(ConnectionStateService connectionStateService, PlayerRepository playerRepository) {
+        this.connectionStateService = connectionStateService;
         this.playerRepository = playerRepository;
     }
 
@@ -27,9 +27,9 @@ public class LoginIdPromptHandler implements ConnectionState {
         }
         Player player = playerRepository.get(getLoginId(connection));
         if (player.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
-            return stateCollection.get(StateName.NewPlayerPrompt);
+            return connectionStateService.get(NewPlayerPrompt.class);
         }
-        return stateCollection.get(StateName.PasswordPrompt);
+        return connectionStateService.get(PasswordPrompt.class);
     }
 
     private String getLoginId(Connection connection) {

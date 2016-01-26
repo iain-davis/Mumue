@@ -19,7 +19,8 @@ public class CommandDrivenPromptTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
-    private final CommandDrivenPrompt commandDrivenPrompt = new CommandDrivenPrompt(mock(CommandDrivenPromptHandler.class), textMaker);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final CommandDrivenPrompt commandDrivenPrompt = new CommandDrivenPrompt(connectionStateService, textMaker);
 
     @Test
     public void returnWaitForWelcomeScreenCommand() {
@@ -27,7 +28,7 @@ public class CommandDrivenPromptTest {
 
         ConnectionState returned = commandDrivenPrompt.execute(connection, configuration);
 
-        assertThat(returned, instanceOf(CommandDrivenPromptHandler.class));
+        assertThat(returned, instanceOf(CommandDrivenHandler.class));
     }
 
     @Test

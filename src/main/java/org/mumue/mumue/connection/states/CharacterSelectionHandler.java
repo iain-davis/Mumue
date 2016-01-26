@@ -1,6 +1,7 @@
 package org.mumue.mumue.connection.states;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -8,16 +9,15 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CharacterSelectionPromptHandler implements ConnectionState {
-    private final CharacterSelectionPrompt characterSelectionPrompt;
-    private final EnterUniverse enterUniverse;
+@Singleton
+public class CharacterSelectionHandler implements ConnectionState {
+    private final ConnectionStateService connectionStateService;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
 
     @Inject
-    public CharacterSelectionPromptHandler(CharacterSelectionPrompt characterSelectionPrompt, EnterUniverse enterUniverse, CharacterDao characterDao, TextMaker textMaker) {
-        this.characterSelectionPrompt = characterSelectionPrompt;
-        this.enterUniverse = enterUniverse;
+    public CharacterSelectionHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
     }
@@ -32,9 +32,9 @@ public class CharacterSelectionPromptHandler implements ConnectionState {
         if (characterId == null) {
             String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return characterSelectionPrompt;
+            return connectionStateService.get(CharacterSelectionPrompt.class);
         }
         connection.setCharacter(characterDao.getCharacter(characterId));
-        return enterUniverse;
+        return connectionStateService.get(EnterUniverse.class);
     }
 }

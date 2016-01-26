@@ -17,14 +17,15 @@ import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class PlayerMenuDisplayTest {
+public class PlayerMenuPromptTest {
     private final String menu = RandomStringUtils.randomAlphanumeric(17);
     private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Player player = TestObjectBuilder.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final PlayerMenuDisplay playerMenuDisplay = new PlayerMenuDisplay(mock(WaitForPlayerMenuChoice.class), textMaker);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final PlayerMenuPrompt playerMenuPrompt = new PlayerMenuPrompt(connectionStateService, textMaker);
 
     @Before
     public void beforeEach() {
@@ -34,14 +35,14 @@ public class PlayerMenuDisplayTest {
 
     @Test
     public void executeReturnsNextStage() {
-        ConnectionState next = playerMenuDisplay.execute(connection, configuration);
+        ConnectionState next = playerMenuPrompt.execute(connection, configuration);
 
-        assertThat(next, instanceOf(WaitForPlayerMenuChoice.class));
+        assertThat(next, instanceOf(PlayerMenuHandler.class));
     }
 
     @Test
     public void executePutsMainMenuOnOutputQueue() {
-        playerMenuDisplay.execute(connection, configuration);
+        playerMenuPrompt.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(menu));
     }
@@ -50,7 +51,7 @@ public class PlayerMenuDisplayTest {
     public void executeForAdministratorPlayerPutsAdministratorMainMenuOnOutputQueue() {
         player.setAdministrator(true);
 
-        playerMenuDisplay.execute(connection, configuration);
+        playerMenuPrompt.execute(connection, configuration);
 
         String expected = administratorMenu + menu;
         assertThat(connection.getOutputQueue(), contains(expected));

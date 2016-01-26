@@ -8,14 +8,14 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+@Singleton
 public class LoginIdPrompt implements ConnectionState {
-    private final StateCollection stateCollection;
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
 
     @Inject
-    @Singleton
-    public LoginIdPrompt(StateCollection stateCollection, TextMaker textMaker) {
-        this.stateCollection = stateCollection;
+    public LoginIdPrompt(ConnectionStateService connectionStateService, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
     }
 
@@ -23,6 +23,6 @@ public class LoginIdPrompt implements ConnectionState {
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.LoginPrompt, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
-        return stateCollection.get(StateName.LoginIdPromptHandler);
+        return connectionStateService.get(LoginIdHandler.class);
     }
 }

@@ -10,10 +10,6 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Properties;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
@@ -21,24 +17,22 @@ import org.junit.Test;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.database.DatabaseConfiguration;
-import org.mumue.mumue.database.DatabaseModule;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
+import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class WaitForUniverseSelectionTest {
-    private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
+public class UniverseSelectionHandlerTest {
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseDao dao = mock(UniverseDao.class);
-    private final WaitForUniverseSelection stage = new WaitForUniverseSelection(injector, textMaker, dao);
-
-    private final String locale = RandomStringUtils.randomAlphabetic(16);
-    private final Player player = new PlayerBuilder().withLocale(locale).build();
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final Player player = new PlayerBuilder().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
+    private final UniverseSelectionHandler universeSelectionHandler = new UniverseSelectionHandler(connectionStateService, textMaker, dao);
 
     @Before
     public void beforeEach() {
@@ -49,23 +43,23 @@ public class WaitForUniverseSelectionTest {
 
     @Test
     public void neverReturnNull() {
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = universeSelectionHandler.execute(connection, configuration);
 
         assertNotNull(next);
     }
 
     @Test
     public void continueWaitOnNoInput() {
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = universeSelectionHandler.execute(connection, configuration);
 
-        assertThat(next, sameInstance(stage));
+        assertThat(next, sameInstance(universeSelectionHandler));
     }
 
     @Test
     public void nextStageOnValidSelection() {
         connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = universeSelectionHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(CharacterNamePrompt.class));
     }
@@ -75,7 +69,7 @@ public class WaitForUniverseSelectionTest {
         String selection = RandomStringUtils.randomNumeric(2);
         connection.getInputQueue().push(selection);
 
-        stage.execute(connection, configuration);
+        universeSelectionHandler.execute(connection, configuration);
 
         assertThat(connection.getCharacter().getUniverseId(), equalTo(Long.parseLong(selection)));
     }
@@ -84,9 +78,9 @@ public class WaitForUniverseSelectionTest {
     public void rePromptOnInvalidSelection() {
         connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
-        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn("");
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
 
-        ConnectionState next = stage.execute(connection, configuration);
+        ConnectionState next = universeSelectionHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(UniverseSelectionPrompt.class));
     }
@@ -96,9 +90,9 @@ public class WaitForUniverseSelectionTest {
         String message = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
-        when(textMaker.getText(TextName.InvalidOption, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
-        stage.execute(connection, configuration);
+        universeSelectionHandler.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(message));
     }

@@ -22,7 +22,7 @@ public class WelcomeDisplayTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
-    private final WelcomeDisplay welcomeDisplay = new WelcomeDisplay(mock(CommandDrivenPrompt.class), mock(LoginIdPrompt.class), textMaker);
+    private final WelcomeDisplay welcomeDisplay = new WelcomeDisplay(connectionStateService, textMaker);
 
     @Before
     public void beforeEach() {

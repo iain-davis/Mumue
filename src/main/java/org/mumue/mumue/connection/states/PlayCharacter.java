@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
@@ -14,6 +15,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.utility.StringUtilities;
 
+@Singleton
 public class PlayCharacter implements ConnectionState {
     private final CommandInterpreter commandInterpreter;
     private final TextMaker textMaker;

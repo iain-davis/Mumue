@@ -35,7 +35,9 @@ public class EnterUniverseTest {
     private final GameCharacter character = TestObjectBuilder.character().withUniverseId(universeId).build();
     private final Player player = TestObjectBuilder.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
-    private final EnterUniverse enterUniverse = new EnterUniverse(mock(EnterSpace.class), textMaker, dao);
+    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final EnterUniverse enterUniverse = new EnterUniverse(connectionStateService, textMaker, dao);
+
 
     @Test
     public void executeReturnsEnterSpace() {

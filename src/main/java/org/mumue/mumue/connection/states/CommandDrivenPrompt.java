@@ -8,14 +8,14 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+@Singleton
 public class CommandDrivenPrompt implements ConnectionState {
-    private final CommandDrivenPromptHandler commandDrivenPromptHandler;
+    private final ConnectionStateService connectionStateService;
     private final TextMaker textMaker;
 
     @Inject
-    @Singleton
-    public CommandDrivenPrompt(CommandDrivenPromptHandler commandDrivenPromptHandler, TextMaker textMaker) {
-        this.commandDrivenPromptHandler = commandDrivenPromptHandler;
+    public CommandDrivenPrompt(ConnectionStateService connectionStateService, TextMaker textMaker) {
+        this.connectionStateService = connectionStateService;
         this.textMaker = textMaker;
     }
 
@@ -23,6 +23,6 @@ public class CommandDrivenPrompt implements ConnectionState {
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.WelcomeCommands, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return commandDrivenPromptHandler;
+        return connectionStateService.get(CommandDrivenHandler.class);
     }
 }
