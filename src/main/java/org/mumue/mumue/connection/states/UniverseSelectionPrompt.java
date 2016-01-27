@@ -13,13 +13,13 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class UniverseSelectionPrompt implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final UniverseDao universeDao;
     private final TextMaker textMaker;
 
     @Inject
-    public UniverseSelectionPrompt(ConnectionStateService connectionStateService, UniverseDao universeDao, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public UniverseSelectionPrompt(ConnectionStateProvider connectionStateProvider, UniverseDao universeDao, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.universeDao = universeDao;
         this.textMaker = textMaker;
     }
@@ -34,6 +34,6 @@ public class UniverseSelectionPrompt implements ConnectionState {
 
         String text = textMaker.getText(TextName.UniverseSelectionPrompt, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return connectionStateService.get(UniverseSelectionHandler.class);
+        return connectionStateProvider.get(UniverseSelectionHandler.class);
     }
 }

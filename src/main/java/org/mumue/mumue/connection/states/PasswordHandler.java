@@ -8,11 +8,11 @@ import org.mumue.mumue.connection.Connection;
 
 @Singleton
 public class PasswordHandler implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
 
     @Inject
-    public PasswordHandler(ConnectionStateService connectionStateService) {
-        this.connectionStateService = connectionStateService;
+    public PasswordHandler(ConnectionStateProvider connectionStateProvider) {
+        this.connectionStateProvider = connectionStateProvider;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class PasswordHandler implements ConnectionState {
         if (connection.getInputQueue().size() < 2) {
             return this;
         }
-        return connectionStateService.get(PlayerAuthentication.class);
+        return connectionStateProvider.get(PlayerAuthentication.class);
     }
 }

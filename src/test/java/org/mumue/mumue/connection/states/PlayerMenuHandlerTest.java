@@ -27,14 +27,14 @@ import org.mumue.mumue.text.TextName;
 
 public class PlayerMenuHandlerTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
 
     private final long id = RandomUtils.nextLong(100, 200);
     private final Player player = TestObjectBuilder.player().withId(id).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final PlayerMenuHandler playerMenuHandler = new PlayerMenuHandler(connectionStateService, characterDao, textMaker);
+    private final PlayerMenuHandler playerMenuHandler = new PlayerMenuHandler(connectionStateProvider, characterDao, textMaker);
 
     @Test
     public void neverReturnNull() {

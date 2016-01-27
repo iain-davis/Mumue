@@ -14,14 +14,14 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class CharacterNameHandler implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
     private final UniverseDao universeDao;
 
     @Inject
-    public CharacterNameHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, TextMaker textMaker, UniverseDao universeDao) {
-        this.connectionStateService = connectionStateService;
+    public CharacterNameHandler(ConnectionStateProvider connectionStateProvider, CharacterDao characterDao, TextMaker textMaker, UniverseDao universeDao) {
+        this.connectionStateProvider = connectionStateProvider;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
         this.universeDao = universeDao;
@@ -40,13 +40,13 @@ public class CharacterNameHandler implements ConnectionState {
         if (nameTakenInUniverse(name, universeId)) {
             String text = textMaker.getText(TextName.CharacterNameAlreadyExists, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return connectionStateService.get(CharacterNamePrompt.class);
+            return connectionStateProvider.get(CharacterNamePrompt.class);
         }
 
         if (nameTakenByOtherPlayer(name, connection.getPlayer().getId())) {
             String text = textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, connection.getLocale());
             connection.getOutputQueue().push(text);
-            return connectionStateService.get(CharacterNamePrompt.class);
+            return connectionStateProvider.get(CharacterNamePrompt.class);
         }
 
         character.setName(name);
@@ -55,7 +55,7 @@ public class CharacterNameHandler implements ConnectionState {
         character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
         character.setHomeLocationId(character.getLocationId());
         characterDao.createCharacter(character);
-        return connectionStateService.get(PlayerMenuPrompt.class);
+        return connectionStateProvider.get(PlayerMenuPrompt.class);
     }
 
     private boolean nameTakenByOtherPlayer(String name, long playerId) {

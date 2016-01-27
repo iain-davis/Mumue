@@ -29,10 +29,10 @@ public class UniverseSelectionHandlerTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseDao dao = mock(UniverseDao.class);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final Player player = new PlayerBuilder().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final UniverseSelectionHandler universeSelectionHandler = new UniverseSelectionHandler(connectionStateService, textMaker, dao);
+    private final UniverseSelectionHandler universeSelectionHandler = new UniverseSelectionHandler(connectionStateProvider, textMaker, dao);
 
     @Before
     public void beforeEach() {

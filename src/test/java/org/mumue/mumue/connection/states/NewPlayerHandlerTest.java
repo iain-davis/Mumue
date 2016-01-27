@@ -22,8 +22,8 @@ public class NewPlayerHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final Connection connection = new Connection(configuration);
-    private ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final NewPlayerHandler newPlayerHandler = new NewPlayerHandler(connectionStateService, textMaker);
+    private ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final NewPlayerHandler newPlayerHandler = new NewPlayerHandler(connectionStateProvider, textMaker);
 
     @Before
     public void beforeEach() {

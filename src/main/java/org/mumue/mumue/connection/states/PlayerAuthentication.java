@@ -14,14 +14,14 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class PlayerAuthentication implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final PlayerBuilder playerBuilder;
     private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
-    public PlayerAuthentication(ConnectionStateService connectionStateService, PlayerBuilder playerBuilder, PlayerRepository playerRepository, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public PlayerAuthentication(ConnectionStateProvider connectionStateProvider, PlayerBuilder playerBuilder, PlayerRepository playerRepository, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.playerBuilder = playerBuilder;
         this.playerRepository = playerRepository;
         this.textMaker = textMaker;
@@ -38,7 +38,7 @@ public class PlayerAuthentication implements ConnectionState {
             if (player.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
                 String text = textMaker.getText(TextName.LoginFailed, configuration.getServerLocale());
                 connection.getOutputQueue().push(text);
-                return connectionStateService.get(LoginIdPrompt.class);
+                return connectionStateProvider.get(LoginIdPrompt.class);
             } else {
                 String text = textMaker.getText(TextName.LoginSuccess, configuration.getServerLocale());
                 connection.getOutputQueue().push(text);
@@ -48,7 +48,7 @@ public class PlayerAuthentication implements ConnectionState {
             playerRepository.add(player, password);
         }
         connection.setPlayer(player);
-        return connectionStateService.get(PlayerConnected.class);
+        return connectionStateProvider.get(PlayerConnected.class);
     }
 
     public boolean isValid(String loginId) {

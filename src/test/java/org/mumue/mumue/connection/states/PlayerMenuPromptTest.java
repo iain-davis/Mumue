@@ -24,8 +24,8 @@ public class PlayerMenuPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Player player = TestObjectBuilder.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final PlayerMenuPrompt playerMenuPrompt = new PlayerMenuPrompt(connectionStateService, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final PlayerMenuPrompt playerMenuPrompt = new PlayerMenuPrompt(connectionStateProvider, textMaker);
 
     @Before
     public void beforeEach() {

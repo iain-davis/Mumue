@@ -19,11 +19,11 @@ import org.mumue.mumue.text.TextName;
 
 public class PasswordPromptTest {
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
-    private final PasswordPrompt passwordPrompt = new PasswordPrompt(connectionStateService, textMaker);
+    private final PasswordPrompt passwordPrompt = new PasswordPrompt(connectionStateProvider, textMaker);
 
     @Before
     public void beforeEach() {

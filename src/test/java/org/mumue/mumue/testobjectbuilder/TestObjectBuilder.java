@@ -9,7 +9,7 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.ConnectionStateService;
+import org.mumue.mumue.connection.states.ConnectionStateProvider;
 import org.mumue.mumue.player.PlayerBuilder;
 
 public class TestObjectBuilder {
@@ -29,12 +29,12 @@ public class TestObjectBuilder {
         return new PlayerBuilder();
     }
 
-    public static ConnectionStateService stateService() {
-        return new MockConnectionStateService();
+    public static ConnectionStateProvider stateService() {
+        return new MockConnectionStateProvider();
     }
 
-    private static class MockConnectionStateService extends ConnectionStateService {
-        public MockConnectionStateService() {
+    private static class MockConnectionStateProvider extends ConnectionStateProvider {
+        public MockConnectionStateProvider() {
             super(null);
         }
 

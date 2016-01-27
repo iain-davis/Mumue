@@ -12,12 +12,12 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class NewPlayerPrompt implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
     @Inject
-    public NewPlayerPrompt(ConnectionStateService connectionStateService, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public NewPlayerPrompt(ConnectionStateProvider connectionStateProvider, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
     }
 
@@ -28,6 +28,6 @@ public class NewPlayerPrompt implements ConnectionState {
                 .build();
         String text = textMaker.getText(TextName.NewPlayerPrompt, configuration.getServerLocale(), variables);
         connection.getOutputQueue().push(text);
-        return connectionStateService.get(NewPlayerHandler.class);
+        return connectionStateProvider.get(NewPlayerHandler.class);
     }
 }

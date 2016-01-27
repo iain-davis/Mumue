@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.states.ConnectionState;
-import org.mumue.mumue.connection.states.ConnectionStateService;
+import org.mumue.mumue.connection.states.ConnectionStateProvider;
 import org.mumue.mumue.connection.states.WelcomeDisplay;
 import org.mumue.mumue.threading.InfiniteLoopBody;
 
@@ -14,9 +14,9 @@ public class ConnectionController implements InfiniteLoopBody {
     private ConnectionState state;
 
     @Inject
-    public ConnectionController(ApplicationConfiguration configuration, ConnectionStateService connectionStateService, WelcomeDisplay welcomeDisplay) {
+    public ConnectionController(ApplicationConfiguration configuration, ConnectionStateProvider connectionStateProvider) {
         this.configuration = configuration;
-        this.state = connectionStateService.get(WelcomeDisplay.class);
+        this.state = connectionStateProvider.get(WelcomeDisplay.class);
     }
 
     public void setConnection(Connection connection) {

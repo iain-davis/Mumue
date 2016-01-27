@@ -25,9 +25,9 @@ public class CharacterSelectionHandlerTest {
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final String message = RandomStringUtils.randomAlphabetic(17);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final Connection connection = new Connection(configuration).withPlayer(TestObjectBuilder.player().build());
-    private final CharacterSelectionHandler characterSelectionHandler = new CharacterSelectionHandler(connectionStateService, characterDao, textMaker);
+    private final CharacterSelectionHandler characterSelectionHandler = new CharacterSelectionHandler(connectionStateProvider, characterDao, textMaker);
 
     @Before
     public void beforeEach() {

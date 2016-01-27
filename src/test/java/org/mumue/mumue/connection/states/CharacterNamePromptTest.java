@@ -22,8 +22,8 @@ public class CharacterNamePromptTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final CharacterNamePrompt characterNamePrompt = new CharacterNamePrompt(connectionStateService, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final CharacterNamePrompt characterNamePrompt = new CharacterNamePrompt(connectionStateProvider, textMaker);
 
     @Test
     public void nextStageIsWaitForPlayerName() {

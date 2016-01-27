@@ -29,8 +29,8 @@ public class PlayerConnectedTest {
     private final Player player = TestObjectBuilder.player().withId(RANDOM.nextInt(10000)).build();
 
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final PlayerConnected playerConnected = new PlayerConnected(connectionStateService, timestampProvider, mock(PlayerMenuPrompt.class), mock(EnterUniverse.class), playerRepository);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final PlayerConnected playerConnected = new PlayerConnected(connectionStateProvider, timestampProvider, mock(PlayerMenuPrompt.class), mock(EnterUniverse.class), playerRepository);
     private final Instant lastUsed = Instant.now();
 
     @Before

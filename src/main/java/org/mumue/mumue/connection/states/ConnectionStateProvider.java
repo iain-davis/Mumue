@@ -4,11 +4,11 @@ import javax.inject.Inject;
 
 import com.google.inject.Injector;
 
-public class ConnectionStateService {
+public class ConnectionStateProvider {
     private final Injector injector;
 
     @Inject
-    public ConnectionStateService(Injector injector) {
+    public ConnectionStateProvider(Injector injector) {
         this.injector = injector;
     }
 

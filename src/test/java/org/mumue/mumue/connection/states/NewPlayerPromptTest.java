@@ -24,8 +24,8 @@ public class NewPlayerPromptTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final Connection connection = new Connection(configuration);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final NewPlayerPrompt newPlayerPrompt = new NewPlayerPrompt(connectionStateService, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final NewPlayerPrompt newPlayerPrompt = new NewPlayerPrompt(connectionStateProvider, textMaker);
 
     @Before
     public void beforeEach() {

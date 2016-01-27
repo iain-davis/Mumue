@@ -29,8 +29,8 @@ public class CommandDrivenHandlerTest {
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final CommandDrivenHandler stage = new CommandDrivenHandler(connectionStateService, characterDao, playerRepository, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final CommandDrivenHandler stage = new CommandDrivenHandler(connectionStateProvider, characterDao, playerRepository, textMaker);
 
     @Test
     public void connectCommand() {

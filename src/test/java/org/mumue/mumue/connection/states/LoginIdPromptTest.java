@@ -20,8 +20,8 @@ import org.mumue.mumue.text.TextName;
 public class LoginIdPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final LoginIdPrompt stage = new LoginIdPrompt(connectionStateService, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final LoginIdPrompt stage = new LoginIdPrompt(connectionStateProvider, textMaker);
     private final Connection connection = new Connection(configuration);
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
 

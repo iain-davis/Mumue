@@ -14,11 +14,11 @@ import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class LoginIdHandlerTest {
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
     private final Connection connection = new Connection(configuration);
-    private final LoginIdHandler stage = new LoginIdHandler(connectionStateService, playerRepository);
+    private final LoginIdHandler stage = new LoginIdHandler(connectionStateProvider, playerRepository);
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {

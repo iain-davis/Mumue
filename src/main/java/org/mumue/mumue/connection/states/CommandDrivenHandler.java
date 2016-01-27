@@ -15,14 +15,14 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class CommandDrivenHandler implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final PlayerRepository playerRepository;
     private final TextMaker textMaker;
 
     @Inject
-    public CommandDrivenHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, PlayerRepository playerRepository, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public CommandDrivenHandler(ConnectionStateProvider connectionStateProvider, CharacterDao characterDao, PlayerRepository playerRepository, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.characterDao = characterDao;
         this.playerRepository = playerRepository;
         this.textMaker = textMaker;
@@ -65,7 +65,7 @@ public class CommandDrivenHandler implements ConnectionState {
             if (authenticate(player, password)) {
                 connection.setCharacter(character);
                 connection.setPlayer(player);
-                return connectionStateService.get(PlayerConnected.class);
+                return connectionStateProvider.get(PlayerConnected.class);
             } else {
                 connection.getOutputQueue().push(textMaker.getText(TextName.LoginFailed, connection.getLocale()));
                 return this;

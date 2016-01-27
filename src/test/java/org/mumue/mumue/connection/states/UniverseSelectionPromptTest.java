@@ -29,10 +29,10 @@ public class UniverseSelectionPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseDao universeDao = mock(UniverseDao.class);
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final Player player = TestObjectBuilder.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final UniverseSelectionPrompt universeSelectionPrompt = new UniverseSelectionPrompt(connectionStateService, universeDao, textMaker);
+    private final UniverseSelectionPrompt universeSelectionPrompt = new UniverseSelectionPrompt(connectionStateProvider, universeDao, textMaker);
 
     @Before
     public void beforeEach() {

@@ -32,8 +32,8 @@ public class PlayerAuthenticationTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CurrentTimestampProvider currentTimestampProvider = mock(CurrentTimestampProvider.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final PlayerAuthentication stage = new PlayerAuthentication(connectionStateService, new PlayerBuilder(), playerRepository, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final PlayerAuthentication stage = new PlayerAuthentication(connectionStateProvider, new PlayerBuilder(), playerRepository, textMaker);
 
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
     private final String password = RandomStringUtils.randomAlphanumeric(17);

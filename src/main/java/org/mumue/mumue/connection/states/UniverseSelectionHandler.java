@@ -11,13 +11,13 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class UniverseSelectionHandler implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
     private final UniverseDao universeDao;
 
     @Inject
-    public UniverseSelectionHandler(ConnectionStateService connectionStateService, TextMaker textMaker, UniverseDao universeDao) {
-        this.connectionStateService = connectionStateService;
+    public UniverseSelectionHandler(ConnectionStateProvider connectionStateProvider, TextMaker textMaker, UniverseDao universeDao) {
+        this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
         this.universeDao = universeDao;
     }
@@ -37,12 +37,12 @@ public class UniverseSelectionHandler implements ConnectionState {
         }
 
         connection.getCharacter().setUniverseId(universeId);
-        return connectionStateService.get(CharacterNamePrompt.class);
+        return connectionStateProvider.get(CharacterNamePrompt.class);
     }
 
     private ConnectionState promptForUniverseAgain(Connection connection) {
         String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return connectionStateService.get(UniverseSelectionPrompt.class);
+        return connectionStateProvider.get(UniverseSelectionPrompt.class);
     }
 }

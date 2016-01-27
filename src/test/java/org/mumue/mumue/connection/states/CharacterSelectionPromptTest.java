@@ -32,8 +32,8 @@ public class CharacterSelectionPromptTest {
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final Player player = TestObjectBuilder.player().withLoginId(RandomStringUtils.randomAlphabetic(7)).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final CharacterSelectionPrompt characterSelectionPrompt = new CharacterSelectionPrompt(connectionStateService, textMaker, dao);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final CharacterSelectionPrompt characterSelectionPrompt = new CharacterSelectionPrompt(connectionStateProvider, textMaker, dao);
 
     @Before
     public void beforeEach() {

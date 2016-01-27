@@ -10,12 +10,12 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class NewPlayerHandler implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
     @Inject
-    public NewPlayerHandler(ConnectionStateService connectionStateService, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public NewPlayerHandler(ConnectionStateProvider connectionStateProvider, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
     }
 
@@ -29,9 +29,9 @@ public class NewPlayerHandler implements ConnectionState {
             String answer = connection.getInputQueue().pop();
             if (answer.equals(yes)) {
                 connection.getInputQueue().push(loginId);
-                return connectionStateService.get(PasswordPrompt.class);
+                return connectionStateProvider.get(PasswordPrompt.class);
             } else {
-                return connectionStateService.get(LoginIdPrompt.class);
+                return connectionStateProvider.get(LoginIdPrompt.class);
             }
         }
     }

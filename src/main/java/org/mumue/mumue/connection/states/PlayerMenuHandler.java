@@ -11,13 +11,13 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class PlayerMenuHandler implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
 
     @Inject
-    public PlayerMenuHandler(ConnectionStateService connectionStateService, CharacterDao characterDao, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public PlayerMenuHandler(ConnectionStateProvider connectionStateProvider, CharacterDao characterDao, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
     }
@@ -31,11 +31,11 @@ public class PlayerMenuHandler implements ConnectionState {
         switch (input.toUpperCase()) {
             case "P":
                 if (playerHasCharacters(connection.getPlayer().getId())) {
-                    return connectionStateService.get(CharacterSelectionPrompt.class);
+                    return connectionStateProvider.get(CharacterSelectionPrompt.class);
                 }
                 return handleCharacterNeeded(connection);
             case "C":
-                return connectionStateService.get(UniverseSelectionPrompt.class);
+                return connectionStateProvider.get(UniverseSelectionPrompt.class);
             default:
                 return handleInvalidOption(connection);
         }
@@ -48,12 +48,12 @@ public class PlayerMenuHandler implements ConnectionState {
     private ConnectionState handleCharacterNeeded(Connection connection) {
         String text = textMaker.getText(TextName.CharacterNeeded, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return connectionStateService.get(UniverseSelectionPrompt.class);
+        return connectionStateProvider.get(UniverseSelectionPrompt.class);
     }
 
     private ConnectionState handleInvalidOption(Connection connection) {
         String text = textMaker.getText(TextName.InvalidOption, connection.getLocale());
         connection.getOutputQueue().push(text);
-        return connectionStateService.get(PlayerMenuPrompt.class);
+        return connectionStateProvider.get(PlayerMenuPrompt.class);
     }
 }

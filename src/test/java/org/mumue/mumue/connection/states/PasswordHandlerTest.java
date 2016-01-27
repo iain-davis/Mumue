@@ -11,10 +11,10 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
 
 public class PasswordHandlerTest {
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final Connection connection = new Connection(configuration);
-    private final PasswordHandler passwordHandler = new PasswordHandler(connectionStateService);
+    private final PasswordHandler passwordHandler = new PasswordHandler(connectionStateProvider);
 
     @Test
     public void executeWithEmptyInputReturnsSameStage() {

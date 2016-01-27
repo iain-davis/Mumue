@@ -35,8 +35,8 @@ public class EnterUniverseTest {
     private final GameCharacter character = TestObjectBuilder.character().withUniverseId(universeId).build();
     private final Player player = TestObjectBuilder.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final EnterUniverse enterUniverse = new EnterUniverse(connectionStateService, textMaker, dao);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final EnterUniverse enterUniverse = new EnterUniverse(connectionStateProvider, textMaker, dao);
 
 
     @Test

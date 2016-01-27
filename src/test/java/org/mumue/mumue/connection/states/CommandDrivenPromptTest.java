@@ -19,8 +19,8 @@ public class CommandDrivenPromptTest {
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final CommandDrivenPrompt commandDrivenPrompt = new CommandDrivenPrompt(connectionStateService, textMaker);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final CommandDrivenPrompt commandDrivenPrompt = new CommandDrivenPrompt(connectionStateProvider, textMaker);
 
     @Test
     public void returnWaitForWelcomeScreenCommand() {

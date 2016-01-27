@@ -12,19 +12,19 @@ import org.junit.Test;
 import org.mumue.mumue.database.DatabaseConfiguration;
 import org.mumue.mumue.database.DatabaseModule;
 
-public class ConnectionStateServiceTest {
+public class ConnectionStateProviderTest {
     private final Injector injector = Guice.createInjector(new DatabaseModule(new DatabaseConfiguration(new Properties())));
-    private final ConnectionStateService connectionStateService = new ConnectionStateService(injector);
+    private final ConnectionStateProvider connectionStateProvider = new ConnectionStateProvider(injector);
 
     @Test
     public void providesNeverReturnsNull() {
-        ConnectionState state = connectionStateService.get(null);
+        ConnectionState state = connectionStateProvider.get(null);
         assertThat(state, notNullValue());
     }
 
     @Test
     public void statesCollectionContainsWelcome() {
-        ConnectionState state = connectionStateService.get(WelcomeDisplay.class);
+        ConnectionState state = connectionStateProvider.get(WelcomeDisplay.class);
 
         assertThat(state, instanceOf(WelcomeDisplay.class));
     }

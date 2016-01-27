@@ -10,12 +10,12 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class LoginIdPrompt implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
     @Inject
-    public LoginIdPrompt(ConnectionStateService connectionStateService, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public LoginIdPrompt(ConnectionStateProvider connectionStateProvider, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
     }
 
@@ -23,6 +23,6 @@ public class LoginIdPrompt implements ConnectionState {
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         String text = textMaker.getText(TextName.LoginPrompt, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
-        return connectionStateService.get(LoginIdHandler.class);
+        return connectionStateProvider.get(LoginIdHandler.class);
     }
 }

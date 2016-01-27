@@ -20,9 +20,10 @@ import org.mumue.mumue.text.TextName;
 public class WelcomeDisplayTest {
     private final String welcome = RandomStringUtils.randomAlphanumeric(17);
     private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
-    private final WelcomeDisplay welcomeDisplay = new WelcomeDisplay(connectionStateService, textMaker);
+    private final WelcomeDisplay welcomeDisplay = new WelcomeDisplay(connectionStateProvider, textMaker);
 
     @Before
     public void beforeEach() {

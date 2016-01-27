@@ -10,12 +10,12 @@ import org.mumue.mumue.text.TextName;
 
 @Singleton
 public class WelcomeDisplay implements ConnectionState {
-    private final ConnectionStateService connectionStateService;
+    private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
     @Inject
-    public WelcomeDisplay(ConnectionStateService connectionStateService, TextMaker textMaker) {
-        this.connectionStateService = connectionStateService;
+    public WelcomeDisplay(ConnectionStateProvider connectionStateProvider, TextMaker textMaker) {
+        this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
     }
 
@@ -24,9 +24,9 @@ public class WelcomeDisplay implements ConnectionState {
         String text = textMaker.getText(TextName.Welcome, configuration.getServerLocale());
         connection.getOutputQueue().push(text);
         if (connection.getPortConfiguration().isSupportsMenus()) {
-            return connectionStateService.get(LoginIdPrompt.class);
+            return connectionStateProvider.get(LoginIdPrompt.class);
         } else {
-            return connectionStateService.get(CommandDrivenPrompt.class);
+            return connectionStateProvider.get(CommandDrivenPrompt.class);
         }
     }
 }

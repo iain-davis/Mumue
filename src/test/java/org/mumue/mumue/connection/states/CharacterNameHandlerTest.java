@@ -43,8 +43,8 @@ public class CharacterNameHandlerTest {
     private final GameCharacter character = new GameCharacter();
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
-    private final ConnectionStateService connectionStateService = TestObjectBuilder.stateService();
-    private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateService, characterDao, textMaker, universeDao);
+    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateProvider, characterDao, textMaker, universeDao);
 
     @Before
     public void beforeEach() {
