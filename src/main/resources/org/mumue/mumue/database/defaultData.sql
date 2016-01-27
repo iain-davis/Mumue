@@ -39,6 +39,7 @@ insert into text (id, locale, name, text) values (22, 'en-US', 'welcome screen c
 insert into text (id, locale, name, text) values (23, 'en-US', 'connect missing password', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 insert into text (id, locale, name, text) values (24, 'en-US', 'connect missing character name', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 insert into text (id, locale, name, text) values (25, 'en-US', 'connect character does not exist', 'Use ''connect <character name> <password>'' to play a character.\r\n');
+insert into text (id, locale, name, text) values (26, 'en-US', 'invalid character name', 'Invalid character name.\r\n');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  (0, 'first', 'first', 'en-US',

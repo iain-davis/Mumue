@@ -3,6 +3,7 @@ package org.mumue.mumue.connection.states;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.UniverseDao;
@@ -34,6 +35,10 @@ public class CharacterNameHandler implements ConnectionState {
         }
 
         String name = connection.getInputQueue().pop();
+        if (StringUtils.isEmpty(name)) {
+            return connectionStateProvider.get(PlayerMenuPrompt.class);
+        }
+
         GameCharacter character = connection.getCharacter();
         long universeId = character.getUniverseId();
 

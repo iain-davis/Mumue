@@ -26,7 +26,8 @@ public enum TextName {
     WelcomeCommands("welcome screen commands"),
     MissingPassword("connect missing password"),
     MissingCharacterName("connect missing character name"),
-    CharacterDoesNotExist("connect character does not exist")
+    CharacterDoesNotExist("connect character does not exist"),
+    CharacterNameInvalid("invalid character name")
     ;
 
     private final String name;

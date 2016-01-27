@@ -3,6 +3,7 @@ package org.mumue.mumue.connection.states;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -21,7 +22,9 @@ import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
@@ -30,16 +33,15 @@ import org.mumue.mumue.text.TextName;
 
 public class CharacterNameHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final UniverseDao universeDao = mock(UniverseDao.class);
 
     private final String loginId = RandomStringUtils.randomAlphabetic(14);
-    private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final String name = RandomStringUtils.randomAlphabetic(17);
     private final long playerId = RandomUtils.nextLong(100, 200);
     private final long locationId = RandomUtils.nextLong(200, 300);
-    private final Player player = new PlayerBuilder().withId(playerId).withLocale(locale).withLoginId(loginId).build();
+    private final Player player = new PlayerBuilder().withId(playerId).withLoginId(loginId).build();
     private final GameCharacter character = new GameCharacter();
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
@@ -98,20 +100,16 @@ public class CharacterNameHandlerTest {
 
     @Test
     public void setComponentId() {
-        long id = RandomUtils.nextLong(100, 200);
         connection.getInputQueue().push(name);
-        when(configuration.getNewComponentId()).thenReturn(id);
 
         stage.execute(connection, configuration);
 
-        assertThat(connection.getCharacter().getId(), equalTo(id));
+        assertThat(connection.getCharacter().getId(), not(equalTo(GlobalConstants.REFERENCE_UNKNOWN)));
     }
 
     @Test
     public void setPlayerId() {
-        long id = RandomUtils.nextLong(100, 200);
         connection.getInputQueue().push(name);
-        when(configuration.getNewComponentId()).thenReturn(id);
 
         stage.execute(connection, configuration);
 
@@ -146,6 +144,32 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
+    public void emptyNameDisplayMenu() {
+        String name = "";
+        connection.getInputQueue().push(name);
+
+        when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(new GameCharacter());
+        when(characterDao.getCharacter(name)).thenReturn(new GameCharacter());
+
+        ConnectionState next = stage.execute(connection, configuration);
+
+        assertThat(next, instanceOf(PlayerMenuPrompt.class));
+    }
+
+    @Test
+    public void whitespaceNameDisplayMenu() {
+        String name = "   ";
+        connection.getInputQueue().push(name);
+
+        when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(new GameCharacter());
+        when(characterDao.getCharacter(name)).thenReturn(new GameCharacter());
+
+        ConnectionState next = stage.execute(connection, configuration);
+
+        assertThat(next, instanceOf(PlayerMenuPrompt.class));
+    }
+
+    @Test
     public void nameTakenInUniverseDisplayMessage() {
         String message = RandomStringUtils.randomAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
@@ -154,7 +178,7 @@ public class CharacterNameHandlerTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameAlreadyExists, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameAlreadyExists, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
         stage.execute(connection, configuration);
 
@@ -170,7 +194,7 @@ public class CharacterNameHandlerTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameAlreadyExists, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameAlreadyExists, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
         ConnectionState next = stage.execute(connection, configuration);
 
@@ -186,7 +210,7 @@ public class CharacterNameHandlerTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name)).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
         stage.execute(connection, configuration);
 
@@ -201,7 +225,7 @@ public class CharacterNameHandlerTest {
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name)).thenReturn(characterThatExists);
-        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, locale)).thenReturn(message);
+        when(textMaker.getText(TextName.CharacterNameTakenByOtherPlayer, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
         ConnectionState next = stage.execute(connection, configuration);
 
