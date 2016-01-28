@@ -1,0 +1,46 @@
+package org.mumue.mumue.connection.states;
+
+import java.io.File;
+
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.io.FileUtils;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.connection.Connection;
+import org.mumue.mumue.databaseimporter.DatabaseImporter;
+import org.mumue.mumue.databaseimporter.ImportConfiguration;
+import org.mumue.mumue.text.TextMaker;
+import org.mumue.mumue.text.TextName;
+
+class ImportPathPromptHandler implements ConnectionState {
+    private final ConnectionStateProvider connectionStateProvider;
+    private final DatabaseImporter databaseImporter;
+    private final TextMaker textMaker;
+
+    ImportPathPromptHandler(ConnectionStateProvider connectionStateProvider, DatabaseImporter databaseImporter, TextMaker textMaker) {
+        this.databaseImporter = databaseImporter;
+        this.connectionStateProvider = connectionStateProvider;
+        this.textMaker = textMaker;
+    }
+
+    @Override
+    public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
+        if (connection.getInputQueue().hasAny()) {
+            String path = connection.getInputQueue().pop();
+            if (path.isEmpty()) {
+                return connectionStateProvider.get(AdministrationMenu.class);
+            }
+            File file = FileUtils.getFile(path);
+            if (file.exists()) {
+                ImportConfiguration importConfiguration = new ImportConfiguration();
+                importConfiguration.setFile(file);
+                databaseImporter.startWith(importConfiguration);
+                return connectionStateProvider.get(AdministrationMenu.class);
+            } else {
+                String text = textMaker.getText(TextName.FileNotFound, connection.getLocale(), ImmutableMap.of("file path", path));
+                connection.getOutputQueue().push(text);
+                return connectionStateProvider.get(ImportPathPrompt.class);
+            }
+        }
+        return this;
+    }
+}

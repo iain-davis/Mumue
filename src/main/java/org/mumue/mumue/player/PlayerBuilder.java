@@ -66,4 +66,9 @@ public class PlayerBuilder {
         this.administrator = true;
         return this;
     }
+
+    public PlayerBuilder withoutAdministrator() {
+        this.administrator = false;
+        return this;
+    }
 }

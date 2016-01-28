@@ -20,14 +20,14 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 @RunWith(Theories.class)
 public class CommandPoseTest {
     private final ConnectionManager connectionManager = new ConnectionManager();
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final GameCharacter poser = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
-    private final Connection posingConnection = TestObjectBuilder.connection().withCharacter(poser);
+    private final Connection posingConnection = Nimue.connection().withCharacter(poser);
 
     private final CommandPose commandPose = new CommandPose();
 
@@ -67,7 +67,7 @@ public class CommandPoseTest {
 
     @Test
     public void poseSeenByOtherCharacterInRoom() {
-        Connection inRoomConnection = TestObjectBuilder.connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
+        Connection inRoomConnection = Nimue.connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
         String expected = poser.getName() + " " + text + GlobalConstants.TCP_LINE_SEPARATOR;
@@ -80,7 +80,7 @@ public class CommandPoseTest {
 
     @Test
     public void poseNotSeenByCharacterInOtherLocation() {
-        Connection otherRoomConnection = TestObjectBuilder.connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
+        Connection otherRoomConnection = Nimue.connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
         poser.setName(RandomStringUtils.randomAlphabetic(17));
         String text = RandomStringUtils.randomAlphabetic(35);
         connectionManager.add(otherRoomConnection);

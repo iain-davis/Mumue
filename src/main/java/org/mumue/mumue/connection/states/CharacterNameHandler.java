@@ -14,7 +14,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class CharacterNameHandler implements ConnectionState {
+class CharacterNameHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;

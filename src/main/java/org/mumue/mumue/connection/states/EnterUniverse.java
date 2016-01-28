@@ -13,7 +13,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class EnterUniverse implements ConnectionState {
+class EnterUniverse implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
     private final UniverseDao dao;

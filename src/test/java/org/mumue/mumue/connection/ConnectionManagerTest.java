@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class ConnectionManagerTest {
     private final ConnectionManager connectionManager = new ConnectionManager();
@@ -24,7 +24,7 @@ public class ConnectionManagerTest {
 
     @Test
     public void addConnection() {
-        Connection connection = TestObjectBuilder.connection();
+        Connection connection = Nimue.connection();
         connectionManager.add(connection);
 
         assertThat(connectionManager.getConnections(), hasItem(connection));
@@ -128,6 +128,6 @@ public class ConnectionManagerTest {
     private Connection connection(long locationId) {
         GameCharacter character = new GameCharacter();
         character.setLocationId(locationId);
-        return TestObjectBuilder.connection().withCharacter(character);
+        return Nimue.connection().withCharacter(character);
     }
 }

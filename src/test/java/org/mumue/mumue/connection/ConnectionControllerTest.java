@@ -13,11 +13,11 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.states.ConnectionStateProvider;
 import org.mumue.mumue.connection.states.NoOperation;
 import org.mumue.mumue.connection.states.WelcomeDisplay;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class ConnectionControllerTest {
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
-    private final Connection connection = TestObjectBuilder.connection();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
+    private final Connection connection = Nimue.connection();
     private final ConnectionStateProvider connectionStateProvider = mock(ConnectionStateProvider.class);
     private final WelcomeDisplay stage = mock(WelcomeDisplay.class);
 

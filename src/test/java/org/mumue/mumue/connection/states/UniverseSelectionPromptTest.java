@@ -20,7 +20,7 @@ import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -28,9 +28,9 @@ public class UniverseSelectionPromptTest {
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseDao universeDao = mock(UniverseDao.class);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
-    private final Player player = TestObjectBuilder.player().build();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
+    private final Player player = Nimue.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
     private final UniverseSelectionPrompt universeSelectionPrompt = new UniverseSelectionPrompt(connectionStateProvider, universeDao, textMaker);
 

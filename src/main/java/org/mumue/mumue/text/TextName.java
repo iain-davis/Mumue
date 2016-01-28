@@ -7,7 +7,8 @@ public enum TextName {
     LoginFailed("login failed"),
     LoginSuccess("login success"),
     PlayerMainMenu("player main menu"),
-    AdministratorMainMenu("administrator main menu"),
+    AdministrationMenuOption("administration menu option"),
+    AdministrationMenu("administration menu"),
     InvalidOption("invalid option"),
     CharacterNamePrompt("character name prompt"),
     UniverseSelectionPrompt("universe selection prompt"),
@@ -27,8 +28,9 @@ public enum TextName {
     MissingPassword("connect missing password"),
     MissingCharacterName("connect missing character name"),
     CharacterDoesNotExist("connect character does not exist"),
-    CharacterNameInvalid("invalid character name")
-    ;
+    CharacterNameInvalid("invalid character name"),
+    ImportFilePathPrompt("import file path prompt"),
+    FileNotFound("file not found");
 
     private final String name;
 

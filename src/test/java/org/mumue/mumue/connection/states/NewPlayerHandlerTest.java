@@ -13,16 +13,16 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class NewPlayerHandlerTest {
     private static final String YES = RandomStringUtils.randomAlphabetic(3);
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final Connection connection = new Connection(configuration);
-    private ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final NewPlayerHandler newPlayerHandler = new NewPlayerHandler(connectionStateProvider, textMaker);
 
     @Before

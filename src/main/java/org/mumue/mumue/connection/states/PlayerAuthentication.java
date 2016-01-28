@@ -13,7 +13,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class PlayerAuthentication implements ConnectionState {
+class PlayerAuthentication implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final PlayerBuilder playerBuilder;
     private final PlayerRepository playerRepository;

@@ -11,10 +11,10 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.PlayerRepository;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class LoginIdHandlerTest {
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
     private final Connection connection = new Connection(configuration);
@@ -32,7 +32,7 @@ public class LoginIdHandlerTest {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
 
-        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().withId(1L).build());
+        when(playerRepository.get(loginId)).thenReturn(Nimue.player().withId(1L).build());
 
         ConnectionState next = stage.execute(connection, configuration);
 
@@ -43,7 +43,7 @@ public class LoginIdHandlerTest {
     public void executeWithInvalidLoginIdPromptsForNewPlayer() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().build());
+        when(playerRepository.get(loginId)).thenReturn(Nimue.player().build());
 
         ConnectionState next = stage.execute(connection, configuration);
 
@@ -54,7 +54,7 @@ public class LoginIdHandlerTest {
     public void executeWithValidIdLeavesLoginIdOnQueue() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().withId(1L).build());
+        when(playerRepository.get(loginId)).thenReturn(Nimue.player().withId(1L).build());
 
         stage.execute(connection, configuration);
 
@@ -65,7 +65,7 @@ public class LoginIdHandlerTest {
     public void executeWithInValidIdLeavesLoginIdOnQueue() {
         String loginId = RandomStringUtils.randomAlphabetic(17);
         connection.getInputQueue().push(loginId);
-        when(playerRepository.get(loginId)).thenReturn(TestObjectBuilder.player().build());
+        when(playerRepository.get(loginId)).thenReturn(Nimue.player().build());
 
         stage.execute(connection, configuration);
 

@@ -22,7 +22,7 @@ import org.mumue.mumue.interpreter.CommandInterpreter;
 import org.mumue.mumue.interpreter.CommandResult;
 import org.mumue.mumue.interpreter.CommandStatus;
 import org.mumue.mumue.interpreter.commands.Command;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -31,9 +31,9 @@ public class PlayCharacterTest {
     private final CommandResult result = mock(CommandResult.class);
     private final CommandInterpreter commandInterpreter = mock(CommandInterpreter.class);
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final GameCharacter character = new GameCharacter();
-    private final Connection connection = new Connection(configuration).withPlayer(TestObjectBuilder.player().build()).withCharacter(character);
+    private final Connection connection = new Connection(configuration).withPlayer(Nimue.player().build()).withCharacter(character);
     private final PlayCharacter playCharacter = new PlayCharacter(commandInterpreter, textMaker);
 
     @Before

@@ -12,7 +12,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class CharacterSelectionPrompt implements ConnectionState {
+class CharacterSelectionPrompt implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
     private final CharacterDao characterDao;

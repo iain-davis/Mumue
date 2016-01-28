@@ -10,7 +10,7 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class UniverseSelectionHandler implements ConnectionState {
+class UniverseSelectionHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
     private final UniverseDao universeDao;

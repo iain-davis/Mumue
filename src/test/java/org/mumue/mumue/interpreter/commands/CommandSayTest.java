@@ -14,13 +14,13 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class CommandSayTest {
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final GameCharacter sayer = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
-    private final Connection sayerConnection = TestObjectBuilder.connection().withCharacter(sayer);
+    private final Connection sayerConnection = Nimue.connection().withCharacter(sayer);
 
     private final CommandSay command = new CommandSay();
 

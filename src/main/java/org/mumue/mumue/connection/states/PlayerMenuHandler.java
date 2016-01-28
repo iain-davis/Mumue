@@ -10,7 +10,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class PlayerMenuHandler implements ConnectionState {
+class PlayerMenuHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
@@ -29,6 +29,12 @@ public class PlayerMenuHandler implements ConnectionState {
         }
         String input = connection.getInputQueue().pop();
         switch (input.toUpperCase()) {
+            case "A":
+                if (connection.getPlayer().isAdministrator()) {
+                    return connectionStateProvider.get(AdministrationMenu.class);
+                } else {
+                    return handleInvalidOption(connection);
+                }
             case "P":
                 if (playerHasCharacters(connection.getPlayer().getId())) {
                     return connectionStateProvider.get(CharacterSelectionPrompt.class);

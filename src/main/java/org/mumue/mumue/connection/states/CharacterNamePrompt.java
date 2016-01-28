@@ -9,7 +9,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class CharacterNamePrompt implements ConnectionState {
+class CharacterNamePrompt implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 

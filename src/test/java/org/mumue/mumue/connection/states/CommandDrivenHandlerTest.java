@@ -18,18 +18,18 @@ import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerRepository;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CommandDrivenHandlerTest {
     private static final Random RANDOM = new Random();
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final CommandDrivenHandler stage = new CommandDrivenHandler(connectionStateProvider, characterDao, playerRepository, textMaker);
 
     @Test
@@ -214,7 +214,7 @@ public class CommandDrivenHandlerTest {
     }
 
     private GameCharacter createCharacter() {
-        return TestObjectBuilder.character().withId(RANDOM.nextInt(1000)).withPlayerId(RANDOM.nextInt(1000) + 1000).build();
+        return Nimue.character().withId(RANDOM.nextInt(1000)).withPlayerId(RANDOM.nextInt(1000) + 1000).build();
     }
 
     private Player createPlayer(String loginId) {

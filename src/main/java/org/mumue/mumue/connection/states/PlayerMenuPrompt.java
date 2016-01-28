@@ -10,7 +10,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class PlayerMenuPrompt implements ConnectionState {
+class PlayerMenuPrompt implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
@@ -25,7 +25,7 @@ public class PlayerMenuPrompt implements ConnectionState {
         Player player = connection.getPlayer();
         String menu = textMaker.getText(TextName.PlayerMainMenu, connection.getLocale());
         if (player.isAdministrator()) {
-            menu = textMaker.getText(TextName.AdministratorMainMenu, connection.getLocale()) + menu;
+            menu = textMaker.getText(TextName.AdministrationMenuOption, connection.getLocale()) + menu;
         }
         connection.getOutputQueue().push(menu);
         return connectionStateProvider.get(PlayerMenuHandler.class);

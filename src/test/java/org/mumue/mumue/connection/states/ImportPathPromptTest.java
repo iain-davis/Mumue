@@ -15,28 +15,28 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CommandDrivenPromptTest {
+public class ImportPathPromptTest {
+    private final Connection connection = Nimue.connection();
     private final ApplicationConfiguration configuration = Nimue.configuration();
-    private final TextMaker textMaker = mock(TextMaker.class);
-    private final Connection connection = new Connection(configuration);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
-    private final CommandDrivenPrompt commandDrivenPrompt = new CommandDrivenPrompt(connectionStateProvider, textMaker);
+    private final TextMaker textMaker = mock(TextMaker.class);
+    private final ImportPathPrompt importPathPrompt = new ImportPathPrompt(connectionStateProvider, textMaker);
 
     @Test
-    public void returnWaitForWelcomeScreenCommand() {
-        when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
+    public void returnHandlerState() {
+        when(textMaker.getText(TextName.ImportFilePathPrompt, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
 
-        ConnectionState returned = commandDrivenPrompt.execute(connection, configuration);
+        ConnectionState next = importPathPrompt.execute(connection, configuration);
 
-        assertThat(returned, instanceOf(CommandDrivenHandler.class));
+        assertThat(next, instanceOf(ImportPathPromptHandler.class));
     }
 
     @Test
-    public void displayCommands() {
-        String text = RandomStringUtils.randomAlphabetic(13);
-        when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
+    public void displayPrompt() {
+        String text = RandomStringUtils.randomAlphabetic(25);
+        when(textMaker.getText(TextName.ImportFilePathPrompt, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
-        commandDrivenPrompt.execute(connection, configuration);
+        importPathPrompt.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), hasItem(text));
     }

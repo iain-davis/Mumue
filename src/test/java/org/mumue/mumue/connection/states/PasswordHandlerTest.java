@@ -8,10 +8,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class PasswordHandlerTest {
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final Connection connection = new Connection(configuration);
     private final PasswordHandler passwordHandler = new PasswordHandler(connectionStateProvider);

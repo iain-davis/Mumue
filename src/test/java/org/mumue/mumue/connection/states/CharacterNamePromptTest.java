@@ -12,17 +12,17 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterNamePromptTest {
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
-    private final Player player = TestObjectBuilder.player().build();
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final Player player = Nimue.player().build();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final CharacterNamePrompt characterNamePrompt = new CharacterNamePrompt(connectionStateProvider, textMaker);
 
     @Test

@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
@@ -21,20 +22,25 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class PlayerMenuHandlerTest {
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
 
     private final long id = RandomUtils.nextLong(100, 200);
-    private final Player player = TestObjectBuilder.player().withId(id).build();
+    private final Player player = Nimue.player().withId(id).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
     private final PlayerMenuHandler playerMenuHandler = new PlayerMenuHandler(connectionStateProvider, characterDao, textMaker);
+
+    @Before
+    public void beforeEach() {
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(RandomStringUtils.randomAlphabetic(25));
+    }
 
     @Test
     public void neverReturnNull() {
@@ -101,6 +107,29 @@ public class PlayerMenuHandlerTest {
     }
 
     @Test
+    public void goToAdministratorMenu() {
+        Player administrator = Nimue.player().withAdministrator().build();
+        connection.setPlayer(administrator);
+        connection.getInputQueue().push("A");
+
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
+
+        assertThat(next, instanceOf(AdministrationMenu.class));
+    }
+
+    @Test
+    public void ignoreAdministratorMenuWhenPlayerIsNotAdministrator() {
+        Player administrator = Nimue.player().withoutAdministrator().build();
+        connection.setPlayer(administrator);
+        connection.getInputQueue().push("A");
+
+        ConnectionState next = playerMenuHandler.execute(connection, configuration);
+
+        assertThat(next, instanceOf(PlayerMenuPrompt.class));
+    }
+
+
+    @Test
     public void redisplayMenuOnInvalidInput() {
         connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
         when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
@@ -119,6 +148,5 @@ public class PlayerMenuHandlerTest {
         playerMenuHandler.execute(connection, configuration);
 
         assertThat(connection.getOutputQueue(), contains(message));
-
     }
 }

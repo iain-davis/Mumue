@@ -17,18 +17,18 @@ import org.mumue.mumue.components.space.SpaceDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class EnterSpaceTest {
     private final long locationId = RandomUtils.nextLong(100, 200);
     private final String name = RandomStringUtils.randomAlphabetic(25);
     private final String description = RandomStringUtils.randomAlphabetic(35);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final SpaceDao spaceDao = mock(SpaceDao.class);
-    private final GameCharacter character = TestObjectBuilder.character().withLocationId(locationId).build();
+    private final GameCharacter character = Nimue.character().withLocationId(locationId).build();
     private final Connection connection = new Connection(configuration).withCharacter(character);
     private final Space space = new SpaceBuilder().withName(name).withDescription(description).build();
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final EnterSpace enterSpace = new EnterSpace(connectionStateProvider, spaceDao);
 
     @Before

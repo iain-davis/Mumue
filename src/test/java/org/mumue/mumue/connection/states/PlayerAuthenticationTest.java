@@ -23,7 +23,7 @@ import org.mumue.mumue.connection.CurrentTimestampProvider;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
 import org.mumue.mumue.player.PlayerRepository;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
@@ -32,7 +32,7 @@ public class PlayerAuthenticationTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CurrentTimestampProvider currentTimestampProvider = mock(CurrentTimestampProvider.class);
     private final PlayerRepository playerRepository = mock(PlayerRepository.class);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final PlayerAuthentication stage = new PlayerAuthentication(connectionStateProvider, new PlayerBuilder(), playerRepository, textMaker);
 
     private final String loginId = RandomStringUtils.randomAlphanumeric(13);
@@ -40,8 +40,8 @@ public class PlayerAuthenticationTest {
     private final String loginFailed = "FAILED: " + RandomStringUtils.randomAlphanumeric(16);
     private final String loginSuccess = "SUCCESS: " + RandomStringUtils.randomAlphanumeric(16);
     private final Instant timestamp = Instant.now();
-    private final Player player = TestObjectBuilder.player().withId(new Random().nextInt(100) + 10).build();
-    private final Connection connection = TestObjectBuilder.connection();
+    private final Player player = Nimue.player().withId(new Random().nextInt(100) + 10).build();
+    private final Connection connection = Nimue.connection();
 
     @Before
     public void beforeEach() {

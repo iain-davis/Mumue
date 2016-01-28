@@ -7,7 +7,7 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 
 @Singleton
-public class PasswordHandler implements ConnectionState {
+class PasswordHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
 
     @Inject

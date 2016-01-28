@@ -16,7 +16,7 @@ import org.mumue.mumue.text.TextName;
 import org.mumue.mumue.utility.StringUtilities;
 
 @Singleton
-public class PlayCharacter implements ConnectionState {
+class PlayCharacter implements ConnectionState {
     private final CommandInterpreter commandInterpreter;
     private final TextMaker textMaker;
 

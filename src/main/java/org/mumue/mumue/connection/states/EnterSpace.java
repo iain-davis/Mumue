@@ -10,7 +10,7 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
 
 @Singleton
-public class EnterSpace implements ConnectionState {
+class EnterSpace implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final SpaceDao spaceDao;
 

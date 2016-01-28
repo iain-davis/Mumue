@@ -13,14 +13,14 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class WelcomeDisplayTest {
     private final String welcome = RandomStringUtils.randomAlphanumeric(17);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Connection connection = new Connection(configuration);
     private final WelcomeDisplay welcomeDisplay = new WelcomeDisplay(connectionStateProvider, textMaker);

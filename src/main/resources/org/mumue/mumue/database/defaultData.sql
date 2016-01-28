@@ -18,7 +18,7 @@ insert into text (id, locale, name, text) values ( 1, 'en-US', 'login prompt', '
 insert into text (id, locale, name, text) values ( 2, 'en-US', 'password prompt', 'Enter your password: ');
 insert into text (id, locale, name, text) values ( 3, 'en-US', 'login failed', '\r\nLogin failed. Please try again.\r\n');
 insert into text (id, locale, name, text) values ( 4, 'en-US', 'login success', '\r\nLogin succeeded. Welcome back!\r\n');
-insert into text (id, locale, name, text) values ( 5, 'en-US', 'administrator main menu', 'A) Administer\r\n');
+insert into text (id, locale, name, text) values ( 5, 'en-US', 'administration menu option', 'A) Administer\r\n');
 insert into text (id, locale, name, text) values ( 6, 'en-US', 'player main menu', 'C) Create a character\r\nP) Play a character\r\nQ) Quit\r\n');
 insert into text (id, locale, name, text) values ( 7, 'en-US', 'invalid option', 'Invalid option selected. Try again:\r\n');
 insert into text (id, locale, name, text) values ( 8, 'en-US', 'character name prompt', 'Enter a name for your character: ');
@@ -40,6 +40,9 @@ insert into text (id, locale, name, text) values (23, 'en-US', 'connect missing 
 insert into text (id, locale, name, text) values (24, 'en-US', 'connect missing character name', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 insert into text (id, locale, name, text) values (25, 'en-US', 'connect character does not exist', 'Use ''connect <character name> <password>'' to play a character.\r\n');
 insert into text (id, locale, name, text) values (26, 'en-US', 'invalid character name', 'Invalid character name.\r\n');
+insert into text (id, locale, name, text) values (27, 'en-US', 'administration menu', 'I) Import ...\r\nE) Exit\r\n');
+insert into text (id, locale, name, text) values (28, 'en-US', 'import file path prompt', 'Provide the filename of the file to import:');
+insert into text (id, locale, name, text) values (29, 'en-US', 'file not found', 'File ''${file path}'' not found.');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  (0, 'first', 'first', 'en-US',

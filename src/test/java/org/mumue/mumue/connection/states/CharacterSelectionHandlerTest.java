@@ -16,17 +16,17 @@ import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterSelectionHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final String message = RandomStringUtils.randomAlphabetic(17);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
-    private final Connection connection = new Connection(configuration).withPlayer(TestObjectBuilder.player().build());
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
+    private final Connection connection = new Connection(configuration).withPlayer(Nimue.player().build());
     private final CharacterSelectionHandler characterSelectionHandler = new CharacterSelectionHandler(connectionStateProvider, characterDao, textMaker);
 
     @Before

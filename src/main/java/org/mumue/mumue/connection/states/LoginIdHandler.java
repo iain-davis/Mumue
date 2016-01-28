@@ -10,7 +10,7 @@ import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerRepository;
 
 @Singleton
-public class LoginIdHandler implements ConnectionState {
+class LoginIdHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final PlayerRepository playerRepository;
 

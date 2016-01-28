@@ -13,24 +13,24 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class PlayerMenuPromptTest {
     private final String menu = RandomStringUtils.randomAlphanumeric(17);
     private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final Player player = TestObjectBuilder.player().build();
+    private final Player player = Nimue.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final PlayerMenuPrompt playerMenuPrompt = new PlayerMenuPrompt(connectionStateProvider, textMaker);
 
     @Before
     public void beforeEach() {
         when(textMaker.getText(TextName.PlayerMainMenu, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(menu);
-        when(textMaker.getText(TextName.AdministratorMainMenu, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(administratorMenu);
+        when(textMaker.getText(TextName.AdministrationMenuOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(administratorMenu);
     }
 
     @Test

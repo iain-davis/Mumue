@@ -10,7 +10,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 @Singleton
-public class CharacterSelectionHandler implements ConnectionState {
+class CharacterSelectionHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;

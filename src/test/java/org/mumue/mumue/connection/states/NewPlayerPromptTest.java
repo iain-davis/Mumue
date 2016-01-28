@@ -14,17 +14,17 @@ import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class NewPlayerPromptTest {
     private static final String NEW_PLAYER_NAME = RandomStringUtils.randomAlphabetic(13);
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final Connection connection = new Connection(configuration);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final NewPlayerPrompt newPlayerPrompt = new NewPlayerPrompt(connectionStateProvider, textMaker);
 
     @Before

@@ -27,13 +27,13 @@ import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterNameHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final UniverseDao universeDao = mock(UniverseDao.class);
 
@@ -45,7 +45,7 @@ public class CharacterNameHandlerTest {
     private final GameCharacter character = new GameCharacter();
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateProvider, characterDao, textMaker, universeDao);
 
     @Before

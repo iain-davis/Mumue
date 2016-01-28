@@ -19,14 +19,14 @@ import org.mumue.mumue.connection.ConnectionManager;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerBuilder;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CommandSayDirectedTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ConnectionManager connectionManager = new ConnectionManager();
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final String locale = RandomStringUtils.randomAlphabetic(16);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
 
@@ -150,7 +150,7 @@ public class CommandSayDirectedTest {
     }
 
     private Connection connection(Player player, GameCharacter character) {
-        return TestObjectBuilder.connection().withPlayer(player).withCharacter(character);
+        return Nimue.connection().withPlayer(player).withCharacter(character);
     }
 
     private GameCharacter character(String name, long locationId) {
@@ -178,7 +178,7 @@ public class CommandSayDirectedTest {
         long locationId = RandomUtils.nextLong(100, 200);
 
         Connection sayerConnection = connection(null, character(characterName, locationId));
-        Connection inRoomConnection = TestObjectBuilder.connection().withCharacter(character("", locationId));
+        Connection inRoomConnection = Nimue.connection().withCharacter(character("", locationId));
         connectionManager.add(sayerConnection);
         connectionManager.add(connection(null, character(targetName, locationId)));
         connectionManager.add(inRoomConnection);
@@ -197,7 +197,7 @@ public class CommandSayDirectedTest {
         long locationId = RandomUtils.nextLong(100, 200);
 
         Connection sayerConnection = connection(null, character(characterName, locationId));
-        Connection outOfRoomConnection = TestObjectBuilder.connection().withCharacter(character("", RandomUtils.nextLong(500, 600)));
+        Connection outOfRoomConnection = Nimue.connection().withCharacter(character("", RandomUtils.nextLong(500, 600)));
         connectionManager.add(sayerConnection);
         connectionManager.add(connection(null, character(targetName, locationId)));
         connectionManager.add(outOfRoomConnection);

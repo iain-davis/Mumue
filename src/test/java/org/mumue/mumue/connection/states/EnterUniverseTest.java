@@ -20,22 +20,22 @@ import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.player.Player;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class EnterUniverseTest {
     private final long universeId = RandomUtils.nextLong(100, 200);
     private final String message = RandomStringUtils.randomAlphabetic(25);
-    private final ApplicationConfiguration configuration = TestObjectBuilder.configuration();
+    private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseDao dao = mock(UniverseDao.class);
     private final String universeName = RandomStringUtils.randomAlphabetic(17);
     private final Universe universe = new UniverseBuilder().withName(universeName).withId(universeId).build();
-    private final GameCharacter character = TestObjectBuilder.character().withUniverseId(universeId).build();
-    private final Player player = TestObjectBuilder.player().build();
+    private final GameCharacter character = Nimue.character().withUniverseId(universeId).build();
+    private final Player player = Nimue.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final EnterUniverse enterUniverse = new EnterUniverse(connectionStateProvider, textMaker, dao);
 
 

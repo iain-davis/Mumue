@@ -18,7 +18,7 @@ import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerRepository;
-import org.mumue.mumue.testobjectbuilder.TestObjectBuilder;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class PlayerConnectedTest {
     private static final Random RANDOM = new Random();
@@ -26,10 +26,10 @@ public class PlayerConnectedTest {
     private final CurrentTimestampProvider timestampProvider = mock(CurrentTimestampProvider.class);
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private final PlayerRepository playerRepository = new PlayerRepository(database);
-    private final Player player = TestObjectBuilder.player().withId(RANDOM.nextInt(10000)).build();
+    private final Player player = Nimue.player().withId(RANDOM.nextInt(10000)).build();
 
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final ConnectionStateProvider connectionStateProvider = TestObjectBuilder.stateService();
+    private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final PlayerConnected playerConnected = new PlayerConnected(connectionStateProvider, timestampProvider, mock(PlayerMenuPrompt.class), mock(EnterUniverse.class), playerRepository);
     private final Instant lastUsed = Instant.now();
 

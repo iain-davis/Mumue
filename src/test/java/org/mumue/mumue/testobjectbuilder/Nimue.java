@@ -12,7 +12,7 @@ import org.mumue.mumue.connection.states.ConnectionState;
 import org.mumue.mumue.connection.states.ConnectionStateProvider;
 import org.mumue.mumue.player.PlayerBuilder;
 
-public class TestObjectBuilder {
+public class Nimue {
     public static Connection connection() {
         return new Connection(configuration());
     }
@@ -29,7 +29,7 @@ public class TestObjectBuilder {
         return new PlayerBuilder();
     }
 
-    public static ConnectionStateProvider stateService() {
+    public static ConnectionStateProvider stateProvider() {
         return new MockConnectionStateProvider();
     }
 

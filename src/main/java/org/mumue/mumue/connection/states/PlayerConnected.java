@@ -9,7 +9,7 @@ import org.mumue.mumue.connection.CurrentTimestampProvider;
 import org.mumue.mumue.player.PlayerRepository;
 
 @Singleton
-public class PlayerConnected implements ConnectionState {
+class PlayerConnected implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final CurrentTimestampProvider currentTimestampProvider;
     private final PlayerRepository playerRepository;
