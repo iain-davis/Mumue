@@ -53,6 +53,16 @@ public class AdministrationMenuHandlerTest {
     }
 
     @Test
+    public void returnToPlayerMenu() {
+        Connection connection = Nimue.connection();
+        connection.getInputQueue().push("E");
+
+        ConnectionState returned = administrationMenuHandler.execute(connection, configuration);
+
+        assertThat(returned, instanceOf(PlayerMenuPrompt.class));
+    }
+
+    @Test
     public void nextStateForImportLowerCase() {
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("i");

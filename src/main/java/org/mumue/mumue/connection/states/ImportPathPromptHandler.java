@@ -2,7 +2,10 @@ package org.mumue.mumue.connection.states;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import com.google.common.collect.ImmutableMap;
+import com.google.inject.Singleton;
 import org.apache.commons.io.FileUtils;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
@@ -11,11 +14,13 @@ import org.mumue.mumue.databaseimporter.ImportConfiguration;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+@Singleton
 class ImportPathPromptHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final DatabaseImporter databaseImporter;
     private final TextMaker textMaker;
 
+    @Inject
     ImportPathPromptHandler(ConnectionStateProvider connectionStateProvider, DatabaseImporter databaseImporter, TextMaker textMaker) {
         this.databaseImporter = databaseImporter;
         this.connectionStateProvider = connectionStateProvider;

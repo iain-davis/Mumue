@@ -1,5 +1,7 @@
 package org.mumue.mumue.connection.states;
 
+import javax.inject.Inject;
+
 import com.google.inject.Singleton;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
@@ -11,6 +13,7 @@ class AdministrationMenu implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
+    @Inject
     public AdministrationMenu(ConnectionStateProvider connectionStateProvider, TextMaker textMaker) {
         this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;

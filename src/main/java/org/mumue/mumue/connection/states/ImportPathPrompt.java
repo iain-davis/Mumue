@@ -1,5 +1,6 @@
 package org.mumue.mumue.connection.states;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -12,6 +13,7 @@ class ImportPathPrompt implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
 
+    @Inject
     public ImportPathPrompt(ConnectionStateProvider connectionStateProvider, TextMaker textMaker) {
         this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;

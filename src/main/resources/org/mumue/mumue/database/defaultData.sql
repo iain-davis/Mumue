@@ -42,7 +42,7 @@ insert into text (id, locale, name, text) values (25, 'en-US', 'connect characte
 insert into text (id, locale, name, text) values (26, 'en-US', 'invalid character name', 'Invalid character name.\r\n');
 insert into text (id, locale, name, text) values (27, 'en-US', 'administration menu', 'I) Import ...\r\nE) Exit\r\n');
 insert into text (id, locale, name, text) values (28, 'en-US', 'import file path prompt', 'Provide the filename of the file to import:');
-insert into text (id, locale, name, text) values (29, 'en-US', 'file not found', 'File ''${file path}'' not found.');
+insert into text (id, locale, name, text) values (29, 'en-US', 'file not found', 'File ''${file path}'' not found.\r\n');
 
 insert into players (id, loginId, password, locale, created, lastUsed, lastModified, useCount, administrator)
             values  (0, 'first', 'first', 'en-US',
