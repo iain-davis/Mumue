@@ -9,7 +9,7 @@ import com.google.inject.Singleton;
 import org.apache.commons.io.FileUtils;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.databaseimporter.DatabaseImporter;
+import org.mumue.mumue.databaseimporter.DatabaseImportLauncher;
 import org.mumue.mumue.databaseimporter.ImportConfiguration;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
@@ -17,12 +17,12 @@ import org.mumue.mumue.text.TextName;
 @Singleton
 class ImportPathPromptHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
-    private final DatabaseImporter databaseImporter;
+    private final DatabaseImportLauncher databaseImportLauncher;
     private final TextMaker textMaker;
 
     @Inject
-    ImportPathPromptHandler(ConnectionStateProvider connectionStateProvider, DatabaseImporter databaseImporter, TextMaker textMaker) {
-        this.databaseImporter = databaseImporter;
+    ImportPathPromptHandler(ConnectionStateProvider connectionStateProvider, DatabaseImportLauncher databaseImportLauncher, TextMaker textMaker) {
+        this.databaseImportLauncher = databaseImportLauncher;
         this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
     }
@@ -38,7 +38,7 @@ class ImportPathPromptHandler implements ConnectionState {
             if (file.exists()) {
                 ImportConfiguration importConfiguration = new ImportConfiguration();
                 importConfiguration.setFile(file);
-                databaseImporter.startWith(importConfiguration);
+                databaseImportLauncher.launchWith(importConfiguration);
                 return connectionStateProvider.get(AdministrationMenu.class);
             } else {
                 String text = textMaker.getText(TextName.FileNotFound, connection.getLocale(), ImmutableMap.of("file path", path));

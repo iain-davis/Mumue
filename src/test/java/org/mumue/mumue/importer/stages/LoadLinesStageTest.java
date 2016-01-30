@@ -29,7 +29,7 @@ public class LoadLinesStageTest {
     @Test
     public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
-        URI uri = Resources.getResource("org/mumue/mumue/importer/stages/LoadLinesStageTestInput.db").toURI();
+        URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestInput.db").toURI();
         bucket.setFile(uri.getPath());
 
         stage.run(bucket);
@@ -42,7 +42,7 @@ public class LoadLinesStageTest {
     @Test
     public void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
-        URI uri = Resources.getResource("org/mumue/mumue/importer/stages/LoadLinesStageTestCRInput.db").toURI();
+        URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestCRInput.db").toURI();
         bucket.setFile(uri.getPath());
 
         stage.run(bucket);

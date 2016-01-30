@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
-import org.mumue.mumue.databaseimporter.DatabaseImporter;
+import org.mumue.mumue.databaseimporter.DatabaseImportLauncher;
 import org.mumue.mumue.databaseimporter.ImportConfiguration;
 import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
@@ -29,7 +29,7 @@ import org.mumue.mumue.text.TextName;
 public class ImportPathPromptHandlerTest {
     @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
-    private final MockDatabaseImporter databaseImporter = new MockDatabaseImporter();
+    private final MockDatabaseImportLauncher databaseImporter = new MockDatabaseImportLauncher();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ImportPathPromptHandler importPathPromptHandler = new ImportPathPromptHandler(connectionStateProvider, databaseImporter, textMaker);
 
@@ -125,11 +125,15 @@ public class ImportPathPromptHandlerTest {
         assertThat(next, instanceOf(AdministrationMenu.class));
     }
 
-    private class MockDatabaseImporter extends DatabaseImporter {
+    private class MockDatabaseImportLauncher extends DatabaseImportLauncher {
         public ImportConfiguration importConfiguration;
 
+        private MockDatabaseImportLauncher() {
+            super(null, null);
+        }
+
         @Override
-        public void startWith(ImportConfiguration importConfiguration) {
+        public void launchWith(ImportConfiguration importConfiguration) {
             this.importConfiguration = importConfiguration;
         }
     }
