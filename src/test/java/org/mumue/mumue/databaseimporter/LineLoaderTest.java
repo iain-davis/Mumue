@@ -22,7 +22,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
-import org.mumue.mumue.importer.ImportBucket;
 
 public class LineLoaderTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
@@ -31,7 +30,7 @@ public class LineLoaderTest {
     @Test
     public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
         LineLoader lineLoader = new LineLoader();
-        URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestInput.db").toURI();
+        URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestInput.testdb").toURI();
         File file = FileUtils.getFile(uri.getPath());
 
         List<String> lines = lineLoader.loadFrom(file);
@@ -42,7 +41,7 @@ public class LineLoaderTest {
     @Test
     public void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
         LineLoader lineLoader = new LineLoader();
-        URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestCRInput.db").toURI();
+        URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestCRInput.testdb").toURI();
         File file = FileUtils.getFile(uri.getPath());
 
         List<String> lines = lineLoader.loadFrom(file);
