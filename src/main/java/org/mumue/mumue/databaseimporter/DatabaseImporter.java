@@ -20,7 +20,7 @@ class DatabaseImporter {
         List<String> sourceLines = lineLoader.loadFrom(importConfiguration.getFile());
 
         if (isValidFormat(sourceLines)) {
-            long componentCount = componentCountExtractor.extract(sourceLines);
+            importResults.setComponentCount(componentCountExtractor.extract(sourceLines));
             List<String> parameterLines = parameterLinesExtractor.extract(sourceLines);
 
             importResults.setParameterCount(parameterLines.size());
