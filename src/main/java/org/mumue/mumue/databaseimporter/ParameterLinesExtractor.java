@@ -13,9 +13,7 @@ class ParameterLinesExtractor {
             return parameters;
         }
         int parameterCount = Integer.parseInt(lines.get(SOURCE_PARAMETER_COUNT_INDEX));
-        for (int i = SOURCE_FIRST_PARAMETER_INDEX; i <= SOURCE_PARAMETER_COUNT_INDEX + parameterCount; i++) {
-            parameters.add(lines.get(i));
-        }
-        return parameters;
+        int toIndex = SOURCE_PARAMETER_COUNT_INDEX + parameterCount + 1;
+        return lines.subList(SOURCE_FIRST_PARAMETER_INDEX, toIndex);
     }
 }
