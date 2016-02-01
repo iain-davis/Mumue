@@ -19,7 +19,7 @@ public class DatabaseImporterTest {
 
     private static final String FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT = "***Foxen5 TinyMUCK DUMP Format***";
     private static final Random RANDOM = new Random();
-    private final DatabaseImporter databaseImporter = new DatabaseImporter(new ComponentCountExtractor(), new LineLoader(), new ParameterLinesExtractor());
+    private final DatabaseImporter databaseImporter = new DatabaseImporter(new ComponentCountExtractor(), new LineLoader(), new ParametersExtractor());
     private final ImportConfiguration importConfiguration = new ImportConfiguration();
 
     @Test
@@ -79,9 +79,7 @@ public class DatabaseImporterTest {
         writer.println(itemCount.toString());
         writer.println(formatVersion);
         writer.println(parameterCount.toString());
-        for (int i = 0; i < parameterCount; i++) {
-            writer.println(RandomStringUtils.randomAlphanumeric(13) + "=" + RandomStringUtils.randomAlphabetic(17));
-        }
+        ImportTestHelper.generateParameterLines(parameterCount).stream().forEach(writer::println);
         writer.flush();
         writer.close();
         return file;

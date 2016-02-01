@@ -1,18 +1,19 @@
 package org.mumue.mumue.databaseimporter;
 
 import java.util.List;
+import java.util.Properties;
 
 class DatabaseImporter {
     private static final int FILE_FORMAT_LINE_INDEX = 0;
     private static final int FILE_FORMAT_VERSION_LINE_INDEX = 2;
     private final ComponentCountExtractor componentCountExtractor;
     private final LineLoader lineLoader;
-    private final ParameterLinesExtractor parameterLinesExtractor;
+    private final ParametersExtractor parametersExtractor;
 
-    DatabaseImporter(ComponentCountExtractor componentCountExtractor, LineLoader lineLoader, ParameterLinesExtractor parameterLinesExtractor) {
+    DatabaseImporter(ComponentCountExtractor componentCountExtractor, LineLoader lineLoader, ParametersExtractor parametersExtractor) {
         this.componentCountExtractor = componentCountExtractor;
         this.lineLoader = lineLoader;
-        this.parameterLinesExtractor = parameterLinesExtractor;
+        this.parametersExtractor = parametersExtractor;
     }
 
     public ImportResults importUsing(ImportConfiguration importConfiguration) {
@@ -21,9 +22,9 @@ class DatabaseImporter {
 
         if (isValidFormat(sourceLines)) {
             importResults.setComponentCount(componentCountExtractor.extract(sourceLines));
-            List<String> parameterLines = parameterLinesExtractor.extract(sourceLines);
+            Properties parameters = parametersExtractor.extract(sourceLines);
 
-            importResults.setParameterCount(parameterLines.size());
+            importResults.setParameterCount(parameters.size());
         }
         return importResults;
     }
