@@ -3,7 +3,6 @@ package org.mumue.mumue.components;
 import java.time.Instant;
 
 import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.player.Player;
 
 public abstract class Component {
     private long id = GlobalConstants.REFERENCE_UNKNOWN;

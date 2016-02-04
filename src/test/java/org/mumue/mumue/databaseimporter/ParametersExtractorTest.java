@@ -24,17 +24,16 @@ public class ParametersExtractorTest {
 
     @Test
     public void extractParameterLines() {
-        Integer parameterCount = new Random().nextInt(100);
         List<String> lines = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
             lines.add(RandomStringUtils.randomAlphabetic(5));
         }
-        lines.add(parameterCount.toString());
-        List<String> parameterLines = ImportTestHelper.generateParameterLines(parameterCount);
+        List<String> parameterLines = ImportTestHelper.generateParameterLines(new Random().nextInt(100));
+        lines.add(String.valueOf(parameterLines.size()));
         lines.addAll(parameterLines);
         Properties parameters = extractor.extract(lines);
 
-        assertThat(parameters.size(), equalTo(parameterCount));
+        assertThat(parameters.size(), equalTo(parameterLines.size()));
         for (String parameter : parameterLines) {
             String name = parameter.split("=")[0];
             String value = parameter.split("=")[1];
