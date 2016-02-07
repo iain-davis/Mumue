@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.mumue.mumue.components.universe.Universe;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.text.TextMaker;
@@ -16,10 +16,10 @@ import org.mumue.mumue.text.TextName;
 class EnterUniverse implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
-    private final UniverseDao dao;
+    private final UniverseRepository dao;
 
     @Inject
-    public EnterUniverse(ConnectionStateProvider connectionStateProvider, TextMaker textMaker, UniverseDao dao) {
+    public EnterUniverse(ConnectionStateProvider connectionStateProvider, TextMaker textMaker, UniverseRepository dao) {
         this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
         this.dao = dao;

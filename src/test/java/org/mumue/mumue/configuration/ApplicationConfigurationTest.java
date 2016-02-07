@@ -25,7 +25,7 @@ public class ApplicationConfigurationTest {
     @Test
     public void getNewComponentId() {
         long id = RandomUtils.nextLong(100, 200);
-        when(componentIdManager.getNewComponentId(onlineConfiguration)).thenReturn(id);
+        when(componentIdManager.getNewComponentId()).thenReturn(id);
         assertThat(configuration.getNewComponentId(), equalTo(id));
     }
 }

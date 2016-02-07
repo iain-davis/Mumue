@@ -3,7 +3,7 @@ package org.mumue.mumue.connection.states;
 import javax.inject.Inject;
 
 import org.mumue.mumue.components.universe.Universe;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
@@ -13,13 +13,13 @@ import org.mumue.mumue.text.TextName;
 class UniverseSelectionHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final TextMaker textMaker;
-    private final UniverseDao universeDao;
+    private final UniverseRepository universeRepository;
 
     @Inject
-    public UniverseSelectionHandler(ConnectionStateProvider connectionStateProvider, TextMaker textMaker, UniverseDao universeDao) {
+    public UniverseSelectionHandler(ConnectionStateProvider connectionStateProvider, TextMaker textMaker, UniverseRepository universeRepository) {
         this.connectionStateProvider = connectionStateProvider;
         this.textMaker = textMaker;
-        this.universeDao = universeDao;
+        this.universeRepository = universeRepository;
     }
 
     @Override
@@ -31,7 +31,7 @@ class UniverseSelectionHandler implements ConnectionState {
         String selection = connection.getInputQueue().pop();
         long universeId = Long.parseLong(selection);
 
-        Universe universe = universeDao.getUniverse(universeId);
+        Universe universe = universeRepository.getUniverse(universeId);
         if (universe.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
             return promptForUniverseAgain(connection);
         }

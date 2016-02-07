@@ -20,7 +20,7 @@ import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
@@ -35,7 +35,7 @@ public class CharacterNameHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final CharacterDao characterDao = mock(CharacterDao.class);
-    private final UniverseDao universeDao = mock(UniverseDao.class);
+    private final UniverseRepository universeRepository = mock(UniverseRepository.class);
 
     private final String loginId = RandomStringUtils.randomAlphabetic(14);
     private final String name = RandomStringUtils.randomAlphabetic(17);
@@ -46,13 +46,13 @@ public class CharacterNameHandlerTest {
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
     private final Connection connection = new Connection(configuration).withPlayer(player).withCharacter(character);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
-    private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateProvider, characterDao, textMaker, universeDao);
+    private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateProvider, characterDao, textMaker, universeRepository);
 
     @Before
     public void beforeEach() {
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(new GameCharacter());
         when(characterDao.getCharacter(name)).thenReturn(character);
-        when(universeDao.getUniverse(character.getUniverseId())).thenReturn(universe);
+        when(universeRepository.getUniverse(character.getUniverseId())).thenReturn(universe);
 
     }
 

@@ -14,7 +14,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.universe.Universe;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
@@ -27,12 +27,12 @@ import org.mumue.mumue.text.TextName;
 public class UniverseSelectionPromptTest {
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final UniverseDao universeDao = mock(UniverseDao.class);
+    private final UniverseRepository universeRepository = mock(UniverseRepository.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final Player player = Nimue.player().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
-    private final UniverseSelectionPrompt universeSelectionPrompt = new UniverseSelectionPrompt(connectionStateProvider, universeDao, textMaker);
+    private final UniverseSelectionPrompt universeSelectionPrompt = new UniverseSelectionPrompt(connectionStateProvider, universeRepository, textMaker);
 
     @Before
     public void beforeEach() {
@@ -60,7 +60,7 @@ public class UniverseSelectionPromptTest {
         universe.setId(0L);
         universe.setName(RandomStringUtils.randomAlphabetic(17));
         universes.add(universe);
-        when(universeDao.getUniverses()).thenReturn(universes);
+        when(universeRepository.getUniverses()).thenReturn(universes);
         universeSelectionPrompt.execute(connection, configuration);
 
         String expected = GlobalConstants.TCP_LINE_SEPARATOR + universe.getId() + ") " + universe.getName() + GlobalConstants.TCP_LINE_SEPARATOR;

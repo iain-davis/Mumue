@@ -15,7 +15,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.components.universe.Universe;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
@@ -28,7 +28,7 @@ import org.mumue.mumue.text.TextName;
 public class UniverseSelectionHandlerTest {
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final UniverseDao dao = mock(UniverseDao.class);
+    private final UniverseRepository dao = mock(UniverseRepository.class);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final Player player = new PlayerBuilder().build();
     private final Connection connection = new Connection(configuration).withPlayer(player);

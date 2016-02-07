@@ -48,7 +48,7 @@ public class Nimue {
         private long lastComponentId = 100L * new Random().nextInt(37);
 
         public MockApplicationConfiguration() {
-            super(null);
+            super(null, null);
         }
 
         @Override

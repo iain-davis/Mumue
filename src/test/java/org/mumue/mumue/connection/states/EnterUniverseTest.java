@@ -15,7 +15,7 @@ import org.mockito.Matchers;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
@@ -29,7 +29,7 @@ public class EnterUniverseTest {
     private final String message = RandomStringUtils.randomAlphabetic(25);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
-    private final UniverseDao dao = mock(UniverseDao.class);
+    private final UniverseRepository dao = mock(UniverseRepository.class);
     private final String universeName = RandomStringUtils.randomAlphabetic(17);
     private final Universe universe = new UniverseBuilder().withName(universeName).withId(universeId).build();
     private final GameCharacter character = Nimue.character().withUniverseId(universeId).build();

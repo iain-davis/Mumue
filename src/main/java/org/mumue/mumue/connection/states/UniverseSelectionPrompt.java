@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import com.google.inject.Singleton;
 import org.mumue.mumue.components.universe.Universe;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
@@ -14,20 +14,20 @@ import org.mumue.mumue.text.TextName;
 @Singleton
 class UniverseSelectionPrompt implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
-    private final UniverseDao universeDao;
+    private final UniverseRepository universeRepository;
     private final TextMaker textMaker;
 
     @Inject
-    public UniverseSelectionPrompt(ConnectionStateProvider connectionStateProvider, UniverseDao universeDao, TextMaker textMaker) {
+    public UniverseSelectionPrompt(ConnectionStateProvider connectionStateProvider, UniverseRepository universeRepository, TextMaker textMaker) {
         this.connectionStateProvider = connectionStateProvider;
-        this.universeDao = universeDao;
+        this.universeRepository = universeRepository;
         this.textMaker = textMaker;
     }
 
     @Override
     public ConnectionState execute(Connection connection, ApplicationConfiguration configuration) {
         StringBuilder builder = new StringBuilder(GlobalConstants.TCP_LINE_SEPARATOR);
-        for (Universe universe : universeDao.getUniverses()) {
+        for (Universe universe : universeRepository.getUniverses()) {
             builder.append(universe.getId()).append(") ").append(universe.getName()).append(GlobalConstants.TCP_LINE_SEPARATOR);
         }
         connection.getOutputQueue().push(builder.toString());

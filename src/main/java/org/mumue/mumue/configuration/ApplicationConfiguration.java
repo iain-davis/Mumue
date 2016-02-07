@@ -11,10 +11,6 @@ public class ApplicationConfiguration {
     private final ComponentIdManager componentIdManager;
 
     @Inject
-    public ApplicationConfiguration(OnlineConfiguration onlineConfiguration) {
-        this(onlineConfiguration, new ComponentIdManager());
-    }
-
     public ApplicationConfiguration(OnlineConfiguration onlineConfiguration, ComponentIdManager componentIdManager) {
         this.onlineConfiguration = onlineConfiguration;
         this.componentIdManager = componentIdManager;
@@ -25,6 +21,6 @@ public class ApplicationConfiguration {
     }
 
     public long getNewComponentId() {
-        return componentIdManager.getNewComponentId(onlineConfiguration);
+        return componentIdManager.getNewComponentId();
     }
 }

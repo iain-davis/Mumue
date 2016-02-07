@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.importer.GlobalConstants;
@@ -18,14 +18,14 @@ class CharacterNameHandler implements ConnectionState {
     private final ConnectionStateProvider connectionStateProvider;
     private final CharacterDao characterDao;
     private final TextMaker textMaker;
-    private final UniverseDao universeDao;
+    private final UniverseRepository universeRepository;
 
     @Inject
-    public CharacterNameHandler(ConnectionStateProvider connectionStateProvider, CharacterDao characterDao, TextMaker textMaker, UniverseDao universeDao) {
+    public CharacterNameHandler(ConnectionStateProvider connectionStateProvider, CharacterDao characterDao, TextMaker textMaker, UniverseRepository universeRepository) {
         this.connectionStateProvider = connectionStateProvider;
         this.characterDao = characterDao;
         this.textMaker = textMaker;
-        this.universeDao = universeDao;
+        this.universeRepository = universeRepository;
     }
 
     @Override
@@ -57,7 +57,7 @@ class CharacterNameHandler implements ConnectionState {
         character.setName(name);
         character.setId(configuration.getNewComponentId());
         character.setPlayerId(connection.getPlayer().getId());
-        character.setLocationId(universeDao.getUniverse(universeId).getStartingSpaceId());
+        character.setLocationId(universeRepository.getUniverse(universeId).getStartingSpaceId());
         character.setHomeLocationId(character.getLocationId());
         characterDao.createCharacter(character);
         return connectionStateProvider.get(PlayerMenuPrompt.class);

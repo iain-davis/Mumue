@@ -15,14 +15,14 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.mumue.mumue.components.universe.UniverseDao;
+import org.mumue.mumue.components.universe.UniverseRepository;
 
 public class DatabaseImporterTest {
     @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private static final String FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT = "***Foxen5 TinyMUCK DUMP Format***";
     private static final Random RANDOM = new Random();
-    private final UniverseDao universeDao = mock(UniverseDao.class);
-    private final DatabaseImporter databaseImporter = new DatabaseImporter(new ComponentCountExtractor(), new LineLoader(), new ParametersExtractor(), universeDao);
+    private final UniverseRepository universeRepository = mock(UniverseRepository.class);
+    private final DatabaseImporter databaseImporter = new DatabaseImporter(new ComponentCountExtractor(), new LineLoader(), new ParametersExtractor(), new UniverseImporter(universeRepository));
     private final ImportConfiguration importConfiguration = new ImportConfiguration();
 
     @Test
