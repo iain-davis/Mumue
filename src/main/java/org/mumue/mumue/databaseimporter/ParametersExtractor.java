@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 class ParametersExtractor {
     private static final int SOURCE_PARAMETER_COUNT_INDEX = 3;
-    private static final int SOURCE_FIRST_PARAMETER_INDEX = 4;
+    public static final int SOURCE_FIRST_PARAMETER_INDEX = 4;
 
     public Properties extract(List<String> lines) {
         if (lines.isEmpty()) {

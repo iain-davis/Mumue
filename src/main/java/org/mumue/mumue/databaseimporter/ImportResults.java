@@ -1,26 +1,23 @@
 package org.mumue.mumue.databaseimporter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Properties;
+
+import org.mumue.mumue.components.Component;
 import org.mumue.mumue.components.universe.Universe;
 
 class ImportResults {
-    private long componentCount;
-    private long parameterCount;
     private Universe universe = new Universe();
+    private Collection<Component> components = new ArrayList<>();
+    private Properties parameters = new Properties();
 
-    public long getComponentCount() {
-        return componentCount;
+    public int getComponentCount() {
+        return components.size();
     }
 
-    public void setComponentCount(long componentCount) {
-        this.componentCount = componentCount;
-    }
-
-    public long getParameterCount() {
-        return parameterCount;
-    }
-
-    public void setParameterCount(long parameterCount) {
-        this.parameterCount = parameterCount;
+    public int getParameterCount() {
+        return parameters.size();
     }
 
     public Universe getUniverse() {
@@ -29,5 +26,21 @@ class ImportResults {
 
     public void setUniverse(Universe universe) {
         this.universe = universe;
+    }
+
+    public Collection<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(Collection<Component> components) {
+        this.components = components;
+    }
+
+    public void setParameters(Properties parameters) {
+        this.parameters = parameters;
+    }
+
+    public Properties getParameters() {
+        return parameters;
     }
 }

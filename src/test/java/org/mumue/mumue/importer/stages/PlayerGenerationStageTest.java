@@ -93,7 +93,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
         mockCharacterData(bucket, name, password, RandomUtils.nextLong(2, 100));
 
         Space space = new Space().withId(RandomUtils.nextLong(100,200));
-        bucket.getComponentLines().put(space.getId(), mockComponentLines(space, null));
+        bucket.getComponentLines().put(space.getId(), mockComponentLines(space));
         bucket.getComponents().put(space.getId(), space);
 
         stage.run(bucket);
@@ -105,7 +105,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
     public void runWithoutCharactersDoesNotMakePlayers() {
         ImportBucket bucket = new ImportBucket();
         Space space = new Space().withId(RandomUtils.nextLong(100,200));
-        bucket.getComponentLines().put(space.getId(), mockComponentLines(space, null));
+        bucket.getComponentLines().put(space.getId(), mockComponentLines(space));
         bucket.getComponents().put(space.getId(), space);
 
         stage.run(bucket);
@@ -126,7 +126,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
         Player player = new Player();
 //        player.setName(name);
 //        player.setPassword(password);
-        bucket.getComponentLines().put(character.getId(), mockComponentLines(character, player));
+        bucket.getComponentLines().put(character.getId(), mockComponentLines(character));
         bucket.getComponents().put(character.getId(), character);
     }
 }

@@ -13,7 +13,6 @@ import org.mumue.mumue.importer.components.LinkSource;
 import org.mumue.mumue.importer.components.Ownable;
 import org.mumue.mumue.importer.components.Program;
 import org.mumue.mumue.importer.components.Space;
-import org.mumue.mumue.player.Player;
 
 public class ImporterStageTestHelper {
     protected void addOneDatabaseItemToList(List<String> list, String id, String flags, int propLines, int codaLines) {
@@ -37,7 +36,7 @@ public class ImporterStageTestHelper {
         }
     }
 
-    protected List<String> mockComponentLines(Component component, Player player) {
+    protected List<String> mockComponentLines(Component component) {
         List<String> lines = new ArrayList<>();
         lines.add("#" + component.getId().toString());
         lines.add(component.getName());
@@ -68,7 +67,7 @@ public class ImporterStageTestHelper {
                 lines.add(((LinkSource) component).getLinks().get(0).getId().toString());
             }
             lines.add(((GameCharacter) component).getWealth().toString());
-//            lines.add(player.getPassword());
+            lines.add("password");
         } else if (component instanceof Link) {
             lines.add(String.valueOf(((Link)component).getDestinations().size()));
             for (Component destination : ((Link)component).getDestinations()) {
