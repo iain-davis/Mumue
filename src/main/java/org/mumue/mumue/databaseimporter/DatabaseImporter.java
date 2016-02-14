@@ -9,11 +9,11 @@ class DatabaseImporter {
     private final LineLoader lineLoader;
     private final ParametersExtractor parametersExtractor;
     private final UniverseImporter universeImporter;
-    private final ComponentImporter componentImporter;
+    private final ComponentsImporter componentsImporter;
 
     @Inject
-    DatabaseImporter(ComponentImporter componentImporter, LineLoader lineLoader, ParametersExtractor parametersExtractor, UniverseImporter universeImporter) {
-        this.componentImporter = componentImporter;
+    DatabaseImporter(ComponentsImporter componentsImporter, LineLoader lineLoader, ParametersExtractor parametersExtractor, UniverseImporter universeImporter) {
+        this.componentsImporter = componentsImporter;
         this.lineLoader = lineLoader;
         this.parametersExtractor = parametersExtractor;
         this.universeImporter = universeImporter;
@@ -28,7 +28,7 @@ class DatabaseImporter {
             importResults.setUniverse(universeImporter.importFrom(importResults.getParameters()));
             int startOfComponentsIndex = ParametersExtractor.SOURCE_FIRST_PARAMETER_INDEX + importResults.getParameters().size();
             int endOfComponentsIndex = sourceLines.indexOf("***END OF DUMP***");
-            importResults.setComponents(componentImporter.importFrom(sourceLines.subList(startOfComponentsIndex, endOfComponentsIndex)));
+            importResults.setComponents(componentsImporter.importFrom(sourceLines.subList(startOfComponentsIndex, endOfComponentsIndex)));
         }
         return importResults;
     }

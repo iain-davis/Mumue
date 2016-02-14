@@ -2,6 +2,7 @@ package org.mumue.mumue.databaseimporter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
@@ -15,14 +16,18 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.mumue.mumue.components.Component;
 import org.mumue.mumue.components.universe.UniverseRepository;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class DatabaseImporterTest {
     @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private static final String FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT = "***Foxen5 TinyMUCK DUMP Format***";
     private static final Random RANDOM = new Random();
     private final UniverseRepository universeRepository = mock(UniverseRepository.class);
-    private final DatabaseImporter databaseImporter = new DatabaseImporter(new ComponentImporter(), new LineLoader(), new ParametersExtractor(), new UniverseImporter(universeRepository));
+    private final DatabaseImporter databaseImporter = new DatabaseImporter(
+            new ComponentsImporter(new ArtifactImporter(), new CharacterImporter(), new LinkImporter(), new ProgramImporter(), new SpaceImporter()),
+            new LineLoader(), new ParametersExtractor(), new UniverseImporter(universeRepository));
     private final ImportConfiguration importConfiguration = new ImportConfiguration();
 
     @Test
@@ -32,7 +37,7 @@ public class DatabaseImporterTest {
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
 
-        assertThat(results.getParameterCount(), equalTo(parameterCount));
+        assertThat(results.getParameterCount(), equalTo(parameterCount + 2));
     }
 
     @Test
@@ -91,13 +96,26 @@ public class DatabaseImporterTest {
 
     @Test
     public void importCorrectNumberOfComponents() {
-        int components = 1;
+        int components = RANDOM.nextInt(4) + 1;
         File file = createFile(components, RANDOM.nextInt(10) + 5);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
 
         assertThat(results.getComponents().size(), equalTo(components));
+    }
+
+    @Test
+    public void importComponentReferenceId() {
+        int components = RANDOM.nextInt(4) + 1;
+        File file = createFile(components, RANDOM.nextInt(10) + 5);
+        importConfiguration.setFile(file);
+
+        ImportResults results = databaseImporter.importUsing(importConfiguration);
+
+        for (Component component : results.getComponents()) {
+            assertThat(component.getClass().toString(), component.getId(), not(equalTo(GlobalConstants.REFERENCE_UNKNOWN)));
+        }
     }
 
     private File createFile(String muckName) {
@@ -135,8 +153,8 @@ public class DatabaseImporterTest {
         writer.println(fileFormat);
         writer.println(itemCount.toString());
         writer.println(formatVersion);
-        List<String> lines = ImportTestHelper.generateLines((parameterCount - 2), muckName, startingLocation, itemCount);
-        writer.println(String.valueOf(parameterCount));
+        List<String> lines = ImportTestHelper.generateLines(parameterCount, muckName, startingLocation, itemCount);
+        writer.println(String.valueOf(parameterCount + 2));
         lines.stream().forEach(writer::println);
         writer.flush();
         writer.close();
