@@ -19,23 +19,26 @@ import org.mumue.mumue.components.LocatableComponent;
 import org.mumue.mumue.components.NameableComponent;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.space.Space;
+import org.mumue.mumue.components.universe.Universe;
+import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class ComponentsImporterTest {
     private static final Random RANDOM = new Random();
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
     private final ComponentsImporter importer = new ComponentsImporter(new ArtifactImporter(), new CharacterImporter(), new LinkImporter(), new ProgramImporter(), new SpaceImporter());
+    private final Universe universe = new UniverseBuilder().withId(RANDOM.nextInt(100)).build();
 
     @Test
     public void neverReturnNull() {
-        List<Component> components = importer.importFrom(databaseItemLinesBuilder.build());
+        List<Component> components = importer.importFrom(databaseItemLinesBuilder.build(), universe);
 
         assertThat(components, notNullValue());
     }
 
     @Test
     public void importOneCharacterComponent() {
-        List<Component> components = importer.importFrom(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).build());
+        List<Component> components = importer.importFrom(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).build(), universe);
 
         assertThat(components, notNullValue());
         assertThat(components.size(), equalTo(1));
@@ -44,7 +47,7 @@ public class ComponentsImporterTest {
 
     @Test
     public void importOneSpaceComponent() {
-        List<Component> components = importer.importFrom(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).build());
+        List<Component> components = importer.importFrom(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).build(), universe);
 
         assertThat(components, notNullValue());
         assertThat(components.size(), equalTo(1));
@@ -57,7 +60,7 @@ public class ComponentsImporterTest {
         lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).build());
         lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).build());
 
-        List<Component> components = importer.importFrom(lines);
+        List<Component> components = importer.importFrom(lines, universe);
 
         assertThat(components, notNullValue());
         assertThat(components.size(), equalTo(2));
@@ -71,7 +74,7 @@ public class ComponentsImporterTest {
         lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).build());
         lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).build());
 
-        List<Component> components = importer.importFrom(lines);
+        List<Component> components = importer.importFrom(lines, universe);
 
         for (Component component : components) {
             assertThat(component.getId(), not(equalTo(GlobalConstants.REFERENCE_UNKNOWN)));
@@ -84,7 +87,7 @@ public class ComponentsImporterTest {
         String name = RandomStringUtils.randomAlphabetic(25);
         lines.addAll(databaseItemLinesBuilder.withName(name).build());
 
-        List<Component> components = importer.importFrom(lines);
+        List<Component> components = importer.importFrom(lines, universe);
 
         NameableComponent component = (NameableComponent) components.get(0);
         assertThat(component.getName(), equalTo(name));
@@ -96,10 +99,22 @@ public class ComponentsImporterTest {
         List<String> lines = new ArrayList<>();
         lines.addAll(databaseItemLinesBuilder.withLocationId(locationId).build());
 
-        List<Component> components = importer.importFrom(lines);
+        List<Component> components = importer.importFrom(lines, universe);
 
         LocatableComponent component = (LocatableComponent) components.get(0);
         assertThat(component.getLocationId(), equalTo(locationId));
     }
 
+    @Test
+    public void importComponentUniverseId() {
+        long universeId = RANDOM.nextInt(100);
+        Universe universe = new UniverseBuilder().withId(universeId).build();
+        List<String> lines = new ArrayList<>();
+        lines.addAll(databaseItemLinesBuilder.withRandomId().build());
+
+        List<Component> components = importer.importFrom(lines, universe);
+
+        LocatableComponent component = (LocatableComponent) components.get(0);
+        assertThat(component.getUniverseId(), equalTo(universeId));
+    }
 }

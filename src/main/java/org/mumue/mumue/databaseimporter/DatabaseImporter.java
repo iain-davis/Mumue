@@ -28,7 +28,7 @@ class DatabaseImporter {
             importResults.setUniverse(universeImporter.importFrom(importResults.getParameters()));
             int startOfComponentsIndex = ParametersExtractor.SOURCE_FIRST_PARAMETER_INDEX + importResults.getParameters().size();
             int endOfComponentsIndex = sourceLines.indexOf("***END OF DUMP***");
-            importResults.setComponents(componentsImporter.importFrom(sourceLines.subList(startOfComponentsIndex, endOfComponentsIndex)));
+            importResults.setComponents(componentsImporter.importFrom(sourceLines.subList(startOfComponentsIndex, endOfComponentsIndex), importResults.getUniverse()));
         }
         return importResults;
     }

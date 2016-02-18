@@ -8,19 +8,16 @@ import javax.inject.Inject;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.mumue.mumue.configuration.ComponentIdManager;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class UniverseRepository {
     private static final String GET_QUERY = "select * from universes where id = ?";
     private static final String GET_ALL_QUERY = "select * from universes";
-    private final ComponentIdManager componentIdManager;
     private final DatabaseAccessor database;
 
     @Inject
-    public UniverseRepository(ComponentIdManager componentIdManager, DatabaseAccessor database) {
-        this.componentIdManager = componentIdManager;
+    public UniverseRepository(DatabaseAccessor database) {
         this.database = database;
     }
 
@@ -38,23 +35,20 @@ public class UniverseRepository {
         return universe;
     }
 
-    public Universe save(Universe universe) {
+    public void add(Universe universe) {
         if (universe.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
-            universe.setId(componentIdManager.getNewComponentId());
-            insertUniverse(universe);
-        } else {
-            updateUniverse(universe);
+            throw new RuntimeException();
         }
-
-        return universe;
-    }
-
-    private void insertUniverse(Universe universe) {
         database.update("insert into universes (id, name, description, created, lastUsed, lastModified, useCount) values (?, ?, ?, ?, ?, ?, ?)",
                 universe.getId(), universe.getName(), universe.getDescription(),
                 Timestamp.from(universe.getCreated()), Timestamp.from(universe.getLastUsed()), Timestamp.from(universe.getLastModified()),
                 universe.getUseCount()
         );
+    }
+
+    public Universe save(Universe universe) {
+        updateUniverse(universe);
+        return universe;
     }
 
     private void updateUniverse(Universe universe) {

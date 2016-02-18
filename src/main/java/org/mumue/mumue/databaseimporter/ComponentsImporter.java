@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.mumue.mumue.components.Component;
+import org.mumue.mumue.components.universe.Universe;
 
 class ComponentsImporter {
     private static final int ITEM_FLAGS_INDEX = 5;
@@ -23,7 +24,7 @@ class ComponentsImporter {
         this.spaceImporter = spaceImporter;
     }
 
-    public List<Component> importFrom(List<String> lines) {
+    public List<Component> importFrom(List<String> lines, Universe universe) {
         List<Component> components = new ArrayList<>();
         while (!lines.isEmpty()) {
             FuzzballDatabaseItemType type = FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX));
@@ -34,23 +35,23 @@ class ComponentsImporter {
                 lines.remove(0);
             }
 
-            components.add(importComponentFrom(componentLines, type));
+            components.add(importComponentFrom(componentLines, type, universe));
         }
         return components;
     }
 
-    private Component importComponentFrom(List<String> componentLines, FuzzballDatabaseItemType type) {
+    private Component importComponentFrom(List<String> componentLines, FuzzballDatabaseItemType type, Universe universe) {
         switch (type) {
             case CHARACTER:
-                return characterImporter.importFrom(componentLines);
+                return characterImporter.importFrom(componentLines, universe);
             case EXIT:
-                return linkImporter.importFrom(componentLines);
+                return linkImporter.importFrom(componentLines, universe);
             case PROGRAM:
-                return programImporter.importFrom(componentLines);
+                return programImporter.importFrom(componentLines, universe);
             case ROOM:
-                return spaceImporter.importFrom(componentLines);
+                return spaceImporter.importFrom(componentLines, universe);
             case THING:
-                return artifactImporter.importFrom(componentLines);
+                return artifactImporter.importFrom(componentLines, universe);
             default:
                 return null;
         }

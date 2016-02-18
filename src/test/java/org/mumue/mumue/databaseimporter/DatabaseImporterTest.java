@@ -17,8 +17,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mumue.mumue.components.Component;
+import org.mumue.mumue.components.LocatableComponent;
+import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.importer.GlobalConstants;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class DatabaseImporterTest {
     @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -27,7 +30,7 @@ public class DatabaseImporterTest {
     private final UniverseRepository universeRepository = mock(UniverseRepository.class);
     private final DatabaseImporter databaseImporter = new DatabaseImporter(
             new ComponentsImporter(new ArtifactImporter(), new CharacterImporter(), new LinkImporter(), new ProgramImporter(), new SpaceImporter()),
-            new LineLoader(), new ParametersExtractor(), new UniverseImporter(universeRepository));
+            new LineLoader(), new ParametersExtractor(), new UniverseImporter(Nimue.componentIdManager(), new UniverseBuilder(), universeRepository));
     private final ImportConfiguration importConfiguration = new ImportConfiguration();
 
     @Test
@@ -116,6 +119,18 @@ public class DatabaseImporterTest {
         for (Component component : results.getComponents()) {
             assertThat(component.getClass().toString(), component.getId(), not(equalTo(GlobalConstants.REFERENCE_UNKNOWN)));
         }
+    }
+
+    @Test
+    public void importComponentUniverseId() {
+        int components = RANDOM.nextInt(4) + 1;
+        File file = createFile(components, RANDOM.nextInt(10) + 5);
+        importConfiguration.setFile(file);
+
+        ImportResults results = databaseImporter.importUsing(importConfiguration);
+
+        LocatableComponent component = (LocatableComponent) results.getComponents().iterator().next();
+        assertThat(component.getClass().toString(), component.getUniverseId(), not(equalTo(GlobalConstants.REFERENCE_UNKNOWN)));
     }
 
     private File createFile(String muckName) {

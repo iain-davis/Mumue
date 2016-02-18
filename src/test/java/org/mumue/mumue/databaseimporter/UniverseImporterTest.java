@@ -2,20 +2,28 @@ package org.mumue.mumue.databaseimporter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.mock;
 
 import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.components.universe.Universe;
+import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.configuration.ComponentIdManager;
 import org.mumue.mumue.database.DatabaseHelper;
+import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class UniverseImporterTest {
-    private final UniverseRepository universeRepository = new UniverseRepository(mock(ComponentIdManager.class), DatabaseHelper.setupTestDatabaseWithSchema());
-    private final UniverseImporter importer = new UniverseImporter(universeRepository);
+    private final UniverseRepository universeRepository = new UniverseRepository(DatabaseHelper.setupTestDatabaseWithSchema());
+    private final ComponentIdManager componentIdManager = Nimue.componentIdManager();
+    private final UniverseImporter importer = new UniverseImporter(componentIdManager, new UniverseBuilder(), universeRepository);
+
+    @Test
+    public void setUniverseToNewId() {
+
+        Universe universe = importer.importFrom(createProperties());
+    }
 
     @Test
     public void importUniverseNameFromMuckNameProperty() {
@@ -39,12 +47,14 @@ public class UniverseImporterTest {
 
     @Test
     public void saveUniverseToRepository() {
-        Properties properties = createProperties(RandomStringUtils.randomAlphabetic(13), RandomStringUtils.randomNumeric(5));
-
-        Universe expected = importer.importFrom(properties);
+        Universe expected = importer.importFrom(createProperties());
         Universe universe = universeRepository.getUniverse(expected.getId());
 
         assertThat(universe.getName(), equalTo(expected.getName()));
+    }
+
+    private Properties createProperties() {
+        return createProperties(RandomStringUtils.randomAlphabetic(13), RandomStringUtils.randomNumeric(5));
     }
 
     private Properties createProperties(String muckName, String start) {

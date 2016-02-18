@@ -10,6 +10,8 @@ import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.components.Artifact;
+import org.mumue.mumue.components.universe.Universe;
+import org.mumue.mumue.components.universe.UniverseBuilder;
 
 public class ArtifactImporterTest {
     private static final Random RANDOM = new Random();
@@ -20,7 +22,7 @@ public class ArtifactImporterTest {
     public void neverReturnNull() {
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).build();
 
-        Artifact artifact = artifactImporter.importFrom(lines);
+        Artifact artifact = artifactImporter.importFrom(lines, new Universe());
 
         assertThat(artifact, notNullValue());
     }
@@ -30,7 +32,7 @@ public class ArtifactImporterTest {
         long id = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).withId(id).build();
 
-        Artifact artifact = artifactImporter.importFrom(lines);
+        Artifact artifact = artifactImporter.importFrom(lines, new Universe());
 
         assertThat(artifact.getId(), equalTo(id));
     }
@@ -40,18 +42,29 @@ public class ArtifactImporterTest {
         String name = RandomStringUtils.randomAlphabetic(16);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).withName(name).build();
 
-        Artifact artifact = artifactImporter.importFrom(lines);
+        Artifact artifact = artifactImporter.importFrom(lines, new Universe());
 
         assertThat(artifact.getName(), equalTo(name));
     }
 
     @Test
-    public void setLocation() {
+    public void setLocationId() {
         long locationId = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).withLocationId(locationId).build();
 
-        Artifact artifact = artifactImporter.importFrom(lines);
+        Artifact artifact = artifactImporter.importFrom(lines, new Universe());
 
         assertThat(artifact.getLocationId(), equalTo(locationId));
     }
+
+    @Test
+    public void setUniverseId() {
+        long universeId = RANDOM.nextInt(10000);
+        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).build();
+
+        Artifact artifact = artifactImporter.importFrom(lines, new UniverseBuilder().withId(universeId).build());
+
+        assertThat(artifact.getUniverseId(), equalTo(universeId));
+    }
+
 }

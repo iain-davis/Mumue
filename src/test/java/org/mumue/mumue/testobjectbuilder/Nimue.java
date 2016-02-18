@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.ComponentIdManager;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.states.ConnectionState;
@@ -33,6 +34,10 @@ public class Nimue {
         return new MockConnectionStateProvider();
     }
 
+    public static ComponentIdManager componentIdManager() {
+        return new MockComponentIdManager();
+    }
+
     private static class MockConnectionStateProvider extends ConnectionStateProvider {
         public MockConnectionStateProvider() {
             super(null);
@@ -58,6 +63,20 @@ public class Nimue {
 
         @Override
         public long getNewComponentId() {
+            lastComponentId++;
+            return lastComponentId;
+        }
+    }
+
+    private static class MockComponentIdManager extends ComponentIdManager {
+        private static long lastComponentId = 1000;
+
+        public MockComponentIdManager() {
+            super(null);
+        }
+
+        @Override
+        public synchronized long getNewComponentId() {
             lastComponentId++;
             return lastComponentId;
         }

@@ -7,19 +7,24 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.Collection;
+import java.util.Random;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.junit.Rule;
 import org.junit.Test;
-import org.mumue.mumue.configuration.ComponentIdManager;
+import org.junit.rules.ExpectedException;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
+import org.mumue.mumue.importer.GlobalConstants;
 
 public class UniverseRepositoryTest {
+    @Rule public ExpectedException thrown = ExpectedException.none();
+    private static final Random RANDOM = new Random();
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
-    private final UniverseRepository dao = new UniverseRepository(mock(ComponentIdManager.class), database);
+    private final UniverseRepository dao = new UniverseRepository(database);
 
     @Test
     public void getUniverseNeverReturnsNull() {
@@ -70,31 +75,27 @@ public class UniverseRepositoryTest {
     }
 
     @Test
-    public void saveUniverseSavesToDatabase() {
-        Universe expected = new UniverseBuilder().withName(RandomStringUtils.randomAlphabetic(13)).build();
+    public void addUniverseInsertsIntoDatabase() {
+        Universe expected = new UniverseBuilder().withId(RANDOM.nextInt(1000) + 1).withName(RandomStringUtils.randomAlphabetic(13)).build();
 
-        dao.save(expected);
-
-        Universe universe = getUniverse(expected.getName());
-        assertThat(universe, notNullValue());
-    }
-
-    @Test
-    public void insertOnlyIfIdIsUnknown() {
-        Universe expected = new UniverseBuilder().withName(RandomStringUtils.randomAlphabetic(13)).build();
-
-        dao.save(expected);
-        dao.save(expected);
+        dao.add(expected);
 
         Universe universe = getUniverse(expected.getName());
         assertThat(universe, notNullValue());
     }
 
     @Test
-    public void updateOnSubsequentCall() {
-        Universe expected = new UniverseBuilder().withName(RandomStringUtils.randomAlphabetic(13)).build();
+    public void addOnlyWithRealId() {
+        thrown.expect(RuntimeException.class);
+        Universe expected = new UniverseBuilder().withId(GlobalConstants.REFERENCE_UNKNOWN).withName(RandomStringUtils.randomAlphabetic(13)).build();
+        dao.add(expected);
+    }
 
-        dao.save(expected);
+    @Test
+    public void saveUniverse() {
+        Universe expected = new UniverseBuilder().withId(RANDOM.nextInt(1000) + 1).withName(RandomStringUtils.randomAlphabetic(13)).build();
+
+        dao.add(expected);
         expected.setName(RandomStringUtils.randomAlphabetic(14));
         dao.save(expected);
 

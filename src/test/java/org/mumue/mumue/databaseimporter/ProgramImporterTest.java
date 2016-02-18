@@ -10,6 +10,8 @@ import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.components.Program;
+import org.mumue.mumue.components.universe.Universe;
+import org.mumue.mumue.components.universe.UniverseBuilder;
 
 public class ProgramImporterTest {
     private static final Random RANDOM = new Random();
@@ -20,7 +22,7 @@ public class ProgramImporterTest {
     public void neverReturnNull() {
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.PROGRAM).build();
 
-        Program program = programImporter.importFrom(lines);
+        Program program = programImporter.importFrom(lines, new Universe());
 
         assertThat(program, notNullValue());
     }
@@ -30,7 +32,7 @@ public class ProgramImporterTest {
         long id = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.PROGRAM).withId(id).build();
 
-        Program program = programImporter.importFrom(lines);
+        Program program = programImporter.importFrom(lines, new Universe());
 
         assertThat(program.getId(), equalTo(id));
     }
@@ -40,18 +42,28 @@ public class ProgramImporterTest {
         String name = RandomStringUtils.randomAlphabetic(16);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.PROGRAM).withName(name).build();
 
-        Program program = programImporter.importFrom(lines);
+        Program program = programImporter.importFrom(lines, new Universe());
 
         assertThat(program.getName(), equalTo(name));
     }
 
     @Test
-    public void setLocation() {
+    public void setLocationId() {
         long locationId = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.PROGRAM).withLocationId(locationId).build();
 
-        Program program = programImporter.importFrom(lines);
+        Program program = programImporter.importFrom(lines, new Universe());
 
         assertThat(program.getLocationId(), equalTo(locationId));
+    }
+
+    @Test
+    public void setUniverseId() {
+        long universeId = RANDOM.nextInt(10000);
+        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.PROGRAM).build();
+
+        Program program = programImporter.importFrom(lines, new UniverseBuilder().withId(universeId).build());
+
+        assertThat(program.getUniverseId(), equalTo(universeId));
     }
 }
