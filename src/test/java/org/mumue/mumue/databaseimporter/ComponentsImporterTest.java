@@ -16,7 +16,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.components.Component;
 import org.mumue.mumue.components.LocatableComponent;
-import org.mumue.mumue.components.NameableComponent;
+import org.mumue.mumue.components.GameComponent;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.universe.Universe;
@@ -26,7 +26,7 @@ import org.mumue.mumue.importer.GlobalConstants;
 public class ComponentsImporterTest {
     private static final Random RANDOM = new Random();
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
-    private final ComponentsImporter importer = new ComponentsImporter(new ArtifactImporter(), new CharacterImporter(), new LinkImporter(), new ProgramImporter(), new SpaceImporter());
+    private final ComponentsImporter importer = new ComponentsImporter(new GameComponentImporter());
     private final Universe universe = new UniverseBuilder().withId(RANDOM.nextInt(100)).build();
 
     @Test
@@ -89,7 +89,7 @@ public class ComponentsImporterTest {
 
         List<Component> components = importer.importFrom(lines, universe);
 
-        NameableComponent component = (NameableComponent) components.get(0);
+        GameComponent component = (GameComponent) components.get(0);
         assertThat(component.getName(), equalTo(name));
     }
 

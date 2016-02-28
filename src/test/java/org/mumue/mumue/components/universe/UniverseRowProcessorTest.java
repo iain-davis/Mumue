@@ -17,12 +17,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.mumue.mumue.components.NameableComponentResultSetProcessor;
+import org.mumue.mumue.components.GameComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UniverseRowProcessorTest {
     @Mock ResultSet resultSet;
-    @Mock NameableComponentResultSetProcessor componentProcessor;
+    @Mock GameComponentResultSetProcessor componentProcessor;
     @InjectMocks UniverseRowProcessor processor;
 
     @Test

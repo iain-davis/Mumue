@@ -1,6 +1,6 @@
 package org.mumue.mumue.components;
 
-public abstract class NameableComponent extends Component {
+public abstract class GameComponent extends Component {
     private String name = "";
     private String description = "";
 

@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LocatableComponentResultSetProcessor {
-    private NameableComponentResultSetProcessor nameableProcessor = new NameableComponentResultSetProcessor();
+    private GameComponentResultSetProcessor nameableProcessor = new GameComponentResultSetProcessor();
 
     public void process(ResultSet resultSet, LocatableComponent component) throws SQLException {
         component.setLocationId(resultSet.getLong("locationId"));

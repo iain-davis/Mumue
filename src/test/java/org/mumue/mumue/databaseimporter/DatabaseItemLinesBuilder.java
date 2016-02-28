@@ -1,9 +1,11 @@
 package org.mumue.mumue.databaseimporter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.mumue.mumue.importer.GlobalConstants;
 
@@ -14,25 +16,39 @@ class DatabaseItemLinesBuilder {
     private static final String ROOM_FLAG = "0";
     private static final String PROGRAM_FLAG = "4";
     private static final String THING_FLAG = "1";
+    private static final String GARBAGE_FLAG = "5";
     private long id = GlobalConstants.REFERENCE_UNKNOWN;
     private String name = RandomStringUtils.randomAlphanumeric(25);
     private long locationId = GlobalConstants.REFERENCE_UNKNOWN;
-    private FuzzballDatabaseItemType type = FuzzballDatabaseItemType.values()[RANDOM.nextInt(FuzzballDatabaseItemType.values().length)];
+    private FuzzballDatabaseItemType type = randomItemType();
     private int propertyCount = RANDOM.nextInt(20) + 10;
+    private Instant createdOn = Instant.ofEpochSecond(0);
+    private Instant lastUsed = Instant.ofEpochSecond(0);
+    private Instant lastModified = Instant.ofEpochSecond(0);
+    private long useCount = -1;
+    private String description;
 
     List<String> build() {
         List<String> lines = new ArrayList<>();
-        lines.add("#" + id);
-        lines.add(name);
-        lines.add(String.valueOf(locationId));
-        lines.addAll(generateRandomLines(2));
-        lines.add(getFlagsFrom(type));
-        lines.addAll(generateRandomLines(4));
-        lines.add("*Props*");
-        lines.addAll(generateRandomLines(propertyCount));
-        lines.add("*End*");
-        lines.addAll(generateRandomLines(type.getCodaSize()));
+        lines.add("#" + id);                                               // 0 - Reference
+        lines.add(name);                                                   // 1 - Name
+        lines.add(String.valueOf(locationId));                             // 2 - Location Reference
+        lines.addAll(generateRandomLines(2));                              // 3 - Contents, 4 - Next
+        lines.add(getFlagsFrom(type));                                     // 5 - Flags
+        lines.add(generateTimestampFrom(createdOn));                       // 6 - Created On
+        lines.add(generateTimestampFrom(lastUsed));                        // 7 - Last Used
+        lines.add(String.valueOf(useCount));                               // 8 - Use Count
+        lines.add(generateTimestampFrom(lastModified));                    // 9 - Last Modified
+        lines.add("*Props*");                                              // 10
+        lines.add("_/de:10:" + description);
+        lines.addAll(generateRandomLines(propertyCount));                  // 11 ... (10 + number of props) - properties
+        lines.add("*End*");                                                // (11 + number of props)
+        lines.addAll(generateRandomLines(type.getCodaSize()));             // ...
         return lines;
+    }
+
+    private String generateTimestampFrom(Instant instant) {
+        return String.valueOf(instant.getEpochSecond());
     }
 
     private List<String> generateRandomLines(int lineCount) {
@@ -49,6 +65,8 @@ class DatabaseItemLinesBuilder {
                 return CHARACTER_FLAG;
             case EXIT:
                 return EXIT_FLAG;
+            case GARBAGE:
+                return GARBAGE_FLAG;
             case PROGRAM:
                 return PROGRAM_FLAG;
             case THING:
@@ -63,6 +81,17 @@ class DatabaseItemLinesBuilder {
     public DatabaseItemLinesBuilder withId(long id) {
         this.id = id;
         return this;
+    }
+
+    public DatabaseItemLinesBuilder withRandomType() {
+        this.type = randomItemType();
+        return this;
+    }
+
+    private FuzzballDatabaseItemType randomItemType() {
+        List<FuzzballDatabaseItemType> itemTypes = EnumUtils.getEnumList(FuzzballDatabaseItemType.class);
+        itemTypes.remove(FuzzballDatabaseItemType.GARBAGE);
+        return itemTypes.get(RANDOM.nextInt(itemTypes.size()));
     }
 
     public DatabaseItemLinesBuilder withType(FuzzballDatabaseItemType type) {
@@ -82,6 +111,31 @@ class DatabaseItemLinesBuilder {
 
     public DatabaseItemLinesBuilder withRandomId() {
         this.id = RANDOM.nextInt(10000);
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder createdOn(Instant createdOn) {
+        this.createdOn = createdOn;
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder lastUsedOn(Instant lastUsed) {
+        this.lastUsed = lastUsed;
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder lastModifiedOn(Instant lastModified) {
+        this.lastModified = lastModified;
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder withUseCount(long useCount) {
+        this.useCount = useCount;
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder withDescription(String description) {
+        this.description = description;
         return this;
     }
 }

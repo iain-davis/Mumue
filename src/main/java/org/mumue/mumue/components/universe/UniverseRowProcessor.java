@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.dbutils.BasicRowProcessor;
-import org.mumue.mumue.components.NameableComponentResultSetProcessor;
+import org.mumue.mumue.components.GameComponentResultSetProcessor;
 
 public class UniverseRowProcessor extends BasicRowProcessor {
-    private NameableComponentResultSetProcessor processor = new NameableComponentResultSetProcessor();
+    private GameComponentResultSetProcessor processor = new GameComponentResultSetProcessor();
 
     @Override
     public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {

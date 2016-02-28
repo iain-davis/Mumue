@@ -19,16 +19,16 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-public class NameableComponentResultSetProcessorTest {
+public class GameComponentResultSetProcessorTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
     private final String name = RandomStringUtils.randomAlphabetic(17);
     private final String description = RandomStringUtils.randomAlphabetic(17);
-    private final NameableComponent component = new NameableComponent() {
+    private final GameComponent component = new GameComponent() {
     };
 
     @Mock ResultSet resultSet;
     @Mock ComponentResultSetProcessor componentBaseProcessor;
-    @InjectMocks NameableComponentResultSetProcessor processor;
+    @InjectMocks GameComponentResultSetProcessor processor;
 
     @Before
     public void beforeEach() throws SQLException {
@@ -54,6 +54,6 @@ public class NameableComponentResultSetProcessorTest {
     public void convertTimestamps() throws SQLException {
         processor.process(resultSet, component);
 
-        verify(componentBaseProcessor).process(eq(resultSet), any(NameableComponent.class));
+        verify(componentBaseProcessor).process(eq(resultSet), any(GameComponent.class));
     }
 }

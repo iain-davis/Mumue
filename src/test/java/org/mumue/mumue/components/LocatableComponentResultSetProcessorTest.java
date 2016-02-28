@@ -24,7 +24,7 @@ public class LocatableComponentResultSetProcessorTest {
     private final LocatableComponent component = new LocatableComponent() {};
 
     @Mock ResultSet resultSet;
-    @Mock NameableComponentResultSetProcessor componentResultSetProcessor;
+    @Mock GameComponentResultSetProcessor componentResultSetProcessor;
     @InjectMocks LocatableComponentResultSetProcessor processor;
 
     @Before

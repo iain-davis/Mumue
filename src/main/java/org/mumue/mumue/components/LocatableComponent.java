@@ -2,7 +2,7 @@ package org.mumue.mumue.components;
 
 import org.mumue.mumue.importer.GlobalConstants;
 
-public abstract class LocatableComponent extends NameableComponent {
+public abstract class LocatableComponent extends GameComponent {
     private long locationId = GlobalConstants.REFERENCE_UNKNOWN;
     private long universeId = GlobalConstants.REFERENCE_UNKNOWN;
     private long homeLocationId = GlobalConstants.REFERENCE_UNKNOWN;

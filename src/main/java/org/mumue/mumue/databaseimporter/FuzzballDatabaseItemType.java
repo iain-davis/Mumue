@@ -3,6 +3,7 @@ package org.mumue.mumue.databaseimporter;
 enum FuzzballDatabaseItemType {
     CHARACTER (4),
     EXIT      (2),
+    GARBAGE   (0),
     PROGRAM   (1),
     ROOM      (3),
     THING     (4)
@@ -30,6 +31,8 @@ enum FuzzballDatabaseItemType {
                 return CHARACTER;
             case 4:
                 return PROGRAM;
+            case 5:
+                return GARBAGE;
             default:
                 throw new RuntimeException("Unexpected Fuzzball Database Item Type in line '" + line + "'");
         }
