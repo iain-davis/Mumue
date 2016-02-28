@@ -37,7 +37,7 @@ class GameComponentImporter {
         component.setName(lines.get(NAME_INDEX));
         component.setDescription(importDescriptionFrom(lines));
         component.setUniverseId(universe.getId());
-        component.setLocationId(getLocationId(lines));
+        component.setLocationId(importIntegerFrom(lines.get(LOCATION_INDEX)));
         return component;
     }
 
@@ -77,16 +77,5 @@ class GameComponentImporter {
             default:
                 return new Garbage();
         }
-    }
-
-    protected long importReferenceFrom(List<String> lines) {
-        return importIntegerFrom(lines.get(REFERENCE_ID_INDEX).substring(1));
-    }
-
-    protected String getName(List<String> lines) {
-        return lines.get(NAME_INDEX);
-    }
-    protected long getLocationId(List<String> lines) {
-        return Long.parseLong(lines.get(LOCATION_INDEX));
     }
 }

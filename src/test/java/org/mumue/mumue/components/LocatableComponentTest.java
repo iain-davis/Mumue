@@ -19,9 +19,4 @@ public class LocatableComponentTest {
     public void componentHasUnknownDefaultUniverseId() {
         assertThat(component.getUniverseId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
-
-    @Test
-    public void componentHasUnknownDefaultHomeLocationId() {
-        assertThat(component.getHomeLocationId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
-    }
 }
