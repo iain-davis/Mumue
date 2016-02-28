@@ -3,12 +3,7 @@ package org.mumue.mumue.databaseimporter;
 import java.time.Instant;
 import java.util.List;
 
-import org.mumue.mumue.components.Artifact;
-import org.mumue.mumue.components.Link;
 import org.mumue.mumue.components.LocatableComponent;
-import org.mumue.mumue.components.MufProgram;
-import org.mumue.mumue.components.character.GameCharacter;
-import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.universe.Universe;
 
 class GameComponentImporter {
@@ -25,7 +20,8 @@ class GameComponentImporter {
     private static final String DESCRIPTION_LINE_PREFIX = "_/de:10:";
 
     public LocatableComponent importFrom(List<String> lines, Universe universe) {
-        LocatableComponent component = createComponentAs(FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX)));
+        ComponentImporter componentImporter = getComponentImporter(FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX)));
+        LocatableComponent component = (LocatableComponent) componentImporter.createComponent();
         if (component instanceof Garbage) {
             return component;
         }
@@ -62,20 +58,20 @@ class GameComponentImporter {
         return null;
     }
 
-    private LocatableComponent createComponentAs(FuzzballDatabaseItemType type) {
+    private ComponentImporter getComponentImporter(FuzzballDatabaseItemType type) {
         switch (type) {
             case CHARACTER:
-                return new GameCharacter();
+                return new GameCharacterImporter();
             case EXIT:
-                return new Link();
+                return new LinkImporter();
             case PROGRAM:
-                return new MufProgram();
+                return new MufProgramImporter();
             case ROOM:
-                return new Space();
+                return new SpaceImporter();
             case THING:
-                return new Artifact();
+                return new ArtifactImporter();
             default:
-                return new Garbage();
+                return new GarbageImporter();
         }
     }
 }
