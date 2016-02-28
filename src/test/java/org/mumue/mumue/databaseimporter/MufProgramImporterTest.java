@@ -9,11 +9,4 @@ import org.mumue.mumue.components.MufProgram;
 
 public class MufProgramImporterTest {
     private final MufProgramImporter importer = new MufProgramImporter();
-
-    @Test
-    public void createComponent() {
-        Component component = importer.createComponent();
-
-        assertThat(component, instanceOf(MufProgram.class));
-    }
 }

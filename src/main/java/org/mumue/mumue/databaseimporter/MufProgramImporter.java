@@ -1,11 +1,14 @@
 package org.mumue.mumue.databaseimporter;
 
-import org.mumue.mumue.components.Component;
+import java.util.List;
+
 import org.mumue.mumue.components.MufProgram;
 
-class MufProgramImporter implements ComponentImporter {
+class MufProgramImporter implements ComponentImporter<MufProgram> {
+
     @Override
-    public Component createComponent() {
-        return new MufProgram();
+    public MufProgram importFrom(List<String> lines) {
+        MufProgram character = new MufProgram();
+        return character;
     }
 }

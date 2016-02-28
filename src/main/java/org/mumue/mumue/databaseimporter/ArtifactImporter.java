@@ -1,11 +1,14 @@
 package org.mumue.mumue.databaseimporter;
 
-import org.mumue.mumue.components.Artifact;
-import org.mumue.mumue.components.Component;
+import java.util.List;
 
-class ArtifactImporter implements ComponentImporter {
+import org.mumue.mumue.components.Artifact;
+
+class ArtifactImporter implements ComponentImporter<Artifact> {
+
     @Override
-    public Component createComponent() {
-        return new Artifact();
+    public Artifact importFrom(List<String> lines) {
+        Artifact artifact = new Artifact();
+        return artifact;
     }
 }

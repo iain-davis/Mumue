@@ -27,6 +27,7 @@ class DatabaseItemLinesBuilder {
     private Instant lastModified = Instant.ofEpochSecond(0);
     private long useCount = -1;
     private String description;
+    private long homeId;
 
     List<String> build() {
         List<String> lines = new ArrayList<>();
@@ -43,7 +44,33 @@ class DatabaseItemLinesBuilder {
         lines.add("_/de:10:" + description);
         lines.addAll(generateRandomLines(propertyCount));                  // 11 ... (10 + number of props) - properties
         lines.add("*End*");                                                // (11 + number of props)
-        lines.addAll(generateRandomLines(type.getCodaSize()));             // ...
+        lines.addAll(generateCodaLines(type));             // ...
+        return lines;
+    }
+
+    private List<String> generateCodaLines(FuzzballDatabaseItemType type) {
+        switch (type) {
+            case CHARACTER:
+                return generateCharacterCodaLines();
+            case EXIT:
+                return generateRandomLines(type.getCodaSize());
+            case GARBAGE:
+                return generateRandomLines(type.getCodaSize());
+            case PROGRAM:
+                return generateRandomLines(type.getCodaSize());
+            case ROOM:
+                return generateRandomLines(type.getCodaSize());
+            case THING:
+                return generateRandomLines(type.getCodaSize());
+            default:
+                return generateRandomLines(type.getCodaSize());
+        }
+    }
+
+    private List<String> generateCharacterCodaLines() {
+        List<String> lines = new ArrayList<>();
+        lines.addAll(generateRandomLines(type.getCodaSize() - 1));
+        lines.add(String.valueOf(homeId));
         return lines;
     }
 
@@ -136,6 +163,11 @@ class DatabaseItemLinesBuilder {
 
     public DatabaseItemLinesBuilder withDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder withHomeId(long homeId) {
+        this.homeId = homeId;
         return this;
     }
 }

@@ -21,7 +21,7 @@ class GameComponentImporter {
 
     public LocatableComponent importFrom(List<String> lines, Universe universe) {
         ComponentImporter componentImporter = getComponentImporter(FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX)));
-        LocatableComponent component = (LocatableComponent) componentImporter.createComponent();
+        LocatableComponent component = (LocatableComponent) componentImporter.importFrom(lines);
         if (component instanceof Garbage) {
             return component;
         }

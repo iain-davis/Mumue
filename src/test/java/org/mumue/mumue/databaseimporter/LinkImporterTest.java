@@ -9,11 +9,4 @@ import org.mumue.mumue.components.Link;
 
 public class LinkImporterTest {
     private final LinkImporter importer = new LinkImporter();
-
-    @Test
-    public void createComponent() {
-        Component component = importer.createComponent();
-
-        assertThat(component, instanceOf(Link.class));
-    }
 }

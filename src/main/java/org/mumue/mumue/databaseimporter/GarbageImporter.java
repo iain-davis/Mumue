@@ -1,11 +1,11 @@
 package org.mumue.mumue.databaseimporter;
 
-import org.mumue.mumue.components.Component;
-import org.mumue.mumue.components.character.GameCharacter;
+import java.util.List;
 
-class GarbageImporter implements ComponentImporter {
+class GarbageImporter implements ComponentImporter<Garbage> {
+
     @Override
-    public Component createComponent() {
+    public Garbage importFrom(List<String> lines) {
         return new Garbage();
     }
 }

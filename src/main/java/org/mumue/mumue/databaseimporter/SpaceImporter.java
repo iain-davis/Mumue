@@ -1,11 +1,14 @@
 package org.mumue.mumue.databaseimporter;
 
-import org.mumue.mumue.components.Component;
+import java.util.List;
+
 import org.mumue.mumue.components.space.Space;
 
-class SpaceImporter implements ComponentImporter {
+class SpaceImporter implements ComponentImporter<Space> {
+
     @Override
-    public Component createComponent() {
-        return new Space();
+    public Space importFrom(List<String> lines) {
+        Space space = new Space();
+        return space;
     }
 }

@@ -1,11 +1,15 @@
 package org.mumue.mumue.databaseimporter;
 
-import org.mumue.mumue.components.Component;
+import java.util.List;
+
 import org.mumue.mumue.components.Link;
 
-class LinkImporter implements ComponentImporter {
+class LinkImporter implements ComponentImporter<Link> {
+
     @Override
-    public Component createComponent() {
-        return new Link();
+    public Link importFrom(List<String> lines) {
+        Link link = new Link();
+        return link;
     }
+
 }

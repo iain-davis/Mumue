@@ -9,11 +9,4 @@ import org.mumue.mumue.components.Link;
 
 public class GarbageImporterTest {
     private final GarbageImporter importer = new GarbageImporter();
-
-    @Test
-    public void createComponent() {
-        Component component = importer.createComponent();
-
-        assertThat(component, instanceOf(Garbage.class));
-    }
 }
