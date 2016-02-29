@@ -26,8 +26,9 @@ class DatabaseItemLinesBuilder {
     private Instant lastUsed = Instant.ofEpochSecond(0);
     private Instant lastModified = Instant.ofEpochSecond(0);
     private long useCount = -1;
-    private String description;
-    private long homeId;
+    private String description = "";
+    private long homeId = GlobalConstants.REFERENCE_UNKNOWN;
+    private String password = "";
 
     List<String> build() {
         List<String> lines = new ArrayList<>();
@@ -69,8 +70,9 @@ class DatabaseItemLinesBuilder {
 
     private List<String> generateCharacterCodaLines() {
         List<String> lines = new ArrayList<>();
-        lines.addAll(generateRandomLines(type.getCodaSize() - 1));
         lines.add(String.valueOf(homeId));
+        lines.addAll(generateRandomLines(type.getCodaSize() - 2));
+        lines.add(password);
         return lines;
     }
 
@@ -168,6 +170,11 @@ class DatabaseItemLinesBuilder {
 
     public DatabaseItemLinesBuilder withHomeId(long homeId) {
         this.homeId = homeId;
+        return this;
+    }
+
+    public DatabaseItemLinesBuilder withPassword(String password) {
+        this.password = password;
         return this;
     }
 }

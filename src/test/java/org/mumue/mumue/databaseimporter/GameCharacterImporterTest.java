@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.components.character.GameCharacter;
 
@@ -20,9 +21,21 @@ public class GameCharacterImporterTest {
         long homeId = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).withHomeId(homeId).build();
 
-        GameCharacter character = importer.importFrom(lines);
+        ImportCharacter character = (ImportCharacter) importer.importFrom(lines);
 
         assertThat(character, notNullValue());
         assertThat(character.getHomeLocationId(), equalTo(homeId));
+    }
+
+    @Test
+    public void importFromSetsPassword() {
+        String password = RandomStringUtils.randomAlphabetic(13);
+        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
+                .withPassword(password).build();
+
+        ImportCharacter character = (ImportCharacter) importer.importFrom(lines);
+
+        assertThat(character, notNullValue());
+        assertThat(character.getPassword(), equalTo(password));
     }
 }

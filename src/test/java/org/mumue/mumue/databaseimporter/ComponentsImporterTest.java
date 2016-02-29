@@ -39,13 +39,18 @@ public class ComponentsImporterTest {
     @Test
     public void importOneCharacterComponent() {
         long homeId = RANDOM.nextInt(1000);
-        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).withHomeId(homeId).build();
+        String password = RandomStringUtils.randomAlphabetic(13);
+        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
+                .withPassword(password)
+                .withHomeId(homeId)
+                .build();
         List<Component> components = importer.importFrom(lines, universe);
 
         assertThat(components, notNullValue());
         assertThat(components.size(), equalTo(1));
         assertThat(components.get(0), instanceOf(GameCharacter.class));
         assertThat(((GameCharacter) components.get(0)).getHomeLocationId(), equalTo(homeId));
+        assertThat(((ImportCharacter) components.get(0)).getPassword(), equalTo(password));
     }
 
     @Test
