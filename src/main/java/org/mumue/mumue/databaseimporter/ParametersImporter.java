@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-class ParametersExtractor {
+class ParametersImporter {
     private static final int SOURCE_PARAMETER_COUNT_INDEX = 3;
     public static final int SOURCE_FIRST_PARAMETER_INDEX = 4;
 
-    public Properties extract(List<String> lines) {
+    public Properties importFrom(List<String> lines) {
         if (lines.isEmpty()) {
             return new Properties();
         }

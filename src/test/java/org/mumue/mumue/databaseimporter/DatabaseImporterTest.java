@@ -30,7 +30,7 @@ public class DatabaseImporterTest {
     private final UniverseRepository universeRepository = mock(UniverseRepository.class);
     private final DatabaseImporter databaseImporter = new DatabaseImporter(
             new ComponentsImporter(new GameComponentImporter()),
-            new LineLoader(), new ParametersExtractor(), new UniverseImporter(Nimue.componentIdManager(), new UniverseBuilder(), universeRepository));
+            new LineLoader(), new ParametersImporter(), new UniverseImporter(Nimue.componentIdManager(), new UniverseBuilder(), universeRepository));
     private final ImportConfiguration importConfiguration = new ImportConfiguration();
 
     @Test

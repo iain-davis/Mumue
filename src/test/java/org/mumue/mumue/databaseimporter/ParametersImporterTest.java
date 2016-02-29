@@ -12,12 +12,12 @@ import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
-public class ParametersExtractorTest {
-    private final ParametersExtractor extractor = new ParametersExtractor();
+public class ParametersImporterTest {
+    private final ParametersImporter extractor = new ParametersImporter();
 
     @Test
     public void neverReturnNull() {
-        Properties parameters = extractor.extract(new ArrayList<>());
+        Properties parameters = extractor.importFrom(new ArrayList<>());
 
         assertThat(parameters, notNullValue());
     }
@@ -31,7 +31,7 @@ public class ParametersExtractorTest {
         List<String> parameterLines = ImportTestHelper.generateParameterLines(new Random().nextInt(100));
         lines.add(String.valueOf(parameterLines.size()));
         lines.addAll(parameterLines);
-        Properties parameters = extractor.extract(lines);
+        Properties parameters = extractor.importFrom(lines);
 
         assertThat(parameters.size(), equalTo(parameterLines.size()));
         for (String parameter : parameterLines) {
