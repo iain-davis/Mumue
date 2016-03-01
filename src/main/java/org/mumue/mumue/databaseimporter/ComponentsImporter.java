@@ -2,6 +2,7 @@ package org.mumue.mumue.databaseimporter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mumue.mumue.components.Component;
 import org.mumue.mumue.components.universe.Universe;
@@ -15,6 +16,19 @@ class ComponentsImporter {
     }
 
     public List<Component> importFrom(List<String> lines, Universe universe) {
+        List<Component> components = importComponents(lines, universe);
+        components.addAll(generatePlayers(components));
+        return components;
+    }
+
+    private List<ImportPlayer> generatePlayers(List<Component> components) {
+        return components.stream()
+                .filter(ImportCharacter.class::isInstance)
+                .map(character -> new ImportPlayer((ImportCharacter) character))
+                .collect(Collectors.toList());
+    }
+
+    private List<Component> importComponents(List<String> lines, Universe universe) {
         List<Component> components = new ArrayList<>();
         while (!lines.isEmpty()) {
             int componentLineCount = calculateNumberOfComponentLines(lines);

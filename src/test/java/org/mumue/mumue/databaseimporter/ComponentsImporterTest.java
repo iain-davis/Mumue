@@ -8,20 +8,24 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.mumue.mumue.components.Artifact;
 import org.mumue.mumue.components.Component;
-import org.mumue.mumue.components.LocatableComponent;
 import org.mumue.mumue.components.GameComponent;
+import org.mumue.mumue.components.LocatableComponent;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
+import org.mumue.mumue.player.Player;
 
 public class ComponentsImporterTest {
     private static final Random RANDOM = new Random();
@@ -47,10 +51,41 @@ public class ComponentsImporterTest {
         List<Component> components = importer.importFrom(lines, universe);
 
         assertThat(components, notNullValue());
-        assertThat(components.size(), equalTo(1));
-        assertThat(components.get(0), instanceOf(GameCharacter.class));
-        assertThat(((GameCharacter) components.get(0)).getHomeLocationId(), equalTo(homeId));
-        assertThat(((ImportCharacter) components.get(0)).getPassword(), equalTo(password));
+        assertThat(components, hasItem(isA(GameCharacter.class)));
+        ImportCharacter character = (ImportCharacter) getComponentMatching(ImportCharacter.class, components);
+        assertThat(character.getHomeLocationId(), equalTo(homeId));
+        assertThat(character.getPassword(), equalTo(password));
+    }
+
+    @Test
+    public void createPlayerForCharacter() {
+        String name = RandomStringUtils.randomAlphabetic(17);
+        String password = RandomStringUtils.randomAlphanumeric(25);
+        Instant createdOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
+        Instant lastModified = Instant.now().minus(9, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
+        Instant lastUsed = Instant.now().minus(8, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
+        long useCount = RANDOM.nextInt(100000) + 1;
+        List<String> lines = databaseItemLinesBuilder
+                .createdOn(createdOn)
+                .withPassword(password)
+                .lastModifiedOn(lastModified)
+                .lastUsedOn(lastUsed)
+                .withUseCount(useCount)
+                .withType(FuzzballDatabaseItemType.CHARACTER)
+                .withName(name)
+                .build();
+        List<Component> components = importer.importFrom(lines, universe);
+
+        assertThat(components, notNullValue());
+        assertThat(components, hasItem(isA(ImportPlayer.class)));
+        ImportPlayer player = (ImportPlayer) getComponentMatching(ImportPlayer.class, components);
+
+        assertThat(player.getLoginId(), equalTo(name));
+        assertThat(player.getPassword(), equalTo(password));
+        assertThat(player.getCreated(), equalTo(createdOn));
+        assertThat(player.getLastModified(), equalTo(lastModified));
+        assertThat(player.getLastUsed(), equalTo(lastUsed));
+        assertThat(player.getUseCount(), equalTo(useCount));
     }
 
     @Test
@@ -66,14 +101,14 @@ public class ComponentsImporterTest {
     public void importTwoComponents() {
         List<String> lines = new ArrayList<>();
         lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).build());
-        lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).build());
+        lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).build());
 
         List<Component> components = importer.importFrom(lines, universe);
 
         assertThat(components, notNullValue());
         assertThat(components.size(), equalTo(2));
         assertThat(components, hasItem(isA(Space.class)));
-        assertThat(components, hasItem(isA(GameCharacter.class)));
+        assertThat(components, hasItem(isA(Artifact.class)));
     }
 
     @Test
@@ -124,5 +159,9 @@ public class ComponentsImporterTest {
 
         LocatableComponent component = (LocatableComponent) components.get(0);
         assertThat(component.getUniverseId(), equalTo(universeId));
+    }
+
+    private Component getComponentMatching(Class<? extends Component> componentType, List<Component> components) {
+        return components.stream().filter(componentType::isInstance).findFirst().get();
     }
 }
