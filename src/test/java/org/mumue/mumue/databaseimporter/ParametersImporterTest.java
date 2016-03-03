@@ -11,8 +11,10 @@ import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.mumue.mumue.databaseimporter.testapi.ParameterLinesBuilder;
 
 public class ParametersImporterTest {
+    private static final Random RANDOM = new Random();
     private final ParametersImporter extractor = new ParametersImporter();
 
     @Test
@@ -28,7 +30,7 @@ public class ParametersImporterTest {
         for (int i = 1; i <= 3; i++) {
             lines.add(RandomStringUtils.insecure().nextAlphabetic(5));
         }
-        List<String> parameterLines = ImportTestHelper.generateParameterLines(new Random().nextInt(100));
+        List<String> parameterLines = new ParameterLinesBuilder().withAdditionalRandomParameters(RANDOM.nextInt(100) + 1).getLines();
         lines.add(String.valueOf(parameterLines.size()));
         lines.addAll(parameterLines);
         Properties parameters = extractor.importFrom(lines);

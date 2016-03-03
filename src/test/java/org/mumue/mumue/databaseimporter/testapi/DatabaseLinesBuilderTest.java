@@ -1,6 +1,7 @@
 package org.mumue.mumue.databaseimporter.testapi;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -63,5 +64,13 @@ public class DatabaseLinesBuilderTest {
         List<String> lines = new DatabaseLinesBuilder(new ParameterLinesBuilder()).getLines();
 
         assertThat(lines.get(3), equalTo(String.valueOf(ParameterLinesBuilder.REQUIRED_PARAMETER_COUNT)));
+    }
+
+    @Test
+    public void parametersFollowParameterCount() {
+        List<String> lines = new DatabaseLinesBuilder(new ParameterLinesBuilder()).getLines();
+
+        assertThat(lines.get(4), containsString("="));
+        assertThat(lines.get(5), containsString("="));
     }
 }

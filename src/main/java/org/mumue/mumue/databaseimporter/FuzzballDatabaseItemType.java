@@ -1,6 +1,6 @@
 package org.mumue.mumue.databaseimporter;
 
-enum FuzzballDatabaseItemType {
+public enum FuzzballDatabaseItemType {
     CHARACTER (4),
     EXIT      (2),
     GARBAGE   (0),

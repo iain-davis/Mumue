@@ -1,4 +1,4 @@
-package org.mumue.mumue.databaseimporter;
+package org.mumue.mumue.databaseimporter.testapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -8,9 +8,10 @@ import java.util.Random;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.mumue.mumue.databaseimporter.FuzzballDatabaseItemType;
 import org.mumue.mumue.importer.GlobalConstants;
 
-class DatabaseItemLinesBuilder {
+public class DatabaseItemLinesBuilder {
     private static final Random RANDOM = new Random();
     private static final String CHARACTER_FLAG = "3";
     private static final String EXIT_FLAG = "2";
@@ -31,7 +32,7 @@ class DatabaseItemLinesBuilder {
     private long homeId = GlobalConstants.REFERENCE_UNKNOWN;
     private String password = "";
 
-    List<String> build() {
+    public List<String> build() {
         List<String> lines = new ArrayList<>();
         lines.add("#" + id);                                               // 0 - Reference
         lines.add(name);                                                   // 1 - Name

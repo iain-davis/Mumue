@@ -7,12 +7,12 @@ import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-class ParameterLinesBuilder implements LineBuilder {
+public class ParameterLinesBuilder implements LineBuilder {
     public static final int REQUIRED_PARAMETER_COUNT = 2;
     private static final Random RANDOM = new Random();
     private String playerStart = RandomStringUtils.randomNumeric(3);
     private String muckName = RandomStringUtils.randomAlphabetic(25);
-    private int additionalLineCount;
+    private long additionalLineCount;
 
     @Override
     public List<String> getLines() {
@@ -36,7 +36,7 @@ class ParameterLinesBuilder implements LineBuilder {
         return this;
     }
 
-    public ParameterLinesBuilder withAdditionalRandomParameters(int additionalLineCount) {
+    public ParameterLinesBuilder withAdditionalRandomParameters(long additionalLineCount) {
         this.additionalLineCount = additionalLineCount;
         return this;
     }
