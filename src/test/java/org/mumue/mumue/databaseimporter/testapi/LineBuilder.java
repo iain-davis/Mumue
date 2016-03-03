@@ -1,7 +1,7 @@
 package org.mumue.mumue.databaseimporter.testapi;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface LineBuilder {
-    Collection<String> getLines();
+    List<String> getLines();
 }
