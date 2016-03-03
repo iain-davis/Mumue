@@ -22,6 +22,7 @@ import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
+import org.mumue.mumue.databaseimporter.testapi.DatabaseItemLinesBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
 
 public class GameComponentImporterTest {
