@@ -6,9 +6,9 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class DatabaseHelper {
-    static final String MEMORY_DATABASE = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;NON_KEYWORDS=value";
+    private static final String MEMORY_DATABASE = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;NON_KEYWORDS=value";
     private static final String QUERY_PURGE_DATABASE = "DROP ALL OBJECTS";
-    public static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     public static DatabaseAccessor setupTestDatabaseWithDefaultData() {
         DatabaseAccessor database = setupTestDatabaseWithSchema();
