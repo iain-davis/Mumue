@@ -64,7 +64,7 @@ public class FuzzballDataBaseBuilderTest {
         }
 
         @Override
-        public Collection<String> getLines() {
+        public List<String> getLines() {
             return expected;
         }
     }
