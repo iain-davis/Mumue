@@ -35,6 +35,21 @@ public class DatabaseLinesBuilderTest {
     }
 
     @Test
+    public void thirdLineIsFormatVersion() {
+        String version = RandomStringUtils.randomAlphabetic(13);
+        List<String> lines = new DatabaseLinesBuilder().withFormatVersion(version).getLines();
+
+        assertThat(lines.get(2), equalTo(version));
+    }
+
+    @Test
+    public void formatVersionDefault() {
+        List<String> lines = new DatabaseLinesBuilder().getLines();
+
+        assertThat(lines.get(2), equalTo("1"));
+    }
+
+    @Test
     public void secondLineIsDatabaseItemCount() {
         int itemCount = RANDOM.nextInt(100) + 3;
 
