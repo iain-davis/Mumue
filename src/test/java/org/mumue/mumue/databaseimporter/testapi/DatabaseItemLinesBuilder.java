@@ -123,6 +123,7 @@ public class DatabaseItemLinesBuilder implements LineBuilder {
     private FuzzballDatabaseItemType randomItemType() {
         List<FuzzballDatabaseItemType> itemTypes = EnumUtils.getEnumList(FuzzballDatabaseItemType.class);
         itemTypes.remove(FuzzballDatabaseItemType.GARBAGE);
+        itemTypes.remove(FuzzballDatabaseItemType.CHARACTER);
         return itemTypes.get(RANDOM.nextInt(itemTypes.size()));
     }
 
