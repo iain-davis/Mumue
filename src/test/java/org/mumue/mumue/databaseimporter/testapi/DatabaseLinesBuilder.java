@@ -1,17 +1,18 @@
 package org.mumue.mumue.databaseimporter.testapi;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseLinesBuilder implements LineBuilder {
+    private final DatabaseItemLinesBuilder databaseItemLinesBuilder;
     private final ParameterLinesBuilder parameterLinesBuilder;
     private String format = "***Foxen5 TinyMUCK DUMP Format***";
     private int itemCount;
     private String version = "1";
 
-    public DatabaseLinesBuilder(ParameterLinesBuilder parameterLinesBuilder) {
+    public DatabaseLinesBuilder(ParameterLinesBuilder parameterLinesBuilder, DatabaseItemLinesBuilder databaseItemLinesBuilder) {
         this.parameterLinesBuilder = parameterLinesBuilder;
+        this.databaseItemLinesBuilder = databaseItemLinesBuilder;
     }
 
     @Override
@@ -23,6 +24,11 @@ public class DatabaseLinesBuilder implements LineBuilder {
         List<String> parameterLines = parameterLinesBuilder.getLines();
         lines.add(String.valueOf(parameterLines.size()));
         lines.addAll(parameterLines);
+
+        for (int i = 0; i < itemCount; i++) {
+            lines.addAll(databaseItemLinesBuilder.withId(i).getLines());
+        }
+        lines.add("***END OF DUMP***");
         return lines;
     }
 

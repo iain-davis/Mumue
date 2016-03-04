@@ -33,7 +33,7 @@ public class GameComponentImporterTest {
 
     @Test
     public void createCorrectType() {
-        List<String> lines = databaseItemLinesBuilder.withRandomType().build();
+        List<String> lines = databaseItemLinesBuilder.withRandomType().getLines();
 
         FuzzballDatabaseItemType type = FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX));
 
@@ -45,7 +45,7 @@ public class GameComponentImporterTest {
     @Test
     public void importReferenceId() {
         long id = RANDOM.nextInt(10000);
-        List<String> lines = databaseItemLinesBuilder.withRandomType().withId(id).build();
+        List<String> lines = databaseItemLinesBuilder.withRandomType().withId(id).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -57,7 +57,7 @@ public class GameComponentImporterTest {
     public void importCreatedTimestamp() {
         Instant createdOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
 
-        List<String> lines = databaseItemLinesBuilder.createdOn(createdOn).build();
+        List<String> lines = databaseItemLinesBuilder.createdOn(createdOn).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -69,7 +69,7 @@ public class GameComponentImporterTest {
     public void importLastUsedTimestamp() {
         Instant lastUsed = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
 
-        List<String> lines = databaseItemLinesBuilder.lastUsedOn(lastUsed).build();
+        List<String> lines = databaseItemLinesBuilder.lastUsedOn(lastUsed).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -81,7 +81,7 @@ public class GameComponentImporterTest {
     public void importUseCount() {
         long useCount = RANDOM.nextInt(100000);
 
-        List<String> lines = databaseItemLinesBuilder.withUseCount(useCount).build();
+        List<String> lines = databaseItemLinesBuilder.withUseCount(useCount).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -93,7 +93,7 @@ public class GameComponentImporterTest {
     public void importLastModifiedTimestamp() {
         Instant lastModifiedOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
 
-        List<String> lines = databaseItemLinesBuilder.lastModifiedOn(lastModifiedOn).build();
+        List<String> lines = databaseItemLinesBuilder.lastModifiedOn(lastModifiedOn).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -105,7 +105,7 @@ public class GameComponentImporterTest {
     public void importName() {
         String name = RandomStringUtils.insecure().nextAlphabetic(16);
 
-        List<String> lines = databaseItemLinesBuilder.withName(name).build();
+        List<String> lines = databaseItemLinesBuilder.withName(name).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -117,7 +117,7 @@ public class GameComponentImporterTest {
     public void importDescription() {
         String description = RandomStringUtils.insecure().nextAlphabetic(16);
 
-        List<String> lines = databaseItemLinesBuilder.withDescription(description).build();
+        List<String> lines = databaseItemLinesBuilder.withDescription(description).getLines();
 
         GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
 
@@ -129,7 +129,7 @@ public class GameComponentImporterTest {
     public void setUniverseId() {
         Universe universe = new UniverseBuilder().withId(RANDOM.nextInt(1000)).build();
 
-        List<String> lines = databaseItemLinesBuilder.build();
+        List<String> lines = databaseItemLinesBuilder.getLines();
 
         LocatableComponent component = gameComponentImporter.importFrom(lines, universe);
 
@@ -140,7 +140,7 @@ public class GameComponentImporterTest {
     @Test
     public void importLocationId() {
         long locationId = RANDOM.nextInt(100);
-        List<String> lines = databaseItemLinesBuilder.withLocationId(locationId).build();
+        List<String> lines = databaseItemLinesBuilder.withLocationId(locationId).getLines();
 
         LocatableComponent component = gameComponentImporter.importFrom(lines, new Universe());
         assertThat(component.getLocationId(), equalTo(locationId));
@@ -148,7 +148,7 @@ public class GameComponentImporterTest {
 
     @Test
     public void doNotProcessGarbage() {
-        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.GARBAGE).build();
+        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.GARBAGE).getLines();
 
         LocatableComponent component = gameComponentImporter.importFrom(lines, new Universe());
 

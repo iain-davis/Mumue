@@ -15,7 +15,7 @@ class ImportTestHelper {
         for (int i = 0; i < components; i++) {
             long id = i;
             if (i > 1) id = id * 2;
-            lines.addAll(databaseItemLinesBuilder.withId(id).build());
+            lines.addAll(databaseItemLinesBuilder.withId(id).getLines());
         }
         lines.add("***END OF DUMP***");
         return lines;

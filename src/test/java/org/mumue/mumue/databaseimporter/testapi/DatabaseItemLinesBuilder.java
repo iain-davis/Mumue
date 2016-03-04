@@ -11,7 +11,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.mumue.mumue.databaseimporter.FuzzballDatabaseItemType;
 import org.mumue.mumue.importer.GlobalConstants;
 
-public class DatabaseItemLinesBuilder {
+public class DatabaseItemLinesBuilder implements LineBuilder {
     private static final Random RANDOM = new Random();
     private static final String CHARACTER_FLAG = "3";
     private static final String EXIT_FLAG = "2";
@@ -32,7 +32,8 @@ public class DatabaseItemLinesBuilder {
     private long homeId = GlobalConstants.REFERENCE_UNKNOWN;
     private String password = "";
 
-    public List<String> build() {
+    @Override
+    public List<String> getLines() {
         List<String> lines = new ArrayList<>();
         lines.add("#" + id);                                               // 0 - Reference
         lines.add(name);                                                   // 1 - Name

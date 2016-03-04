@@ -19,7 +19,7 @@ public class GameCharacterImporterTest {
     @Test
     public void importFromSetsHomeId() {
         long homeId = RANDOM.nextInt(10000);
-        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).withHomeId(homeId).build();
+        List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER).withHomeId(homeId).getLines();
 
         ImportCharacter character = (ImportCharacter) importer.importFrom(lines);
 
@@ -31,7 +31,7 @@ public class GameCharacterImporterTest {
     public void importFromSetsPassword() {
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
-                .withPassword(password).build();
+                .withPassword(password).getLines();
 
         ImportCharacter character = (ImportCharacter) importer.importFrom(lines);
 
