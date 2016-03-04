@@ -35,7 +35,7 @@ public class ComponentsImporterTest {
 
     @Test
     public void neverReturnNull() {
-        List<Component> components = importer.importFrom(databaseItemLinesBuilder.build(), universe);
+        List<Component> components = importer.importFrom(databaseItemLinesBuilder.getLines(), universe);
 
         assertThat(components, notNullValue());
     }
@@ -47,7 +47,7 @@ public class ComponentsImporterTest {
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
                 .withPassword(password)
                 .withHomeId(homeId)
-                .build();
+                .getLines();
         List<Component> components = importer.importFrom(lines, universe);
 
         assertThat(components, notNullValue());
@@ -73,7 +73,7 @@ public class ComponentsImporterTest {
                 .withUseCount(useCount)
                 .withType(FuzzballDatabaseItemType.CHARACTER)
                 .withName(name)
-                .build();
+                .getLines();
         List<Component> components = importer.importFrom(lines, universe);
 
         assertThat(components, notNullValue());
@@ -90,7 +90,7 @@ public class ComponentsImporterTest {
 
     @Test
     public void importOneSpaceComponent() {
-        List<Component> components = importer.importFrom(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).build(), universe);
+        List<Component> components = importer.importFrom(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).getLines(), universe);
 
         assertThat(components, notNullValue());
         assertThat(components.size(), equalTo(1));
@@ -100,8 +100,8 @@ public class ComponentsImporterTest {
     @Test
     public void importTwoComponents() {
         List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).build());
-        lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).build());
+        lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.ROOM).getLines());
+        lines.addAll(databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.THING).getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -114,8 +114,8 @@ public class ComponentsImporterTest {
     @Test
     public void importComponentReferenceId() {
         List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).build());
-        lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).build());
+        lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).getLines());
+        lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -128,7 +128,7 @@ public class ComponentsImporterTest {
     public void importComponentName() {
         List<String> lines = new ArrayList<>();
         String name = RandomStringUtils.randomAlphabetic(25);
-        lines.addAll(databaseItemLinesBuilder.withName(name).build());
+        lines.addAll(databaseItemLinesBuilder.withName(name).getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -140,7 +140,7 @@ public class ComponentsImporterTest {
     public void importComponentLocationId() {
         long locationId = RANDOM.nextInt(100);
         List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withLocationId(locationId).build());
+        lines.addAll(databaseItemLinesBuilder.withLocationId(locationId).getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -153,7 +153,7 @@ public class ComponentsImporterTest {
         long universeId = RANDOM.nextInt(100);
         Universe universe = new UniverseBuilder().withId(universeId).build();
         List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withRandomId().build());
+        lines.addAll(databaseItemLinesBuilder.withRandomId().getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 

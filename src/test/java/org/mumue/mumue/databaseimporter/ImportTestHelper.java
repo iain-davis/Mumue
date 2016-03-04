@@ -13,7 +13,7 @@ class ImportTestHelper {
         List<String> lines = new ArrayList<>();
         lines.addAll(new ParameterLinesBuilder().withMuckName(muckName).withPlayerStart(startingLocation).withAdditionalRandomParameters(randomParameters).getLines());
         for (int i = 0; i < components; i++) {
-            lines.addAll(databaseItemLinesBuilder.withRandomId().build());
+            lines.addAll(databaseItemLinesBuilder.withRandomId().getLines());
         }
         lines.add("***END OF DUMP***");
         return lines;
