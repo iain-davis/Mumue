@@ -6,10 +6,7 @@ import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -20,6 +17,10 @@ import org.mumue.mumue.components.Component;
 import org.mumue.mumue.components.LocatableComponent;
 import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.components.universe.UniverseRepository;
+import org.mumue.mumue.databaseimporter.testapi.DatabaseItemLinesBuilder;
+import org.mumue.mumue.databaseimporter.testapi.DatabaseLinesBuilder;
+import org.mumue.mumue.databaseimporter.testapi.FuzzballDataBaseBuilder;
+import org.mumue.mumue.databaseimporter.testapi.ParameterLinesBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.testobjectbuilder.Nimue;
 
@@ -40,7 +41,7 @@ public class DatabaseImporterTest {
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
 
-        assertThat(results.getParameterCount(), equalTo(parameterCount + 2));
+        assertThat(results.getParameterCount(), equalTo(parameterCount + ParameterLinesBuilder.REQUIRED_PARAMETER_COUNT));
     }
 
     @Test
@@ -163,37 +164,16 @@ public class DatabaseImporterTest {
     }
 
     private File createFile(Integer itemCount, Long parameterCount, String fileFormat, String formatVersion, String muckName, long startingLocation) {
-        File file = createTemporaryFile(muckName);
-        PrintWriter writer = createWriter(file);
-        writer.println(fileFormat);
-        writer.println(itemCount.toString());
-        writer.println(formatVersion);
-        List<String> lines = ImportTestHelper.generateLines(parameterCount, muckName, startingLocation, itemCount);
-        writer.println(String.valueOf(parameterCount + 2));
-        lines.stream().forEach(writer::println);
-        writer.flush();
-        writer.close();
-        return file;
-    }
+        ParameterLinesBuilder parameterLinesBuilder = new ParameterLinesBuilder()
+                .withAdditionalRandomParameters(parameterCount)
+                .withMuckName(muckName)
+                .withPlayerStart(startingLocation);
 
-    private PrintWriter createWriter(File file) {
-        try {
-            return new PrintWriter(file) {
-                @Override
-                public void println(String line) {
-                    print(line + "\n");
-                }
-            };
-        } catch (FileNotFoundException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+        DatabaseLinesBuilder databaseLinesBuilder = new DatabaseLinesBuilder(parameterLinesBuilder, new DatabaseItemLinesBuilder())
+                .withDatabaseItemCount(itemCount)
+                .withFormat(fileFormat)
+                .withFormatVersion(formatVersion);
 
-    private File createTemporaryFile(String fileName) {
-        try {
-            return temporaryFolder.newFile(fileName);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+        return new FuzzballDataBaseBuilder(temporaryFolder, databaseLinesBuilder).build();
     }
 }

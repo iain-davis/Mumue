@@ -1,7 +1,6 @@
 package org.mumue.mumue.databaseimporter.testapi;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -18,7 +17,12 @@ public class FuzzballDataBaseBuilder {
 
     public File build() {
         File file = createFile();
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(file))) {
+        try (PrintWriter writer = new PrintWriter(file) {
+            @Override
+            public void println(String line) {
+                print(line + "\n");
+            }
+        }) {
             lineBuilder.getLines().forEach(writer::println);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
