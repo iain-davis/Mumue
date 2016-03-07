@@ -7,15 +7,17 @@ class DatabaseImporter {
     private static final int FILE_FORMAT_LINE_INDEX = 0;
     private static final int FILE_FORMAT_VERSION_LINE_INDEX = 2;
     private final LineLoader lineLoader;
-    private final ParametersImporter parametersImporter;
+    private final ParametersParser parametersParser;
     private final UniverseImporter universeImporter;
-    private final ComponentsImporter componentsImporter;
+    private final ComponentsParser componentsParser;
+    private final ComponentsWriter componentsWriter;
 
     @Inject
-    DatabaseImporter(ComponentsImporter componentsImporter, LineLoader lineLoader, ParametersImporter parametersImporter, UniverseImporter universeImporter) {
-        this.componentsImporter = componentsImporter;
+    DatabaseImporter(ComponentsParser componentsParser, ComponentsWriter componentsWriter, LineLoader lineLoader, ParametersParser parametersParser, UniverseImporter universeImporter) {
+        this.componentsParser = componentsParser;
+        this.componentsWriter = componentsWriter;
         this.lineLoader = lineLoader;
-        this.parametersImporter = parametersImporter;
+        this.parametersParser = parametersParser;
         this.universeImporter = universeImporter;
     }
 
@@ -26,16 +28,16 @@ class DatabaseImporter {
     private ImportResults importFrom(List<String> sourceLines) {
         ImportResults importResults = new ImportResults();
         if (isValidFormat(sourceLines)) {
-            importResults.setParameters(parametersImporter.importFrom(sourceLines));
+            importResults.setParameters(parametersParser.importFrom(sourceLines));
             importResults.setUniverse(universeImporter.importFrom(importResults.getParameters()));
             List<String> lines = getComponentLines(sourceLines, importResults.getParameters().size());
-            importResults.setComponents(componentsImporter.importFrom(lines, importResults.getUniverse()));
+            importResults.setComponents(componentsParser.importFrom(lines, importResults.getUniverse()));
         }
         return importResults;
     }
 
     private List<String> getComponentLines(List<String> sourceLines, int parametersSize) {
-        int startOfComponentsIndex = ParametersImporter.SOURCE_FIRST_PARAMETER_INDEX + parametersSize;
+        int startOfComponentsIndex = ParametersParser.SOURCE_FIRST_PARAMETER_INDEX + parametersSize;
         int endOfComponentsIndex = sourceLines.indexOf("***END OF DUMP***");
         return sourceLines.subList(startOfComponentsIndex, endOfComponentsIndex);
     }

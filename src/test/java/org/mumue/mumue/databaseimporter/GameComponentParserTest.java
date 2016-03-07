@@ -25,11 +25,11 @@ import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.databaseimporter.testapi.DatabaseItemLinesBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
 
-public class GameComponentImporterTest {
+public class GameComponentParserTest {
     private static final Random RANDOM = new Random();
     private static final int ITEM_FLAGS_INDEX = 5;
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
-    private final GameComponentImporter gameComponentImporter = new GameComponentImporter();
+    private final GameComponentParser gameComponentParser = new GameComponentParser();
 
     @Test
     public void createCorrectType() {
@@ -37,7 +37,7 @@ public class GameComponentImporterTest {
 
         FuzzballDatabaseItemType type = FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX));
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, instanceOf(typeClass(type)));
     }
@@ -47,7 +47,7 @@ public class GameComponentImporterTest {
         long id = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withRandomType().withId(id).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getId(), equalTo(id));
@@ -59,7 +59,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.createdOn(createdOn).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getCreated(), equalTo(createdOn));
@@ -71,7 +71,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.lastUsedOn(lastUsed).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getLastUsed(), equalTo(lastUsed));
@@ -83,7 +83,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.withUseCount(useCount).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getUseCount(), equalTo(useCount));
@@ -95,7 +95,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.lastModifiedOn(lastModifiedOn).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getLastModified(), equalTo(lastModifiedOn));
@@ -107,7 +107,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.withName(name).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getName(), equalTo(name));
@@ -119,7 +119,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.withDescription(description).getLines();
 
-        GameComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        GameComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getDescription(), equalTo(description));
@@ -131,7 +131,7 @@ public class GameComponentImporterTest {
 
         List<String> lines = databaseItemLinesBuilder.getLines();
 
-        LocatableComponent component = gameComponentImporter.importFrom(lines, universe);
+        LocatableComponent component = gameComponentParser.importFrom(lines, universe);
 
         assertThat(component, notNullValue());
         assertThat(component.getUniverseId(), equalTo(universe.getId()));
@@ -142,7 +142,7 @@ public class GameComponentImporterTest {
         long locationId = RANDOM.nextInt(100);
         List<String> lines = databaseItemLinesBuilder.withLocationId(locationId).getLines();
 
-        LocatableComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        LocatableComponent component = gameComponentParser.importFrom(lines, new Universe());
         assertThat(component.getLocationId(), equalTo(locationId));
     }
 
@@ -150,7 +150,7 @@ public class GameComponentImporterTest {
     public void doNotProcessGarbage() {
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.GARBAGE).getLines();
 
-        LocatableComponent component = gameComponentImporter.importFrom(lines, new Universe());
+        LocatableComponent component = gameComponentParser.importFrom(lines, new Universe());
 
         assertThat(component, notNullValue());
         assertThat(component.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));

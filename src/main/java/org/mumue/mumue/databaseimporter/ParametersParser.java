@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-class ParametersImporter {
+class ParametersParser {
     private static final int SOURCE_PARAMETER_COUNT_INDEX = 3;
     public static final int SOURCE_FIRST_PARAMETER_INDEX = 4;
 

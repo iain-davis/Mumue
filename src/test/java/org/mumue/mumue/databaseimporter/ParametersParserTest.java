@@ -13,9 +13,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.mumue.mumue.databaseimporter.testapi.ParameterLinesBuilder;
 
-public class ParametersImporterTest {
+public class ParametersParserTest {
     private static final Random RANDOM = new Random();
-    private final ParametersImporter extractor = new ParametersImporter();
+    private final ParametersParser extractor = new ParametersParser();
 
     @Test
     public void neverReturnNull() {

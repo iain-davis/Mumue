@@ -27,10 +27,10 @@ import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.databaseimporter.testapi.DatabaseItemLinesBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
 
-public class ComponentsImporterTest {
+public class ComponentsParserTest {
     private static final Random RANDOM = new Random();
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
-    private final ComponentsImporter importer = new ComponentsImporter(new GameComponentImporter());
+    private final ComponentsParser importer = new ComponentsParser(new GameComponentParser());
     private final Universe universe = new UniverseBuilder().withId(RANDOM.nextInt(100)).build();
 
     @Test

@@ -39,10 +39,11 @@ public class UniverseRepository {
         if (universe.getId() == GlobalConstants.REFERENCE_UNKNOWN) {
             throw new RuntimeException();
         }
-        database.update("insert into universes (id, name, description, created, lastUsed, lastModified, useCount) values (?, ?, ?, ?, ?, ?, ?)",
+        database.update("insert into universes (id, name, description, created, lastModified, lastUsed, useCount, startingSpaceId) values (?, ?, ?, ?, ?, ?, ?, ?)",
                 universe.getId(), universe.getName(), universe.getDescription(),
-                Timestamp.from(universe.getCreated()), Timestamp.from(universe.getLastUsed()), Timestamp.from(universe.getLastModified()),
-                universe.getUseCount()
+                Timestamp.from(universe.getCreated()), Timestamp.from(universe.getLastModified()), Timestamp.from(universe.getLastUsed()),
+                universe.getUseCount(),
+                universe.getStartingSpaceId()
         );
     }
 
