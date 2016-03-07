@@ -19,6 +19,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -27,9 +28,9 @@ import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class ComponentsImporterTest {
+public class ComponentsParserTest {
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
-    private final ComponentsImporter importer = new ComponentsImporter(new GameComponentImporter());
+    private final ComponentsParser importer = new ComponentsParser(new GameComponentParser());
     private final Universe universe = new UniverseBuilder().withId(RandomUtils.insecure().randomLong(1, 100)).build();
 
     @Test
@@ -60,9 +61,9 @@ public class ComponentsImporterTest {
     public void createPlayerForCharacter() {
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
         String password = RandomStringUtils.insecure().nextAlphanumeric(25);
-        Instant createdOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
-        Instant lastModified = Instant.now().minus(9, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
-        Instant lastUsed = Instant.now().minus(8, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
+        Instant createdOn = Instant.now().minus(10, DAYS).truncatedTo(SECONDS);
+        Instant lastModified = Instant.now().minus(9, DAYS).truncatedTo(SECONDS);
+        Instant lastUsed = Instant.now().minus(8, DAYS).truncatedTo(SECONDS);
         long useCount = RandomUtils.insecure().randomInt(1, 10000);
         List<String> lines = databaseItemLinesBuilder
                 .createdOn(createdOn)
@@ -125,9 +126,8 @@ public class ComponentsImporterTest {
 
     @Test
     public void importComponentName() {
-        List<String> lines = new ArrayList<>();
         String name = RandomStringUtils.insecure().nextAlphabetic(25);
-        lines.addAll(databaseItemLinesBuilder.withName(name).getLines());
+        List<String> lines = new ArrayList<>(databaseItemLinesBuilder.withName(name).getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -138,8 +138,7 @@ public class ComponentsImporterTest {
     @Test
     public void importComponentLocationId() {
         long locationId = RandomUtils.insecure().randomInt(1, 100);
-        List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withLocationId(locationId).getLines());
+        List<String> lines = new ArrayList<>(databaseItemLinesBuilder.withLocationId(locationId).getLines());
 
         List<Component> components = importer.importFrom(lines, universe);
 

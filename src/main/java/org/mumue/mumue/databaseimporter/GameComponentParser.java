@@ -6,7 +6,7 @@ import java.util.List;
 import org.mumue.mumue.components.LocatableComponent;
 import org.mumue.mumue.components.universe.Universe;
 
-class GameComponentImporter {
+class GameComponentParser {
     protected static final int REFERENCE_ID_INDEX = 0;
     protected static final int NAME_INDEX = 1;
     protected static final int LOCATION_INDEX = 2;

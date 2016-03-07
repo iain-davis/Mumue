@@ -148,8 +148,8 @@ class ImportPathPromptHandlerTest {
         }
 
         @Override
-        public void launchWith(ImportConfiguration importConfiguration) {
-            this.importConfiguration = importConfiguration;
+        public void launchWith(ImportConfiguration configuration) {
+            this.importConfiguration = configuration;
         }
     }
 }

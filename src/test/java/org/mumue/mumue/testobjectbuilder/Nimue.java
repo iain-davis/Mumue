@@ -2,6 +2,8 @@ package org.mumue.mumue.testobjectbuilder;
 
 import static org.mockito.Mockito.mock;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import org.mumue.mumue.components.character.CharacterBuilder;
@@ -36,6 +38,14 @@ public class Nimue {
 
     public static ComponentIdManager componentIdManager() {
         return new MockComponentIdManager();
+    }
+
+    public static Instant nowInstant() {
+        return Instant.now().truncatedTo(ChronoUnit.SECONDS);
+    }
+
+    public static Instant randomInstant() {
+        return nowInstant().minus(new Random().nextInt(1000) + 1, ChronoUnit.DAYS);
     }
 
     private static class MockConnectionStateProvider extends ConnectionStateProvider {

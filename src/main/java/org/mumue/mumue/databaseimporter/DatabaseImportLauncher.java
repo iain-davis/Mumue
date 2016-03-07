@@ -13,7 +13,7 @@ public class DatabaseImportLauncher {
         this.executorService = executorService;
     }
 
-    public void launchWith(ImportConfiguration importConfiguration) {
-        executorService.submit(() -> databaseImporter.importUsing(importConfiguration));
+    public void launchWith(ImportConfiguration configuration) {
+        executorService.submit(() -> databaseImporter.importUsing(configuration));
     }
 }

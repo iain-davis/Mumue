@@ -1,18 +1,20 @@
 package org.mumue.mumue.databaseimporter;
 
+import jakarta.inject.Inject;
+import org.mumue.mumue.components.Component;
+import org.mumue.mumue.components.universe.Universe;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.mumue.mumue.components.Component;
-import org.mumue.mumue.components.universe.Universe;
-
-class ComponentsImporter {
+class ComponentsParser {
     private static final int ITEM_FLAGS_INDEX = 5;
-    private final GameComponentImporter gameComponentImporter;
+    private final GameComponentParser gameComponentParser;
 
-    ComponentsImporter(GameComponentImporter gameComponentImporter) {
-        this.gameComponentImporter = gameComponentImporter;
+    @Inject
+    ComponentsParser(GameComponentParser gameComponentParser) {
+        this.gameComponentParser = gameComponentParser;
     }
 
     public List<Component> importFrom(List<String> lines, Universe universe) {
@@ -32,7 +34,7 @@ class ComponentsImporter {
         List<Component> components = new ArrayList<>();
         while (!lines.isEmpty()) {
             int componentLineCount = calculateNumberOfComponentLines(lines);
-            components.add(gameComponentImporter.importFrom(lines.subList(0, componentLineCount), universe));
+            components.add(gameComponentParser.importFrom(lines.subList(0, componentLineCount), universe));
             for (int i = 0; i < componentLineCount; i++) {
                 lines.remove(0);
             }
