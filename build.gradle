@@ -31,12 +31,12 @@ dependencies {
     implementation 'com.google.inject:guice:7.0.0'
 
     // Database
-    implementation 'org.apache.commons:commons-dbcp2:2.1.1'
+    implementation 'org.apache.commons:commons-dbcp2:2.12.0'
     implementation 'commons-dbutils:commons-dbutils:1.6'
     implementation 'com.h2database:h2:1.4.190'
 
     testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation 'junit:junit:4.12', excludeHamcrest
+    testImplementation 'junit:junit:4.13.2', excludeHamcrest
     testImplementation 'org.mockito:mockito-core:1.10.19', excludeHamcrest
     testImplementation 'org.unitils:unitils-core:3.4', excludeHamcrest
     testImplementation 'commons-net:commons-net:3.11.0'
