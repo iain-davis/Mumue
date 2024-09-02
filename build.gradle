@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-task fatJar(type: Jar) {
+tasks.register('fatJar', Jar) {
     manifest {
         //noinspection GroovyAssignabilityCheck
         attributes 'Main-Class': 'org.mumue.mumue.Main'
