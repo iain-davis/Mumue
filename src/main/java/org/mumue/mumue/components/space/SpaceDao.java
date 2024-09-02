@@ -1,6 +1,6 @@
 package org.mumue.mumue.components.space;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;

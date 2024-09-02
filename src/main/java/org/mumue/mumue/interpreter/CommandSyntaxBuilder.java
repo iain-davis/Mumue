@@ -1,6 +1,6 @@
 package org.mumue.mumue.interpreter;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.mumue.mumue.interpreter.commands.Command;
 

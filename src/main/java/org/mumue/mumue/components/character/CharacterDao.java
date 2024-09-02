@@ -2,7 +2,7 @@ package org.mumue.mumue.components.character;
 
 import java.sql.Timestamp;
 import java.util.List;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;

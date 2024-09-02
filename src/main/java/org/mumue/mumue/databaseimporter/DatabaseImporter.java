@@ -1,7 +1,7 @@
 package org.mumue.mumue.databaseimporter;
 
 import java.util.List;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 class DatabaseImporter {
     private static final int FILE_FORMAT_LINE_INDEX = 0;

@@ -2,7 +2,7 @@ package org.mumue.mumue.connection.states;
 
 import java.io.File;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Singleton;

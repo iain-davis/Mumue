@@ -3,7 +3,7 @@ package org.mumue.mumue;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.connection.Acceptor;

@@ -1,6 +1,6 @@
 package org.mumue.mumue.configuration.online;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;

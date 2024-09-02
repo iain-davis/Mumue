@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.mumue.mumue.connection.Acceptor;
 import org.mumue.mumue.threading.InfiniteLoopRunner;

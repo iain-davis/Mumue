@@ -1,7 +1,7 @@
 package org.mumue.mumue.database;
 
 import java.sql.SQLException;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.QueryRunner;

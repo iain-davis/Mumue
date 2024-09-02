@@ -1,7 +1,7 @@
 package org.mumue.mumue.configuration.online;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mumue.mumue.configuration.ConfigurationDefaults;

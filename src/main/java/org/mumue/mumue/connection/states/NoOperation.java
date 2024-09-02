@@ -1,6 +1,6 @@
 package org.mumue.mumue.connection.states;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;

@@ -2,7 +2,7 @@ package org.mumue.mumue;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;

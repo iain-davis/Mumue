@@ -2,8 +2,8 @@ package org.mumue.mumue.connection.states;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseRepository;

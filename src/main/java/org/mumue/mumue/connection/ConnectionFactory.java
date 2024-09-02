@@ -1,7 +1,7 @@
 package org.mumue.mumue.connection;
 
 import java.net.Socket;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.inject.Injector;
 import org.mumue.mumue.configuration.ApplicationConfiguration;

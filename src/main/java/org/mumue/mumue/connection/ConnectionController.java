@@ -1,6 +1,6 @@
 package org.mumue.mumue.connection;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.states.ConnectionState;

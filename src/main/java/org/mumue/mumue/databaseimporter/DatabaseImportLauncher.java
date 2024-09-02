@@ -1,7 +1,7 @@
 package org.mumue.mumue.databaseimporter;
 
 import java.util.concurrent.ExecutorService;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class DatabaseImportLauncher {
     private final DatabaseImporter databaseImporter;

@@ -1,8 +1,8 @@
 package org.mumue.mumue.connection.states;
 
 import java.util.Map;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import com.google.common.collect.ImmutableMap;
 import org.mumue.mumue.configuration.ApplicationConfiguration;

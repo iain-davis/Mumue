@@ -3,7 +3,7 @@ package org.mumue.mumue;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.Future;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;

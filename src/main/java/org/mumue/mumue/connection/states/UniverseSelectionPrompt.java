@@ -1,6 +1,6 @@
 package org.mumue.mumue.connection.states;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.inject.Singleton;
 import org.mumue.mumue.components.universe.Universe;

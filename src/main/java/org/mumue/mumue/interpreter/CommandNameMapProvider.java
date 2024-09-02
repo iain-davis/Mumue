@@ -2,7 +2,7 @@ package org.mumue.mumue.interpreter;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.inject.Injector;
 import org.mumue.mumue.interpreter.commands.Command;

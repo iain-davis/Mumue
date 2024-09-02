@@ -1,7 +1,7 @@
 package org.mumue.mumue.database;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;

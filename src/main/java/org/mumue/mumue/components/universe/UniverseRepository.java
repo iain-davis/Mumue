@@ -3,7 +3,7 @@ package org.mumue.mumue.components.universe;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;

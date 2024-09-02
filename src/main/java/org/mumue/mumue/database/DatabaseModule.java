@@ -1,6 +1,6 @@
 package org.mumue.mumue.database;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import javax.sql.DataSource;
 
 import com.google.inject.AbstractModule;

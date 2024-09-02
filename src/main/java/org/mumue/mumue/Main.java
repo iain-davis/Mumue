@@ -8,7 +8,7 @@ import org.mumue.mumue.database.DatabaseModule;
 
 public class Main {
     private Mumue mumue;
-    private DatabaseConfigurationLoader databaseConfigurationLoader = new DatabaseConfigurationLoader();
+    private final DatabaseConfigurationLoader databaseConfigurationLoader = new DatabaseConfigurationLoader();
 
     public static void main(String... arguments) {
         new Main().run(arguments);

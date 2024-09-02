@@ -3,7 +3,7 @@ package org.mumue.mumue.connection;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.importer.GlobalConstants;

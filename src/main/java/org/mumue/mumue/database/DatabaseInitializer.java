@@ -1,6 +1,6 @@
 package org.mumue.mumue.database;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class DatabaseInitializer {
     private final DatabaseInitializerDao dao;
