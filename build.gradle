@@ -24,10 +24,10 @@ def excludeHamcrest = { exclude module: 'hamcrest-core' }
 
 dependencies {
     // General
-    implementation 'commons-cli:commons-cli:1.8.0'
-    implementation 'org.apache.commons:commons-lang3:3.15.0'
-    implementation 'commons-io:commons-io:2.16.1'
-    implementation 'com.google.guava:guava:33.3.0-jre'
+    implementation 'commons-cli:commons-cli:1.9.0'
+    implementation 'org.apache.commons:commons-lang3:3.17.0'
+    implementation 'commons-io:commons-io:2.19.0'
+    implementation 'com.google.guava:guava:33.4.8-jre'
     implementation 'com.google.inject:guice:7.0.0'
 
     // Database
