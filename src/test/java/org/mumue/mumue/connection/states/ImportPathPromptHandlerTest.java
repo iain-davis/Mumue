@@ -1,19 +1,5 @@
 package org.mumue.mumue.connection.states;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.Matchers.anyMapOf;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,8 +12,23 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
+import java.io.File;
+import java.io.IOException;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.ArgumentMatchers.anyMap;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class ImportPathPromptHandlerTest {
-    @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final MockDatabaseImportLauncher databaseImporter = new MockDatabaseImportLauncher();
     private final TextMaker textMaker = mock(TextMaker.class);
@@ -83,7 +84,7 @@ public class ImportPathPromptHandlerTest {
         String fileName = RandomStringUtils.randomAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
-        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMapOf(String.class, String.class))).thenReturn("");
+        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn("");
 
         importPathPromptHandler.execute(connection, Nimue.configuration());
 
@@ -96,7 +97,7 @@ public class ImportPathPromptHandlerTest {
         String fileName = RandomStringUtils.randomAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
-        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMapOf(String.class, String.class))).thenReturn(message);
+        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn(message);
 
         importPathPromptHandler.execute(connection, Nimue.configuration());
 
@@ -108,7 +109,7 @@ public class ImportPathPromptHandlerTest {
         String fileName = RandomStringUtils.randomAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
-        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMapOf(String.class, String.class))).thenReturn("");
+        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn("");
 
         ConnectionState next = importPathPromptHandler.execute(connection, Nimue.configuration());
 

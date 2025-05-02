@@ -3,15 +3,15 @@ package org.mumue.mumue.connection.states;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
@@ -41,7 +41,7 @@ public class EnterUniverseTest {
 
     @Test
     public void executeReturnsEnterSpace() {
-        when(textMaker.getText(Matchers.eq(TextName.EnterUniverse), eq(ConfigurationDefaults.SERVER_LOCALE), any())).thenReturn(message);
+        when(textMaker.getText(eq(TextName.EnterUniverse), eq(ConfigurationDefaults.SERVER_LOCALE), any())).thenReturn(message);
         when(dao.getUniverse(universeId)).thenReturn(universe);
 
         ConnectionState next = enterUniverse.execute(connection, configuration);
@@ -51,7 +51,7 @@ public class EnterUniverseTest {
 
     @Test
     public void enterUniverseDisplayEntryMessage() {
-        when(textMaker.getText(Matchers.eq(TextName.EnterUniverse), eq(ConfigurationDefaults.SERVER_LOCALE), any())).thenReturn(message);
+        when(textMaker.getText(eq(TextName.EnterUniverse), eq(ConfigurationDefaults.SERVER_LOCALE), any())).thenReturn(message);
         when(dao.getUniverse(universeId)).thenReturn(universe);
 
         enterUniverse.execute(connection, configuration);

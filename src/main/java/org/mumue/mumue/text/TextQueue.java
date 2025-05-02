@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class TextQueue implements Iterable<String> {
-    private Collection<String> texts = new ConcurrentLinkedQueue<>();
+    private final Collection<String> texts = new ConcurrentLinkedQueue<>();
 
     public void push(String text) {
         texts.add(text);

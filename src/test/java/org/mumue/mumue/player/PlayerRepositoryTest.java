@@ -45,7 +45,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdReturnsPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().randomAlphabetic(16);
         DatabaseHelper.insertPlayer(database, loginId);
 
         Player returned = repository.get(loginId);

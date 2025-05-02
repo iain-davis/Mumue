@@ -1,5 +1,17 @@
 package org.mumue.mumue.connection;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mumue.mumue.text.TextQueue;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.Socket;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertFalse;
@@ -9,30 +21,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.Socket;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.mumue.mumue.text.TextQueue;
-
 @RunWith(MockitoJUnitRunner.class)
 public class InputReceiverTest {
     private final Socket socket = mock(Socket.class);
     private final TextQueue inputQueue = new TextQueue();
     private final InputReceiver inputReceiver = new InputReceiver(socket, inputQueue);
-    @Rule public ExpectedException thrown = ExpectedException.none();
-
-    @Before
-    public void beforeEach() {
-        when(socket.isConnected()).thenReturn(true);
-    }
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void prepareReturnsTrue() {
@@ -41,6 +36,7 @@ public class InputReceiverTest {
 
     @Test
     public void putReceivedLineOnInputQueue() throws IOException {
+        when(socket.isConnected()).thenReturn(true);
         String line = RandomStringUtils.randomAlphabetic(13);
         ByteArrayInputStream input = new ByteArrayInputStream(line.getBytes());
         when(socket.getInputStream()).thenReturn(input);
@@ -51,6 +47,7 @@ public class InputReceiverTest {
 
     @Test
     public void executeReturnsTrue() throws IOException {
+        when(socket.isConnected()).thenReturn(true);
         String line = RandomStringUtils.randomAlphabetic(13);
         ByteArrayInputStream input = new ByteArrayInputStream(line.getBytes());
         when(socket.getInputStream()).thenReturn(input);
@@ -60,8 +57,6 @@ public class InputReceiverTest {
 
     @Test
     public void doNotGetInputStreamWhenSocketDisconnected() throws IOException {
-        when(socket.isConnected()).thenReturn(false);
-
         verify(socket, never()).getInputStream();
     }
 
@@ -74,6 +69,7 @@ public class InputReceiverTest {
 
     @Test
     public void executeHandlesException() throws IOException {
+        when(socket.isConnected()).thenReturn(true);
         //noinspection unchecked
         when(socket.getInputStream()).thenThrow(IOException.class);
 

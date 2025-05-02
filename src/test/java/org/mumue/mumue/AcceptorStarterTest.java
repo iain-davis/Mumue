@@ -3,7 +3,7 @@ package org.mumue.mumue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,7 +21,7 @@ import org.mumue.mumue.threading.InfiniteLoopRunner;
 public class AcceptorStarterTest {
     private final ExecutorService executorService = mock(ExecutorService.class);
     private final AcceptorStarter starter = new AcceptorStarter(executorService);
-    
+
     @Test
     public void neverReturnNull() {
         assertThat(starter.start(new ArrayList<>()), notNullValue());
@@ -37,6 +37,6 @@ public class AcceptorStarterTest {
         Collection<Future<?>> tasks = starter.start(acceptors);
         assertThat(tasks.size(), equalTo(4));
 
-        verify(executorService, times(4)).submit((InfiniteLoopRunner)anyObject());
+        verify(executorService, times(4)).submit((InfiniteLoopRunner)any());
     }
 }

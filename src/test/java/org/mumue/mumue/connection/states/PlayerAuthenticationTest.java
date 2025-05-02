@@ -1,22 +1,8 @@
 package org.mumue.mumue.connection.states;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.time.Instant;
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.connection.CurrentTimestampProvider;
@@ -26,6 +12,20 @@ import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
+
+import java.time.Instant;
+import java.util.Locale;
+import java.util.Random;
+
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PlayerAuthenticationTest {
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
@@ -47,8 +47,9 @@ public class PlayerAuthenticationTest {
     public void beforeEach() {
         connection.getInputQueue().push(loginId);
         connection.getInputQueue().push(password);
+        when(configuration.getServerLocale()).thenReturn(Locale.ENGLISH.toString());
         when(currentTimestampProvider.get()).thenReturn(timestamp);
-        when(textMaker.getText(Matchers.eq(TextName.LoginFailed), anyString())).thenReturn(loginFailed);
+        when(textMaker.getText(eq(TextName.LoginFailed), anyString())).thenReturn(loginFailed);
         when(textMaker.getText(eq(TextName.LoginSuccess), anyString())).thenReturn(loginSuccess);
         when(playerRepository.get(loginId)).thenReturn(player);
         when(playerRepository.get(loginId, password)).thenReturn(player);

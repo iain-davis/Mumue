@@ -3,8 +3,8 @@ package org.mumue.mumue.components.character;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mumue.mumue.components.LocatableComponentResultSetProcessor;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -59,10 +59,7 @@ public class CharacterRowProcessorTest {
 
     @Test
     public void toBeanListReturnsCharacters() throws SQLException {
-        String playerId1 = RandomStringUtils.randomAlphabetic(6);
-        String playerId2 = RandomStringUtils.randomAlphabetic(5);
         when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getString("playerId")).thenReturn(playerId1, playerId2);
 
         List<GameCharacter> characters = processor.toBeanList(resultSet, GameCharacter.class);
 
