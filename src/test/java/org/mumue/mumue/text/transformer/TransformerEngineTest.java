@@ -16,7 +16,7 @@ public class TransformerEngineTest {
 
     @Test
     public void returnStringWithoutTransformers() {
-        String input = RandomStringUtils.randomAlphabetic(17);
+        String input = RandomStringUtils.insecure().nextAlphabetic(17);
         assertThat(engine.transform(input), equalTo(input));
     }
 

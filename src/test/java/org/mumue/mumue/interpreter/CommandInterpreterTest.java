@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.mumue.mumue.interpreter.commands.CommandSay;
 
 public class CommandInterpreterTest {
-    private final String minimumPartial = RandomStringUtils.randomAlphabetic(17).toLowerCase();
+    private final String minimumPartial = RandomStringUtils.insecure().nextAlphabetic(17).toLowerCase();
     private final Map<String, CommandSyntax> commandList = new HashMap<>();
     private final CommandSay command = new CommandSay();
 
@@ -35,7 +35,7 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretNeverReturnsNull() {
-        assertNotNull(interpreter.interpret(RandomStringUtils.randomAlphabetic(16)));
+        assertNotNull(interpreter.interpret(RandomStringUtils.insecure().nextAlphabetic(16)));
     }
 
     @Test
@@ -59,21 +59,21 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretReturnsEntireCommandString() {
-        String commandString = minimumPartial + RandomStringUtils.randomAlphabetic(4);
+        String commandString = minimumPartial + RandomStringUtils.insecure().nextAlphabetic(4);
         CommandResult result = interpreter.interpret(commandString);
         assertThat(result.getCommandString(), equalTo(commandString));
     }
 
     @Test
     public void interpretWithArgumentsSetsCommandString() {
-        String text = minimumPartial + " " + RandomStringUtils.randomAlphabetic(13);
+        String text = minimumPartial + " " + RandomStringUtils.insecure().nextAlphabetic(13);
         CommandResult result = interpreter.interpret(text);
         assertThat(result.getCommandString(), equalTo(minimumPartial));
     }
 
     @Test
     public void interpretReturnsArguments() {
-        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String arguments = RandomStringUtils.insecure().nextAlphabetic(13);
         String text = minimumPartial + " " + arguments;
         CommandResult result = interpreter.interpret(text);
         assertThat(result.getCommandArguments(), equalTo(arguments));
@@ -93,7 +93,7 @@ public class CommandInterpreterTest {
         CommandSyntax syntax = new CommandSyntax();
         syntax.setToken(true);
         commandList.put(token, syntax);
-        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String arguments = RandomStringUtils.insecure().nextAlphabetic(13);
         String text = token + arguments;
         CommandResult result = interpreter.interpret(text);
         assertThat(result.getCommandString(), equalTo(token));
@@ -105,7 +105,7 @@ public class CommandInterpreterTest {
         CommandSyntax syntax = new CommandSyntax();
         syntax.setToken(true);
         commandList.put(token, syntax);
-        String arguments = RandomStringUtils.randomAlphabetic(13);
+        String arguments = RandomStringUtils.insecure().nextAlphabetic(13);
         String text = token + arguments;
         CommandResult result = interpreter.interpret(text);
         assertThat(result.getCommandArguments(), equalTo(arguments));
@@ -119,20 +119,20 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretMatchesAgainstMinimumPartial() {
-        String text = minimumPartial + RandomStringUtils.randomAlphabetic(17);
+        String text = minimumPartial + RandomStringUtils.insecure().nextAlphabetic(17);
         CommandResult result = interpreter.interpret(text);
         assertThat(result.getStatus(), equalTo(CommandStatus.OK));
     }
 
     @Test
     public void interpretWithUnknownCommandReturnsUnknown() {
-        CommandResult result = interpreter.interpret(RandomStringUtils.randomAlphabetic(16));
+        CommandResult result = interpreter.interpret(RandomStringUtils.insecure().nextAlphabetic(16));
         assertThat(result.getStatus(), equalTo(CommandStatus.UNKNOWN_COMMAND));
     }
 
     @Test
     public void interpretWithAmbiguityReturnsAmbiguous() {
-        String text = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
         commandList.put(text.substring(0, 3), new CommandSyntax());
         commandList.put(text.substring(0, 4), new CommandSyntax());
         CommandResult result = interpreter.interpret(text);
@@ -141,12 +141,12 @@ public class CommandInterpreterTest {
 
     @Test
     public void interpretWithAmbiguityReturnsBothCommands() {
-        String text = RandomStringUtils.randomAlphabetic(13);
-        String command1 = RandomStringUtils.randomAlphabetic(14);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
+        String command1 = RandomStringUtils.insecure().nextAlphabetic(14);
         CommandSyntax syntax1 = new CommandSyntax();
         syntax1.setDisplay(command1);
 
-        String command2 = RandomStringUtils.randomAlphabetic(15);
+        String command2 = RandomStringUtils.insecure().nextAlphabetic(15);
         CommandSyntax syntax2 = new CommandSyntax();
         syntax2.setDisplay(command2);
 

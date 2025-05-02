@@ -62,7 +62,7 @@ public class LineLoaderTest {
 
     @Test
     public void handleFileNotFound() {
-        File file = new File(RandomStringUtils.randomAlphabetic(13));
+        File file = new File(RandomStringUtils.insecure().nextAlphabetic(13));
         thrown.expect(RuntimeException.class);
         thrown.expectCause(instanceOf(FileNotFoundException.class));
 

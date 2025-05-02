@@ -31,7 +31,7 @@ public class CommandSayTest {
 
     @Test
     public void youSay() {
-        String saying = RandomStringUtils.randomAlphabetic(17);
+        String saying = RandomStringUtils.insecure().nextAlphabetic(17);
         command.execute(sayerConnection, "", saying, configuration);
 
         String expected = "You say, \"" + saying + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
@@ -43,9 +43,9 @@ public class CommandSayTest {
     public void otherCharacterInRoomSees() {
         long locationId = RandomUtils.nextLong(100, 200);
         sayer.setLocationId(locationId);
-        sayer.setName(RandomStringUtils.randomAlphabetic(16));
+        sayer.setName(RandomStringUtils.insecure().nextAlphabetic(16));
         Connection otherConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(locationId).build());
-        String saying = RandomStringUtils.randomAlphabetic(17);
+        String saying = RandomStringUtils.insecure().nextAlphabetic(17);
         connectionManager.add(otherConnection);
 
         command.execute(sayerConnection, "", saying, configuration);
@@ -59,8 +59,8 @@ public class CommandSayTest {
     public void otherCharacterInOtherRoomDoesNotSee() {
         long locationId = RandomUtils.nextLong(100, 200);
         sayer.setLocationId(locationId);
-        sayer.setName(RandomStringUtils.randomAlphabetic(16));
-        String saying = RandomStringUtils.randomAlphabetic(17);
+        sayer.setName(RandomStringUtils.insecure().nextAlphabetic(16));
+        String saying = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Connection inRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(locationId).build());
         Connection outOfRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(200, 300)).build());

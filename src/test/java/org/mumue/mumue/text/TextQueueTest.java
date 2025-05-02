@@ -12,7 +12,7 @@ public class TextQueueTest {
 
     @Test
     public void pushAddsTextToQueue() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
 
         textQueue.push(text);
 
@@ -22,7 +22,7 @@ public class TextQueueTest {
 
     @Test
     public void popReturnsText() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
 
         textQueue.push(text);
 
@@ -31,7 +31,7 @@ public class TextQueueTest {
 
     @Test
     public void popRemovesText() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
 
         textQueue.push(text);
 
@@ -41,9 +41,9 @@ public class TextQueueTest {
 
     @Test
     public void pushAddsMultipleTextToQueue() {
-        String text1 = RandomStringUtils.randomAlphabetic(17);
+        String text1 = RandomStringUtils.insecure().nextAlphabetic(17);
         textQueue.push(text1);
-        String text2 = RandomStringUtils.randomAlphabetic(17);
+        String text2 = RandomStringUtils.insecure().nextAlphabetic(17);
         textQueue.push(text2);
 
         assertThat(textQueue.size(), equalTo(2));

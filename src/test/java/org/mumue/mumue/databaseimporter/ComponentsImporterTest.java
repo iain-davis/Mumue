@@ -43,7 +43,7 @@ public class ComponentsImporterTest {
     @Test
     public void importOneCharacterComponent() {
         long homeId = RANDOM.nextInt(1000);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
                 .withPassword(password)
                 .withHomeId(homeId)
@@ -59,7 +59,7 @@ public class ComponentsImporterTest {
 
     @Test
     public void createPlayerForCharacter() {
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
         String password = RandomStringUtils.randomAlphanumeric(25);
         Instant createdOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
         Instant lastModified = Instant.now().minus(9, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
@@ -127,7 +127,7 @@ public class ComponentsImporterTest {
     @Test
     public void importComponentName() {
         List<String> lines = new ArrayList<>();
-        String name = RandomStringUtils.randomAlphabetic(25);
+        String name = RandomStringUtils.insecure().nextAlphabetic(25);
         lines.addAll(databaseItemLinesBuilder.withName(name).build());
 
         List<Component> components = importer.importFrom(lines, universe);

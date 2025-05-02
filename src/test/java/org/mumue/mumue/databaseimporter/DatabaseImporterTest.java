@@ -46,7 +46,7 @@ public class DatabaseImporterTest {
     @Test
     public void doNothingWithUnknownFormat() {
         long parameterCount = RANDOM.nextInt(100) + 10;
-        File file = createFile(RANDOM.nextInt(2) + 1, parameterCount, RandomStringUtils.randomAlphabetic(14), "1");
+        File file = createFile(RANDOM.nextInt(2) + 1, parameterCount, RandomStringUtils.insecure().nextAlphabetic(14), "1");
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -77,7 +77,7 @@ public class DatabaseImporterTest {
 
     @Test
     public void createUniverseFromMuckName() {
-        String muckName = RandomStringUtils.randomAlphabetic(13);
+        String muckName = RandomStringUtils.insecure().nextAlphabetic(13);
         File file = createFile(muckName);
         importConfiguration.setFile(file);
 
@@ -143,11 +143,11 @@ public class DatabaseImporterTest {
     }
 
     private File createFile(int itemCount, long parameterCount) {
-        return createFile(itemCount, parameterCount, RandomStringUtils.randomAlphabetic(13));
+        return createFile(itemCount, parameterCount, RandomStringUtils.insecure().nextAlphabetic(13));
     }
 
     private File createFile(int itemCount, long parameterCount, long startingLocation) {
-        return createFile(itemCount, parameterCount, RandomStringUtils.randomAlphabetic(13), startingLocation);
+        return createFile(itemCount, parameterCount, RandomStringUtils.insecure().nextAlphabetic(13), startingLocation);
     }
 
     private File createFile(int itemCount, long parameterCount, String muckName) {
@@ -159,7 +159,7 @@ public class DatabaseImporterTest {
     }
 
     private File createFile(int itemCount, long parameterCount, String fileFormat, String formatVersion) {
-        return createFile(itemCount, parameterCount, fileFormat, formatVersion, RandomStringUtils.randomAlphabetic(13), RANDOM.nextInt(1000));
+        return createFile(itemCount, parameterCount, fileFormat, formatVersion, RandomStringUtils.insecure().nextAlphabetic(13), RANDOM.nextInt(1000));
     }
 
     private File createFile(Integer itemCount, Long parameterCount, String fileFormat, String formatVersion, String muckName, long startingLocation) {

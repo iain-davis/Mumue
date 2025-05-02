@@ -44,7 +44,7 @@ public class ImportPathPromptHandlerTest {
 
     @Test
     public void returnNextState() throws IOException {
-        String fileName = RandomStringUtils.randomAlphabetic(13);
+        String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         File file = temporaryFolder.newFile(fileName);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(file.getAbsolutePath());
@@ -56,7 +56,7 @@ public class ImportPathPromptHandlerTest {
 
     @Test
     public void launchDatabaseImporter() throws IOException {
-        String fileName = RandomStringUtils.randomAlphabetic(13);
+        String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         File file = temporaryFolder.newFile(fileName);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(file.getAbsolutePath());
@@ -68,7 +68,7 @@ public class ImportPathPromptHandlerTest {
 
     @Test
     public void launchDatabaseImporterWithFile() throws IOException {
-        String fileName = RandomStringUtils.randomAlphabetic(13);
+        String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         File file = temporaryFolder.newFile(fileName);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(file.getAbsolutePath());
@@ -81,7 +81,7 @@ public class ImportPathPromptHandlerTest {
 
     @Test
     public void doNotLaunchWhenFileDoesNotExist() throws IOException {
-        String fileName = RandomStringUtils.randomAlphabetic(13);
+        String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
         when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn("");
@@ -93,8 +93,8 @@ public class ImportPathPromptHandlerTest {
 
     @Test
     public void displayMessageWhenFileDoesNotExist() {
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String fileName = RandomStringUtils.randomAlphabetic(13);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
         when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn(message);
@@ -106,7 +106,7 @@ public class ImportPathPromptHandlerTest {
 
     @Test
     public void rePromptWhenFileDoesNotExist() {
-        String fileName = RandomStringUtils.randomAlphabetic(13);
+        String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
         when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn("");

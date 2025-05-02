@@ -21,8 +21,8 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class EnterSpaceTest {
     private final long locationId = RandomUtils.nextLong(100, 200);
-    private final String name = RandomStringUtils.randomAlphabetic(25);
-    private final String description = RandomStringUtils.randomAlphabetic(35);
+    private final String name = RandomStringUtils.insecure().nextAlphabetic(25);
+    private final String description = RandomStringUtils.insecure().nextAlphabetic(35);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final SpaceDao spaceDao = mock(SpaceDao.class);
     private final GameCharacter character = Nimue.character().withLocationId(locationId).build();

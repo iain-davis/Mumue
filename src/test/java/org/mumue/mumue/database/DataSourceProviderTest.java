@@ -10,10 +10,10 @@ import org.junit.Test;
 
 public class DataSourceProviderTest {
     private final DatabaseConfiguration configuration = new DatabaseConfigurationBuilder()
-            .with(DatabaseConfiguration.DATABASE_DRIVER_NAME, RandomStringUtils.randomAlphabetic(13))
-            .with(DatabaseConfiguration.DATABASE_PASSWORD, RandomStringUtils.randomAlphabetic(17))
-            .with(DatabaseConfiguration.DATABASE_URL, RandomStringUtils.randomAlphabetic(14))
-            .with(DatabaseConfiguration.DATABASE_USERNAME, RandomStringUtils.randomAlphabetic(16))
+            .with(DatabaseConfiguration.DATABASE_DRIVER_NAME, RandomStringUtils.insecure().nextAlphabetic(13))
+            .with(DatabaseConfiguration.DATABASE_PASSWORD, RandomStringUtils.insecure().nextAlphabetic(17))
+            .with(DatabaseConfiguration.DATABASE_URL, RandomStringUtils.insecure().nextAlphabetic(14))
+            .with(DatabaseConfiguration.DATABASE_USERNAME, RandomStringUtils.insecure().nextAlphabetic(16))
             .build();
     private final DataSourceProvider provider = new DataSourceProvider(configuration);
 

@@ -23,7 +23,7 @@ public class DatabaseAccessorTest {
     private final QueryRunner queryRunner = mock(QueryRunner.class);
     private final DatabaseAccessor database = new DatabaseAccessor(queryRunner);
 
-    private final String sql = RandomStringUtils.randomAlphabetic(17);
+    private final String sql = RandomStringUtils.insecure().nextAlphabetic(17);
     private final ResultSetHandler rsh = new ResultHandler();
     private final Object foo = new Object();
 

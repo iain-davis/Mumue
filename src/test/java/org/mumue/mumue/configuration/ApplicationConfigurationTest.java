@@ -17,7 +17,7 @@ public class ApplicationConfigurationTest {
 
     @Test
     public void getServerLocale() {
-        String serverLocale = RandomStringUtils.randomAlphabetic(5);
+        String serverLocale = RandomStringUtils.insecure().nextAlphabetic(5);
         when(onlineConfiguration.getServerLocale()).thenReturn(serverLocale);
         assertThat(configuration.getServerLocale(), equalTo(serverLocale));
     }

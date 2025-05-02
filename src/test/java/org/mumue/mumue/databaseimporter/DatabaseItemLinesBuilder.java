@@ -83,7 +83,7 @@ class DatabaseItemLinesBuilder {
     private List<String> generateRandomLines(int lineCount) {
         List<String> lines = new ArrayList<>();
         for (int i = 0; i < lineCount; i++) {
-            lines.add(RandomStringUtils.randomAlphabetic(13));
+            lines.add(RandomStringUtils.insecure().nextAlphabetic(13));
         }
         return lines;
     }

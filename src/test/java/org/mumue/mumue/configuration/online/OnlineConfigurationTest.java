@@ -22,7 +22,7 @@ public class OnlineConfigurationTest {
 
     @Test
     public void getServerLocaleReturnsServerLocale() {
-        String serverLocale = RandomStringUtils.randomAlphabetic(13);
+        String serverLocale = RandomStringUtils.insecure().nextAlphabetic(13);
         when(dao.getConfigurationOption(OnlineConfigurationOptionName.SERVER_LOCALE)).thenReturn(serverLocale);
         assertThat(onlineConfiguration.getServerLocale(), equalTo(serverLocale));
     }

@@ -22,7 +22,7 @@ public class SpaceDaoTest {
     @Test
     public void getUniverseReturnsUniverse() {
         long spaceId = RandomUtils.nextLong(100, 200);
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertSpace(spaceId, name);
 
         Space space = dao.getSpace(spaceId);
@@ -32,7 +32,7 @@ public class SpaceDaoTest {
 
     private void insertSpace(long spaceId, String name) {
         String sql = "insert into spaces (id, name, description, created, lastUsed, lastModified, useCount, locationId, universeId) " +
-                "values (" + spaceId + ", '" + name + "', '" + RandomStringUtils.randomAlphabetic(5) + "', " +
+                "values (" + spaceId + ", '" + name + "', '" + RandomStringUtils.insecure().nextAlphabetic(5) + "', " +
                 "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, -1, -1);";
         database.update(sql);
     }

@@ -38,7 +38,7 @@ public class CommandSyntaxBuilderTest {
 
     @Test
     public void buildUsesEntryDisplay() {
-        entry.setDisplay(RandomStringUtils.randomAlphabetic(17));
+        entry.setDisplay(RandomStringUtils.insecure().nextAlphabetic(17));
         CommandSyntax syntax = builder.build(entry);
         assertThat(syntax.getDisplay(), equalTo(entry.getDisplay()));
     }
@@ -59,7 +59,7 @@ public class CommandSyntaxBuilderTest {
 
     @Test
     public void buildThrowExceptionOnUnknownCommandClass() {
-        entry.setCommandIdentifier(RandomStringUtils.randomAlphabetic(18));
+        entry.setCommandIdentifier(RandomStringUtils.insecure().nextAlphabetic(18));
 
         thrown.expect(UnknownCommandIdentifierException.class);
         thrown.expectMessage("Unknown command identifier '" + entry.getCommandIdentifier() + "'");

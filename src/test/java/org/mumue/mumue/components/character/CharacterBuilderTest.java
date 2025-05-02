@@ -59,7 +59,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsName() {
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
 
         GameCharacter character = builder.withName(name).build();
 
@@ -68,7 +68,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsDescription() {
-        String description = RandomStringUtils.randomAlphabetic(17);
+        String description = RandomStringUtils.insecure().nextAlphabetic(17);
 
         GameCharacter character = builder.withDescription(description).build();
 

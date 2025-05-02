@@ -34,7 +34,7 @@ public class UniverseRepositoryTest {
     @Test
     public void getUniverseReturnsUniverse() {
         long universeId = RandomUtils.nextLong(100, 200);
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertUniverse(universeId, name, "");
 
         Universe universe = dao.getUniverse(universeId);
@@ -49,8 +49,8 @@ public class UniverseRepositoryTest {
 
     @Test
     public void getUniversesReturnsOne() {
-        String name = RandomStringUtils.randomAlphabetic(13);
-        String description = RandomStringUtils.randomAlphabetic(25);
+        String name = RandomStringUtils.insecure().nextAlphabetic(13);
+        String description = RandomStringUtils.insecure().nextAlphabetic(25);
         insertUniverse(100L, name, description);
 
         Collection<Universe> universes = dao.getUniverses();
@@ -61,10 +61,10 @@ public class UniverseRepositoryTest {
 
     @Test
     public void getUniversesReturnsThree() {
-        String name1 = RandomStringUtils.randomAlphabetic(13);
-        String name2 = RandomStringUtils.randomAlphabetic(13);
-        String name3 = RandomStringUtils.randomAlphabetic(13);
-        String description = RandomStringUtils.randomAlphabetic(25);
+        String name1 = RandomStringUtils.insecure().nextAlphabetic(13);
+        String name2 = RandomStringUtils.insecure().nextAlphabetic(13);
+        String name3 = RandomStringUtils.insecure().nextAlphabetic(13);
+        String description = RandomStringUtils.insecure().nextAlphabetic(25);
         insertUniverse(100L, name1, description);
         insertUniverse(101L, name2, description);
         insertUniverse(102L, name3, description);
@@ -76,7 +76,7 @@ public class UniverseRepositoryTest {
 
     @Test
     public void addUniverseInsertsIntoDatabase() {
-        Universe expected = new UniverseBuilder().withId(RANDOM.nextInt(1000) + 1).withName(RandomStringUtils.randomAlphabetic(13)).build();
+        Universe expected = new UniverseBuilder().withId(RANDOM.nextInt(1000) + 1).withName(RandomStringUtils.insecure().nextAlphabetic(13)).build();
 
         dao.add(expected);
 
@@ -87,16 +87,16 @@ public class UniverseRepositoryTest {
     @Test
     public void addOnlyWithRealId() {
         thrown.expect(RuntimeException.class);
-        Universe expected = new UniverseBuilder().withId(GlobalConstants.REFERENCE_UNKNOWN).withName(RandomStringUtils.randomAlphabetic(13)).build();
+        Universe expected = new UniverseBuilder().withId(GlobalConstants.REFERENCE_UNKNOWN).withName(RandomStringUtils.insecure().nextAlphabetic(13)).build();
         dao.add(expected);
     }
 
     @Test
     public void saveUniverse() {
-        Universe expected = new UniverseBuilder().withId(RANDOM.nextInt(1000) + 1).withName(RandomStringUtils.randomAlphabetic(13)).build();
+        Universe expected = new UniverseBuilder().withId(RANDOM.nextInt(1000) + 1).withName(RandomStringUtils.insecure().nextAlphabetic(13)).build();
 
         dao.add(expected);
-        expected.setName(RandomStringUtils.randomAlphabetic(14));
+        expected.setName(RandomStringUtils.insecure().nextAlphabetic(14));
         dao.save(expected);
 
         Universe universe = getUniverse(expected.getName());

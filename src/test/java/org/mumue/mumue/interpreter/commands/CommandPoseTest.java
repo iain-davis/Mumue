@@ -38,8 +38,8 @@ public class CommandPoseTest {
 
     @Test
     public void poseSeenByPoserWithSpace() {
-        poser.setName(RandomStringUtils.randomAlphabetic(17));
-        String text = RandomStringUtils.randomAlphabetic(35);
+        poser.setName(RandomStringUtils.insecure().nextAlphabetic(17));
+        String text = RandomStringUtils.insecure().nextAlphabetic(35);
 
         commandPose.execute(posingConnection, ":", text, configuration);
 
@@ -50,7 +50,7 @@ public class CommandPoseTest {
     @Theory
     public void poseDoesNotAddSpaceForNonAlphabetic(char leadingCharacter) {
         assumeThat(Character.isAlphabetic(leadingCharacter), is(false));
-        String text = leadingCharacter + RandomStringUtils.randomAlphabetic(25);
+        String text = leadingCharacter + RandomStringUtils.insecure().nextAlphabetic(25);
         commandPose.execute(posingConnection, ":", text, configuration);
         String expected = poser.getName() + text + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat("" + leadingCharacter, posingConnection.getOutputQueue(), hasItem(expected));
@@ -68,8 +68,8 @@ public class CommandPoseTest {
     @Test
     public void poseSeenByOtherCharacterInRoom() {
         Connection inRoomConnection = Nimue.connection().withCharacter(new CharacterBuilder().withLocationId(poser.getLocationId()).build());
-        poser.setName(RandomStringUtils.randomAlphabetic(17));
-        String text = RandomStringUtils.randomAlphabetic(35);
+        poser.setName(RandomStringUtils.insecure().nextAlphabetic(17));
+        String text = RandomStringUtils.insecure().nextAlphabetic(35);
         String expected = poser.getName() + " " + text + GlobalConstants.TCP_LINE_SEPARATOR;
         connectionManager.add(inRoomConnection);
 
@@ -81,8 +81,8 @@ public class CommandPoseTest {
     @Test
     public void poseNotSeenByCharacterInOtherLocation() {
         Connection otherRoomConnection = Nimue.connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
-        poser.setName(RandomStringUtils.randomAlphabetic(17));
-        String text = RandomStringUtils.randomAlphabetic(35);
+        poser.setName(RandomStringUtils.insecure().nextAlphabetic(17));
+        String text = RandomStringUtils.insecure().nextAlphabetic(35);
         connectionManager.add(otherRoomConnection);
 
         commandPose.execute(posingConnection, ":", text, configuration);

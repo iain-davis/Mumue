@@ -102,7 +102,7 @@ public class GameComponentImporterTest {
 
     @Test
     public void importName() {
-        String name = RandomStringUtils.randomAlphabetic(16);
+        String name = RandomStringUtils.insecure().nextAlphabetic(16);
 
         List<String> lines = databaseItemLinesBuilder.withName(name).build();
 
@@ -114,7 +114,7 @@ public class GameComponentImporterTest {
 
     @Test
     public void importDescription() {
-        String description = RandomStringUtils.randomAlphabetic(16);
+        String description = RandomStringUtils.insecure().nextAlphabetic(16);
 
         List<String> lines = databaseItemLinesBuilder.withDescription(description).build();
 

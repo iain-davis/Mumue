@@ -27,7 +27,7 @@ import org.mumue.mumue.text.transformer.TransformerEngine;
 public class OutputSenderTest {
     @Rule public ExpectedException thrown = ExpectedException.none();
 
-    private final String text = RandomStringUtils.randomAlphabetic(17);
+    private final String text = RandomStringUtils.insecure().nextAlphabetic(17);
     private final Socket socket = mock(Socket.class);
     private final TextQueue outputQueue = new TextQueue();
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -48,7 +48,7 @@ public class OutputSenderTest {
 
     @Test
     public void executeReturnsTrue() {
-        outputQueue.push(RandomStringUtils.randomAlphabetic(17));
+        outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(17));
 
         assertTrue(outputSender.execute());
     }
@@ -56,14 +56,14 @@ public class OutputSenderTest {
     @Test
     public void executeReturnsFalseWhenDisconnected() {
         when(socket.isConnected()).thenReturn(false);
-        outputQueue.push(RandomStringUtils.randomAlphabetic(17));
+        outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(17));
 
         assertFalse(outputSender.execute());
     }
 
     @Test
     public void executeRemovesTextFromQueue() {
-        outputQueue.push(RandomStringUtils.randomAlphabetic(17));
+        outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(17));
 
         outputSender.execute();
 
@@ -96,7 +96,7 @@ public class OutputSenderTest {
 
     @Test
     public void executeHandlesException() throws IOException {
-        outputQueue.push(RandomStringUtils.randomAlphabetic(14));
+        outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(14));
 
         when(socket.getOutputStream()).thenThrow(new IOException());
 

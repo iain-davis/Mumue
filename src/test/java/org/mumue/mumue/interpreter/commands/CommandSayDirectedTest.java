@@ -27,16 +27,16 @@ public class CommandSayDirectedTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final ApplicationConfiguration configuration = Nimue.configuration();
-    private final String locale = RandomStringUtils.randomAlphabetic(16);
+    private final String locale = RandomStringUtils.insecure().nextAlphabetic(16);
     private final Player player = new PlayerBuilder().withLocale(locale).build();
 
     private final CommandSayDirected command = new CommandSayDirected(connectionManager, textMaker);
 
     @Test
     public void messageSeenBySayer() {
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String characterName = RandomStringUtils.randomAlphabetic(7);
-        String targetName = RandomStringUtils.randomAlphabetic(8);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
+        String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
         long locationId = RandomUtils.nextLong(100, 200);
         Connection sayerConnection = connection(null, character(characterName, locationId));
         connectionManager.add(sayerConnection);
@@ -50,9 +50,9 @@ public class CommandSayDirectedTest {
 
     @Test
     public void messageWithSpace() {
-        String message = RandomStringUtils.randomAlphabetic(17) + " " + RandomStringUtils.randomAlphabetic(17);
-        String characterName = RandomStringUtils.randomAlphabetic(7);
-        String targetName = RandomStringUtils.randomAlphabetic(8);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17) + " " + RandomStringUtils.insecure().nextAlphabetic(17);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
+        String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
         long locationId = RandomUtils.nextLong(100, 200);
         Connection sayerConnection = connection(null, character(characterName, locationId));
         connectionManager.add(sayerConnection);
@@ -66,10 +66,10 @@ public class CommandSayDirectedTest {
 
     @Test
     public void targetMatchPartial() {
-        String locale = RandomStringUtils.randomAlphabetic(16);
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String characterName = RandomStringUtils.randomAlphabetic(7);
-        String targetName = RandomStringUtils.randomAlphabetic(8);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(16);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
+        String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
         long locationId = RandomUtils.nextLong(100, 200);
 
         Player targetPlayer = new PlayerBuilder().withLocale(locale).build();
@@ -87,10 +87,10 @@ public class CommandSayDirectedTest {
 
     @Test
     public void targetMatchCaseInsensitive() {
-        String locale = RandomStringUtils.randomAlphabetic(16);
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String characterName = RandomStringUtils.randomAlphabetic(7);
-        String targetName = RandomStringUtils.randomAlphabetic(8);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(16);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
+        String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
         long locationId = RandomUtils.nextLong(100, 200);
 
         Player targetPlayer = new PlayerBuilder().withLocale(locale).build();
@@ -108,9 +108,9 @@ public class CommandSayDirectedTest {
 
     @Test
     public void targetNotFound() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(18);
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String otherTarget = RandomStringUtils.randomAlphabetic(8);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(18);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String otherTarget = RandomStringUtils.insecure().nextAlphabetic(8);
         Player player = new PlayerBuilder().withLocale(locale).build();
 
         Connection sayerConnection = connection(player, character("", 0));
@@ -125,7 +125,7 @@ public class CommandSayDirectedTest {
 
     @Test
     public void noMessage() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(18);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(18);
         Connection sayerConnection = connection(player, character("", 0));
         connectionManager.add(sayerConnection);
 
@@ -138,7 +138,7 @@ public class CommandSayDirectedTest {
 
     @Test
     public void emptyMessage() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(18);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(18);
         Connection sayerConnection = connection(player, character("", 0));
         connectionManager.add(sayerConnection);
 
@@ -159,22 +159,22 @@ public class CommandSayDirectedTest {
 
     @Test
     public void messageOnlySpaces() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(18);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(18);
         Connection sayerConnection = connection(player, character("", 0));
         connectionManager.add(sayerConnection);
 
         when(textMaker.getText(TextName.MissingSayText, locale)).thenReturn(responseMessage);
 
-        command.execute(sayerConnection, "`", RandomStringUtils.randomAlphabetic(7) + "       ", configuration);
+        command.execute(sayerConnection, "`", RandomStringUtils.insecure().nextAlphabetic(7) + "       ", configuration);
 
         assertThat(sayerConnection.getOutputQueue(), hasItem(responseMessage));
     }
 
     @Test
     public void messageSeenByInSpaceCharacter() {
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String characterName = RandomStringUtils.randomAlphabetic(7);
-        String targetName = RandomStringUtils.randomAlphabetic(8);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
+        String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
         long locationId = RandomUtils.nextLong(100, 200);
 
         Connection sayerConnection = connection(null, character(characterName, locationId));
@@ -191,9 +191,9 @@ public class CommandSayDirectedTest {
 
     @Test
     public void messageNotSeenByOutOfSpaceCharacter() {
-        String message = RandomStringUtils.randomAlphabetic(17);
-        String characterName = RandomStringUtils.randomAlphabetic(7);
-        String targetName = RandomStringUtils.randomAlphabetic(8);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
+        String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
         long locationId = RandomUtils.nextLong(100, 200);
 
         Connection sayerConnection = connection(null, character(characterName, locationId));

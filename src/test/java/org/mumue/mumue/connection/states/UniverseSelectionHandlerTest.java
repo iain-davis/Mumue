@@ -87,7 +87,7 @@ public class UniverseSelectionHandlerTest {
 
     @Test
     public void displayUnknownUniverseOnInvalidSelection() {
-        String message = RandomStringUtils.randomAlphabetic(17);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
         when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);

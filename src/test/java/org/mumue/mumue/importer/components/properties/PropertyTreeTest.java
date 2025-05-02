@@ -9,7 +9,7 @@ public class PropertyTreeTest {
 
     @Test
     public void getPropertyReturnsProperty() {
-        String path = RandomStringUtils.randomAlphabetic(7);
+        String path = RandomStringUtils.insecure().nextAlphabetic(7);
         Property property = new Property();
         propertyTree.setProperty(path, property);
         Assert.assertSame(property, propertyTree.getProperty(path));
@@ -17,13 +17,13 @@ public class PropertyTreeTest {
 
     @Test
     public void getPropertyWithSameLeafInDifferentDirectories() {
-        String leafName = RandomStringUtils.randomAlphabetic(8);
+        String leafName = RandomStringUtils.insecure().nextAlphabetic(8);
 
-        String path1 = RandomStringUtils.randomAlphabetic(7) + "/" + leafName;
+        String path1 = RandomStringUtils.insecure().nextAlphabetic(7) + "/" + leafName;
         Property property1 = new Property();
         propertyTree.setProperty(path1, property1);
 
-        String path2 = RandomStringUtils.randomAlphabetic(6) + "/" + leafName;
+        String path2 = RandomStringUtils.insecure().nextAlphabetic(6) + "/" + leafName;
         Property property2 = new Property();
         propertyTree.setProperty(path2, property2);
 

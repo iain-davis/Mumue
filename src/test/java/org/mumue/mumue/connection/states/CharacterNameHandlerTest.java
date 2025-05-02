@@ -37,8 +37,8 @@ public class CharacterNameHandlerTest {
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final UniverseRepository universeRepository = mock(UniverseRepository.class);
 
-    private final String loginId = RandomStringUtils.randomAlphabetic(14);
-    private final String name = RandomStringUtils.randomAlphabetic(17);
+    private final String loginId = RandomStringUtils.insecure().nextAlphabetic(14);
+    private final String name = RandomStringUtils.insecure().nextAlphabetic(17);
     private final long playerId = RandomUtils.nextLong(100, 200);
     private final long locationId = RandomUtils.nextLong(200, 300);
     private final Player player = new PlayerBuilder().withId(playerId).withLoginId(loginId).build();
@@ -171,7 +171,7 @@ public class CharacterNameHandlerTest {
 
     @Test
     public void nameTakenInUniverseDisplayMessage() {
-        String message = RandomStringUtils.randomAlphabetic(16);
+        String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
         characterThatExists.setId(RandomUtils.nextLong(300, 400));
 
@@ -187,7 +187,7 @@ public class CharacterNameHandlerTest {
 
     @Test
     public void nameTakenInUniverseRePrompt() {
-        String message = RandomStringUtils.randomAlphabetic(16);
+        String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
         characterThatExists.setId(RandomUtils.nextLong(300, 400));
 
@@ -203,7 +203,7 @@ public class CharacterNameHandlerTest {
 
     @Test
     public void nameTakenByOtherPlayerDisplayMessage() {
-        String message = RandomStringUtils.randomAlphabetic(16);
+        String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(100, 200))
                 .withId(RandomUtils.nextLong(200, 300)).build();
 
@@ -219,7 +219,7 @@ public class CharacterNameHandlerTest {
 
     @Test
     public void nameTakenByOtherPlayerRePrompt() {
-        String message = RandomStringUtils.randomAlphabetic(16);
+        String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(600, 700))
                 .withId(RandomUtils.nextLong(200, 300)).build();
         connection.getInputQueue().push(name);

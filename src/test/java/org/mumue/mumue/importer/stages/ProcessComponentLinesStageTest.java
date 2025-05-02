@@ -93,7 +93,7 @@ public class ProcessComponentLinesStageTest {
     @Test
     public void generateShouldSetDescription() {
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
-        String description = RandomStringUtils.randomAlphabetic(255);
+        String description = RandomStringUtils.insecure().nextAlphabetic(255);
         ImportBucket bucket = setupTest(space, "", description);
         stage.run(bucket);
         assertEquals(description, space.getDescription());
@@ -109,8 +109,8 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldAddStringPropertyToProperties() {
-        String path = RandomStringUtils.randomAlphabetic(8);
-        String value = RandomStringUtils.randomAlphabetic(7);
+        String path = RandomStringUtils.insecure().nextAlphabetic(8);
+        String value = RandomStringUtils.insecure().nextAlphabetic(7);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":10:" + value);
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
@@ -122,8 +122,8 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldAddStringWithColonPropertyToProperties() {
-        String path = RandomStringUtils.randomAlphabetic(8);
-        String value = RandomStringUtils.randomAlphabetic(7) + ":" + RandomStringUtils.randomAlphanumeric(13);
+        String path = RandomStringUtils.insecure().nextAlphabetic(8);
+        String value = RandomStringUtils.insecure().nextAlphabetic(7) + ":" + RandomStringUtils.randomAlphanumeric(13);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":10:" + value);
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
@@ -135,8 +135,8 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldAddLockPropertyToProperties() {
-        String path = RandomStringUtils.randomAlphabetic(8);
-        String value = RandomStringUtils.randomAlphabetic(7);
+        String path = RandomStringUtils.insecure().nextAlphabetic(8);
+        String value = RandomStringUtils.insecure().nextAlphabetic(7);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":4:" + value);
         Space space = new Space().withId(RandomUtils.nextLong(2, 100));
@@ -148,7 +148,7 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldAddIntegerPropertyToProperties() {
-        String path = RandomStringUtils.randomAlphabetic(8);
+        String path = RandomStringUtils.insecure().nextAlphabetic(8);
         String value = RandomStringUtils.randomNumeric(5);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":3:" + value);
@@ -161,7 +161,7 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldAddReferencePropertyToProperties() {
-        String path = RandomStringUtils.randomAlphabetic(8);
+        String path = RandomStringUtils.insecure().nextAlphabetic(8);
         String value = RandomStringUtils.randomNumeric(5);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":5:" + value);
@@ -174,10 +174,10 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldAddMultipleStringPropertiesToProperties() {
-        String path1 = RandomStringUtils.randomAlphabetic(6);
-        String path2 = RandomStringUtils.randomAlphabetic(7);
-        String value1 = RandomStringUtils.randomAlphabetic(8);
-        String value2 = RandomStringUtils.randomAlphabetic(9);
+        String path1 = RandomStringUtils.insecure().nextAlphabetic(6);
+        String path2 = RandomStringUtils.insecure().nextAlphabetic(7);
+        String value1 = RandomStringUtils.insecure().nextAlphabetic(8);
+        String value2 = RandomStringUtils.insecure().nextAlphabetic(9);
 
         List<String> properties = new ArrayList<>();
         properties.add(path1 + ":10:" + value1);
@@ -388,7 +388,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Artifact artifact, Space home, Link firstLink, GameCharacter owner, Long value) {
-        ImportBucket bucket = setupTest(artifact, RandomStringUtils.randomAlphabetic(13), "1 0",
+        ImportBucket bucket = setupTest(artifact, RandomStringUtils.insecure().nextAlphabetic(13), "1 0",
                                         new Space().withId(RandomUtils.nextLong(100, 200)),
                                         new Artifact().withId(RandomUtils.nextLong(200, 300)),
                                         "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
@@ -407,7 +407,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(GameCharacter character, Space home, Link firstLink, Long wealth, String password) {
-        ImportBucket bucket = setupTest(character, RandomStringUtils.randomAlphabetic(13), "1 0",
+        ImportBucket bucket = setupTest(character, RandomStringUtils.insecure().nextAlphabetic(13), "1 0",
                 new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)),
                 "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
@@ -423,7 +423,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Link link, List<Component> destinations, GameCharacter owner) {
-        ImportBucket bucket = setupTest(link, RandomStringUtils.randomAlphabetic(13), "1 0",
+        ImportBucket bucket = setupTest(link, RandomStringUtils.insecure().nextAlphabetic(13), "1 0",
                 new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)),
                 "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
@@ -444,7 +444,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Program program, GameCharacter owner, boolean hashOwner, boolean blankOwner) {
-        ImportBucket bucket = setupTest(program, RandomStringUtils.randomAlphabetic(13), "1 0",
+        ImportBucket bucket = setupTest(program, RandomStringUtils.insecure().nextAlphabetic(13), "1 0",
                 new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)),
                 "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
@@ -463,7 +463,7 @@ public class ProcessComponentLinesStageTest {
         return bucket;
     }
     private ImportBucket setupTest(Space space, Space dropTo, Link firstLink, GameCharacter owner) {
-        ImportBucket bucket = setupTest(space, RandomStringUtils.randomAlphabetic(13), "1 0",
+        ImportBucket bucket = setupTest(space, RandomStringUtils.insecure().nextAlphabetic(13), "1 0",
                 new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)),
                 "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
@@ -497,7 +497,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Component component, List<String> properties) {
-        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
+        ImportBucket bucket = setupTest(component, RandomStringUtils.insecure().nextAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, properties);
         List<String> lines = bucket.getComponentLines().get(component.getId());
         lines.add("-1");
@@ -507,7 +507,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Component component, Integer useCount) {
-        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
+        ImportBucket bucket = setupTest(component, RandomStringUtils.insecure().nextAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, useCount, 0L, new ArrayList<>());
         List<String> lines = bucket.getComponentLines().get(component.getId());
         lines.add("-1");
@@ -517,7 +517,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Component component, Long created, Long lastUsed, Long lastModified) {
-        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
+        ImportBucket bucket = setupTest(component, RandomStringUtils.insecure().nextAlphabetic(13), "", new Space().withId(RandomUtils.nextLong(100, 200)),
                 new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", created, lastUsed, 0, lastModified,
                 new ArrayList<>());
         List<String> lines = bucket.getComponentLines().get(component.getId());
@@ -528,7 +528,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Space space, Artifact firstContent) {
-        ImportBucket bucket = setupTest(space, RandomStringUtils.randomAlphabetic(13), "",
+        ImportBucket bucket = setupTest(space, RandomStringUtils.insecure().nextAlphabetic(13), "",
                 new Space().withId(RandomUtils.nextLong(100, 200)),  firstContent, "0 0", 0L, 0L, 0, 0L,
                 new ArrayList<>());
         List<String> lines = bucket.getComponentLines().get(space.getId());
@@ -539,7 +539,7 @@ public class ProcessComponentLinesStageTest {
     }
 
     private ImportBucket setupTest(Component component, Space location) {
-        ImportBucket bucket = setupTest(component, RandomStringUtils.randomAlphabetic(13), "", location,
+        ImportBucket bucket = setupTest(component, RandomStringUtils.insecure().nextAlphabetic(13), "", location,
                          new Artifact().withId(RandomUtils.nextLong(200, 300)), "0 0", 0L, 0L, 0, 0L, new ArrayList<>());
         List<String> lines = bucket.getComponentLines().get(component.getId());
         lines.add("-1");
@@ -591,7 +591,7 @@ public class ProcessComponentLinesStageTest {
     private List<String> defaultLines(Component component) {
         List<String> lines = new ArrayList<>();
         lines.add("#" + component.getId().toString());
-        lines.add(RandomStringUtils.randomAlphabetic(13));
+        lines.add(RandomStringUtils.insecure().nextAlphabetic(13));
         lines.add("-1");
         lines.add("-1");
         lines.add("-1");

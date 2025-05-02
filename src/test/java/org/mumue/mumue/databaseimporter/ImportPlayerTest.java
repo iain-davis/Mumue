@@ -16,7 +16,7 @@ public class ImportPlayerTest {
     @Test
     public void setLoginId() {
         ImportCharacter character = new ImportCharacter();
-        character.setName(RandomStringUtils.randomAlphabetic(16));
+        character.setName(RandomStringUtils.insecure().nextAlphabetic(16));
         ImportPlayer player = new ImportPlayer(character);
 
         assertThat(player.getLoginId(), equalTo(character.getName()));

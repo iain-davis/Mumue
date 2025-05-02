@@ -17,7 +17,7 @@ public class DatabaseConfigurationBuilderTest {
 
     @Test
     public void setProperty() {
-        String value = RandomStringUtils.randomAlphabetic(17);
+        String value = RandomStringUtils.insecure().nextAlphabetic(17);
         DatabaseConfiguration configuration = builder.with(DatabaseConfiguration.DATABASE_DRIVER_NAME, value).build();
 
         assertThat(configuration.getDriverName(), equalTo(value));

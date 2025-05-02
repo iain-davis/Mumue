@@ -60,7 +60,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsLoginId() {
-        String loginId = RandomStringUtils.randomAlphabetic(17);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Player player = builder.withLoginId(loginId).build();
 
@@ -69,7 +69,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsLocale() {
-        String locale = RandomStringUtils.randomAlphabetic(17);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Player player = builder.withLocale(locale).build();
 

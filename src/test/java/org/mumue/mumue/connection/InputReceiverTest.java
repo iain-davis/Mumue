@@ -37,7 +37,7 @@ public class InputReceiverTest {
     @Test
     public void putReceivedLineOnInputQueue() throws IOException {
         when(socket.isConnected()).thenReturn(true);
-        String line = RandomStringUtils.randomAlphabetic(13);
+        String line = RandomStringUtils.insecure().nextAlphabetic(13);
         ByteArrayInputStream input = new ByteArrayInputStream(line.getBytes());
         when(socket.getInputStream()).thenReturn(input);
         inputReceiver.execute();
@@ -48,7 +48,7 @@ public class InputReceiverTest {
     @Test
     public void executeReturnsTrue() throws IOException {
         when(socket.isConnected()).thenReturn(true);
-        String line = RandomStringUtils.randomAlphabetic(13);
+        String line = RandomStringUtils.insecure().nextAlphabetic(13);
         ByteArrayInputStream input = new ByteArrayInputStream(line.getBytes());
         when(socket.getInputStream()).thenReturn(input);
 

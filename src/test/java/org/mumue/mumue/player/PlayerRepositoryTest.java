@@ -45,7 +45,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdReturnsPlayer() {
-        String loginId = RandomStringUtils.insecure().randomAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(16);
         DatabaseHelper.insertPlayer(database, loginId);
 
         Player returned = repository.get(loginId);
@@ -56,7 +56,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndIncorrectReturnsUnknownPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(7);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(7);
         DatabaseHelper.insertPlayer(database);
 
         Player returned = repository.get(loginId);
@@ -67,7 +67,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndIsNullReturnsUnknownPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(7);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(7);
         DatabaseHelper.insertPlayer(database);
 
         Player returned = repository.get(null);
@@ -78,8 +78,8 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndPasswordReturnsPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         DatabaseHelper.insertPlayer(database, loginId, password);
 
         Player returned = repository.get(loginId, password);
@@ -89,8 +89,8 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndPasswordLoginIdIncorrectReturnsUnknownPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         DatabaseHelper.insertPlayer(database, loginId, password);
 
         Player returned = repository.get("SOME_OTHER", password);
@@ -100,8 +100,8 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndPasswordLoginIdIsNullReturnsUnknownPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         DatabaseHelper.insertPlayer(database, loginId, password);
 
         Player returned = repository.get(null, password);
@@ -111,8 +111,8 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndPasswordPasswordIncorrectReturnsUnknownPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         DatabaseHelper.insertPlayer(database, loginId);
 
         Player returned = repository.get(loginId, password);
@@ -122,7 +122,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void getByLoginIdAndPasswordPasswordIsNullReturnsUnknownPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(16);
         DatabaseHelper.insertPlayer(database, loginId);
 
         Player returned = repository.get(loginId, null);
@@ -132,7 +132,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void addInsertsPlayerIntoDatabase() {
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         Player expected = createPlayer();
 
         repository.add(expected, password);
@@ -166,8 +166,8 @@ public class PlayerRepositoryTest {
         Player expected = new Player();
         expected.setId(DatabaseHelper.insertPlayer(database));
         expected.countUse();
-        expected.setLoginId(RandomStringUtils.randomAlphabetic(16));
-        expected.setLocale(RandomStringUtils.randomAlphabetic(5));
+        expected.setLoginId(RandomStringUtils.insecure().nextAlphabetic(16));
+        expected.setLocale(RandomStringUtils.insecure().nextAlphabetic(5));
         expected.setLastUsed(Instant.now());
         expected.setLastModified(Instant.now());
         expected.setAdministrator(RANDOM.nextBoolean());

@@ -21,14 +21,14 @@ public class CharacterDaoTest {
 
     @Test
     public void getCharacterNeverReturnsNull() {
-        assertNotNull(dao.getCharacter(RandomStringUtils.randomAlphabetic(17), GlobalConstants.REFERENCE_UNKNOWN));
+        assertNotNull(dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17), GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test
     public void getCharacterWithNameAndUniverseIdReturnsCharacter() {
         long characterId = RandomUtils.nextLong(200, 300);
         long universeId = RandomUtils.nextLong(100, 200);
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertCharacter(characterId, universeId, name);
 
         GameCharacter character = dao.getCharacter(name, universeId);
@@ -38,14 +38,14 @@ public class CharacterDaoTest {
 
     @Test
     public void getCharacterByNameNeverReturnsNull() {
-        assertNotNull(dao.getCharacter(RandomStringUtils.randomAlphabetic(17)));
+        assertNotNull(dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17)));
     }
 
     @Test
     public void getCharacterByNameReturnsCharacter() {
         long characterId = RandomUtils.nextLong(200, 300);
         long universeId = RandomUtils.nextLong(100, 200);
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertCharacter(characterId, universeId, name);
 
         GameCharacter character = dao.getCharacter(name);
@@ -62,7 +62,7 @@ public class CharacterDaoTest {
     public void getCharacterByIdReturnsCharacter() {
         long characterId = RandomUtils.nextLong(200, 300);
         long universeId = RandomUtils.nextLong(100, 200);
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertCharacter(characterId, universeId, name);
 
         GameCharacter character = dao.getCharacter(characterId);
@@ -105,8 +105,8 @@ public class CharacterDaoTest {
     public void addCharacterAddsCharacter() {
         GameCharacter characterToAdd = new GameCharacter();
         characterToAdd.setId(RandomUtils.nextLong(200, 300));
-        characterToAdd.setName(RandomStringUtils.randomAlphabetic(17));
-        characterToAdd.setDescription(RandomStringUtils.randomAlphabetic(22));
+        characterToAdd.setName(RandomStringUtils.insecure().nextAlphabetic(17));
+        characterToAdd.setDescription(RandomStringUtils.insecure().nextAlphabetic(22));
         characterToAdd.setCreated(Instant.now());
         characterToAdd.setLastModified(Instant.now());
         characterToAdd.setLastUsed(Instant.now());
@@ -122,7 +122,7 @@ public class CharacterDaoTest {
     }
 
     private void insertCharacter(long characterId, long playerId) {
-        insertCharacter(characterId, RandomUtils.nextLong(100, 200), RandomStringUtils.randomAlphabetic(17), playerId);
+        insertCharacter(characterId, RandomUtils.nextLong(100, 200), RandomStringUtils.insecure().nextAlphabetic(17), playerId);
     }
 
     private void insertCharacter(long characterId, long universeId, String name) {
@@ -131,7 +131,7 @@ public class CharacterDaoTest {
 
     private void insertCharacter(long characterId, long universeId, String name, long playerId) {
         String sql = "insert into characters (id, name, description, created, lastUsed, lastModified, useCount, locationId, universeId, playerId) "
-                + "values (" + characterId + ", '" + name + "', '" + RandomStringUtils.randomAlphabetic(16) + "', "
+                + "values (" + characterId + ", '" + name + "', '" + RandomStringUtils.insecure().nextAlphabetic(16) + "', "
                 + "timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', timestamp '2014-06-12 21:30:00', 0, 0, "
                 + universeId + ", '" + playerId + "');";
         database.update(sql);

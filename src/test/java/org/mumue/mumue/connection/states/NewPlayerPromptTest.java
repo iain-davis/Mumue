@@ -19,7 +19,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class NewPlayerPromptTest {
-    private static final String NEW_PLAYER_NAME = RandomStringUtils.randomAlphabetic(13);
+    private static final String NEW_PLAYER_NAME = RandomStringUtils.insecure().nextAlphabetic(13);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);

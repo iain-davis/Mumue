@@ -16,8 +16,8 @@ public class TextDaoTest {
 
     @Test
     public void getText() throws SQLException {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(5);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
 
         database.update("insert into text (locale, name, text) values (?, ?, ?)", locale, TextName.Welcome.toString(), text);
 

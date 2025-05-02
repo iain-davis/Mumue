@@ -39,7 +39,7 @@ public class PlayerMenuHandlerTest {
 
     @Before
     public void beforeEach() {
-        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(RandomStringUtils.randomAlphabetic(25));
+        when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(RandomStringUtils.insecure().nextAlphabetic(25));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class PlayerMenuHandlerTest {
     @Test
     public void playerSelectsPWithoutCharactersGoToUniverseSelectionPrompt() {
         connection.getInputQueue().push("P");
-        when(textMaker.getText(TextName.CharacterNeeded, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(RandomStringUtils.randomAlphabetic(17));
+        when(textMaker.getText(TextName.CharacterNeeded, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(RandomStringUtils.insecure().nextAlphabetic(17));
 
         ConnectionState next = playerMenuHandler.execute(connection, configuration);
 
@@ -84,7 +84,7 @@ public class PlayerMenuHandlerTest {
 
     @Test
     public void playerSelectsPWithoutCharactersPutCharacterNeededMessageOnQueue() {
-        String message = RandomStringUtils.randomAlphabetic(17);
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
         when(textMaker.getText(TextName.CharacterNeeded, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
         connection.getInputQueue().push("P");
 
@@ -131,7 +131,7 @@ public class PlayerMenuHandlerTest {
 
     @Test
     public void redisplayMenuOnInvalidInput() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(3));
         when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
 
         ConnectionState next = playerMenuHandler.execute(connection, configuration);
@@ -141,8 +141,8 @@ public class PlayerMenuHandlerTest {
 
     @Test
     public void displayInvalidOptionMessageOnInvalidInput() {
-        String message = RandomStringUtils.randomAlphabetic(17);
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(3));
+        String message = RandomStringUtils.insecure().nextAlphabetic(17);
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(3));
         when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 
         playerMenuHandler.execute(connection, configuration);

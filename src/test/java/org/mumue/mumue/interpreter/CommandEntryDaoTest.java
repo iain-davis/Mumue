@@ -26,7 +26,7 @@ public class CommandEntryDaoTest {
 
     @Test
     public void getCommandsReturnsOneCommand() {
-        String display = RandomStringUtils.randomAlphabetic(17);
+        String display = RandomStringUtils.insecure().nextAlphabetic(17);
         insertCommand(display);
 
         Collection<CommandEntry> commands = dao.getCommands();
@@ -40,9 +40,9 @@ public class CommandEntryDaoTest {
 
     @Test
     public void getCommandsReturnsThreeCommands() {
-        insertCommand(RandomStringUtils.randomAlphabetic(17));
-        insertCommand(RandomStringUtils.randomAlphabetic(16));
-        insertCommand(RandomStringUtils.randomAlphabetic(15));
+        insertCommand(RandomStringUtils.insecure().nextAlphabetic(17));
+        insertCommand(RandomStringUtils.insecure().nextAlphabetic(16));
+        insertCommand(RandomStringUtils.insecure().nextAlphabetic(15));
 
         Collection<CommandEntry> commands = dao.getCommands();
 

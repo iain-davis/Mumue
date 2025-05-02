@@ -36,7 +36,7 @@ public class ConnectionManagerTest {
         Connection receiver = connection(locationId);
         connectionManager.add(receiver);
 
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         connectionManager.poseTo(locationId, "", text);
 
         String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
@@ -49,8 +49,8 @@ public class ConnectionManagerTest {
         Connection receiver = connection(locationId);
         connectionManager.add(receiver);
 
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         connectionManager.poseTo(locationId, characterName, text);
 
         String expected = characterName + text + GlobalConstants.TCP_LINE_SEPARATOR;
@@ -64,7 +64,7 @@ public class ConnectionManagerTest {
             connectionManager.add(connection(locationId));
         }
 
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         connectionManager.poseTo(locationId, "", text);
 
         for (Connection connection : connectionManager.getConnections()) {
@@ -81,7 +81,7 @@ public class ConnectionManagerTest {
         connectionManager.add(receiver);
         connectionManager.add(nonReceiver);
 
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         connectionManager.poseTo(locationId, "", text);
 
         String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
@@ -98,7 +98,7 @@ public class ConnectionManagerTest {
         connectionManager.add(included);
         connectionManager.add(except);
 
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         connectionManager.poseTo(locationId, "", text, except);
 
         String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;
@@ -117,7 +117,7 @@ public class ConnectionManagerTest {
         connectionManager.add(except1);
         connectionManager.add(except2);
 
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         connectionManager.poseTo(locationId, "", text, except1, except2);
 
         String expected = text + GlobalConstants.TCP_LINE_SEPARATOR;

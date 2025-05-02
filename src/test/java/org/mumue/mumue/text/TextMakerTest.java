@@ -22,33 +22,33 @@ public class TextMakerTest {
 
     @Test
     public void getReturnsText() {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String text = RandomStringUtils.randomAlphabetic(257);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(5);
+        String text = RandomStringUtils.insecure().nextAlphabetic(257);
         when(textDao.getText(TextName.Welcome, locale)).thenReturn(text);
         assertThat(textMaker.getText(TextName.Welcome, locale), equalTo(text));
     }
 
     @Test
     public void getFallsBackOnTextNameWhenTextDaoReturnsNull() {
-        String otherLocale = RandomStringUtils.randomAlphabetic(4);
+        String otherLocale = RandomStringUtils.insecure().nextAlphabetic(4);
         when(textMaker.getText(TextName.Welcome, otherLocale)).thenReturn(null);
         assertThat(textMaker.getText(TextName.Welcome, otherLocale), equalTo(TextName.Welcome.toString()));
     }
 
     @Test
     public void getFallsBackOnTextNameWhenTextDaoReturnsBlank() {
-        String otherLocale = RandomStringUtils.randomAlphabetic(4);
+        String otherLocale = RandomStringUtils.insecure().nextAlphabetic(4);
         when(textMaker.getText(TextName.Welcome, otherLocale)).thenReturn("");
         assertThat(textMaker.getText(TextName.Welcome, otherLocale), equalTo(TextName.Welcome.toString()));
     }
 
     @Test
     public void performVariableReplacement() {
-        String locale = RandomStringUtils.randomAlphabetic(5);
-        String textL = RandomStringUtils.randomAlphabetic(25);
-        String textR = RandomStringUtils.randomAlphabetic(25);
-        String variable = RandomStringUtils.randomAlphabetic(7);
-        String replacement = RandomStringUtils.randomAlphabetic(15);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(5);
+        String textL = RandomStringUtils.insecure().nextAlphabetic(25);
+        String textR = RandomStringUtils.insecure().nextAlphabetic(25);
+        String variable = RandomStringUtils.insecure().nextAlphabetic(7);
+        String replacement = RandomStringUtils.insecure().nextAlphabetic(15);
         Map<String, String> variables = new HashMap<>();
         variables.put(variable, replacement);
 

@@ -52,7 +52,7 @@ public class PlayCharacterTest {
 
     @Test
     public void returnPlayCharacterStageWithInput() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
         ConnectionState next = playCharacter.execute(connection, configuration);
 
@@ -61,7 +61,7 @@ public class PlayCharacterTest {
 
     @Test
     public void interpretCommand() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         playCharacter.execute(connection, configuration);
@@ -78,11 +78,11 @@ public class PlayCharacterTest {
 
     @Test
     public void executeCommand() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
-        String commandString = RandomStringUtils.randomAlphabetic(16);
-        String arguments = RandomStringUtils.randomAlphabetic(15);
+        String commandString = RandomStringUtils.insecure().nextAlphabetic(16);
+        String arguments = RandomStringUtils.insecure().nextAlphabetic(15);
 
         when(result.getCommandString()).thenReturn(commandString);
         when(result.getCommandArguments()).thenReturn(arguments);
@@ -101,8 +101,8 @@ public class PlayCharacterTest {
 
     @Test
     public void doNotExecuteForUnknownCommand() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(25);
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         when(textMaker.getText(TextName.UnknownCommand, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(responseMessage);
@@ -115,8 +115,8 @@ public class PlayCharacterTest {
 
     @Test
     public void returnThisStageForUnknownCommand() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(25);
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         when(textMaker.getText(TextName.UnknownCommand, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(responseMessage);
@@ -129,8 +129,8 @@ public class PlayCharacterTest {
 
     @Test
     public void returnThisStageForAmbiguousCommand() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(25);
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(ConfigurationDefaults.SERVER_LOCALE), any())).thenReturn(responseMessage);
@@ -143,7 +143,7 @@ public class PlayCharacterTest {
 
     @Test
     public void returnThisStageForUnknownResultStatus() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         when(result.getStatus()).thenReturn(CommandStatus.INSUFFICIENT_PERMISSIONS);
@@ -155,8 +155,8 @@ public class PlayCharacterTest {
 
     @Test
     public void displayCommandUnknownMessageForUnknownCommand() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(25);
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         when(textMaker.getText(TextName.UnknownCommand, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(responseMessage);
@@ -169,8 +169,8 @@ public class PlayCharacterTest {
 
     @Test
     public void displayCommandAmbiguousMessageForAmbiguousCommand() {
-        String responseMessage = RandomStringUtils.randomAlphabetic(25);
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String responseMessage = RandomStringUtils.insecure().nextAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
 
         when(textMaker.getText(eq(TextName.AmbiguousCommand), eq(ConfigurationDefaults.SERVER_LOCALE), any())).thenReturn(responseMessage);

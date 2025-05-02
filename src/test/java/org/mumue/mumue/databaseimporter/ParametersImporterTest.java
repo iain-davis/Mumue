@@ -26,7 +26,7 @@ public class ParametersImporterTest {
     public void extractParameterLines() {
         List<String> lines = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
-            lines.add(RandomStringUtils.randomAlphabetic(5));
+            lines.add(RandomStringUtils.insecure().nextAlphabetic(5));
         }
         List<String> parameterLines = ImportTestHelper.generateParameterLines(new Random().nextInt(100));
         lines.add(String.valueOf(parameterLines.size()));

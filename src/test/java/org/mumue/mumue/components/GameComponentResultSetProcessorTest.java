@@ -21,8 +21,8 @@ import org.mockito.junit.MockitoRule;
 
 public class GameComponentResultSetProcessorTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    private final String name = RandomStringUtils.randomAlphabetic(17);
-    private final String description = RandomStringUtils.randomAlphabetic(17);
+    private final String name = RandomStringUtils.insecure().nextAlphabetic(17);
+    private final String description = RandomStringUtils.insecure().nextAlphabetic(17);
     private final GameComponent component = new GameComponent() {
     };
 

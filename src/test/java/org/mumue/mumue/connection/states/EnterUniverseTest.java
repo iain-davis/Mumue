@@ -26,11 +26,11 @@ import org.mumue.mumue.text.TextName;
 
 public class EnterUniverseTest {
     private final long universeId = RandomUtils.nextLong(100, 200);
-    private final String message = RandomStringUtils.randomAlphabetic(25);
+    private final String message = RandomStringUtils.insecure().nextAlphabetic(25);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseRepository dao = mock(UniverseRepository.class);
-    private final String universeName = RandomStringUtils.randomAlphabetic(17);
+    private final String universeName = RandomStringUtils.insecure().nextAlphabetic(17);
     private final Universe universe = new UniverseBuilder().withName(universeName).withId(universeId).build();
     private final GameCharacter character = Nimue.character().withUniverseId(universeId).build();
     private final Player player = Nimue.player().build();

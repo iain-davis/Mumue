@@ -33,7 +33,7 @@ public class ImportPathPromptTest {
 
     @Test
     public void displayPrompt() {
-        String text = RandomStringUtils.randomAlphabetic(25);
+        String text = RandomStringUtils.insecure().nextAlphabetic(25);
         when(textMaker.getText(TextName.ImportFilePathPrompt, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         importPathPrompt.execute(connection, configuration);

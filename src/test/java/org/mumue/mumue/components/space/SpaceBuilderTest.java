@@ -59,7 +59,7 @@ public class SpaceBuilderTest {
 
     @Test
     public void buildSetsName() {
-        String name = RandomStringUtils.randomAlphabetic(17);
+        String name = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Space space = builder.withName(name).build();
 
@@ -68,7 +68,7 @@ public class SpaceBuilderTest {
 
     @Test
     public void buildSetsDescription() {
-        String description = RandomStringUtils.randomAlphabetic(17);
+        String description = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Space space = builder.withDescription(description).build();
 

@@ -40,11 +40,11 @@ public class DatabaseHelper {
     }
 
     public static long insertPlayer(DatabaseAccessor database, long id) {
-        return insertPlayer(database, id, RandomStringUtils.randomAlphabetic(16), RandomStringUtils.randomAlphabetic(13));
+        return insertPlayer(database, id, RandomStringUtils.insecure().nextAlphabetic(16), RandomStringUtils.insecure().nextAlphabetic(13));
     }
 
     public static long insertPlayer(DatabaseAccessor database, String loginId) {
-        return insertPlayer(database, loginId, RandomStringUtils.randomAlphabetic(13));
+        return insertPlayer(database, loginId, RandomStringUtils.insecure().nextAlphabetic(13));
     }
 
     public static long insertPlayer(DatabaseAccessor database, String loginId, String password) {
@@ -52,7 +52,7 @@ public class DatabaseHelper {
     }
 
     private static long insertPlayer(DatabaseAccessor database, long id, String loginId, String password) {
-        return insertPlayer(database, id, loginId, password, RandomStringUtils.randomAlphabetic(5));
+        return insertPlayer(database, id, loginId, password, RandomStringUtils.insecure().nextAlphabetic(5));
     }
 
     private static long insertPlayer(DatabaseAccessor database, long id, String loginId, String password, String locale) {

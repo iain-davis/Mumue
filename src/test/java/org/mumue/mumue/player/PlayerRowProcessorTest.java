@@ -37,7 +37,7 @@ public class PlayerRowProcessorTest {
 
     @Test
     public void toBeanReturnsPlayerWithLoginId() throws SQLException {
-        String loginId = RandomStringUtils.randomAlphabetic(17);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
         when(resultSet.getString("loginId")).thenReturn(loginId);
 
         Player player = processor.toBean(resultSet, Player.class);
@@ -47,7 +47,7 @@ public class PlayerRowProcessorTest {
 
     @Test
     public void toBeanReturnsPlayerWithLocale() throws SQLException {
-        String locale = RandomStringUtils.randomAlphabetic(17);
+        String locale = RandomStringUtils.insecure().nextAlphabetic(17);
         when(resultSet.getString("locale")).thenReturn(locale);
 
         Player player = processor.toBean(resultSet, Player.class);

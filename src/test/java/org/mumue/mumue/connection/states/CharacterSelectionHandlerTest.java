@@ -24,7 +24,7 @@ public class CharacterSelectionHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
-    private final String message = RandomStringUtils.randomAlphabetic(17);
+    private final String message = RandomStringUtils.insecure().nextAlphabetic(17);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final Connection connection = new Connection(configuration).withPlayer(Nimue.player().build());
     private final CharacterSelectionHandler characterSelectionHandler = new CharacterSelectionHandler(connectionStateProvider, characterDao, textMaker);
@@ -43,7 +43,7 @@ public class CharacterSelectionHandlerTest {
 
     @Test
     public void returnPlayCharacterWithInput() {
-        String text = RandomStringUtils.randomAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
         connection.getMenuOptionIds().put(text, RandomUtils.nextLong(100, 200));
         ConnectionState next = characterSelectionHandler.execute(connection, configuration);
@@ -54,7 +54,7 @@ public class CharacterSelectionHandlerTest {
     @Test
     public void loadSelectedCharacter() {
         long characterId = RandomUtils.nextLong(100, 200);
-        String option = RandomStringUtils.randomAlphabetic(1);
+        String option = RandomStringUtils.insecure().nextAlphabetic(1);
         connection.getMenuOptionIds().put(option, characterId);
         connection.getInputQueue().push(option);
 
@@ -66,8 +66,8 @@ public class CharacterSelectionHandlerTest {
     @Test
     public void rePromptOnInvalidSelection() {
         long characterId = RandomUtils.nextLong(100, 200);
-        String option = RandomStringUtils.randomAlphabetic(1);
-        String badSelection = RandomStringUtils.randomAlphabetic(2);
+        String option = RandomStringUtils.insecure().nextAlphabetic(1);
+        String badSelection = RandomStringUtils.insecure().nextAlphabetic(2);
         connection.getInputQueue().push(badSelection);
         connection.getMenuOptionIds().put(option, characterId);
 
@@ -79,8 +79,8 @@ public class CharacterSelectionHandlerTest {
     @Test
     public void displayInvalidSelectionOnBadSelection() {
         long characterId = RandomUtils.nextLong(100, 200);
-        String option = RandomStringUtils.randomAlphabetic(1);
-        String badSelection = RandomStringUtils.randomAlphabetic(2);
+        String option = RandomStringUtils.insecure().nextAlphabetic(1);
+        String badSelection = RandomStringUtils.insecure().nextAlphabetic(2);
         connection.getInputQueue().push(badSelection);
         connection.getMenuOptionIds().put(option, characterId);
 

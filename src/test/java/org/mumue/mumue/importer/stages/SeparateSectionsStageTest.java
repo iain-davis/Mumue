@@ -28,7 +28,7 @@ public class SeparateSectionsStageTest extends ImporterStageTestHelper {
     public void runConfirmsDatabaseVersion() {
         ImportBucket bucket = new ImportBucket();
         List<String> lines = new ArrayList<>();
-        lines.add(RandomStringUtils.randomAlphabetic(25));
+        lines.add(RandomStringUtils.insecure().nextAlphabetic(25));
         lines.add(RandomStringUtils.randomNumeric(5));
         lines.add("1");
         bucket.setSourceLines(lines);

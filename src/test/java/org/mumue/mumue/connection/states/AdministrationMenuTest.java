@@ -33,7 +33,7 @@ public class AdministrationMenuTest {
 
     @Test
     public void displayAdministrationMenu() {
-        String menu = RandomStringUtils.randomAlphabetic(13);
+        String menu = RandomStringUtils.insecure().nextAlphabetic(13);
         when(textMaker.getText(TextName.AdministrationMenu, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(menu);
 
         administrationMenu.execute(connection, configuration);

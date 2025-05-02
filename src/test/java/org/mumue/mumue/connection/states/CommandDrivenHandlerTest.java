@@ -34,9 +34,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void connectCommand() {
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String loginId = RandomStringUtils.randomAlphabetic(14);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(14);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
         Player player = createPlayer(loginId);
 
@@ -52,9 +52,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void connectCommandPutsCharacterOnConnection() {
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String loginId = RandomStringUtils.randomAlphabetic(17);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
         Player player = createPlayer(loginId);
 
@@ -70,9 +70,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void connectCommandPutsPlayerOnConnection() {
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String loginId = RandomStringUtils.randomAlphabetic(17);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
         Player player = createPlayer(loginId);
 
@@ -89,9 +89,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void connectCommandWorksMixedCase() {
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String loginId = RandomStringUtils.randomAlphabetic(17);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
         Player player = createPlayer(loginId);
 
@@ -107,9 +107,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void connectCommandWorksTruncated() {
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String loginId = RandomStringUtils.randomAlphabetic(17);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
         Player player = createPlayer(loginId);
 
@@ -125,9 +125,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void rejectConnectWhenMissingPassword() {
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String loginId = RandomStringUtils.randomAlphabetic(17);
-        String text = RandomStringUtils.randomAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
         Player player = createPlayer(loginId);
 
@@ -144,7 +144,7 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void rejectConnectWhenMissingCharacterName() {
-        String text = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
 
         when(textMaker.getText(TextName.MissingCharacterName, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
@@ -157,16 +157,16 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void rejectWhenInvalidCommand() {
-        String text = RandomStringUtils.randomAlphabetic(13);
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
 
         when(characterDao.getCharacter(characterName)).thenReturn(character);
         when(playerRepository.get(character.getPlayerId())).thenReturn(new Player());
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(6) + " " + characterName + " " + password);
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(6) + " " + characterName + " " + password);
         ConnectionState returned = stage.execute(connection, configuration);
 
         assertSame(returned, stage);
@@ -175,9 +175,9 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void rejectWhenCharacterDoesNotExist() {
-        String text = RandomStringUtils.randomAlphabetic(13);
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
 
         when(characterDao.getCharacter(characterName)).thenReturn(new GameCharacter());
         when(textMaker.getText(TextName.CharacterDoesNotExist, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
@@ -191,10 +191,10 @@ public class CommandDrivenHandlerTest {
 
     @Test
     public void authenticatePlayerUsingInvalidPassword() {
-        String text = RandomStringUtils.randomAlphabetic(13);
-        String login = RandomStringUtils.randomAlphabetic(5);
-        String characterName = RandomStringUtils.randomAlphabetic(16);
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
+        String login = RandomStringUtils.insecure().nextAlphabetic(5);
+        String characterName = RandomStringUtils.insecure().nextAlphabetic(16);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         GameCharacter character = createCharacter();
 
         Player player = new Player();

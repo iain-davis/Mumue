@@ -18,7 +18,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class NewPlayerHandlerTest {
-    private static final String YES = RandomStringUtils.randomAlphabetic(3);
+    private static final String YES = RandomStringUtils.insecure().nextAlphabetic(3);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final Connection connection = new Connection(configuration);
@@ -39,7 +39,7 @@ public class NewPlayerHandlerTest {
 
     @Test
     public void withYesInputProgressToNextStage() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(7));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(7));
         connection.getInputQueue().push(YES);
         ConnectionState next = newPlayerHandler.execute(connection, configuration);
 
@@ -48,7 +48,7 @@ public class NewPlayerHandlerTest {
 
     @Test
     public void withYesInputRetainsLoginId() {
-        String loginId = RandomStringUtils.randomAlphabetic(7);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(7);
         connection.getInputQueue().push(loginId);
         connection.getInputQueue().push(YES);
         newPlayerHandler.execute(connection, configuration);
@@ -58,8 +58,8 @@ public class NewPlayerHandlerTest {
 
     @Test
     public void withOtherInputPromptForLoginId() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(7));
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(4));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(7));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(4));
 
         ConnectionState next = newPlayerHandler.execute(connection, configuration);
 

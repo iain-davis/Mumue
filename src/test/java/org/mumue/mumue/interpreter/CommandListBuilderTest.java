@@ -39,7 +39,7 @@ public class CommandListBuilderTest {
 
     @Test
     public void buildPutsSyntaxForOneEntryOnList() {
-        String minimumPartial = RandomStringUtils.randomAlphabetic(17);
+        String minimumPartial = RandomStringUtils.insecure().nextAlphabetic(17);
         CommandSyntax syntax = new CommandSyntax();
         CommandEntry entry = new CommandEntry();
         entry.setMinimumPartial(minimumPartial);

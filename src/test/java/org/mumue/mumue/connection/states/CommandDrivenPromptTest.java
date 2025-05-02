@@ -33,7 +33,7 @@ public class CommandDrivenPromptTest {
 
     @Test
     public void displayCommands() {
-        String text = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
         when(textMaker.getText(TextName.WelcomeCommands, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(text);
 
         commandDrivenPrompt.execute(connection, configuration);

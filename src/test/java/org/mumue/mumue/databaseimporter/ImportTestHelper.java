@@ -22,14 +22,14 @@ class ImportTestHelper {
     }
 
     public static List<String> generateParameterLines(long randomParameters) {
-        return generateParameterLines(randomParameters, RandomStringUtils.randomAlphabetic(13), RANDOM.nextInt(1000));
+        return generateParameterLines(randomParameters, RandomStringUtils.insecure().nextAlphabetic(13), RANDOM.nextInt(1000));
     }
 
     public static List<String> generateParameterLines(long randomParameters, String muckName, long startingLocation) {
         List<String> parameters = new ArrayList<>();
         for (int i = 0; i < randomParameters; i++) {
             parameters.add(RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(13) + 3) + "=" +
-                           RandomStringUtils.randomAlphabetic(RANDOM.nextInt(13) + 5));
+                           RandomStringUtils.insecure().nextAlphabetic(RANDOM.nextInt(13) + 5));
         }
         parameters.add("muckname=" + muckName);
         parameters.add("player_start=" + String.valueOf(startingLocation));

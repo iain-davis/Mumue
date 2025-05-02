@@ -6,7 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.google.common.io.Resources;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,7 +19,7 @@ public class LoadLinesStageTest {
     @Test
     public void runHandlesFileNotFoundException() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
-        bucket.setFile(RandomStringUtils.randomAlphabetic(17));
+        bucket.setFile(RandomStringUtils.insecure().nextAlphabetic(17));
 
         thrown.expect(RuntimeException.class);
 

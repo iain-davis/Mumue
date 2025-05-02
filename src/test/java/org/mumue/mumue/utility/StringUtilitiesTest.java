@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class StringUtilitiesTest {
@@ -26,7 +26,7 @@ public class StringUtilitiesTest {
 
     @Test
     public void returnOneString() {
-        String string = RandomStringUtils.randomAlphabetic(17);
+        String string = RandomStringUtils.insecure().nextAlphabetic(17);
         Collection<String> stringCollection = new ArrayList<>(Collections.singletonList(string));
 
         assertThat(StringUtilities.commaIfy(stringCollection, ""), equalTo(string));
@@ -34,9 +34,9 @@ public class StringUtilitiesTest {
 
     @Test
     public void returnTwoStrings() {
-        String item1 = RandomStringUtils.randomAlphabetic(17);
-        String item2 = RandomStringUtils.randomAlphabetic(18);
-        String andString = RandomStringUtils.randomAlphabetic(3);
+        String item1 = RandomStringUtils.insecure().nextAlphabetic(17);
+        String item2 = RandomStringUtils.insecure().nextAlphabetic(18);
+        String andString = RandomStringUtils.insecure().nextAlphabetic(3);
         Collection<String> stringCollection = new ArrayList<>(Arrays.asList(item1, item2));
 
         String expected = item1 + " " + andString + " " + item2;
@@ -45,10 +45,10 @@ public class StringUtilitiesTest {
 
     @Test
     public void returnThreeStrings() {
-        String item1 = RandomStringUtils.randomAlphabetic(17);
-        String item2 = RandomStringUtils.randomAlphabetic(18);
-        String item3 = RandomStringUtils.randomAlphabetic(19);
-        String andString = RandomStringUtils.randomAlphabetic(3);
+        String item1 = RandomStringUtils.insecure().nextAlphabetic(17);
+        String item2 = RandomStringUtils.insecure().nextAlphabetic(18);
+        String item3 = RandomStringUtils.insecure().nextAlphabetic(19);
+        String andString = RandomStringUtils.insecure().nextAlphabetic(3);
         Collection<String> stringCollection = new ArrayList<>(Arrays.asList(item1, item2, item3));
 
         String expected = item1 + ", " + item2 + ", " + andString + " " + item3;

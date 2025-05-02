@@ -52,7 +52,7 @@ public class ConnectionTest {
     @Test
     public void getLocaleReturnsPlayerLocale() {
         connection.setPlayer(new Player());
-        String expected = RandomStringUtils.randomAlphabetic(5);
+        String expected = RandomStringUtils.insecure().nextAlphabetic(5);
         connection.getPlayer().setLocale(expected);
 
         String locale = connection.getLocale();
@@ -63,7 +63,7 @@ public class ConnectionTest {
     @Test
     public void getLocaleWithoutPlayerReturnsServerLocale() {
         connection.setPlayer(null);
-        String expected = RandomStringUtils.randomAlphabetic(5);
+        String expected = RandomStringUtils.insecure().nextAlphabetic(5);
         when(configuration.getServerLocale()).thenReturn(expected);
 
         String locale = connection.getLocale();
@@ -76,7 +76,7 @@ public class ConnectionTest {
         Player player = new Player();
         player.setLocale("");
         connection.setPlayer(player);
-        String expected = RandomStringUtils.randomAlphabetic(5);
+        String expected = RandomStringUtils.insecure().nextAlphabetic(5);
         when(configuration.getServerLocale()).thenReturn(expected);
 
         String locale = connection.getLocale();

@@ -29,7 +29,7 @@ public class GameCharacterImporterTest {
 
     @Test
     public void importFromSetsPassword() {
-        String password = RandomStringUtils.randomAlphabetic(13);
+        String password = RandomStringUtils.insecure().nextAlphabetic(13);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
                 .withPassword(password).build();
 

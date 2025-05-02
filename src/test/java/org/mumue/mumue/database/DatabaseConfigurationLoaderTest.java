@@ -41,12 +41,12 @@ public class DatabaseConfigurationLoaderTest {
         thrown.expect(RuntimeException.class);
         thrown.expectCause(instanceOf(FileNotFoundException.class));
 
-        loader.load(RandomStringUtils.randomAlphabetic(17));
+        loader.load(RandomStringUtils.insecure().nextAlphabetic(17));
     }
 
     @Test
     public void loadAProperty() {
-        String url = RandomStringUtils.randomAlphabetic(17);
+        String url = RandomStringUtils.insecure().nextAlphabetic(17);
         String path = setupFile(DatabaseConfiguration.DATABASE_URL, url);
 
         DatabaseConfiguration configuration = loader.load(path);

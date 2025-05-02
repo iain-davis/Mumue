@@ -25,8 +25,8 @@ public class PasswordHandlerTest {
 
     @Test
     public void executeWithTwoInputReturnsAuthenticationStage() {
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
-        connection.getInputQueue().push(RandomStringUtils.randomAlphabetic(17));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(17));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextAlphabetic(17));
 
         ConnectionState next = passwordHandler.execute(connection, configuration);
 

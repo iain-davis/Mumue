@@ -58,7 +58,7 @@ public class UniverseSelectionPromptTest {
         Collection<Universe> universes = new ArrayList<>();
         Universe universe = new Universe();
         universe.setId(0L);
-        universe.setName(RandomStringUtils.randomAlphabetic(17));
+        universe.setName(RandomStringUtils.insecure().nextAlphabetic(17));
         universes.add(universe);
         when(universeRepository.getUniverses()).thenReturn(universes);
         universeSelectionPrompt.execute(connection, configuration);

@@ -19,7 +19,7 @@ public class ThreadFactoryTest {
 
     @Test
     public void createSetsName() {
-        String name = RandomStringUtils.randomAlphabetic(13);
+        String name = RandomStringUtils.insecure().nextAlphabetic(13);
         Thread thread = factory.create(new MockRunnable(), name);
         assertNotNull(thread);
         assertEquals(name, thread.getName());

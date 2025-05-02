@@ -23,7 +23,7 @@ public class AdministrationMenuHandlerTest {
 
     @Test
     public void rePromptOnInvalidOption() {
-        String text = RandomStringUtils.randomAlphabetic(13);
+        String text = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("@");
 

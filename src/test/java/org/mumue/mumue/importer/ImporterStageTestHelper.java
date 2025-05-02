@@ -32,7 +32,7 @@ public class ImporterStageTestHelper {
 
     protected void addRandomLinesToList(List<String> list, int count) {
         for (int i = 0; i < count; i++) {
-            list.add(RandomStringUtils.randomAlphabetic(5));
+            list.add(RandomStringUtils.insecure().nextAlphabetic(5));
         }
     }
 

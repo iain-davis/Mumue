@@ -29,7 +29,7 @@ public class LoginIdHandlerTest {
 
     @Test
     public void executeWithValidLoginIdPromptsForPassword() {
-        String loginId = RandomStringUtils.randomAlphabetic(17);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(loginId);
 
         when(playerRepository.get(loginId)).thenReturn(Nimue.player().withId(1L).build());
@@ -41,7 +41,7 @@ public class LoginIdHandlerTest {
 
     @Test
     public void executeWithInvalidLoginIdPromptsForNewPlayer() {
-        String loginId = RandomStringUtils.randomAlphabetic(17);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(loginId);
         when(playerRepository.get(loginId)).thenReturn(Nimue.player().build());
 
@@ -52,7 +52,7 @@ public class LoginIdHandlerTest {
 
     @Test
     public void executeWithValidIdLeavesLoginIdOnQueue() {
-        String loginId = RandomStringUtils.randomAlphabetic(17);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(loginId);
         when(playerRepository.get(loginId)).thenReturn(Nimue.player().withId(1L).build());
 
@@ -63,7 +63,7 @@ public class LoginIdHandlerTest {
 
     @Test
     public void executeWithInValidIdLeavesLoginIdOnQueue() {
-        String loginId = RandomStringUtils.randomAlphabetic(17);
+        String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(loginId);
         when(playerRepository.get(loginId)).thenReturn(Nimue.player().build());
 

@@ -163,7 +163,7 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     private List<String> setupLines(Component component) {
         List<String> lines = new ArrayList<>();
         lines.add("#" + component.getId().toString());
-        lines.add(RandomStringUtils.randomAlphabetic(13));
+        lines.add(RandomStringUtils.insecure().nextAlphabetic(13));
         lines.add("-1");
         lines.add("-1");
         lines.add("-1");

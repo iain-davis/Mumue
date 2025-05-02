@@ -18,7 +18,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void returnsGivenDriverName() {
-        String driver = RandomStringUtils.randomAlphabetic(17);
+        String driver = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_DRIVER_NAME, driver);
@@ -37,7 +37,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void returnsGivenPath() {
-        String path = RandomStringUtils.randomAlphabetic(17);
+        String path = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_PATH, path);
@@ -56,7 +56,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void returnsGivenUsername() {
-        String username = RandomStringUtils.randomAlphabetic(17);
+        String username = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_USERNAME, username);
@@ -75,7 +75,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void returnsGivenPassword() {
-        String password = RandomStringUtils.randomAlphabetic(17);
+        String password = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_PASSWORD, password);
@@ -87,7 +87,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void whenUrlIsNullReturnsH2PathBasedUrl() {
-        String path = RandomStringUtils.randomAlphabetic(17);
+        String path = RandomStringUtils.insecure().nextAlphabetic(17);
         String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
 
         Properties properties = new Properties();
@@ -111,7 +111,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void whenUrlIsEmptyReturnsH2PathBasedUrl() {
-        String path = RandomStringUtils.randomAlphabetic(17);
+        String path = RandomStringUtils.insecure().nextAlphabetic(17);
         String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
 
         Properties properties = new Properties();
@@ -125,7 +125,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void whenUrlIsBlankReturnsH2PathBasedUrl() {
-        String path = RandomStringUtils.randomAlphabetic(17);
+        String path = RandomStringUtils.insecure().nextAlphabetic(17);
         String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
 
         Properties properties = new Properties();
@@ -139,7 +139,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void returnsGivenUrl() {
-        String url = RandomStringUtils.randomAlphabetic(17);
+        String url = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_URL, url);

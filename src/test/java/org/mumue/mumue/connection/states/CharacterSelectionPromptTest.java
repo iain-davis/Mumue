@@ -30,7 +30,7 @@ public class CharacterSelectionPromptTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao dao = mock(CharacterDao.class);
     private final String prompt = RandomStringUtils.randomAlphanumeric(17);
-    private final Player player = Nimue.player().withLoginId(RandomStringUtils.randomAlphabetic(7)).build();
+    private final Player player = Nimue.player().withLoginId(RandomStringUtils.insecure().nextAlphabetic(7)).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final CharacterSelectionPrompt characterSelectionPrompt = new CharacterSelectionPrompt(connectionStateProvider, textMaker, dao);
@@ -57,8 +57,8 @@ public class CharacterSelectionPromptTest {
 
     @Test
     public void displayCharacterList() {
-        String name1 = RandomStringUtils.randomAlphabetic(17);
-        String name2 = RandomStringUtils.randomAlphabetic(16);
+        String name1 = RandomStringUtils.insecure().nextAlphabetic(17);
+        String name2 = RandomStringUtils.insecure().nextAlphabetic(16);
         List<GameCharacter> characters = setupCharacters(name1, name2);
         when(dao.getCharacters(player.getId())).thenReturn(characters);
 
@@ -82,7 +82,7 @@ public class CharacterSelectionPromptTest {
     }
 
     private List<GameCharacter> setupCharacters(long id1, long id2) {
-        return setupCharacters(id1, id2, RandomStringUtils.randomAlphabetic(7), RandomStringUtils.randomAlphabetic(8));
+        return setupCharacters(id1, id2, RandomStringUtils.insecure().nextAlphabetic(7), RandomStringUtils.insecure().nextAlphabetic(8));
     }
 
     private List<GameCharacter> setupCharacters(String name1, String name2) {
