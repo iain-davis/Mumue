@@ -1,13 +1,5 @@
 package org.mumue.mumue.components.character;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
-
-import java.time.Instant;
-import java.util.List;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
@@ -15,13 +7,22 @@ import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.importer.GlobalConstants;
 
+import java.time.Instant;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+
 public class CharacterDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private CharacterDao dao = new CharacterDao(database);
 
     @Test
     public void getCharacterNeverReturnsNull() {
-        assertNotNull(dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17), GlobalConstants.REFERENCE_UNKNOWN));
+        GameCharacter character = dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17), GlobalConstants.REFERENCE_UNKNOWN);
+
+        assertThat(character, notNullValue());
     }
 
     @Test
@@ -38,7 +39,9 @@ public class CharacterDaoTest {
 
     @Test
     public void getCharacterByNameNeverReturnsNull() {
-        assertNotNull(dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17)));
+        GameCharacter character = dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17));
+
+        assertThat(character, notNullValue());
     }
 
     @Test
@@ -55,7 +58,9 @@ public class CharacterDaoTest {
 
     @Test
     public void getCharacterByIdNeverReturnsNull() {
-        assertNotNull(dao.getCharacter(RandomUtils.nextLong(100, 200)));
+        GameCharacter character = dao.getCharacter(RandomUtils.nextLong(100, 200));
+
+        assertThat(character, notNullValue());
     }
 
     @Test
@@ -73,7 +78,10 @@ public class CharacterDaoTest {
     @Test
     public void getCharactersNeverReturnsNull() {
         long playerId = RandomUtils.nextLong(100, 200);
-        assertNotNull(dao.getCharacters(playerId));
+
+        List<GameCharacter> characters = dao.getCharacters(playerId);
+
+        assertThat(characters, notNullValue());
     }
 
     @Test
@@ -118,7 +126,16 @@ public class CharacterDaoTest {
         dao.createCharacter(characterToAdd);
 
         GameCharacter retrieved = dao.getCharacter(characterToAdd.getId());
-        assertReflectionEquals(retrieved, characterToAdd);
+        assertThat(retrieved.getId(), equalTo(characterToAdd.getId()));
+        assertThat(retrieved.getName(), equalTo(characterToAdd.getName()));
+        assertThat(retrieved.getDescription(), equalTo(characterToAdd.getDescription()));
+        assertThat(retrieved.getCreated(), equalTo(characterToAdd.getCreated()));
+        assertThat(retrieved.getLastModified(), equalTo(characterToAdd.getLastModified()));
+        assertThat(retrieved.getLastUsed(), equalTo(characterToAdd.getLastUsed()));
+        assertThat(retrieved.getUseCount(), equalTo(characterToAdd.getUseCount()));
+        assertThat(retrieved.getLocationId(), equalTo(characterToAdd.getLocationId()));
+        assertThat(retrieved.getUniverseId(), equalTo(characterToAdd.getUniverseId()));
+        assertThat(retrieved.getPlayerId(), equalTo(characterToAdd.getPlayerId()));
     }
 
     private void insertCharacter(long characterId, long playerId) {
