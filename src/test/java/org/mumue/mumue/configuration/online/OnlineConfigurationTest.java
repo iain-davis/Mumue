@@ -36,7 +36,7 @@ public class OnlineConfigurationTest {
 
     @Test
     public void getLastComponentIdReturnsLastComponentId() {
-        Long lastComponentId = RandomUtils.nextLong(100, 200);
+        Long lastComponentId = RandomUtils.insecure().randomLong(100, 200);
         when(dao.getConfigurationOption(OnlineConfigurationOptionName.LAST_COMPONENT_ID)).thenReturn(String.valueOf(lastComponentId));
         assertThat(onlineConfiguration.getLastComponentId(), equalTo(lastComponentId));
     }

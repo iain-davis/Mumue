@@ -20,7 +20,7 @@ public class ComponentIdManagerTest {
 
     @Test
     public void returnsGivenLong() {
-        long id = RandomUtils.nextLong(100, 200);
+        long id = RandomUtils.insecure().randomLong(100, 200);
         when(onlineConfiguration.getLastComponentId()).thenReturn(id - 1);
 
         assertThat(componentIdManager.getNewComponentId(), equalTo(id));

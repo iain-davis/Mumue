@@ -70,8 +70,8 @@ public class CharacterSelectionPromptTest {
 
     @Test
     public void storeCharacterIdsByMenuOption() {
-        long id1 = RandomUtils.nextLong(100, 200);
-        long id2 = RandomUtils.nextLong(200, 300);
+        long id1 = RandomUtils.insecure().randomLong(100, 200);
+        long id2 = RandomUtils.insecure().randomLong(200, 300);
         List<GameCharacter> characters = setupCharacters(id1, id2);
         when(dao.getCharacters(player.getId())).thenReturn(characters);
 
@@ -86,7 +86,7 @@ public class CharacterSelectionPromptTest {
     }
 
     private List<GameCharacter> setupCharacters(String name1, String name2) {
-        return setupCharacters(RandomUtils.nextLong(1, 100), RandomUtils.nextLong(100, 200), name1, name2);
+        return setupCharacters(RandomUtils.insecure().randomLong(1, 100), RandomUtils.insecure().randomLong(100, 200), name1, name2);
     }
 
     private List<GameCharacter> setupCharacters(long id1, long id2, String name1, String name2) {

@@ -39,8 +39,8 @@ public class CharacterNameHandlerTest {
 
     private final String loginId = RandomStringUtils.insecure().nextAlphabetic(14);
     private final String name = RandomStringUtils.insecure().nextAlphabetic(17);
-    private final long playerId = RandomUtils.nextLong(100, 200);
-    private final long locationId = RandomUtils.nextLong(200, 300);
+    private final long playerId = RandomUtils.insecure().randomLong(100, 200);
+    private final long locationId = RandomUtils.insecure().randomLong(200, 300);
     private final Player player = new PlayerBuilder().withId(playerId).withLoginId(loginId).build();
     private final GameCharacter character = new GameCharacter();
     private final Universe universe = new UniverseBuilder().withStartingSpaceId(locationId).build();
@@ -173,7 +173,7 @@ public class CharacterNameHandlerTest {
     public void nameTakenInUniverseDisplayMessage() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
-        characterThatExists.setId(RandomUtils.nextLong(300, 400));
+        characterThatExists.setId(RandomUtils.insecure().randomLong(300, 400));
 
         connection.getInputQueue().push(name);
 
@@ -189,7 +189,7 @@ public class CharacterNameHandlerTest {
     public void nameTakenInUniverseRePrompt() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
-        characterThatExists.setId(RandomUtils.nextLong(300, 400));
+        characterThatExists.setId(RandomUtils.insecure().randomLong(300, 400));
 
         connection.getInputQueue().push(name);
 
@@ -204,8 +204,8 @@ public class CharacterNameHandlerTest {
     @Test
     public void nameTakenByOtherPlayerDisplayMessage() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
-        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(100, 200))
-                .withId(RandomUtils.nextLong(200, 300)).build();
+        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.insecure().randomLong(100, 200))
+                .withId(RandomUtils.insecure().randomLong(200, 300)).build();
 
         connection.getInputQueue().push(name);
 
@@ -220,8 +220,8 @@ public class CharacterNameHandlerTest {
     @Test
     public void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
-        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.nextLong(600, 700))
-                .withId(RandomUtils.nextLong(200, 300)).build();
+        GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.insecure().randomLong(600, 700))
+                .withId(RandomUtils.insecure().randomLong(200, 300)).build();
         connection.getInputQueue().push(name);
 
         when(characterDao.getCharacter(name)).thenReturn(characterThatExists);

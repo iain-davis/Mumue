@@ -20,7 +20,7 @@ import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.testobjectbuilder.Nimue;
 
 public class EnterSpaceTest {
-    private final long locationId = RandomUtils.nextLong(100, 200);
+    private final long locationId = RandomUtils.insecure().randomLong(100, 200);
     private final String name = RandomStringUtils.insecure().nextAlphabetic(25);
     private final String description = RandomStringUtils.insecure().nextAlphabetic(35);
     private final ApplicationConfiguration configuration = Nimue.configuration();

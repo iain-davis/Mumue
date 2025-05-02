@@ -26,7 +26,7 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 public class CommandPoseTest {
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final ApplicationConfiguration configuration = Nimue.configuration();
-    private final GameCharacter poser = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
+    private final GameCharacter poser = new CharacterBuilder().withLocationId(RandomUtils.insecure().randomLong(100, 200)).build();
     private final Connection posingConnection = Nimue.connection().withCharacter(poser);
 
     private final CommandPose commandPose = new CommandPose();
@@ -80,7 +80,7 @@ public class CommandPoseTest {
 
     @Test
     public void poseNotSeenByCharacterInOtherLocation() {
-        Connection otherRoomConnection = Nimue.connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(500, 600)).build());
+        Connection otherRoomConnection = Nimue.connection().withCharacter(new CharacterBuilder().withLocationId(RandomUtils.insecure().randomLong(500, 600)).build());
         poser.setName(RandomStringUtils.insecure().nextAlphabetic(17));
         String text = RandomStringUtils.insecure().nextAlphabetic(35);
         connectionManager.add(otherRoomConnection);

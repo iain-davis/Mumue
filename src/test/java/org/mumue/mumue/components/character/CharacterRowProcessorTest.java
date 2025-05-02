@@ -35,7 +35,7 @@ public class CharacterRowProcessorTest {
 
     @Test
     public void toBeanSetsPlayerId() throws SQLException {
-        long playerId = RandomUtils.nextLong(100, 200);
+        long playerId = RandomUtils.insecure().randomLong(100, 200);
         when(resultSet.getLong("playerId")).thenReturn(playerId);
 
         GameCharacter character = processor.toBean(resultSet, GameCharacter.class);

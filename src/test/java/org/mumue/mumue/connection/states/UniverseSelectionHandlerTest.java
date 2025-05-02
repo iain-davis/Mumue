@@ -37,7 +37,7 @@ public class UniverseSelectionHandlerTest {
     @Before
     public void beforeEach() {
         Universe universe = new Universe();
-        universe.setId(RandomUtils.nextLong(100, 200));
+        universe.setId(RandomUtils.insecure().randomLong(100, 200));
         when(dao.getUniverse(anyLong())).thenReturn(universe);
     }
 

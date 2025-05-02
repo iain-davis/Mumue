@@ -24,12 +24,12 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     public void spaceHasMultipleLinks() {
         ImportBucket bucket = new ImportBucket();
 
-        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
         bucket.getComponents().put(space.getId(), space);
         List<String> lines = setupLines(space);
         bucket.getComponentLines().put(space.getId(), lines);
 
-        Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
+        Link firstLink = new Link().withId(RandomUtils.insecure().randomLong(100, 200));
         space.getLinks().add(firstLink);
         lines = setupLines(firstLink);
         bucket.getComponents().put(firstLink.getId(), firstLink);
@@ -59,12 +59,12 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     public void spaceHasOneLink() {
         ImportBucket bucket = new ImportBucket();
 
-        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
         bucket.getComponents().put(space.getId(), space);
         List<String> lines = setupLines(space);
         bucket.getComponentLines().put(space.getId(), lines);
 
-        Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
+        Link firstLink = new Link().withId(RandomUtils.insecure().randomLong(100, 200));
         space.getLinks().add(firstLink);
         lines = setupLines(firstLink);
         bucket.getComponents().put(firstLink.getId(), firstLink);
@@ -80,7 +80,7 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     public void spaceHasNoLinks() {
         ImportBucket bucket = new ImportBucket();
 
-        Space space = new Space().withId(RandomUtils.nextLong(2, 100));
+        Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
         bucket.getComponents().put(space.getId(), space);
         List<String> lines = setupLines(space);
         bucket.getComponentLines().put(space.getId(), lines);
@@ -94,12 +94,12 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     public void artifactHasMultipleLinks() {
         ImportBucket bucket = new ImportBucket();
 
-        Artifact artifact = new Artifact().withId(RandomUtils.nextLong(2, 100));
+        Artifact artifact = new Artifact().withId(RandomUtils.insecure().randomLong(2, 100));
         bucket.getComponents().put(artifact.getId(), artifact);
         List<String> lines = setupLines(artifact);
         bucket.getComponentLines().put(artifact.getId(), lines);
 
-        Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
+        Link firstLink = new Link().withId(RandomUtils.insecure().randomLong(100, 200));
         artifact.getLinks().add(firstLink);
         lines = setupLines(firstLink);
         bucket.getComponents().put(firstLink.getId(), firstLink);
@@ -129,12 +129,12 @@ public class LinkSourceChainStageTest extends ImporterStageTestHelper {
     public void characterHasMultipleLinks() {
         ImportBucket bucket = new ImportBucket();
 
-        GameCharacter character = new GameCharacter().withId(RandomUtils.nextLong(2, 100));
+        GameCharacter character = new GameCharacter().withId(RandomUtils.insecure().randomLong(2, 100));
         bucket.getComponents().put(character.getId(), character);
         List<String> lines = setupLines(character);
         bucket.getComponentLines().put(character.getId(), lines);
 
-        Link firstLink = new Link().withId(RandomUtils.nextLong(100, 200));
+        Link firstLink = new Link().withId(RandomUtils.insecure().randomLong(100, 200));
         character.getLinks().add(firstLink);
         lines = setupLines(firstLink);
         bucket.getComponents().put(firstLink.getId(), firstLink);

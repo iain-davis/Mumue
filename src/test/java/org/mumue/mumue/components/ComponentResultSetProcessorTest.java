@@ -20,8 +20,8 @@ import org.mockito.junit.MockitoRule;
 public class ComponentResultSetProcessorTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
     private final Instant instant = Instant.EPOCH;
-    private final long useCount = RandomUtils.nextLong(100, 200);
-    private final long id = RandomUtils.nextLong(200, 1000);
+    private final long useCount = RandomUtils.insecure().randomLong(100, 200);
+    private final long id = RandomUtils.insecure().randomLong(200, 1000);
 
     @Mock ResultSet resultSet;
     private final Component timestampAble = new Component() {};

@@ -33,7 +33,7 @@ public class UniverseRepositoryTest {
 
     @Test
     public void getUniverseReturnsUniverse() {
-        long universeId = RandomUtils.nextLong(100, 200);
+        long universeId = RandomUtils.insecure().randomLong(100, 200);
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertUniverse(universeId, name, "");
 

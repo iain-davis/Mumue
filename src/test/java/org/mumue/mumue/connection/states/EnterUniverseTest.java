@@ -25,7 +25,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class EnterUniverseTest {
-    private final long universeId = RandomUtils.nextLong(100, 200);
+    private final long universeId = RandomUtils.insecure().randomLong(100, 200);
     private final String message = RandomStringUtils.insecure().nextAlphabetic(25);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);

@@ -20,7 +20,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
 
         String name = RandomStringUtils.insecure().nextAlphabetic(13);
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
-        mockCharacterData(bucket, name, password, RandomUtils.nextLong(2, 100));
+        mockCharacterData(bucket, name, password, RandomUtils.insecure().randomLong(2, 100));
 
         stage.run(bucket);
 
@@ -33,7 +33,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
 
         String name = RandomStringUtils.insecure().nextAlphabetic(13);
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
-        Long id = RandomUtils.nextLong(2, 100);
+        Long id = RandomUtils.insecure().randomLong(2, 100);
         mockCharacterData(bucket, name, password, id);
 
         stage.run(bucket);
@@ -47,7 +47,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
 
         String name = RandomStringUtils.insecure().nextAlphabetic(13);
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
-        mockCharacterData(bucket, name, password, RandomUtils.nextLong(2, 100));
+        mockCharacterData(bucket, name, password, RandomUtils.insecure().randomLong(2, 100));
 
         stage.run(bucket);
 
@@ -60,11 +60,11 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
 
         String name1 = RandomStringUtils.insecure().nextAlphabetic(13);
         String password1 = RandomStringUtils.insecure().nextAlphabetic(13);
-        mockCharacterData(bucket, name1, password1, RandomUtils.nextLong(2, 100));
+        mockCharacterData(bucket, name1, password1, RandomUtils.insecure().randomLong(2, 100));
 
         String name2 = RandomStringUtils.insecure().nextAlphabetic(13);
         String password2 = RandomStringUtils.insecure().nextAlphabetic(13);
-        mockCharacterData(bucket, name2, password2, RandomUtils.nextLong(200, 300));
+        mockCharacterData(bucket, name2, password2, RandomUtils.insecure().randomLong(200, 300));
 
         stage.run(bucket);
 
@@ -77,7 +77,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
 
         String name = RandomStringUtils.insecure().nextAlphabetic(13);
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
-        mockCharacterData(bucket, name, password, RandomUtils.nextLong(2, 100));
+        mockCharacterData(bucket, name, password, RandomUtils.insecure().randomLong(2, 100));
 
         stage.run(bucket);
 
@@ -90,9 +90,9 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
 
         String name = RandomStringUtils.insecure().nextAlphabetic(13);
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
-        mockCharacterData(bucket, name, password, RandomUtils.nextLong(2, 100));
+        mockCharacterData(bucket, name, password, RandomUtils.insecure().randomLong(2, 100));
 
-        Space space = new Space().withId(RandomUtils.nextLong(100,200));
+        Space space = new Space().withId(RandomUtils.insecure().randomLong(100,200));
         bucket.getComponentLines().put(space.getId(), mockComponentLines(space));
         bucket.getComponents().put(space.getId(), space);
 
@@ -104,7 +104,7 @@ public class PlayerGenerationStageTest extends ImporterStageTestHelper {
     @Test
     public void runWithoutCharactersDoesNotMakePlayers() {
         ImportBucket bucket = new ImportBucket();
-        Space space = new Space().withId(RandomUtils.nextLong(100,200));
+        Space space = new Space().withId(RandomUtils.insecure().randomLong(100,200));
         bucket.getComponentLines().put(space.getId(), mockComponentLines(space));
         bucket.getComponents().put(space.getId(), space);
 

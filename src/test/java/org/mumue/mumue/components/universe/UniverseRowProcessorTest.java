@@ -39,7 +39,7 @@ public class UniverseRowProcessorTest {
 
     @Test
     public void setStartingSpaceId() throws SQLException {
-        long id = RandomUtils.nextLong(200, 300);
+        long id = RandomUtils.insecure().randomLong(200, 300);
         when(resultSet.getLong("startingSpaceId")).thenReturn(id);
 
         Universe universe = processor.toBean(resultSet, Universe.class);

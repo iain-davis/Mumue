@@ -37,7 +37,7 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
         String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
         String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
         Connection sayerConnection = connection(null, character(characterName, locationId));
         connectionManager.add(sayerConnection);
         connectionManager.add(connection(null, character(targetName, locationId)));
@@ -53,7 +53,7 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.insecure().nextAlphabetic(17) + " " + RandomStringUtils.insecure().nextAlphabetic(17);
         String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
         String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
         Connection sayerConnection = connection(null, character(characterName, locationId));
         connectionManager.add(sayerConnection);
         connectionManager.add(connection(null, character(targetName, locationId)));
@@ -70,7 +70,7 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
         String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
         String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
 
         Player targetPlayer = new PlayerBuilder().withLocale(locale).build();
         Connection sayerConnection = connection(null, character(characterName, locationId));
@@ -91,7 +91,7 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
         String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
         String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
 
         Player targetPlayer = new PlayerBuilder().withLocale(locale).build();
         Connection sayerConnection = connection(null, character(characterName, locationId));
@@ -175,7 +175,7 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
         String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
         String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
 
         Connection sayerConnection = connection(null, character(characterName, locationId));
         Connection inRoomConnection = Nimue.connection().withCharacter(character("", locationId));
@@ -194,10 +194,10 @@ public class CommandSayDirectedTest {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
         String characterName = RandomStringUtils.insecure().nextAlphabetic(7);
         String targetName = RandomStringUtils.insecure().nextAlphabetic(8);
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
 
         Connection sayerConnection = connection(null, character(characterName, locationId));
-        Connection outOfRoomConnection = Nimue.connection().withCharacter(character("", RandomUtils.nextLong(500, 600)));
+        Connection outOfRoomConnection = Nimue.connection().withCharacter(character("", RandomUtils.insecure().randomLong(500, 600)));
         connectionManager.add(sayerConnection);
         connectionManager.add(connection(null, character(targetName, locationId)));
         connectionManager.add(outOfRoomConnection);

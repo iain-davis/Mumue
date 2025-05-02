@@ -14,7 +14,7 @@ public class UniverseBuilderTest {
 
     @Test
     public void buildSetsId() {
-        long id = RandomUtils.nextLong(100, 200);
+        long id = RandomUtils.insecure().randomLong(100, 200);
 
         Universe universe = builder.withId(id).build();
 
@@ -23,7 +23,7 @@ public class UniverseBuilderTest {
 
     @Test
     public void buildSetsCreated() {
-        Instant created = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant created = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         Universe universe = builder.withCreated(created).build();
 
@@ -32,7 +32,7 @@ public class UniverseBuilderTest {
 
     @Test
     public void buildSetsModified() {
-        Instant modified = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant modified = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         Universe universe = builder.withLastModified(modified).build();
 
@@ -41,7 +41,7 @@ public class UniverseBuilderTest {
 
     @Test
     public void buildSetsUsed() {
-        Instant lastUsed = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant lastUsed = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         Universe universe = builder.withLastUsed(lastUsed).build();
 
@@ -50,7 +50,7 @@ public class UniverseBuilderTest {
 
     @Test
     public void buildSetsUseCount() {
-        long useCount = RandomUtils.nextLong(100, 200);
+        long useCount = RandomUtils.insecure().randomLong(100, 200);
 
         Universe universe = builder.withUseCount(useCount).build();
 
@@ -77,7 +77,7 @@ public class UniverseBuilderTest {
 
     @Test
     public void buildSetsStartingSpaceId() {
-        long startingSpaceId = RandomUtils.nextLong(100, 200);
+        long startingSpaceId = RandomUtils.insecure().randomLong(100, 200);
 
         Universe universe = builder.withStartingSpaceId(startingSpaceId).build();
 

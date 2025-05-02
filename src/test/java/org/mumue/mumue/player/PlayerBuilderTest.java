@@ -15,7 +15,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsId() {
-        long id = RandomUtils.nextLong(100, 200);
+        long id = RandomUtils.insecure().randomLong(100, 200);
 
         Player player = builder.withId(id).build();
 
@@ -24,7 +24,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsCreated() {
-        Instant created = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant created = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         Player player = builder.withCreated(created).build();
 
@@ -33,7 +33,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsModified() {
-        Instant modified = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant modified = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         Player player = builder.withLastModified(modified).build();
 
@@ -42,7 +42,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsUsed() {
-        Instant lastUsed = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant lastUsed = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         Player player = builder.withLastUsed(lastUsed).build();
 
@@ -51,7 +51,7 @@ public class PlayerBuilderTest {
 
     @Test
     public void buildSetsUseCount() {
-        long useCount = RandomUtils.nextLong(100, 200);
+        long useCount = RandomUtils.insecure().randomLong(100, 200);
 
         Player player = builder.withUseCount(useCount).build();
 

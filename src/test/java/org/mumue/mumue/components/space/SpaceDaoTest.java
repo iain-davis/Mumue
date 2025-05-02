@@ -21,7 +21,7 @@ public class SpaceDaoTest {
 
     @Test
     public void getUniverseReturnsUniverse() {
-        long spaceId = RandomUtils.nextLong(100, 200);
+        long spaceId = RandomUtils.insecure().randomLong(100, 200);
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
         insertSpace(spaceId, name);
 

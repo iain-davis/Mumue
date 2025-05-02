@@ -45,7 +45,7 @@ public class CharacterSelectionHandlerTest {
     public void returnPlayCharacterWithInput() {
         String text = RandomStringUtils.insecure().nextAlphabetic(17);
         connection.getInputQueue().push(text);
-        connection.getMenuOptionIds().put(text, RandomUtils.nextLong(100, 200));
+        connection.getMenuOptionIds().put(text, RandomUtils.insecure().randomLong(100, 200));
         ConnectionState next = characterSelectionHandler.execute(connection, configuration);
 
         assertThat(next, instanceOf(EnterUniverse.class));
@@ -53,7 +53,7 @@ public class CharacterSelectionHandlerTest {
 
     @Test
     public void loadSelectedCharacter() {
-        long characterId = RandomUtils.nextLong(100, 200);
+        long characterId = RandomUtils.insecure().randomLong(100, 200);
         String option = RandomStringUtils.insecure().nextAlphabetic(1);
         connection.getMenuOptionIds().put(option, characterId);
         connection.getInputQueue().push(option);
@@ -65,7 +65,7 @@ public class CharacterSelectionHandlerTest {
 
     @Test
     public void rePromptOnInvalidSelection() {
-        long characterId = RandomUtils.nextLong(100, 200);
+        long characterId = RandomUtils.insecure().randomLong(100, 200);
         String option = RandomStringUtils.insecure().nextAlphabetic(1);
         String badSelection = RandomStringUtils.insecure().nextAlphabetic(2);
         connection.getInputQueue().push(badSelection);
@@ -78,7 +78,7 @@ public class CharacterSelectionHandlerTest {
 
     @Test
     public void displayInvalidSelectionOnBadSelection() {
-        long characterId = RandomUtils.nextLong(100, 200);
+        long characterId = RandomUtils.insecure().randomLong(100, 200);
         String option = RandomStringUtils.insecure().nextAlphabetic(1);
         String badSelection = RandomStringUtils.insecure().nextAlphabetic(2);
         connection.getInputQueue().push(badSelection);

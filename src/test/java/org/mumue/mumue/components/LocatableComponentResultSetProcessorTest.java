@@ -19,8 +19,8 @@ import org.mockito.junit.MockitoRule;
 
 public class LocatableComponentResultSetProcessorTest {
     @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    private final Long locationId = RandomUtils.nextLong(100, 200);
-    private final Long universeId = RandomUtils.nextLong(100, 200);
+    private final Long locationId = RandomUtils.insecure().randomLong(100, 200);
+    private final Long universeId = RandomUtils.insecure().randomLong(100, 200);
     private final LocatableComponent component = new LocatableComponent() {};
 
     @Mock ResultSet resultSet;

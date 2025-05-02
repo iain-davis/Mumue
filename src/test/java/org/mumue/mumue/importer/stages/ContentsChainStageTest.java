@@ -16,7 +16,7 @@ public class ContentsChainStageTest {
     @Test
     public void emptyContents() {
         ImportBucket bucket = new ImportBucket();
-        Long id = RandomUtils.nextLong(1, 100);
+        Long id = RandomUtils.insecure().randomLong(1, 100);
         bucket.getComponents().put(id, new Component().withId(id));
         stage.run(bucket);
         Assert.assertEquals(0, bucket.getComponents().get(id).getContents().size());
@@ -25,11 +25,11 @@ public class ContentsChainStageTest {
     @Test
     public void onlyOneInContents() {
         ImportBucket bucket = new ImportBucket();
-        Long id = RandomUtils.nextLong(1, 100);
+        Long id = RandomUtils.insecure().randomLong(1, 100);
         Component component = new Component().withId(id);
         bucket.getComponents().put(id, component);
 
-        Long contentId = RandomUtils.nextLong(100, 200);
+        Long contentId = RandomUtils.insecure().randomLong(100, 200);
         Component content = new Component().withId(contentId);
         bucket.getComponents().put(contentId, content);
         component.getContents().add(content);
@@ -42,13 +42,13 @@ public class ContentsChainStageTest {
     @Test
     public void multipleInContents() {
         ImportBucket bucket = new ImportBucket();
-        Long id = RandomUtils.nextLong(1, 100);
+        Long id = RandomUtils.insecure().randomLong(1, 100);
         Component component = new Component().withId(id);
         bucket.getComponents().put(id, component);
         int count = RandomUtils.nextInt(3, 4);
         List<Long> contentIds = new ArrayList<>();
 
-        long contentId = RandomUtils.nextLong(300, 400);
+        long contentId = RandomUtils.insecure().randomLong(300, 400);
         Component content = new Component().withId(contentId);
         component.getContents().add(content);
         contentIds.add(contentId);

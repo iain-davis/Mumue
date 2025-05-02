@@ -32,7 +32,7 @@ public class PlayerMenuHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao characterDao = mock(CharacterDao.class);
 
-    private final long id = RandomUtils.nextLong(100, 200);
+    private final long id = RandomUtils.insecure().randomLong(100, 200);
     private final Player player = Nimue.player().withId(id).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
     private final PlayerMenuHandler playerMenuHandler = new PlayerMenuHandler(connectionStateProvider, characterDao, textMaker);

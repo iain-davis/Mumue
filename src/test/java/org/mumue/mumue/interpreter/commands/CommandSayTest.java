@@ -19,7 +19,7 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 public class CommandSayTest {
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final ConnectionManager connectionManager = new ConnectionManager();
-    private final GameCharacter sayer = new CharacterBuilder().withLocationId(RandomUtils.nextLong(100, 200)).build();
+    private final GameCharacter sayer = new CharacterBuilder().withLocationId(RandomUtils.insecure().randomLong(100, 200)).build();
     private final Connection sayerConnection = Nimue.connection().withCharacter(sayer);
 
     private final CommandSay command = new CommandSay();
@@ -41,7 +41,7 @@ public class CommandSayTest {
 
     @Test
     public void otherCharacterInRoomSees() {
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
         sayer.setLocationId(locationId);
         sayer.setName(RandomStringUtils.insecure().nextAlphabetic(16));
         Connection otherConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(locationId).build());
@@ -57,13 +57,13 @@ public class CommandSayTest {
 
     @Test
     public void otherCharacterInOtherRoomDoesNotSee() {
-        long locationId = RandomUtils.nextLong(100, 200);
+        long locationId = RandomUtils.insecure().randomLong(100, 200);
         sayer.setLocationId(locationId);
         sayer.setName(RandomStringUtils.insecure().nextAlphabetic(16));
         String saying = RandomStringUtils.insecure().nextAlphabetic(17);
 
         Connection inRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(locationId).build());
-        Connection outOfRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(RandomUtils.nextLong(200, 300)).build());
+        Connection outOfRoomConnection = new Connection(configuration).withCharacter(new CharacterBuilder().withLocationId(RandomUtils.insecure().randomLong(200, 300)).build());
         connectionManager.add(inRoomConnection);
         connectionManager.add(outOfRoomConnection);
 

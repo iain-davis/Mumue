@@ -14,7 +14,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsId() {
-        long id = RandomUtils.nextLong(100, 200);
+        long id = RandomUtils.insecure().randomLong(100, 200);
 
         GameCharacter character = builder.withId(id).build();
 
@@ -23,7 +23,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsCreated() {
-        Instant created = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant created = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         GameCharacter character = builder.withCreated(created).build();
 
@@ -32,7 +32,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsModified() {
-        Instant modified = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant modified = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         GameCharacter character = builder.withLastModified(modified).build();
 
@@ -41,7 +41,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsUsed() {
-        Instant lastUsed = Instant.now().minusSeconds(RandomUtils.nextLong(100, 200));
+        Instant lastUsed = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         GameCharacter character = builder.withLastUsed(lastUsed).build();
 
@@ -50,7 +50,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsUseCount() {
-        long useCount = RandomUtils.nextLong(100, 200);
+        long useCount = RandomUtils.insecure().randomLong(100, 200);
 
         GameCharacter character = builder.withUseCount(useCount).build();
 
@@ -77,7 +77,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsLocationId() {
-        long locationId = RandomUtils.nextLong(300, 400);
+        long locationId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withLocationId(locationId).build();
 
@@ -86,7 +86,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsHomeLocationId() {
-        long locationId = RandomUtils.nextLong(300, 400);
+        long locationId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withHomeLocationId(locationId).build();
 
@@ -95,7 +95,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsUniverseId() {
-        long universeId = RandomUtils.nextLong(300, 400);
+        long universeId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withUniverseId(universeId).build();
 
@@ -104,7 +104,7 @@ public class CharacterBuilderTest {
 
     @Test
     public void buildSetsPlayerId() {
-        long playerId = RandomUtils.nextLong(300, 400);
+        long playerId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withPlayerId(playerId).build();
 
