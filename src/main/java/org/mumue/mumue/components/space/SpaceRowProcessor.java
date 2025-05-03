@@ -10,7 +10,7 @@ public class SpaceRowProcessor extends BasicRowProcessor {
     private LocatableComponentResultSetProcessor processor = new LocatableComponentResultSetProcessor();
 
     @Override
-    public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {
+    public <T> T toBean(ResultSet resultSet, Class<? extends T> type) throws SQLException {
         Space space = new Space();
         processor.process(resultSet, space);
 

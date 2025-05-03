@@ -9,7 +9,7 @@ import org.mumue.mumue.components.ComponentResultSetProcessor;
 public class PlayerRowProcessor extends BasicRowProcessor {
     private ComponentResultSetProcessor resultSetProcessor = new ComponentResultSetProcessor();
     @Override
-    public <T> T toBean(ResultSet resultSet, Class<T> type) throws SQLException {
+    public <T> T toBean(ResultSet resultSet, Class<? extends T> type) throws SQLException {
         Player player = new Player();
         player.setLoginId(resultSet.getString("loginId"));
         player.setLocale(resultSet.getString("locale"));
