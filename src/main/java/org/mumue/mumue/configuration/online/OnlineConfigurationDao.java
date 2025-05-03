@@ -1,7 +1,6 @@
 package org.mumue.mumue.configuration.online;
 
 import jakarta.inject.Inject;
-
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +17,7 @@ class OnlineConfigurationDao {
     }
 
     public String getConfigurationOption(String optionName) {
-        ResultSetHandler resultSetHandler = new ScalarHandler<>(CONFIGURATION_OPTION_VALUE_COLUMN);
-        return StringUtils.defaultIfBlank((String) database.query(CONFIGURATION_OPTION_QUERY, resultSetHandler, optionName), "");
+        ResultSetHandler<String> resultSetHandler = new ScalarHandler<>(CONFIGURATION_OPTION_VALUE_COLUMN);
+        return StringUtils.defaultIfBlank(database.query(CONFIGURATION_OPTION_QUERY, resultSetHandler, optionName), "");
     }
 }
