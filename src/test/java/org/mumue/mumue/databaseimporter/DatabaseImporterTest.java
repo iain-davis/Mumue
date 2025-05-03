@@ -1,18 +1,7 @@
 package org.mumue.mumue.databaseimporter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
-import static org.mockito.Mockito.mock;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -23,10 +12,22 @@ import org.mumue.mumue.components.universe.UniverseRepository;
 import org.mumue.mumue.importer.GlobalConstants;
 import org.mumue.mumue.testobjectbuilder.Nimue;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.mock;
+
 public class DatabaseImporterTest {
-    @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
     private static final String FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT = "***Foxen5 TinyMUCK DUMP Format***";
-    private static final Random RANDOM = new Random();
+    //    private static final Random RANDOM = new Random();
     private final UniverseRepository universeRepository = mock(UniverseRepository.class);
     private final DatabaseImporter databaseImporter = new DatabaseImporter(
             new ComponentsImporter(new GameComponentImporter()),
@@ -35,7 +36,7 @@ public class DatabaseImporterTest {
 
     @Test
     public void extractCorrectNumberOfParameterLines() {
-        int parameterCount = RANDOM.nextInt(100) + 10;
+        int parameterCount = RandomUtils.insecure().randomInt(11, 110);
         importConfiguration.setFile(createFile(parameterCount));
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -45,8 +46,8 @@ public class DatabaseImporterTest {
 
     @Test
     public void doNothingWithUnknownFormat() {
-        long parameterCount = RANDOM.nextInt(100) + 10;
-        File file = createFile(RANDOM.nextInt(2) + 1, parameterCount, RandomStringUtils.insecure().nextAlphabetic(14), "1");
+        long parameterCount = RandomUtils.insecure().randomInt(11, 110);
+        File file = createFile(RandomUtils.insecure().randomInt(2, 3), parameterCount, RandomStringUtils.insecure().nextAlphabetic(14), "1");
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -56,8 +57,8 @@ public class DatabaseImporterTest {
 
     @Test
     public void doNothingWithUnknownFormatVersion() {
-        long parameterCount = RANDOM.nextInt(100) + 10;
-        File file = createFile(RANDOM.nextInt(2) + 1, parameterCount, FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT, RandomStringUtils.randomNumeric(2));
+        long parameterCount = RandomUtils.insecure().randomInt(11, 110);
+        File file = createFile(RandomUtils.insecure().randomInt(2, 3), parameterCount, FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT, RandomStringUtils.insecure().nextNumeric(2));
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -88,8 +89,8 @@ public class DatabaseImporterTest {
 
     @Test
     public void setStartingLocationOnUniverse() {
-        long startingLocation = RANDOM.nextInt(1000) + 100;
-        File file = createFile(RANDOM.nextInt(2) + 1, RANDOM.nextInt(10), startingLocation);
+        long startingLocation = RandomUtils.insecure().randomInt(101, 1100);
+        File file = createFile(RandomUtils.insecure().randomInt(2, 3), RandomUtils.insecure().randomInt(1, 10), startingLocation);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -99,8 +100,8 @@ public class DatabaseImporterTest {
 
     @Test
     public void importCorrectNumberOfComponents() {
-        int components = RANDOM.nextInt(4) + 1;
-        File file = createFile(components, RANDOM.nextInt(10) + 5);
+        int components = RandomUtils.insecure().randomInt(2, 5);
+        File file = createFile(components, RandomUtils.insecure().randomInt(6, 15));
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -110,8 +111,8 @@ public class DatabaseImporterTest {
 
     @Test
     public void importComponentReferenceId() {
-        int components = RANDOM.nextInt(4) + 1;
-        File file = createFile(components, RANDOM.nextInt(10) + 5);
+        int components = RandomUtils.insecure().randomInt(2, 5);
+        File file = createFile(components, RandomUtils.insecure().randomInt(6, 15));
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -123,8 +124,8 @@ public class DatabaseImporterTest {
 
     @Test
     public void importComponentUniverseId() {
-        int components = RANDOM.nextInt(4) + 1;
-        File file = createFile(components, RANDOM.nextInt(10) + 5);
+        int components = RandomUtils.insecure().randomInt(2, 5);
+        File file = createFile(components, RandomUtils.insecure().randomInt(6, 15));
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -134,12 +135,12 @@ public class DatabaseImporterTest {
     }
 
     private File createFile(String muckName) {
-        long parameterCount = RANDOM.nextInt(10) + 3;
-        return createFile(RANDOM.nextInt(2) + 1, parameterCount, muckName);
+        long parameterCount = RandomUtils.insecure().randomInt(4, 13);
+        return createFile(RandomUtils.insecure().randomInt(2, 3), parameterCount, muckName);
     }
 
     private File createFile(int parameterCount) {
-        return createFile(RANDOM.nextInt(2) + 1, parameterCount);
+        return createFile(RandomUtils.insecure().randomInt(2, 3), parameterCount);
     }
 
     private File createFile(int itemCount, long parameterCount) {
@@ -151,7 +152,7 @@ public class DatabaseImporterTest {
     }
 
     private File createFile(int itemCount, long parameterCount, String muckName) {
-        return createFile(itemCount, parameterCount, muckName, RANDOM.nextInt(1000));
+        return createFile(itemCount, parameterCount, muckName, RandomUtils.insecure().randomInt(1, 1000));
     }
 
     private File createFile(int itemCount, long parameterCount, String muckName, long startingLocation) {
@@ -159,7 +160,7 @@ public class DatabaseImporterTest {
     }
 
     private File createFile(int itemCount, long parameterCount, String fileFormat, String formatVersion) {
-        return createFile(itemCount, parameterCount, fileFormat, formatVersion, RandomStringUtils.insecure().nextAlphabetic(13), RANDOM.nextInt(1000));
+        return createFile(itemCount, parameterCount, fileFormat, formatVersion, RandomStringUtils.insecure().nextAlphabetic(13), RandomUtils.insecure().randomInt(1, 1000));
     }
 
     private File createFile(Integer itemCount, Long parameterCount, String fileFormat, String formatVersion, String muckName, long startingLocation) {
@@ -169,6 +170,8 @@ public class DatabaseImporterTest {
         writer.println(itemCount.toString());
         writer.println(formatVersion);
         List<String> lines = ImportTestHelper.generateLines(parameterCount, muckName, startingLocation, itemCount);
+        // IJ thinks this valueOf is not necessary, yet all the test fail without it
+        //noinspection UnnecessaryCallToStringValueOf
         writer.println(String.valueOf(parameterCount + 2));
         lines.stream().forEach(writer::println);
         writer.flush();
