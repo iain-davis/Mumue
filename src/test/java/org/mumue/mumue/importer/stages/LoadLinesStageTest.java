@@ -1,33 +1,29 @@
 package org.mumue.mumue.importer.stages;
 
-import static org.junit.Assert.assertEquals;
+import com.google.common.io.Resources;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.importer.ImportBucket;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.google.common.io.Resources;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mumue.mumue.importer.ImportBucket;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
-public class LoadLinesStageTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
+class LoadLinesStageTest {
     private final LoadLinesStage stage = new LoadLinesStage();
 
     @Test
-    public void runHandlesFileNotFoundException() throws URISyntaxException {
+    void runHandlesFileNotFoundException() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
         bucket.setFile(RandomStringUtils.insecure().nextAlphabetic(17));
 
-        thrown.expect(RuntimeException.class);
-
-        stage.run(bucket);
+        assertThrows(RuntimeException.class, () -> stage.run(bucket));
     }
 
     @Test
-    public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
+    void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
         URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestInput.testdb").toURI();
         bucket.setFile(uri.getPath());
@@ -40,7 +36,7 @@ public class LoadLinesStageTest {
     }
 
     @Test
-    public void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
+    void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
         ImportBucket bucket = new ImportBucket();
         URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestCRInput.testdb").toURI();
         bucket.setFile(uri.getPath());

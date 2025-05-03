@@ -1,12 +1,13 @@
 package org.mumue.mumue.connection;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.configuration.ApplicationConfiguration;
+import org.mumue.mumue.configuration.PortConfiguration;
+import org.mumue.mumue.importer.GlobalConstants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,19 +16,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mumue.mumue.configuration.ApplicationConfiguration;
-import org.mumue.mumue.configuration.PortConfiguration;
-import org.mumue.mumue.importer.GlobalConstants;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class AcceptorTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
+class AcceptorTest {
     private static final Random RANDOM = new Random();
     private static final PrintStream ORIGINAL_CONSOLE_OUTPUT = System.out;
     private static final ByteArrayOutputStream CONSOLE_OUTPUT = new ByteArrayOutputStream();
@@ -40,23 +38,23 @@ public class AcceptorTest {
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final Connection connection = new Connection(configuration);
 
-    @BeforeClass
-    public static void beforeClass() {
+    @BeforeAll
+    static void beforeClass() {
         System.setOut(new PrintStream(CONSOLE_OUTPUT));
     }
 
-    @AfterClass
-    public static void afterClass() {
+    @AfterAll
+    static void afterClass() {
         System.setOut(ORIGINAL_CONSOLE_OUTPUT);
     }
 
-    @Before
-    public void beforeEach() {
+    @BeforeEach
+    void beforeEach() {
         connectionManager.getConnections().clear();
     }
 
     @Test
-    public void displayMessageToConsole() {
+    void displayMessageToConsole() {
         CONSOLE_OUTPUT.reset();
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
@@ -68,7 +66,7 @@ public class AcceptorTest {
     }
 
     @Test
-    public void usesSpecifiedPort() {
+    void usesSpecifiedPort() {
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
         Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
@@ -79,7 +77,7 @@ public class AcceptorTest {
     }
 
     @Test
-    public void createsConnectionFromAcceptedSocket() throws IOException {
+    void createsConnectionFromAcceptedSocket() throws IOException {
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
         Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
@@ -94,7 +92,7 @@ public class AcceptorTest {
     }
 
     @Test
-    public void addsNewConnectionToConnectionManager() throws IOException {
+    void addsNewConnectionToConnectionManager() throws IOException {
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setPort(RANDOM.nextInt(65534) + 1);
         Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
@@ -111,19 +109,18 @@ public class AcceptorTest {
     }
 
     @Test
-    public void executeHandlesIOException() throws IOException {
-        int port =RandomUtils.insecure().randomInt(2048, 4096);
+    void executeHandlesIOException() throws IOException {
+        int port = RandomUtils.insecure().randomInt(2048, 4096);
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setPort(port);
         Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);
 
         when(serverSocketFactory.createSocket(port)).thenReturn(serverSocket);
         when(serverSocket.accept()).thenThrow(new IOException());
-
-        thrown.expect(RuntimeException.class);
-        thrown.expectMessage("Error accepting client connecting to port " + port);
-
         acceptor.prepare();
-        acceptor.execute();
+
+        Exception exception = assertThrows(RuntimeException.class, acceptor::execute);
+
+        assertThat(exception.getMessage(), equalTo("Error accepting client connecting to port " + port));
     }
 }
