@@ -3,7 +3,7 @@ package org.mumue.mumue.threading;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;

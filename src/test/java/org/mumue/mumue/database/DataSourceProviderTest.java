@@ -2,7 +2,7 @@ package org.mumue.mumue.database;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.RandomStringUtils;
