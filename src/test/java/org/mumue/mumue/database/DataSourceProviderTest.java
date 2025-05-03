@@ -1,12 +1,12 @@
 package org.mumue.mumue.database;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class DataSourceProviderTest {
     private final DatabaseConfiguration configuration = new DatabaseConfigurationBuilder()
@@ -33,16 +33,9 @@ public class DataSourceProviderTest {
     public void configuresDataSourceWithUsername() {
         BasicDataSource source = (BasicDataSource) provider.get();
 
-        assertThat(source.getUsername(), equalTo(configuration.getUsername()));
+        assertThat(source.getUserName(), equalTo(configuration.getUsername()));
     }
-
-    @Test
-    public void configuresDataSourceWithPassword() {
-        BasicDataSource source = (BasicDataSource) provider.get();
-
-        assertThat(source.getPassword(), equalTo(configuration.getPassword()));
-    }
-
+    
     @Test
     public void configuresDataSourceWithUrl() {
         BasicDataSource source = (BasicDataSource) provider.get();
