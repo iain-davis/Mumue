@@ -1,9 +1,8 @@
 package org.mumue.mumue.connection.states;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
 import org.mumue.mumue.databaseimporter.DatabaseImportLauncher;
@@ -14,6 +13,7 @@ import org.mumue.mumue.text.TextName;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -26,16 +26,18 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ImportPathPromptHandlerTest {
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+@SuppressWarnings("ResultOfMethodCallIgnored")
+class ImportPathPromptHandlerTest {
+    @TempDir
+    private Path temporaryFolder;
+
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final MockDatabaseImportLauncher databaseImporter = new MockDatabaseImportLauncher();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ImportPathPromptHandler importPathPromptHandler = new ImportPathPromptHandler(connectionStateProvider, databaseImporter, textMaker);
 
     @Test
-    public void returnSameStateWhenNoInput() {
+    void returnSameStateWhenNoInput() {
         Connection connection = Nimue.connection();
         ConnectionState next = importPathPromptHandler.execute(connection, Nimue.configuration());
 
@@ -43,9 +45,11 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void returnNextState() throws IOException {
+    void returnNextState() throws IOException {
         String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
-        File file = temporaryFolder.newFile(fileName);
+        Path filePath = temporaryFolder.resolve(fileName);
+        File file = filePath.toFile();
+        file.createNewFile();
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(file.getAbsolutePath());
 
@@ -55,11 +59,14 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void launchDatabaseImporter() throws IOException {
+    void launchDatabaseImporter() throws IOException {
+        when(textMaker.getText(eq(TextName.FileNotFound), eq(ConfigurationDefaults.SERVER_LOCALE), anyMap())).thenReturn("text");
         String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
-        File file = temporaryFolder.newFile(fileName);
+        Path filePath = temporaryFolder.resolve(fileName);
+        File file = filePath.toFile();
+        file.createNewFile();
         Connection connection = Nimue.connection();
-        connection.getInputQueue().push(file.getAbsolutePath());
+        connection.getInputQueue().push(filePath.toAbsolutePath().toString());
 
         importPathPromptHandler.execute(connection, Nimue.configuration());
 
@@ -67,9 +74,11 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void launchDatabaseImporterWithFile() throws IOException {
+    void launchDatabaseImporterWithFile() throws IOException {
         String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
-        File file = temporaryFolder.newFile(fileName);
+        Path filePath = temporaryFolder.resolve(fileName);
+        File file = filePath.toFile();
+        file.createNewFile();
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(file.getAbsolutePath());
 
@@ -80,7 +89,7 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void doNotLaunchWhenFileDoesNotExist() throws IOException {
+    void doNotLaunchWhenFileDoesNotExist() throws IOException {
         String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
@@ -92,7 +101,7 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void displayMessageWhenFileDoesNotExist() {
+    void displayMessageWhenFileDoesNotExist() {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
         String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
@@ -105,7 +114,7 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void rePromptWhenFileDoesNotExist() {
+    void rePromptWhenFileDoesNotExist() {
         String fileName = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push(fileName);
@@ -117,7 +126,7 @@ public class ImportPathPromptHandlerTest {
     }
 
     @Test
-    public void returnToMenuOnEmptyInput() {
+    void returnToMenuOnEmptyInput() {
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("");
 
@@ -126,8 +135,8 @@ public class ImportPathPromptHandlerTest {
         assertThat(next, instanceOf(AdministrationMenu.class));
     }
 
-    private class MockDatabaseImportLauncher extends DatabaseImportLauncher {
-        public ImportConfiguration importConfiguration;
+    private static class MockDatabaseImportLauncher extends DatabaseImportLauncher {
+        ImportConfiguration importConfiguration;
 
         private MockDatabaseImportLauncher() {
             super(null, null);
