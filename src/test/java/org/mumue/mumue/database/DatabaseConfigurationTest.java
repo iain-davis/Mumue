@@ -9,6 +9,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class DatabaseConfigurationTest {
+    private static final String JDBC_URL_SUFFIX = ";MV_STORE=FALSE;MVCC=FALSE;NON_KEYWORDS=value";
+    public static final String JDBC_URL_PREFIX = "jdbc:h2:";
+
     @Test
     public void returnsDefaultDriverName() {
         DatabaseConfiguration configuration = new DatabaseConfiguration(new Properties());
@@ -88,7 +91,7 @@ public class DatabaseConfigurationTest {
     @Test
     public void whenUrlIsNullReturnsH2PathBasedUrl() {
         String path = RandomStringUtils.insecure().nextAlphabetic(17);
-        String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
+        String expected = JDBC_URL_PREFIX + path + JDBC_URL_SUFFIX;
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_PATH, path);
@@ -100,7 +103,7 @@ public class DatabaseConfigurationTest {
 
     @Test
     public void whenUrlIsNullAndPathIsNullReturnsH2DefaultPathBasedUrl() {
-        String expected = "jdbc:h2:" + DatabaseConfiguration.DEFAULT_PATH + ";MV_STORE=FALSE;MVCC=FALSE";
+        String expected = JDBC_URL_PREFIX + DatabaseConfiguration.DEFAULT_PATH + JDBC_URL_SUFFIX;
 
         Properties properties = new Properties();
 
@@ -112,7 +115,7 @@ public class DatabaseConfigurationTest {
     @Test
     public void whenUrlIsEmptyReturnsH2PathBasedUrl() {
         String path = RandomStringUtils.insecure().nextAlphabetic(17);
-        String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
+        String expected = JDBC_URL_PREFIX + path + JDBC_URL_SUFFIX;
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_PATH, path);
@@ -126,7 +129,7 @@ public class DatabaseConfigurationTest {
     @Test
     public void whenUrlIsBlankReturnsH2PathBasedUrl() {
         String path = RandomStringUtils.insecure().nextAlphabetic(17);
-        String expected = "jdbc:h2:" + path + ";MV_STORE=FALSE;MVCC=FALSE";
+        String expected = JDBC_URL_PREFIX + path + JDBC_URL_SUFFIX;
 
         Properties properties = new Properties();
         properties.setProperty(DatabaseConfiguration.DATABASE_PATH, path);

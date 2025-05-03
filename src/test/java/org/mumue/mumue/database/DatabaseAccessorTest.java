@@ -1,45 +1,50 @@
 package org.mumue.mumue.database;
 
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mumue.mumue.database.MyVarargMatcher.myVarargMatcher;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 public class DatabaseAccessorTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     private final QueryRunner queryRunner = mock(QueryRunner.class);
     private final DatabaseAccessor database = new DatabaseAccessor(queryRunner);
 
     private final String sql = RandomStringUtils.insecure().nextAlphabetic(17);
-    private final ResultSetHandler rsh = new ResultHandler();
-    private final Object foo = new Object();
+    private final ResultSetHandler<Object> resultHandler = new FakeResultHandler();
+    private final Object sampleArgument = new Object();
+    private final Object[] sampleArguments = new Object[1];
+
+    @Before
+    public void beforeEach() {
+    }
 
     @Test
     public void queryUsesQueryRunner() throws SQLException {
-        database.query(sql, rsh, foo);
-        verify(queryRunner).query(sql, rsh, foo);
+        database.query(sql, resultHandler, sampleArgument);
+        verify(queryRunner).query(sql, resultHandler, sampleArgument);
     }
 
     @Test
     public void queryHandlesException() throws SQLException {
-        when(queryRunner.query(sql, rsh, foo)).thenThrow(new SQLException());
+        when(queryRunner.query(sql, resultHandler, sampleArgument)).thenThrow(new SQLException());
 
         thrown.expect(RuntimeException.class);
 
-        database.query(sql, rsh, foo);
+        database.query(sql, resultHandler, sampleArgument);
     }
 
     @Test
@@ -59,22 +64,26 @@ public class DatabaseAccessorTest {
 
     @Test
     public void updateWithParameterUsesQueryRunner() throws SQLException {
-        database.update(sql, foo);
-        verify(queryRunner).update(eq(sql), argThat(myVarargMatcher(foo)));
+        sampleArguments[0] = sampleArgument;
+
+        database.update(sql, sampleArgument);
+
+        verify(queryRunner).update(eq(sql), eq(sampleArguments));
     }
 
     @Test
     public void updateWithParameterHandlesException() throws SQLException {
-        when(queryRunner.update(eq(sql), argThat(myVarargMatcher(foo)))).thenThrow(new SQLException());
+        sampleArguments[0] = sampleArgument;
+        when(queryRunner.update(eq(sql), eq(sampleArguments))).thenThrow(new SQLException());
 
         thrown.expect(RuntimeException.class);
 
-        database.update(sql, foo);
+        database.update(sql, sampleArgument);
     }
 
-    private class ResultHandler implements ResultSetHandler {
+    private static class FakeResultHandler implements ResultSetHandler<Object> {
         @Override
-        public Object handle(ResultSet rs) throws SQLException {
+        public Object handle(ResultSet resultSet) {
             return null;
         }
     }
