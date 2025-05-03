@@ -1,10 +1,8 @@
-apply plugin: 'java'
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
+plugins {
+    id 'java'
 }
+
+println 'Using Java Version: ' + JavaVersion.current()
 
 tasks.register('fatJar', Jar) {
     manifest {
@@ -35,7 +33,6 @@ test {
     useJUnitPlatform()
 }
 
-println JavaVersion.current()
 
 dependencies {
     // General
