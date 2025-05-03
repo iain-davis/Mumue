@@ -29,7 +29,7 @@ public class CharacterSelectionPromptTest {
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final CharacterDao dao = mock(CharacterDao.class);
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final Player player = Nimue.player().withLoginId(RandomStringUtils.insecure().nextAlphabetic(7)).build();
     private final Connection connection = new Connection(configuration).withPlayer(player);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();

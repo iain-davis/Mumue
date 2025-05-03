@@ -28,7 +28,7 @@ public class UniverseImporterTest {
     @Test
     public void importUniverseNameFromMuckNameProperty() {
         String name = RandomStringUtils.insecure().nextAlphabetic(13);
-        Properties properties = createProperties(name, RandomStringUtils.randomNumeric(5));
+        Properties properties = createProperties(name, RandomStringUtils.insecure().nextNumeric(5));
 
         properties.setProperty("muckname", name);
 
@@ -38,7 +38,7 @@ public class UniverseImporterTest {
 
     @Test
     public void importStartingLocationFromPlayerStartProperty() {
-        String start = RandomStringUtils.randomNumeric(5);
+        String start = RandomStringUtils.insecure().nextNumeric(5);
         Properties properties = createProperties(RandomStringUtils.insecure().nextAlphabetic(13), start);
 
         Universe universe = importer.importFrom(properties);
@@ -54,7 +54,7 @@ public class UniverseImporterTest {
     }
 
     private Properties createProperties() {
-        return createProperties(RandomStringUtils.insecure().nextAlphabetic(13), RandomStringUtils.randomNumeric(5));
+        return createProperties(RandomStringUtils.insecure().nextAlphabetic(13), RandomStringUtils.insecure().nextNumeric(5));
     }
 
     private Properties createProperties(String muckName, String start) {

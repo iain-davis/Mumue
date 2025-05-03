@@ -35,10 +35,10 @@ public class PlayerAuthenticationTest {
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final PlayerAuthentication stage = new PlayerAuthentication(connectionStateProvider, new PlayerBuilder(), playerRepository, textMaker);
 
-    private final String loginId = RandomStringUtils.randomAlphanumeric(13);
-    private final String password = RandomStringUtils.randomAlphanumeric(17);
-    private final String loginFailed = "FAILED: " + RandomStringUtils.randomAlphanumeric(16);
-    private final String loginSuccess = "SUCCESS: " + RandomStringUtils.randomAlphanumeric(16);
+    private final String loginId = RandomStringUtils.insecure().nextAlphanumeric(13);
+    private final String password = RandomStringUtils.insecure().nextAlphanumeric(17);
+    private final String loginFailed = "FAILED: " + RandomStringUtils.insecure().nextAlphanumeric(16);
+    private final String loginSuccess = "SUCCESS: " + RandomStringUtils.insecure().nextAlphanumeric(16);
     private final Instant timestamp = Instant.now();
     private final Player player = Nimue.player().withId(new Random().nextInt(100) + 10).build();
     private final Connection connection = Nimue.connection();

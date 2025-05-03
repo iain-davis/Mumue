@@ -16,15 +16,15 @@ public class LineSeparatorTransformerTest {
 
     @Test
     public void transformWithTextReturnsText() {
-        String input = RandomStringUtils.randomAlphanumeric(17);
+        String input = RandomStringUtils.insecure().nextAlphanumeric(17);
 
         assertThat(transformer.transform(input), equalTo(input));
     }
 
     @Test
     public void transformWithSlashNReturnsTextWithNewline() {
-        String before = RandomStringUtils.randomAlphanumeric(14);
-        String after = RandomStringUtils.randomAlphanumeric(3);
+        String before = RandomStringUtils.insecure().nextAlphanumeric(14);
+        String after = RandomStringUtils.insecure().nextAlphanumeric(3);
         String input = before + "\\n" + after;
         String expected = before + "\n" + after;
 
@@ -33,8 +33,8 @@ public class LineSeparatorTransformerTest {
 
     @Test
     public void transformWithTwoSlashNReturnsTextWithTwoNewlines() {
-        String before = RandomStringUtils.randomAlphanumeric(14);
-        String after = RandomStringUtils.randomAlphanumeric(3);
+        String before = RandomStringUtils.insecure().nextAlphanumeric(14);
+        String after = RandomStringUtils.insecure().nextAlphanumeric(3);
         String input = before + "\\n\\n" + after;
         String expected = before + "\n\n" + after;
 
@@ -43,8 +43,8 @@ public class LineSeparatorTransformerTest {
 
     @Test
     public void transformWithSlashRReturnsTextWithCarriageReturn() {
-        String before = RandomStringUtils.randomAlphanumeric(14);
-        String after = RandomStringUtils.randomAlphanumeric(3);
+        String before = RandomStringUtils.insecure().nextAlphanumeric(14);
+        String after = RandomStringUtils.insecure().nextAlphanumeric(3);
         String input = before + "\\r" + after;
         String expected = before + "\r" + after;
 

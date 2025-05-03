@@ -25,7 +25,7 @@ public class LoginIdPromptTest {
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final LoginIdPrompt stage = new LoginIdPrompt(connectionStateProvider, textMaker);
     private final Connection connection = new Connection(configuration);
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.insecure().nextAlphanumeric(17);
 
     @Before
     public void beforeEach() {

@@ -18,7 +18,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class WelcomeDisplayTest {
-    private final String welcome = RandomStringUtils.randomAlphanumeric(17);
+    private final String welcome = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final TextMaker textMaker = mock(TextMaker.class);

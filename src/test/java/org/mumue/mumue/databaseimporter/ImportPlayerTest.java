@@ -62,7 +62,7 @@ public class ImportPlayerTest {
     @Test
     public void setPassword() {
         ImportCharacter character = new ImportCharacter();
-        character.setPassword(RandomStringUtils.randomAlphanumeric(25));
+        character.setPassword(RandomStringUtils.insecure().nextAlphanumeric(25));
 
         ImportPlayer player = new ImportPlayer(character);
 

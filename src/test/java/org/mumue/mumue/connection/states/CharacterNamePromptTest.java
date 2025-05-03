@@ -17,7 +17,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class CharacterNamePromptTest {
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final Player player = Nimue.player().build();
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);

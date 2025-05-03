@@ -20,7 +20,7 @@ import org.mumue.mumue.text.TextName;
 import java.util.Locale;
 
 public class PasswordPromptTest {
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final TextMaker textMaker = mock(TextMaker.class);

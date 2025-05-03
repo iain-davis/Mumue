@@ -79,7 +79,7 @@ public class CommandSayDirectedTest {
 
         when(textMaker.getText(TextName.TargetBeingNotFound, locale)).thenReturn("");
 
-        command.execute(sayerConnection, "`", targetName.substring(0, RandomUtils.nextInt(3, 6)) + " " + message, configuration);
+        command.execute(sayerConnection, "`", targetName.substring(0,RandomUtils.insecure().randomInt(3, 6)) + " " + message, configuration);
 
         String expected = characterName + " says to " + targetName + ", \"" + message + "\"" + GlobalConstants.TCP_LINE_SEPARATOR;
         assertThat(sayerConnection.getOutputQueue(), hasItem(expected));

@@ -29,7 +29,7 @@ public class ProcessComponentLinesStageTest {
 
     @Test
     public void generateShouldSetName() {
-        String name = RandomStringUtils.randomAlphanumeric(13);
+        String name = RandomStringUtils.insecure().nextAlphanumeric(13);
         Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
         ImportBucket bucket = setupTest(space, name, "");
         stage.run(bucket);
@@ -75,7 +75,7 @@ public class ProcessComponentLinesStageTest {
     @Test
     public void generateShouldSetUseCount() {
         Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
-        Integer useCount = RandomUtils.nextInt(100, 500);
+        Integer useCount =RandomUtils.insecure().randomInt(100, 500);
         ImportBucket bucket = setupTest(space, useCount);
         stage.run(bucket);
         assertEquals(useCount, space.getUseCount(), 0);
@@ -123,7 +123,7 @@ public class ProcessComponentLinesStageTest {
     @Test
     public void generateShouldAddStringWithColonPropertyToProperties() {
         String path = RandomStringUtils.insecure().nextAlphabetic(8);
-        String value = RandomStringUtils.insecure().nextAlphabetic(7) + ":" + RandomStringUtils.randomAlphanumeric(13);
+        String value = RandomStringUtils.insecure().nextAlphabetic(7) + ":" + RandomStringUtils.insecure().nextAlphanumeric(13);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":10:" + value);
         Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
@@ -149,7 +149,7 @@ public class ProcessComponentLinesStageTest {
     @Test
     public void generateShouldAddIntegerPropertyToProperties() {
         String path = RandomStringUtils.insecure().nextAlphabetic(8);
-        String value = RandomStringUtils.randomNumeric(5);
+        String value = RandomStringUtils.insecure().nextNumeric(5);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":3:" + value);
         Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
@@ -162,7 +162,7 @@ public class ProcessComponentLinesStageTest {
     @Test
     public void generateShouldAddReferencePropertyToProperties() {
         String path = RandomStringUtils.insecure().nextAlphabetic(8);
-        String value = RandomStringUtils.randomNumeric(5);
+        String value = RandomStringUtils.insecure().nextNumeric(5);
         List<String> properties = new ArrayList<>();
         properties.add(path + ":5:" + value);
         Space space = new Space().withId(RandomUtils.insecure().randomLong(2, 100));
@@ -295,7 +295,7 @@ public class ProcessComponentLinesStageTest {
     public void generateWithLinkShouldSetMultipleDestinations() {
         Link link = new Link().withId(RandomUtils.insecure().randomLong(2, 100));
         List<Component> destinations = new ArrayList<>();
-        int count = RandomUtils.nextInt(3, 10);
+        int count =RandomUtils.insecure().randomInt(3, 10);
         for (int i = 0; i < count; i++) {
             Space destination = new Space().withId(RandomUtils.insecure().randomLong(300, 400));
             destinations.add(destination);

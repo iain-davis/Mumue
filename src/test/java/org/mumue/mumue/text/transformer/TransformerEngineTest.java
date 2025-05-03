@@ -22,8 +22,8 @@ public class TransformerEngineTest {
 
     @Test
     public void shouldTransformUsingProvidedTransformers() {
-        String input = RandomStringUtils.randomAlphanumeric(16);
-        final String expected = RandomStringUtils.randomAlphanumeric(17);
+        String input = RandomStringUtils.insecure().nextAlphanumeric(16);
+        final String expected = RandomStringUtils.insecure().nextAlphanumeric(17);
         TextTransformer transformer = input1 -> expected;
 
         engine.add(transformer);

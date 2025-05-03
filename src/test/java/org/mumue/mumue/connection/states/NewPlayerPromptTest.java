@@ -22,7 +22,7 @@ public class NewPlayerPromptTest {
     private static final String NEW_PLAYER_NAME = RandomStringUtils.insecure().nextAlphabetic(13);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final Connection connection = new Connection(configuration);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final NewPlayerPrompt newPlayerPrompt = new NewPlayerPrompt(connectionStateProvider, textMaker);

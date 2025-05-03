@@ -112,7 +112,7 @@ public class AcceptorTest {
 
     @Test
     public void executeHandlesIOException() throws IOException {
-        int port = RandomUtils.nextInt(2048, 4096);
+        int port =RandomUtils.insecure().randomInt(2048, 4096);
         PortConfiguration portConfiguration = new PortConfiguration();
         portConfiguration.setPort(port);
         Acceptor acceptor = new Acceptor(connectionFactory, connectionManager, portConfiguration, serverSocketFactory);

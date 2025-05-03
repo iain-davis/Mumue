@@ -18,7 +18,7 @@ class DatabaseItemLinesBuilder {
     private static final String THING_FLAG = "1";
     private static final String GARBAGE_FLAG = "5";
     private long id = GlobalConstants.REFERENCE_UNKNOWN;
-    private String name = RandomStringUtils.randomAlphanumeric(25);
+    private String name = RandomStringUtils.insecure().nextAlphanumeric(25);
     private long locationId = GlobalConstants.REFERENCE_UNKNOWN;
     private FuzzballDatabaseItemType type = randomItemType();
     private int propertyCount = RANDOM.nextInt(20) + 10;

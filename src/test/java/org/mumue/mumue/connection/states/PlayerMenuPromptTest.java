@@ -18,8 +18,8 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class PlayerMenuPromptTest {
-    private final String menu = RandomStringUtils.randomAlphanumeric(17);
-    private final String administratorMenu = RandomStringUtils.randomAlphanumeric(17);
+    private final String menu = RandomStringUtils.insecure().nextAlphanumeric(17);
+    private final String administratorMenu = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final Player player = Nimue.player().build();

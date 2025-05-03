@@ -28,7 +28,7 @@ class ImportTestHelper {
     public static List<String> generateParameterLines(long randomParameters, String muckName, long startingLocation) {
         List<String> parameters = new ArrayList<>();
         for (int i = 0; i < randomParameters; i++) {
-            parameters.add(RandomStringUtils.randomAlphanumeric(RANDOM.nextInt(13) + 3) + "=" +
+            parameters.add(RandomStringUtils.insecure().nextAlphanumeric(RANDOM.nextInt(13) + 3) + "=" +
                            RandomStringUtils.insecure().nextAlphabetic(RANDOM.nextInt(13) + 5));
         }
         parameters.add("muckname=" + muckName);

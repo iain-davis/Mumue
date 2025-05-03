@@ -57,7 +57,7 @@ public class UniverseSelectionHandlerTest {
 
     @Test
     public void nextStageOnValidSelection() {
-        connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextNumeric(2));
 
         ConnectionState next = universeSelectionHandler.execute(connection, configuration);
 
@@ -66,7 +66,7 @@ public class UniverseSelectionHandlerTest {
 
     @Test
     public void setUniverseIdOnCharacter() {
-        String selection = RandomStringUtils.randomNumeric(2);
+        String selection = RandomStringUtils.insecure().nextNumeric(2);
         connection.getInputQueue().push(selection);
 
         universeSelectionHandler.execute(connection, configuration);
@@ -76,7 +76,7 @@ public class UniverseSelectionHandlerTest {
 
     @Test
     public void rePromptOnInvalidSelection() {
-        connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
         when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn("");
 
@@ -88,7 +88,7 @@ public class UniverseSelectionHandlerTest {
     @Test
     public void displayUnknownUniverseOnInvalidSelection() {
         String message = RandomStringUtils.insecure().nextAlphabetic(17);
-        connection.getInputQueue().push(RandomStringUtils.randomNumeric(2));
+        connection.getInputQueue().push(RandomStringUtils.insecure().nextNumeric(2));
         when(dao.getUniverse(anyLong())).thenReturn(new Universe());
         when(textMaker.getText(TextName.InvalidOption, ConfigurationDefaults.SERVER_LOCALE)).thenReturn(message);
 

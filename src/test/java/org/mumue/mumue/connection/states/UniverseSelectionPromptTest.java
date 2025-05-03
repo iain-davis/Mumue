@@ -25,7 +25,7 @@ import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
 public class UniverseSelectionPromptTest {
-    private final String prompt = RandomStringUtils.randomAlphanumeric(17);
+    private final String prompt = RandomStringUtils.insecure().nextAlphanumeric(17);
     private final TextMaker textMaker = mock(TextMaker.class);
     private final UniverseRepository universeRepository = mock(UniverseRepository.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();

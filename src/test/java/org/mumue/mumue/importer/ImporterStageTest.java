@@ -14,35 +14,35 @@ public class ImporterStageTest {
 
     @Test
     public void determineTypeReturnsType() {
-        Integer type = RandomUtils.nextInt(0, 5);
+        Integer type =RandomUtils.insecure().randomInt(0, 5);
         String line = type.toString();
         assertEquals(type, stage.determineType(line), 0);
     }
 
     @Test
     public void determineTypeWithFlagsReturnsType() {
-        Integer type = RandomUtils.nextInt(0, 5);
+        Integer type =RandomUtils.insecure().randomInt(0, 5);
         String line = Integer.toString(type + 24);
         assertEquals(type, stage.determineType(line), 0);
     }
 
     @Test
     public void determineTypeWithSecondFlagSetReturnsType() {
-        Integer type = RandomUtils.nextInt(0, 5);
+        Integer type =RandomUtils.insecure().randomInt(0, 5);
         String line = type.toString() + " 3";
         assertEquals(type, stage.determineType(line), 0);
     }
 
     @Test
     public void parseReferenceConvertsStringToLong() {
-        String string = RandomStringUtils.randomNumeric(5);
+        String string = RandomStringUtils.insecure().nextNumeric(5);
         Long l = Long.parseLong(string);
         assertEquals(l, stage.parseReference(string));
     }
 
     @Test
     public void parseReferenceHandlesHashMark() {
-        String string = RandomStringUtils.randomNumeric(5);
+        String string = RandomStringUtils.insecure().nextNumeric(5);
         Long l = Long.parseLong(string);
         assertEquals(l, stage.parseReference("#" + string));
     }

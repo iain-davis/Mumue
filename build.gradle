@@ -20,6 +20,10 @@ repositories {
     mavenCentral()
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.deprecation = true
+}
+
 def excludeHamcrest = { exclude module: 'hamcrest-core' }
 
 dependencies {

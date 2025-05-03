@@ -45,7 +45,7 @@ public class ContentsChainStageTest {
         Long id = RandomUtils.insecure().randomLong(1, 100);
         Component component = new Component().withId(id);
         bucket.getComponents().put(id, component);
-        int count = RandomUtils.nextInt(3, 4);
+        int count = RandomUtils.insecure().randomInt(3, 4);
         List<Long> contentIds = new ArrayList<>();
 
         long contentId = RandomUtils.insecure().randomLong(300, 400);

@@ -31,7 +31,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
 
     @Test
     public void runHandlesOneSpaceComponent() {
-        String id = RandomStringUtils.randomNumeric(3);
+        String id = RandomStringUtils.insecure().nextNumeric(3);
         ImportBucket bucket = setupImportBucket("0", id);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().size());
@@ -43,8 +43,8 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
 
     @Test
     public void runHandlesOneMultipleComponents() {
-        String id1 = RandomStringUtils.randomNumeric(3);
-        String id2 = RandomStringUtils.randomNumeric(3);
+        String id1 = RandomStringUtils.insecure().nextNumeric(3);
+        String id2 = RandomStringUtils.insecure().nextNumeric(3);
         ImportBucket bucket = setupImportBucket("0", id1);
         List<String> lines = new ArrayList<>();
         addOneDatabaseItemToList(lines, id2, "1", 0, 0);
@@ -63,7 +63,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
 
     @Test
     public void runHandlesOneArtifactComponent() {
-        String id = RandomStringUtils.randomNumeric(3);
+        String id = RandomStringUtils.insecure().nextNumeric(3);
         ImportBucket bucket = setupImportBucket("1", id);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().size());
@@ -75,7 +75,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
 
     @Test
     public void runHandlesOneLinkComponent() {
-        String id = RandomStringUtils.randomNumeric(3);
+        String id = RandomStringUtils.insecure().nextNumeric(3);
         ImportBucket bucket = setupImportBucket("2", id);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().size());
@@ -87,7 +87,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
 
     @Test
     public void runHandlesOneCharacterComponent() {
-        String id = RandomStringUtils.randomNumeric(3);
+        String id = RandomStringUtils.insecure().nextNumeric(3);
         ImportBucket bucket = setupImportBucket("3", id);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().size());
@@ -99,7 +99,7 @@ public class GenerateRawComponentsStageTest extends ImporterStageTestHelper {
 
     @Test
     public void runHandlesOneProgramComponent() {
-        String id = RandomStringUtils.randomNumeric(3);
+        String id = RandomStringUtils.insecure().nextNumeric(3);
         ImportBucket bucket = setupImportBucket("4", id);
         stage.run(bucket);
         assertEquals(1, bucket.getComponents().size());
