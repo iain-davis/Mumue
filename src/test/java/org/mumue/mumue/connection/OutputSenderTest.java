@@ -1,32 +1,24 @@
 package org.mumue.mumue.connection;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertFalse;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.text.TextQueue;
+import org.mumue.mumue.text.transformer.TransformerEngine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mumue.mumue.text.TextQueue;
-import org.mumue.mumue.text.transformer.TransformerEngine;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class OutputSenderTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
-
+class OutputSenderTest {
     private final String text = RandomStringUtils.insecure().nextAlphabetic(17);
     private final Socket socket = mock(Socket.class);
     private final TextQueue outputQueue = new TextQueue();
@@ -34,44 +26,49 @@ public class OutputSenderTest {
     private final TransformerEngine transformerEngine = mock(TransformerEngine.class);
     private final OutputSender outputSender = new OutputSender(socket, outputQueue, transformerEngine);
 
-    @Before
-    public void beforeEach() throws IOException {
+    @BeforeEach
+    void beforeEach() throws IOException {
         when(socket.getOutputStream()).thenReturn(output);
         when(transformerEngine.transform(anyString())).thenReturn(text);
         when(socket.isConnected()).thenReturn(true);
     }
 
     @Test
-    public void prepareReturnsTrue() {
-        assertTrue(outputSender.prepare());
+    void prepareReturnsTrue() {
+        boolean prepare = outputSender.prepare();
+        assertThat(prepare, equalTo(true));
     }
 
     @Test
-    public void executeReturnsTrue() {
+    void executeReturnsTrue() {
         outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(17));
 
-        assertTrue(outputSender.execute());
+        boolean execute = outputSender.execute();
+
+        assertThat(execute, equalTo(true));
     }
 
     @Test
-    public void executeReturnsFalseWhenDisconnected() {
+    void executeReturnsFalseWhenDisconnected() {
         when(socket.isConnected()).thenReturn(false);
         outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(17));
 
-        assertFalse(outputSender.execute());
+        boolean execute = outputSender.execute();
+
+        assertThat(execute, equalTo(false));
     }
 
     @Test
-    public void executeRemovesTextFromQueue() {
+    void executeRemovesTextFromQueue() {
         outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(17));
 
         outputSender.execute();
 
-        assertTrue(outputQueue.isEmpty());
+        assertThat(outputQueue.isEmpty(), equalTo(true));
     }
 
     @Test
-    public void executeTransformsText() {
+    void executeTransformsText() {
         outputQueue.push(text);
 
         outputSender.execute();
@@ -80,34 +77,37 @@ public class OutputSenderTest {
     }
 
     @Test
-    public void executeWritesTextToOutput() {
+    void executeWritesTextToOutput() {
         outputQueue.push(text);
 
         outputSender.execute();
 
-        assertThat(new String(output.toByteArray()), equalTo(text));
+        assertThat(output.toString(), equalTo(text));
     }
 
     @Test
-    public void doNothingWithEmptyQueueAndReturnTrue() {
-        assertTrue(outputSender.execute());
-        assertThat(new String(output.toByteArray()), equalTo(""));
+    void doNothingWithEmptyQueueAndReturnTrue() {
+        boolean execute = outputSender.execute();
+
+        assertThat(execute, equalTo(true));
+        assertThat(output.toString(), equalTo(""));
     }
 
     @Test
-    public void executeHandlesException() throws IOException {
+    void executeHandlesException() throws IOException {
         outputQueue.push(RandomStringUtils.insecure().nextAlphabetic(14));
 
         when(socket.getOutputStream()).thenThrow(new IOException());
 
-        thrown.expect(RuntimeException.class);
-        thrown.expectMessage("Exception when accessing output stream for client socket");
+        Exception exception = assertThrows(RuntimeException.class, outputSender::execute);
 
-        outputSender.execute();
+        assertThat(exception.getMessage(), equalTo("Exception when accessing output stream for client socket"));
     }
 
     @Test
-    public void cleanupReturnsTrue() {
-        assertTrue(outputSender.cleanup());
+    void cleanupReturnsTrue() {
+        boolean cleanup = outputSender.cleanup();
+
+        assertThat(cleanup, equalTo(true));
     }
 }
