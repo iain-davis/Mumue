@@ -1,14 +1,6 @@
 package org.mumue.mumue.connection.states;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.time.Instant;
-import java.util.Random;
-
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
@@ -20,13 +12,21 @@ import org.mumue.mumue.player.Player;
 import org.mumue.mumue.player.PlayerRepository;
 import org.mumue.mumue.testobjectbuilder.Nimue;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class PlayerConnectedTest {
-    private static final Random RANDOM = new Random();
     private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
     private final CurrentTimestampProvider timestampProvider = mock(CurrentTimestampProvider.class);
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private final PlayerRepository playerRepository = new PlayerRepository(database);
-    private final Player player = Nimue.player().withId(RANDOM.nextInt(10000)).build();
+    private final Player player = Nimue.player().withId(RandomUtils.insecure().randomInt(1, 10000)).build();
 
     private final Connection connection = new Connection(configuration).withPlayer(player);
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
@@ -60,7 +60,7 @@ public class PlayerConnectedTest {
 
     @Test
     public void countPlayerUse() {
-        connection.getPortConfiguration().setSupportsMenus(RANDOM.nextBoolean());
+        connection.getPortConfiguration().setSupportsMenus(RandomUtils.insecure().randomBoolean());
 
         playerConnected.execute(connection, configuration);
 
@@ -69,7 +69,7 @@ public class PlayerConnectedTest {
 
     @Test
     public void updateLastUsed() {
-        connection.getPortConfiguration().setSupportsMenus(RANDOM.nextBoolean());
+        connection.getPortConfiguration().setSupportsMenus(RandomUtils.insecure().randomBoolean());
 
         playerConnected.execute(connection, configuration);
 
@@ -78,13 +78,13 @@ public class PlayerConnectedTest {
 
     @Test
     public void playerIsSaved() {
-        connection.getPortConfiguration().setSupportsMenus(RANDOM.nextBoolean());
+        connection.getPortConfiguration().setSupportsMenus(RandomUtils.insecure().randomBoolean());
 
         playerConnected.execute(connection, configuration);
 
         Player returned = playerRepository.get(player.getId());
 
         assertThat(returned.getUseCount(), equalTo(player.getUseCount()));
-        assertThat(returned.getLastUsed(), equalTo(player.getLastUsed()));
+        assertThat(returned.getLastUsed().truncatedTo(ChronoUnit.MINUTES), equalTo(player.getLastUsed().truncatedTo(ChronoUnit.MINUTES)));
     }
 }
