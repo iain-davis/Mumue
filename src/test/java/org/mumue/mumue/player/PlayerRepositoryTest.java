@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -83,6 +84,7 @@ public class PlayerRepositoryTest {
         DatabaseHelper.insertPlayer(database, loginId, password);
 
         Player returned = repository.get(loginId, password);
+
         assertThat(returned, notNullValue());
         assertThat(returned.getLoginId(), equalTo(loginId));
     }
@@ -94,6 +96,7 @@ public class PlayerRepositoryTest {
         DatabaseHelper.insertPlayer(database, loginId, password);
 
         Player returned = repository.get("SOME_OTHER", password);
+
         assertThat(returned, notNullValue());
         assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
@@ -105,6 +108,7 @@ public class PlayerRepositoryTest {
         DatabaseHelper.insertPlayer(database, loginId, password);
 
         Player returned = repository.get(null, password);
+
         assertThat(returned, notNullValue());
         assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
@@ -116,6 +120,7 @@ public class PlayerRepositoryTest {
         DatabaseHelper.insertPlayer(database, loginId);
 
         Player returned = repository.get(loginId, password);
+
         assertThat(returned, notNullValue());
         assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
@@ -126,6 +131,7 @@ public class PlayerRepositoryTest {
         DatabaseHelper.insertPlayer(database, loginId);
 
         Player returned = repository.get(loginId, null);
+
         assertThat(returned, notNullValue());
         assertThat(returned.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
@@ -141,8 +147,8 @@ public class PlayerRepositoryTest {
 
         assertThat(player.getLoginId(), equalTo(expected.getLoginId()));
         assertThat(player.getLocale(), equalTo(expected.getLocale()));
-        assertThat(player.getLastUsed(), equalTo(expected.getLastUsed()));
-        assertThat(player.getLastModified(), equalTo(expected.getLastModified()));
+        assertThat(player.getLastUsed().truncatedTo(ChronoUnit.SECONDS), equalTo(expected.getLastUsed()));
+        assertThat(player.getLastModified().truncatedTo(ChronoUnit.SECONDS), equalTo(expected.getLastModified()));
         assertThat(player.getUseCount(), equalTo(expected.getUseCount()));
         assertThat(player.isAdministrator(), equalTo(expected.isAdministrator()));
     }
@@ -155,8 +161,8 @@ public class PlayerRepositoryTest {
         Player player = repository.get(expected.getId());
 
         assertThat(player.getLocale(), equalTo(expected.getLocale()));
-        assertThat(player.getLastUsed(), equalTo(expected.getLastUsed()));
-        assertThat(player.getLastModified(), equalTo(expected.getLastModified()));
+        assertThat(player.getLastUsed().truncatedTo(ChronoUnit.SECONDS), equalTo(expected.getLastUsed()));
+        assertThat(player.getLastModified().truncatedTo(ChronoUnit.SECONDS), equalTo(expected.getLastModified()));
         assertThat(player.getUseCount(), equalTo(expected.getUseCount()));
         assertThat(player.isAdministrator(), equalTo(expected.isAdministrator()));
 
@@ -168,8 +174,8 @@ public class PlayerRepositoryTest {
         expected.countUse();
         expected.setLoginId(RandomStringUtils.insecure().nextAlphabetic(16));
         expected.setLocale(RandomStringUtils.insecure().nextAlphabetic(5));
-        expected.setLastUsed(Instant.now());
-        expected.setLastModified(Instant.now());
+        expected.setLastUsed(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+        expected.setLastModified(Instant.now().truncatedTo(ChronoUnit.SECONDS));
         expected.setAdministrator(RANDOM.nextBoolean());
         return expected;
     }

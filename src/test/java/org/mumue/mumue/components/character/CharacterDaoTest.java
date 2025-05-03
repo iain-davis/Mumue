@@ -8,6 +8,7 @@ import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.importer.GlobalConstants;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -115,9 +116,9 @@ public class CharacterDaoTest {
         characterToAdd.setId(RandomUtils.insecure().randomLong(200, 300));
         characterToAdd.setName(RandomStringUtils.insecure().nextAlphabetic(17));
         characterToAdd.setDescription(RandomStringUtils.insecure().nextAlphabetic(22));
-        characterToAdd.setCreated(Instant.now());
-        characterToAdd.setLastModified(Instant.now());
-        characterToAdd.setLastUsed(Instant.now());
+        characterToAdd.setCreated(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+        characterToAdd.setLastModified(Instant.now().truncatedTo(ChronoUnit.SECONDS));
+        characterToAdd.setLastUsed(Instant.now().truncatedTo(ChronoUnit.SECONDS));
         characterToAdd.setUseCount(RandomUtils.insecure().randomLong(400, 500));
         characterToAdd.setLocationId(RandomUtils.insecure().randomLong(500, 600));
         characterToAdd.setUniverseId(RandomUtils.insecure().randomLong(600, 700));

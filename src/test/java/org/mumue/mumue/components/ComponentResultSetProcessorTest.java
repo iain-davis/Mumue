@@ -32,7 +32,6 @@ public class ComponentResultSetProcessorTest {
         Timestamp timestamp = Timestamp.from(instant);
         when(resultSet.getLong("id")).thenReturn(id);
         when(resultSet.getTimestamp("created")).thenReturn(timestamp);
-        when(resultSet.getTimestamp("lastModified")).thenReturn(timestamp);
         when(resultSet.getTimestamp("lastUsed")).thenReturn(timestamp);
         when(resultSet.getLong("useCount")).thenReturn(useCount);
     }

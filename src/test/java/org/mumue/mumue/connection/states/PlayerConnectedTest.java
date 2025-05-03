@@ -85,6 +85,6 @@ public class PlayerConnectedTest {
         Player returned = playerRepository.get(player.getId());
 
         assertThat(returned.getUseCount(), equalTo(player.getUseCount()));
-        assertThat(returned.getLastUsed().truncatedTo(ChronoUnit.MINUTES), equalTo(player.getLastUsed().truncatedTo(ChronoUnit.MINUTES)));
+        assertThat(returned.getLastUsed().truncatedTo(ChronoUnit.SECONDS), equalTo(player.getLastUsed().truncatedTo(ChronoUnit.SECONDS)));
     }
 }
