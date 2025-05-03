@@ -22,7 +22,7 @@ public class MumueRunner {
     private ScheduledFuture<?> killerFuture;
     private PrintStream originalOut;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private Main main = new Main();
+    private final Main main = new Main();
 
     public void run(int port, String... arguments) {
         redirectConsoleOutput();
@@ -68,7 +68,7 @@ public class MumueRunner {
     }
 
     public synchronized void stopAfterTelnet() {
-        //noinspection StatementWithEmptyBody
+        //noinspection StatementWithEmptyBody,LoopConditionNotUpdatedInsideLoop
         while (!outputStream.toString().contains(GlobalConstants.TELNET_LISTENING)) ;
         stop();
     }
