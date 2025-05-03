@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 import org.mumue.mumue.components.Artifact;
 import org.mumue.mumue.components.Component;
@@ -31,7 +32,7 @@ public class ComponentsImporterTest {
     private static final Random RANDOM = new Random();
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
     private final ComponentsImporter importer = new ComponentsImporter(new GameComponentImporter());
-    private final Universe universe = new UniverseBuilder().withId(RANDOM.nextInt(100)).build();
+    private final Universe universe = new UniverseBuilder().withId(RandomUtils.insecure().randomLong(1, 100)).build();
 
     @Test
     public void neverReturnNull() {
@@ -42,7 +43,7 @@ public class ComponentsImporterTest {
 
     @Test
     public void importOneCharacterComponent() {
-        long homeId = RANDOM.nextInt(1000);
+        long homeId = RandomUtils.insecure().randomLong(1, 100);
         String password = RandomStringUtils.insecure().nextAlphabetic(13);
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.CHARACTER)
                 .withPassword(password)
@@ -114,8 +115,8 @@ public class ComponentsImporterTest {
     @Test
     public void importComponentReferenceId() {
         List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).build());
-        lines.addAll(databaseItemLinesBuilder.withId(RANDOM.nextInt(100)).build());
+        lines.addAll(databaseItemLinesBuilder.withId(RandomUtils.insecure().randomInt(1, 100)).build());
+        lines.addAll(databaseItemLinesBuilder.withId(RandomUtils.insecure().randomInt(101, 200)).build());
 
         List<Component> components = importer.importFrom(lines, universe);
 
