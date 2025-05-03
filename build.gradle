@@ -46,7 +46,7 @@ dependencies {
     // Database
     implementation 'org.apache.commons:commons-dbcp2:2.13.0'
     implementation 'commons-dbutils:commons-dbutils:1.8.1'
-    implementation 'com.h2database:h2:2.2.224'
+    implementation 'com.h2database:h2:2.3.232'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
