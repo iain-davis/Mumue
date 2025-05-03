@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.components.Artifact;
 import org.mumue.mumue.components.Component;
 import org.mumue.mumue.components.GameComponent;
@@ -24,14 +24,14 @@ import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
 
-public class GameComponentImporterTest {
+class GameComponentImporterTest {
     private static final Random RANDOM = new Random();
     private static final int ITEM_FLAGS_INDEX = 5;
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
     private final GameComponentImporter gameComponentImporter = new GameComponentImporter();
 
     @Test
-    public void createCorrectType() {
+    void createCorrectType() {
         List<String> lines = databaseItemLinesBuilder.withRandomType().build();
 
         FuzzballDatabaseItemType type = FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX));
@@ -42,7 +42,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importReferenceId() {
+    void importReferenceId() {
         long id = RANDOM.nextInt(10000);
         List<String> lines = databaseItemLinesBuilder.withRandomType().withId(id).build();
 
@@ -53,7 +53,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importCreatedTimestamp() {
+    void importCreatedTimestamp() {
         Instant createdOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
 
         List<String> lines = databaseItemLinesBuilder.createdOn(createdOn).build();
@@ -65,7 +65,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importLastUsedTimestamp() {
+    void importLastUsedTimestamp() {
         Instant lastUsed = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
 
         List<String> lines = databaseItemLinesBuilder.lastUsedOn(lastUsed).build();
@@ -77,7 +77,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importUseCount() {
+    void importUseCount() {
         long useCount = RANDOM.nextInt(100000);
 
         List<String> lines = databaseItemLinesBuilder.withUseCount(useCount).build();
@@ -89,7 +89,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importLastModifiedTimestamp() {
+    void importLastModifiedTimestamp() {
         Instant lastModifiedOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
 
         List<String> lines = databaseItemLinesBuilder.lastModifiedOn(lastModifiedOn).build();
@@ -101,7 +101,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importName() {
+    void importName() {
         String name = RandomStringUtils.insecure().nextAlphabetic(16);
 
         List<String> lines = databaseItemLinesBuilder.withName(name).build();
@@ -113,7 +113,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importDescription() {
+    void importDescription() {
         String description = RandomStringUtils.insecure().nextAlphabetic(16);
 
         List<String> lines = databaseItemLinesBuilder.withDescription(description).build();
@@ -125,7 +125,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void setUniverseId() {
+    void setUniverseId() {
         Universe universe = new UniverseBuilder().withId(RANDOM.nextInt(1000)).build();
 
         List<String> lines = databaseItemLinesBuilder.build();
@@ -137,7 +137,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void importLocationId() {
+    void importLocationId() {
         long locationId = RANDOM.nextInt(100);
         List<String> lines = databaseItemLinesBuilder.withLocationId(locationId).build();
 
@@ -146,7 +146,7 @@ public class GameComponentImporterTest {
     }
 
     @Test
-    public void doNotProcessGarbage() {
+    void doNotProcessGarbage() {
         List<String> lines = databaseItemLinesBuilder.withType(FuzzballDatabaseItemType.GARBAGE).build();
 
         LocatableComponent component = gameComponentImporter.importFrom(lines, new Universe());
@@ -159,21 +159,13 @@ public class GameComponentImporterTest {
     }
 
     private Class<? extends Component> typeClass(FuzzballDatabaseItemType type) {
-        switch (type) {
-            case CHARACTER:
-                return GameCharacter.class;
-            case EXIT:
-                return Link.class;
-            case GARBAGE:
-                return Garbage.class;
-            case PROGRAM:
-                return MufProgram.class;
-            case ROOM:
-                return Space.class;
-            case THING:
-                return Artifact.class;
-            default:
-                return null;
-        }
+        return switch (type) {
+            case CHARACTER -> GameCharacter.class;
+            case EXIT -> Link.class;
+            case GARBAGE -> Garbage.class;
+            case PROGRAM -> MufProgram.class;
+            case ROOM -> Space.class;
+            case THING -> Artifact.class;
+        };
     }
 }

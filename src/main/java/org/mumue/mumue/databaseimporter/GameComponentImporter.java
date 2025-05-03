@@ -1,10 +1,10 @@
 package org.mumue.mumue.databaseimporter;
 
-import java.time.Instant;
-import java.util.List;
-
 import org.mumue.mumue.components.LocatableComponent;
 import org.mumue.mumue.components.universe.Universe;
+
+import java.time.Instant;
+import java.util.List;
 
 class GameComponentImporter {
     protected static final int REFERENCE_ID_INDEX = 0;
@@ -18,14 +18,20 @@ class GameComponentImporter {
     // *Props* = 10
     private static final int FIRST_PROPERTY_INDEX = 11;
     private static final String DESCRIPTION_LINE_PREFIX = "_/de:10:";
+    private final GameCharacterImporter characterImporter = new GameCharacterImporter();
+    private final LinkImporter linkImporter = new LinkImporter();
+    private final MufProgramImporter mufProgramImporter = new MufProgramImporter();
+    private final SpaceImporter spaceImporter = new SpaceImporter();
+    private final GarbageImporter garbageImporter = new GarbageImporter();
+    private final ArtifactImporter artifactImporter = new ArtifactImporter();
 
     public LocatableComponent importFrom(List<String> lines, Universe universe) {
-        ComponentImporter componentImporter = getComponentImporter(FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX)));
-        LocatableComponent component = (LocatableComponent) componentImporter.importFrom(lines);
+        LocatableComponent component = typeSpecificImport(lines);
+
         if (component instanceof Garbage) {
             return component;
         }
-        component.setId(importComponentReferenceFrom(lines.get(REFERENCE_ID_INDEX)));
+        component.setId(importComponentReferenceFrom(lines.getFirst()));
         component.setCreated(importTimeStampFrom(lines.get(CREATED_ON_TIMESTAMP_INDEX)));
         component.setLastUsed(importTimeStampFrom(lines.get(LAST_USED_ON_TIMESTAMP_INDEX)));
         component.setUseCount(importIntegerFrom(lines.get(USE_COUNT_INDEX)));
@@ -37,6 +43,18 @@ class GameComponentImporter {
         return component;
     }
 
+    private LocatableComponent typeSpecificImport(List<String> lines) {
+        FuzzballDatabaseItemType type = FuzzballDatabaseItemType.fromLine(lines.get(ITEM_FLAGS_INDEX));
+        return switch (type) {
+            case CHARACTER -> characterImporter.importFrom(lines);
+            case EXIT -> linkImporter.importFrom(lines);
+            case PROGRAM -> mufProgramImporter.importFrom(lines);
+            case ROOM -> spaceImporter.importFrom(lines);
+            case THING -> artifactImporter.importFrom(lines);
+            default -> garbageImporter.importFrom(lines);
+        };
+    }
+
     private long importComponentReferenceFrom(String line) {
         return importIntegerFrom(line.substring(1));
     }
@@ -46,7 +64,7 @@ class GameComponentImporter {
     }
 
     private Instant importTimeStampFrom(String line) {
-        return Instant.ofEpochSecond(Long.valueOf(line));
+        return Instant.ofEpochSecond(Long.parseLong(line));
     }
 
     private String importDescriptionFrom(List<String> lines) {
@@ -56,22 +74,5 @@ class GameComponentImporter {
             }
         }
         return null;
-    }
-
-    private ComponentImporter getComponentImporter(FuzzballDatabaseItemType type) {
-        switch (type) {
-            case CHARACTER:
-                return new GameCharacterImporter();
-            case EXIT:
-                return new LinkImporter();
-            case PROGRAM:
-                return new MufProgramImporter();
-            case ROOM:
-                return new SpaceImporter();
-            case THING:
-                return new ArtifactImporter();
-            default:
-                return new GarbageImporter();
-        }
     }
 }
