@@ -35,7 +35,7 @@ public class DataSourceProviderTest {
 
         assertThat(source.getUserName(), equalTo(configuration.getUsername()));
     }
-    
+
     @Test
     public void configuresDataSourceWithUrl() {
         BasicDataSource source = (BasicDataSource) provider.get();

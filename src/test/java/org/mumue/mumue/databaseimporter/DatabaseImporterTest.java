@@ -46,8 +46,9 @@ public class DatabaseImporterTest {
 
     @Test
     public void doNothingWithUnknownFormat() {
+        int itemCount = RandomUtils.insecure().randomInt(2, 3);
         long parameterCount = RandomUtils.insecure().randomInt(11, 110);
-        File file = createFile(RandomUtils.insecure().randomInt(2, 3), parameterCount, RandomStringUtils.insecure().nextAlphabetic(14), "1");
+        File file = createFile(itemCount, parameterCount, RandomStringUtils.insecure().nextAlphabetic(14), "1");
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -57,8 +58,10 @@ public class DatabaseImporterTest {
 
     @Test
     public void doNothingWithUnknownFormatVersion() {
+        int itemCount = RandomUtils.insecure().randomInt(2, 3);
         long parameterCount = RandomUtils.insecure().randomInt(11, 110);
-        File file = createFile(RandomUtils.insecure().randomInt(2, 3), parameterCount, FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT, RandomStringUtils.insecure().nextNumeric(2));
+        String formatVersion = RandomStringUtils.insecure().nextNumeric(2);
+        File file = createFile(itemCount, parameterCount, FUZZ_BALL_5_TINY_MUCK_FILE_FORMAT, formatVersion);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -89,8 +92,10 @@ public class DatabaseImporterTest {
 
     @Test
     public void setStartingLocationOnUniverse() {
+        int itemCount = RandomUtils.insecure().randomInt(2, 3);
+        int parameterCount = RandomUtils.insecure().randomInt(1, 10);
         long startingLocation = RandomUtils.insecure().randomInt(101, 1100);
-        File file = createFile(RandomUtils.insecure().randomInt(2, 3), RandomUtils.insecure().randomInt(1, 10), startingLocation);
+        File file = createFile(itemCount, parameterCount, startingLocation);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -101,7 +106,8 @@ public class DatabaseImporterTest {
     @Test
     public void importCorrectNumberOfComponents() {
         int components = RandomUtils.insecure().randomInt(2, 5);
-        File file = createFile(components, RandomUtils.insecure().randomInt(6, 15));
+        int parameterCount = RandomUtils.insecure().randomInt(6, 15);
+        File file = createFile(components, parameterCount);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -112,7 +118,8 @@ public class DatabaseImporterTest {
     @Test
     public void importComponentReferenceId() {
         int components = RandomUtils.insecure().randomInt(2, 5);
-        File file = createFile(components, RandomUtils.insecure().randomInt(6, 15));
+        int parameterCount = RandomUtils.insecure().randomInt(6, 15);
+        File file = createFile(components, parameterCount);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);
@@ -125,7 +132,8 @@ public class DatabaseImporterTest {
     @Test
     public void importComponentUniverseId() {
         int components = RandomUtils.insecure().randomInt(2, 5);
-        File file = createFile(components, RandomUtils.insecure().randomInt(6, 15));
+        int parameterCount = RandomUtils.insecure().randomInt(6, 15);
+        File file = createFile(components, parameterCount);
         importConfiguration.setFile(file);
 
         ImportResults results = databaseImporter.importUsing(importConfiguration);

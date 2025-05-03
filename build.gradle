@@ -24,7 +24,9 @@ tasks.withType(JavaCompile).configureEach {
     options.deprecation = true
 }
 
-def excludeHamcrest = { exclude module: 'hamcrest-core' }
+test {
+    useJUnitPlatform()
+}
 
 dependencies {
     // General
@@ -40,8 +42,11 @@ dependencies {
     implementation 'commons-dbutils:commons-dbutils:1.8.1'
     implementation 'com.h2database:h2:2.2.224'
 
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.12.2'
+    testImplementation 'org.junit.platform:junit-platform-launcher:1.12.2'
     testImplementation 'org.hamcrest:hamcrest:3.0'
-    testImplementation 'junit:junit:4.13.2', excludeHamcrest
     testImplementation 'org.mockito:mockito-core:4.11.0'
     testImplementation 'commons-net:commons-net:3.11.1'
 }

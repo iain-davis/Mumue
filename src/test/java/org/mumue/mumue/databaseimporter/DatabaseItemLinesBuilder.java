@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.mumue.mumue.importer.GlobalConstants;
 
 class DatabaseItemLinesBuilder {
@@ -139,7 +140,7 @@ class DatabaseItemLinesBuilder {
     }
 
     public DatabaseItemLinesBuilder withRandomId() {
-        this.id = RANDOM.nextInt(10000);
+        this.id = RandomUtils.insecure().randomInt(0, 1000);
         return this;
     }
 

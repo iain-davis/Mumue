@@ -12,10 +12,12 @@ class ImportTestHelper {
     private static final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
 
     public static List<String> generateLines(long randomParameters, String muckName, long startingLocation, int components) {
-        List<String> lines = new ArrayList<>();
-        lines.addAll(generateParameterLines(randomParameters, muckName, startingLocation));
+        List<String> parameterLines = generateParameterLines(randomParameters, muckName, startingLocation);
+        List<String> lines = new ArrayList<>(parameterLines);
         for (int i = 0; i < components; i++) {
-            lines.addAll(databaseItemLinesBuilder.withRandomId().build());
+            long id = i;
+            if (i > 1) id = id * 2;
+            lines.addAll(databaseItemLinesBuilder.withId(id).build());
         }
         lines.add("***END OF DUMP***");
         return lines;
