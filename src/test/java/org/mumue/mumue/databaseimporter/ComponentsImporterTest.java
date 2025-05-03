@@ -1,19 +1,5 @@
 package org.mumue.mumue.databaseimporter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.isA;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
@@ -26,10 +12,21 @@ import org.mumue.mumue.components.space.Space;
 import org.mumue.mumue.components.universe.Universe;
 import org.mumue.mumue.components.universe.UniverseBuilder;
 import org.mumue.mumue.importer.GlobalConstants;
-import org.mumue.mumue.player.Player;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.isA;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class ComponentsImporterTest {
-    private static final Random RANDOM = new Random();
     private final DatabaseItemLinesBuilder databaseItemLinesBuilder = new DatabaseItemLinesBuilder();
     private final ComponentsImporter importer = new ComponentsImporter(new GameComponentImporter());
     private final Universe universe = new UniverseBuilder().withId(RandomUtils.insecure().randomLong(1, 100)).build();
@@ -61,11 +58,11 @@ public class ComponentsImporterTest {
     @Test
     public void createPlayerForCharacter() {
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
-        String password = RandomStringUtils.randomAlphanumeric(25);
+        String password = RandomStringUtils.insecure().nextAlphanumeric(25);
         Instant createdOn = Instant.now().minus(10, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
         Instant lastModified = Instant.now().minus(9, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
         Instant lastUsed = Instant.now().minus(8, ChronoUnit.DAYS).truncatedTo(ChronoUnit.SECONDS);
-        long useCount = RANDOM.nextInt(100000) + 1;
+        long useCount = RandomUtils.insecure().randomInt(1, 10000);
         List<String> lines = databaseItemLinesBuilder
                 .createdOn(createdOn)
                 .withPassword(password)
@@ -127,9 +124,8 @@ public class ComponentsImporterTest {
 
     @Test
     public void importComponentName() {
-        List<String> lines = new ArrayList<>();
         String name = RandomStringUtils.insecure().nextAlphabetic(25);
-        lines.addAll(databaseItemLinesBuilder.withName(name).build());
+        List<String> lines = new ArrayList<>(databaseItemLinesBuilder.withName(name).build());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -139,9 +135,8 @@ public class ComponentsImporterTest {
 
     @Test
     public void importComponentLocationId() {
-        long locationId = RANDOM.nextInt(100);
-        List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withLocationId(locationId).build());
+        long locationId = RandomUtils.insecure().randomInt(1, 100);
+        List<String> lines = new ArrayList<>(databaseItemLinesBuilder.withLocationId(locationId).build());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -151,10 +146,9 @@ public class ComponentsImporterTest {
 
     @Test
     public void importComponentUniverseId() {
-        long universeId = RANDOM.nextInt(100);
+        long universeId = RandomUtils.insecure().randomInt(1, 100);
         Universe universe = new UniverseBuilder().withId(universeId).build();
-        List<String> lines = new ArrayList<>();
-        lines.addAll(databaseItemLinesBuilder.withRandomId().build());
+        List<String> lines = new ArrayList<>(databaseItemLinesBuilder.withRandomId().build());
 
         List<Component> components = importer.importFrom(lines, universe);
 
@@ -163,6 +157,7 @@ public class ComponentsImporterTest {
     }
 
     private Component getComponentMatching(Class<? extends Component> componentType, List<Component> components) {
+        //noinspection OptionalGetWithoutIsPresent
         return components.stream().filter(componentType::isInstance).findFirst().get();
     }
 }
