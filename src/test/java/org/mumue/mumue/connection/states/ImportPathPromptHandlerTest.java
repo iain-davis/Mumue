@@ -134,8 +134,8 @@ class ImportPathPromptHandlerTest {
         File file = filePath.toFile();
         try {
             file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
         return file;
     }
