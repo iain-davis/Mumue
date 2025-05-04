@@ -1,25 +1,20 @@
 package org.mumue.mumue.configuration;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.when;
-
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.configuration.online.OnlineConfiguration;
 
-public class ComponentIdManagerTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock OnlineConfiguration onlineConfiguration;
-    @InjectMocks ComponentIdManager componentIdManager;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+class ComponentIdManagerTest {
+    private final OnlineConfiguration onlineConfiguration = mock(OnlineConfiguration.class);
+    private final ComponentIdManager componentIdManager = new ComponentIdManager(onlineConfiguration);
 
     @Test
-    public void returnsGivenLong() {
+    void returnsGivenLong() {
         long id = RandomUtils.insecure().randomLong(100, 200);
         when(onlineConfiguration.getLastComponentId()).thenReturn(id - 1);
 
