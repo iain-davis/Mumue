@@ -1,66 +1,62 @@
 package org.mumue.mumue.connection;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertSame;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.net.Socket;
-
 import com.google.inject.Injector;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.threading.InfiniteLoopRunnerStarter;
 
-public class ConnectionFactoryTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    private final PortConfiguration portConfiguration = new PortConfiguration();
-    @Mock Connection connection;
-    @Mock ApplicationConfiguration configuration;
-    @Mock Socket socket;
-    @Mock InfiniteLoopRunnerStarter infiniteLoopRunnerStarter;
-    @Mock Injector injector;
-    @Mock ConnectionController controller;
-    @InjectMocks ConnectionFactory connectionFactory;
+import java.net.Socket;
 
-    @Before
-    public void beforeEach() {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+class ConnectionFactoryTest {
+    private final PortConfiguration portConfiguration = new PortConfiguration();
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+    private final Socket socket = mock(Socket.class);
+    private final InfiniteLoopRunnerStarter infiniteLoopRunnerStarter = mock(InfiniteLoopRunnerStarter.class);
+    private final Injector injector = mock(Injector.class);
+    private final ConnectionController controller = mock(ConnectionController.class);
+    private final ConnectionFactory connectionFactory = new ConnectionFactory(configuration, injector, infiniteLoopRunnerStarter);
+
+    @BeforeEach
+    void beforeEach() {
         when(injector.getInstance(ConnectionController.class)).thenReturn(controller);
     }
 
     @Test
-    public void neverReturnNull() {
+    void neverReturnNull() {
         assertThat(connectionFactory.create(socket, portConfiguration), notNullValue());
     }
 
     @Test
-    public void setPortConfiguration() {
-        assertSame(connectionFactory.create(socket, portConfiguration).getPortConfiguration(), portConfiguration);
+    void setPortConfiguration() {
+        Connection connection = connectionFactory.create(socket, portConfiguration);
+
+        assertThat(connection.getPortConfiguration(), sameInstance(portConfiguration));
     }
 
     @Test
-    public void startsLoopRunnerForInputReceiver() {
+    void startsLoopRunnerForInputReceiver() {
         connectionFactory.create(socket, portConfiguration);
         verify(infiniteLoopRunnerStarter).start(isA(InputReceiver.class));
     }
 
     @Test
-    public void startsLoopRunnerForOutputSender() {
+    void startsLoopRunnerForOutputSender() {
         connectionFactory.create(socket, portConfiguration);
         verify(infiniteLoopRunnerStarter).start(isA(OutputSender.class));
     }
 
     @Test
-    public void startsLoopRunnerForConnectionController() {
+    void startsLoopRunnerForConnectionController() {
         connectionFactory.create(socket, portConfiguration);
         verify(infiniteLoopRunnerStarter).start(isA(ConnectionController.class));
     }
