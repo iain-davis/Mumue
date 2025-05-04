@@ -20,8 +20,8 @@ public class DatabaseConfigurationLoader {
 
     private Properties loadProperties(String filePath) {
         Properties properties = new Properties();
-        try {
-            properties.load(new InputStreamReader(new FileInputStream(filePath)));
+        try (FileInputStream inputStream = new FileInputStream(filePath)) {
+            properties.load(new InputStreamReader(inputStream));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
