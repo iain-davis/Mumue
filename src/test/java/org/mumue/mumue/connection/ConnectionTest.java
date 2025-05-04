@@ -1,56 +1,56 @@
 package org.mumue.mumue.connection;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.when;
-
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.components.character.GameCharacter;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.player.Player;
+import org.mumue.mumue.text.TextQueue;
 
-public class ConnectionTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock
-    ApplicationConfiguration configuration;
-    @InjectMocks Connection connection;
+import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+class ConnectionTest {
+    private final ApplicationConfiguration configuration = mock(ApplicationConfiguration.class);
+    private final Connection connection = new Connection(configuration);
 
     @Test
-    public void inputQueueNotNull() {
-        assertNotNull(connection.getInputQueue());
+    void inputQueueNotNull() {
+        TextQueue inputQueue = connection.getInputQueue();
+        assertThat(inputQueue, notNullValue());
     }
 
     @Test
-    public void outputQueueNotNull() {
-        assertNotNull(connection.getOutputQueue());
+    void outputQueueNotNull() {
+        TextQueue outputQueue = connection.getOutputQueue();
+        assertThat(outputQueue, notNullValue());
     }
 
     @Test
-    public void characterNotNull() {
-        assertNotNull(connection.getCharacter());
+    void characterNotNull() {
+        GameCharacter character = connection.getCharacter();
+        assertThat(character, notNullValue());
     }
 
     @Test
-    public void optionMapEmptyByDefault() {
-        assertNotNull(connection.getMenuOptionIds());
-
-        assertThat(connection.getMenuOptionIds().size(), equalTo(0));
+    void optionMapEmptyByDefault() {
+        Map<String, Long> menuOptionIds = connection.getMenuOptionIds();
+        assertThat(menuOptionIds.size(), equalTo(0));
     }
 
     @Test
-    public void getLocaleNeverReturnsNull() {
+    void getLocaleNeverReturnsNull() {
         when(configuration.getServerLocale()).thenReturn("");
-        assertNotNull(connection.getLocale());
+        assertThat(connection.getLocale(), notNullValue());
     }
 
     @Test
-    public void getLocaleReturnsPlayerLocale() {
+    void getLocaleReturnsPlayerLocale() {
         connection.setPlayer(new Player());
         String expected = RandomStringUtils.insecure().nextAlphabetic(5);
         connection.getPlayer().setLocale(expected);
@@ -61,7 +61,7 @@ public class ConnectionTest {
     }
 
     @Test
-    public void getLocaleWithoutPlayerReturnsServerLocale() {
+    void getLocaleWithoutPlayerReturnsServerLocale() {
         connection.setPlayer(null);
         String expected = RandomStringUtils.insecure().nextAlphabetic(5);
         when(configuration.getServerLocale()).thenReturn(expected);
@@ -72,7 +72,7 @@ public class ConnectionTest {
     }
 
     @Test
-    public void getLocaleWhenPlayerDoesNotHaveALocaleReturnsServerLocale() {
+    void getLocaleWhenPlayerDoesNotHaveALocaleReturnsServerLocale() {
         Player player = new Player();
         player.setLocale("");
         connection.setPlayer(player);
