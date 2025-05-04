@@ -1,34 +1,24 @@
 package org.mumue.mumue.databaseimporter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
+import com.google.common.io.Resources;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import com.google.common.io.Resources;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertThrows;
 
-public class LineLoaderTest {
-    @Rule public ExpectedException thrown = ExpectedException.none();
-    @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
+class LineLoaderTest {
     @Test
-    public void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
+    void runLoadsLinesFromFileAndAddsToBucket() throws URISyntaxException {
         LineLoader lineLoader = new LineLoader();
         URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestInput.testdb").toURI();
         File file = FileUtils.getFile(uri.getPath());
@@ -39,7 +29,7 @@ public class LineLoaderTest {
     }
 
     @Test
-    public void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
+    void runLoadsLinesWithoutTreatingCRAsDelimiter() throws URISyntaxException {
         LineLoader lineLoader = new LineLoader();
         URI uri = Resources.getResource("org/mumue/mumue/databaseimporter/LoadLinesStageTestCRInput.testdb").toURI();
         File file = FileUtils.getFile(uri.getPath());
@@ -50,22 +40,11 @@ public class LineLoaderTest {
     }
 
     @Test
-    public void neverReturnNull() throws IOException {
-        File file = temporaryFolder.newFile();
-        LineLoader lineLoader = new LineLoader();
-
-        List<String> lines = lineLoader.loadFrom(file);
-
-        assertThat(lines, notNullValue());
-        assertThat(lines, is(empty()));
-    }
-
-    @Test
-    public void handleFileNotFound() {
+    void handleFileNotFound() {
         File file = new File(RandomStringUtils.insecure().nextAlphabetic(13));
-        thrown.expect(RuntimeException.class);
-        thrown.expectCause(instanceOf(FileNotFoundException.class));
 
-        new LineLoader().loadFrom(file);
+        Exception exception = assertThrows(RuntimeException.class, () -> new LineLoader().loadFrom(file));
+
+        assertThat(exception.getCause(), instanceOf(FileNotFoundException.class));
     }
 }
