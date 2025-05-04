@@ -10,8 +10,8 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +29,9 @@ class CommandListBuilderTest {
 
     @Test
     void buildNeverReturnsNull() {
-        assertNotNull(builder.build());
+        Map<String, CommandSyntax> map = builder.build();
+
+        assertThat(map, notNullValue());
     }
 
     @Test
