@@ -1,44 +1,39 @@
 package org.mumue.mumue.interpreter;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class CommandListBuilderTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+class CommandListBuilderTest {
     private final Collection<CommandEntry> commandEntries = new ArrayList<>();
 
-    @Mock CommandSyntaxBuilder commandSyntaxBuilder;
-    @Mock CommandEntryDao dao;
-    @InjectMocks CommandListBuilder builder;
+    private final CommandSyntaxBuilder commandSyntaxBuilder = mock(CommandSyntaxBuilder.class);
+    private final CommandEntryDao dao = mock(CommandEntryDao.class);
+    private final CommandListBuilder builder = new CommandListBuilder(commandSyntaxBuilder, dao);
 
-    @Before
-    public void beforeEach() {
+    @BeforeEach
+    void beforeEach() {
         when(dao.getCommands()).thenReturn(commandEntries);
     }
 
     @Test
-    public void buildNeverReturnsNull() {
+    void buildNeverReturnsNull() {
         assertNotNull(builder.build());
     }
 
     @Test
-    public void buildPutsSyntaxForOneEntryOnList() {
+    void buildPutsSyntaxForOneEntryOnList() {
         String minimumPartial = RandomStringUtils.insecure().nextAlphabetic(17);
         CommandSyntax syntax = new CommandSyntax();
         CommandEntry entry = new CommandEntry();
