@@ -1,27 +1,22 @@
 package org.mumue.mumue.text;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class TextMakerTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
-    @Mock TextDao textDao;
-    @InjectMocks TextMaker textMaker;
+class TextMakerTest {
+    private final TextDao textDao = mock(TextDao.class);
+    private final TextMaker textMaker = new TextMaker(textDao);
 
     @Test
-    public void getReturnsText() {
+    void getReturnsText() {
         String locale = RandomStringUtils.insecure().nextAlphabetic(5);
         String text = RandomStringUtils.insecure().nextAlphabetic(257);
         when(textDao.getText(TextName.Welcome, locale)).thenReturn(text);
@@ -29,21 +24,21 @@ public class TextMakerTest {
     }
 
     @Test
-    public void getFallsBackOnTextNameWhenTextDaoReturnsNull() {
+    void getFallsBackOnTextNameWhenTextDaoReturnsNull() {
         String otherLocale = RandomStringUtils.insecure().nextAlphabetic(4);
         when(textMaker.getText(TextName.Welcome, otherLocale)).thenReturn(null);
         assertThat(textMaker.getText(TextName.Welcome, otherLocale), equalTo(TextName.Welcome.toString()));
     }
 
     @Test
-    public void getFallsBackOnTextNameWhenTextDaoReturnsBlank() {
+    void getFallsBackOnTextNameWhenTextDaoReturnsBlank() {
         String otherLocale = RandomStringUtils.insecure().nextAlphabetic(4);
         when(textMaker.getText(TextName.Welcome, otherLocale)).thenReturn("");
         assertThat(textMaker.getText(TextName.Welcome, otherLocale), equalTo(TextName.Welcome.toString()));
     }
 
     @Test
-    public void performVariableReplacement() {
+    void performVariableReplacement() {
         String locale = RandomStringUtils.insecure().nextAlphabetic(5);
         String textL = RandomStringUtils.insecure().nextAlphabetic(25);
         String textR = RandomStringUtils.insecure().nextAlphabetic(25);
