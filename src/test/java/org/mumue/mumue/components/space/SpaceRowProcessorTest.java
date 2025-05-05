@@ -1,35 +1,32 @@
 package org.mumue.mumue.components.space;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.components.LocatableComponentResultSetProcessor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mumue.mumue.components.LocatableComponentResultSetProcessor;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SpaceRowProcessorTest {
-    @Mock ResultSet resultSet;
-    @Mock LocatableComponentResultSetProcessor locatableComponentResultSetProcessor;
-    @InjectMocks SpaceRowProcessor processor;
+class SpaceRowProcessorTest {
+    private final ResultSet resultSet = mock(ResultSet.class);
+    private final LocatableComponentResultSetProcessor locatableComponentResultSetProcessor = mock(LocatableComponentResultSetProcessor.class);
+    private final SpaceRowProcessor processor = new SpaceRowProcessor(locatableComponentResultSetProcessor);
 
     @Test
-    public void useComponentResultSetProcessor() throws SQLException {
+    void useComponentResultSetProcessor() throws SQLException {
         processor.toBean(resultSet, Space.class);
         verify(locatableComponentResultSetProcessor).process(eq(resultSet), any(Space.class));
     }
 
     @Test
-    public void returnSpace() throws SQLException {
+    void returnSpace() throws SQLException {
         Space space = processor.toBean(resultSet, Space.class);
-        assertNotNull(space);
+        assertThat(space, notNullValue());
     }
 }

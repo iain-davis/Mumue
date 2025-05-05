@@ -1,57 +1,52 @@
 package org.mumue.mumue.components;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class GameComponentResultSetProcessorTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+class GameComponentResultSetProcessorTest {
     private final String name = RandomStringUtils.insecure().nextAlphabetic(17);
     private final String description = RandomStringUtils.insecure().nextAlphabetic(17);
     private final GameComponent component = new GameComponent() {
     };
 
-    @Mock ResultSet resultSet;
-    @Mock ComponentResultSetProcessor componentBaseProcessor;
-    @InjectMocks GameComponentResultSetProcessor processor;
+    private final ResultSet resultSet = mock(ResultSet.class);
+    private final ComponentResultSetProcessor componentBaseProcessor = mock(ComponentResultSetProcessor.class);
+    private final GameComponentResultSetProcessor processor = new GameComponentResultSetProcessor(componentBaseProcessor);
 
-    @Before
-    public void beforeEach() throws SQLException {
+    @BeforeEach
+    void beforeEach() throws SQLException {
         when(resultSet.getString("name")).thenReturn(name);
         when(resultSet.getString("description")).thenReturn(description);
     }
 
     @Test
-    public void convertName() throws SQLException {
+    void convertName() throws SQLException {
         processor.process(resultSet, component);
 
         assertThat(component.getName(), equalTo(name));
     }
 
     @Test
-    public void convertDescription() throws SQLException {
+    void convertDescription() throws SQLException {
         processor.process(resultSet, component);
 
         assertThat(component.getDescription(), equalTo(description));
     }
 
     @Test
-    public void convertTimestamps() throws SQLException {
+    void convertTimestamps() throws SQLException {
         processor.process(resultSet, component);
 
         verify(componentBaseProcessor).process(eq(resultSet), any(GameComponent.class));

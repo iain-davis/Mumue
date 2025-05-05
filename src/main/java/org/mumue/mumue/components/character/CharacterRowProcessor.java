@@ -9,7 +9,15 @@ import org.apache.commons.dbutils.BasicRowProcessor;
 import org.mumue.mumue.components.LocatableComponentResultSetProcessor;
 
 public class CharacterRowProcessor extends BasicRowProcessor {
-    LocatableComponentResultSetProcessor componentResultSetProcessor = new LocatableComponentResultSetProcessor();
+    private final LocatableComponentResultSetProcessor componentResultSetProcessor;
+
+    public CharacterRowProcessor() {
+        this(new LocatableComponentResultSetProcessor());
+    }
+
+    CharacterRowProcessor(LocatableComponentResultSetProcessor locatableComponentResultSetProcessor) {
+        this.componentResultSetProcessor = locatableComponentResultSetProcessor;
+    }
 
     @Override
     public <T> T toBean(ResultSet resultSet, Class<? extends T> type) throws SQLException {

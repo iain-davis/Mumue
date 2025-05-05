@@ -1,13 +1,22 @@
 package org.mumue.mumue.player;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.mumue.mumue.components.ComponentResultSetProcessor;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class PlayerRowProcessor extends BasicRowProcessor {
-    private ComponentResultSetProcessor resultSetProcessor = new ComponentResultSetProcessor();
+    private final ComponentResultSetProcessor resultSetProcessor;
+
+    public PlayerRowProcessor() {
+        this(new ComponentResultSetProcessor());
+    }
+
+    PlayerRowProcessor(ComponentResultSetProcessor componentResultSetProcessor) {
+        this.resultSetProcessor = componentResultSetProcessor;
+    }
+
     @Override
     public <T> T toBean(ResultSet resultSet, Class<? extends T> type) throws SQLException {
         Player player = new Player();

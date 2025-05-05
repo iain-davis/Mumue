@@ -1,40 +1,35 @@
 package org.mumue.mumue.components.character;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.components.LocatableComponentResultSetProcessor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mumue.mumue.components.LocatableComponentResultSetProcessor;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class CharacterRowProcessorTest {
-    @Mock ResultSet resultSet;
-    @Mock LocatableComponentResultSetProcessor componentProcessor;
-    @InjectMocks CharacterRowProcessor processor;
+class CharacterRowProcessorTest {
+    private final ResultSet resultSet = mock(ResultSet.class);
+    private final LocatableComponentResultSetProcessor componentProcessor = mock(LocatableComponentResultSetProcessor.class);
+    private final CharacterRowProcessor processor = new CharacterRowProcessor(componentProcessor);
 
     @Test
-    public void toBeanReturnsCharacter() throws SQLException {
+    void toBeanReturnsCharacter() throws SQLException {
         GameCharacter character = processor.toBean(resultSet, GameCharacter.class);
-        assertNotNull(character);
+        assertThat(character, notNullValue());
     }
 
     @Test
-    public void toBeanSetsPlayerId() throws SQLException {
+    void toBeanSetsPlayerId() throws SQLException {
         long playerId = RandomUtils.insecure().randomLong(100, 200);
         when(resultSet.getLong("playerId")).thenReturn(playerId);
 
@@ -44,21 +39,21 @@ public class CharacterRowProcessorTest {
     }
 
     @Test
-    public void toBeanUsesComponentResultSetProcessor() throws SQLException {
+    void toBeanUsesComponentResultSetProcessor() throws SQLException {
         processor.toBean(resultSet, GameCharacter.class);
 
         verify(componentProcessor).process(eq(resultSet), any(GameCharacter.class));
     }
 
     @Test
-    public void toBeanListNeverReturnsNull() throws SQLException {
+    void toBeanListNeverReturnsNull() throws SQLException {
         List<GameCharacter> characters = processor.toBeanList(resultSet, GameCharacter.class);
 
-        assertNotNull(characters);
+        assertThat(characters, notNullValue());
     }
 
     @Test
-    public void toBeanListReturnsCharacters() throws SQLException {
+    void toBeanListReturnsCharacters() throws SQLException {
         when(resultSet.next()).thenReturn(true, true, false);
 
         List<GameCharacter> characters = processor.toBeanList(resultSet, GameCharacter.class);

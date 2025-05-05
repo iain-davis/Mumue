@@ -1,42 +1,35 @@
 package org.mumue.mumue.player;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.components.ComponentResultSetProcessor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mumue.mumue.components.ComponentResultSetProcessor;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class PlayerRowProcessorTest {
-    @Mock ResultSet resultSet;
-    @Mock ComponentResultSetProcessor resultSetProcessor;
-    @InjectMocks PlayerRowProcessor processor;
+class PlayerRowProcessorTest {
+    private final ResultSet resultSet = mock(ResultSet.class);
+    private final ComponentResultSetProcessor resultSetProcessor = mock(ComponentResultSetProcessor.class);
+    private final PlayerRowProcessor processor = new PlayerRowProcessor(resultSetProcessor);
 
     @Test
-    public void toBeanReturnsPlayer() throws SQLException {
+    void toBeanReturnsPlayer() throws SQLException {
         Player player = processor.toBean(resultSet, Player.class);
-        assertNotNull(player);
+
         assertThat(player, instanceOf(Player.class));
     }
 
     @Test
-    public void toBeanReturnsPlayerWithLoginId() throws SQLException {
+    void toBeanReturnsPlayerWithLoginId() throws SQLException {
         String loginId = RandomStringUtils.insecure().nextAlphabetic(17);
         when(resultSet.getString("loginId")).thenReturn(loginId);
 
@@ -46,7 +39,7 @@ public class PlayerRowProcessorTest {
     }
 
     @Test
-    public void toBeanReturnsPlayerWithLocale() throws SQLException {
+    void toBeanReturnsPlayerWithLocale() throws SQLException {
         String locale = RandomStringUtils.insecure().nextAlphabetic(17);
         when(resultSet.getString("locale")).thenReturn(locale);
 
@@ -57,25 +50,25 @@ public class PlayerRowProcessorTest {
 
 
     @Test
-    public void toBeanReturnsPlayerWithTrueAdministrator() throws SQLException {
+    void toBeanReturnsPlayerWithTrueAdministrator() throws SQLException {
         when(resultSet.getBoolean("administrator")).thenReturn(true);
 
         Player player = processor.toBean(resultSet, Player.class);
 
-        assertTrue(player.isAdministrator());
+        assertThat(player.isAdministrator(), equalTo(true));
     }
 
     @Test
-    public void toBeanReturnsPlayerWithFalseAdministrator() throws SQLException {
+    void toBeanReturnsPlayerWithFalseAdministrator() throws SQLException {
         when(resultSet.getBoolean("administrator")).thenReturn(false);
 
         Player player = processor.toBean(resultSet, Player.class);
 
-        assertFalse(player.isAdministrator());
+        assertThat(player.isAdministrator(), equalTo(false));
     }
 
     @Test
-    public void toBeanProcessesTimestamps() throws SQLException {
+    void toBeanProcessesTimestamps() throws SQLException {
         processor.toBean(resultSet, Player.class);
 
         verify(resultSetProcessor).process(eq(resultSet), any(Player.class));

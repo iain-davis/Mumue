@@ -4,7 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GameComponentResultSetProcessor {
-    private ComponentResultSetProcessor componentProcessor = new ComponentResultSetProcessor();
+    private final ComponentResultSetProcessor componentProcessor;
+
+    public GameComponentResultSetProcessor() {
+        this(new ComponentResultSetProcessor());
+    }
+
+    GameComponentResultSetProcessor(ComponentResultSetProcessor componentProcessor) {
+        this.componentProcessor = componentProcessor;
+    }
 
     public void process(ResultSet resultSet, GameComponent component) throws SQLException {
         component.setName(resultSet.getString("name"));

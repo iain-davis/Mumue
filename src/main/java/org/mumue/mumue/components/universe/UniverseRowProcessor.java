@@ -9,13 +9,21 @@ import org.apache.commons.dbutils.BasicRowProcessor;
 import org.mumue.mumue.components.GameComponentResultSetProcessor;
 
 public class UniverseRowProcessor extends BasicRowProcessor {
-    private GameComponentResultSetProcessor processor = new GameComponentResultSetProcessor();
+    private final GameComponentResultSetProcessor gameComponentResultSetProcessor;
+
+    public UniverseRowProcessor() {
+        this(new GameComponentResultSetProcessor());
+    }
+
+    UniverseRowProcessor(GameComponentResultSetProcessor gameComponentResultSetProcessor) {
+        this.gameComponentResultSetProcessor = gameComponentResultSetProcessor;
+    }
 
     @Override
     public <T> T toBean(ResultSet resultSet, Class<? extends T> type) throws SQLException {
         Universe universe = new Universe();
         universe.setStartingSpaceId(resultSet.getLong("startingSpaceId"));
-        processor.process(resultSet, universe);
+        gameComponentResultSetProcessor.process(resultSet, universe);
 
         return type.cast(universe);
     }

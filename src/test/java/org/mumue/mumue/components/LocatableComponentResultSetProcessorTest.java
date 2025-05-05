@@ -1,54 +1,49 @@
 package org.mumue.mumue.components;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.apache.commons.lang3.RandomUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-public class LocatableComponentResultSetProcessorTest {
-    @Rule public MockitoRule mockito = MockitoJUnit.rule();
+class LocatableComponentResultSetProcessorTest {
     private final Long locationId = RandomUtils.insecure().randomLong(100, 200);
     private final Long universeId = RandomUtils.insecure().randomLong(100, 200);
     private final LocatableComponent component = new LocatableComponent() {};
 
-    @Mock ResultSet resultSet;
-    @Mock GameComponentResultSetProcessor componentResultSetProcessor;
-    @InjectMocks LocatableComponentResultSetProcessor processor;
+    private final ResultSet resultSet = mock(ResultSet.class);
+    private final GameComponentResultSetProcessor componentResultSetProcessor = mock(GameComponentResultSetProcessor.class);
+    private final LocatableComponentResultSetProcessor processor = new LocatableComponentResultSetProcessor(componentResultSetProcessor);
 
-    @Before
-    public void beforeEach() throws SQLException {
+    @BeforeEach
+    void beforeEach() throws SQLException {
         when(resultSet.getLong("locationId")).thenReturn(locationId);
         when(resultSet.getLong("universeId")).thenReturn(universeId);
     }
 
     @Test
-    public void convertLocationId() throws SQLException {
+    void convertLocationId() throws SQLException {
         processor.process(resultSet, component);
 
         assertThat(component.getLocationId(), equalTo(locationId));
     }
 
     @Test
-    public void convertUniverseId() throws SQLException {
+    void convertUniverseId() throws SQLException {
         processor.process(resultSet, component);
 
         assertThat(component.getUniverseId(), equalTo(universeId));
     }
 
     @Test
-    public void convertComponentFields() throws SQLException {
+    void convertComponentFields() throws SQLException {
         processor.process(resultSet, component);
 
         verify(componentResultSetProcessor).process(resultSet, component);
