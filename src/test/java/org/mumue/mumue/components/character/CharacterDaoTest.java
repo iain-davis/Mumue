@@ -2,7 +2,7 @@ package org.mumue.mumue.components.character;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.database.DatabaseAccessor;
 import org.mumue.mumue.database.DatabaseHelper;
 import org.mumue.mumue.importer.GlobalConstants;
@@ -15,19 +15,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class CharacterDaoTest {
+class CharacterDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
     private final CharacterDao dao = new CharacterDao(database);
 
     @Test
-    public void getCharacterNeverReturnsNull() {
+    void getCharacterNeverReturnsNull() {
         GameCharacter character = dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17), GlobalConstants.REFERENCE_UNKNOWN);
 
         assertThat(character, notNullValue());
     }
 
     @Test
-    public void getCharacterWithNameAndUniverseIdReturnsCharacter() {
+    void getCharacterWithNameAndUniverseIdReturnsCharacter() {
         long characterId = RandomUtils.insecure().randomLong(100, 200);
         long universeId = RandomUtils.insecure().randomLong(100, 200);
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
@@ -39,14 +39,14 @@ public class CharacterDaoTest {
     }
 
     @Test
-    public void getCharacterByNameNeverReturnsNull() {
+    void getCharacterByNameNeverReturnsNull() {
         GameCharacter character = dao.getCharacter(RandomStringUtils.insecure().nextAlphabetic(17));
 
         assertThat(character, notNullValue());
     }
 
     @Test
-    public void getCharacterByNameReturnsCharacter() {
+    void getCharacterByNameReturnsCharacter() {
         long characterId = RandomUtils.insecure().randomLong(200, 300);
         long universeId = RandomUtils.insecure().randomLong(100, 200);
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
@@ -58,14 +58,14 @@ public class CharacterDaoTest {
     }
 
     @Test
-    public void getCharacterByIdNeverReturnsNull() {
+    void getCharacterByIdNeverReturnsNull() {
         GameCharacter character = dao.getCharacter(RandomUtils.insecure().randomLong(100, 200));
 
         assertThat(character, notNullValue());
     }
 
     @Test
-    public void getCharacterByIdReturnsCharacter() {
+    void getCharacterByIdReturnsCharacter() {
         long characterId = RandomUtils.insecure().randomLong(200, 300);
         long universeId = RandomUtils.insecure().randomLong(100, 200);
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
@@ -77,7 +77,7 @@ public class CharacterDaoTest {
     }
 
     @Test
-    public void getCharactersNeverReturnsNull() {
+    void getCharactersNeverReturnsNull() {
         long playerId = RandomUtils.insecure().randomLong(100, 200);
 
         List<GameCharacter> characters = dao.getCharacters(playerId);
@@ -86,7 +86,7 @@ public class CharacterDaoTest {
     }
 
     @Test
-    public void getCharactersByPlayerId() {
+    void getCharactersByPlayerId() {
         long playerId = RandomUtils.insecure().randomLong(100, 200);
         long characterId = RandomUtils.insecure().randomLong(200, 300);
 
@@ -98,7 +98,7 @@ public class CharacterDaoTest {
     }
 
     @Test
-    public void getCharactersByPlayerIdReturnsMultipleCharacters() {
+    void getCharactersByPlayerIdReturnsMultipleCharacters() {
         long playerId = RandomUtils.insecure().randomLong(100, 200);
         long characterId1 = RandomUtils.insecure().randomLong(200, 300);
         long characterId2 = RandomUtils.insecure().randomLong(300, 400);
@@ -111,7 +111,7 @@ public class CharacterDaoTest {
     }
 
     @Test
-    public void addCharacterAddsCharacter() {
+    void addCharacterAddsCharacter() {
         GameCharacter characterToAdd = new GameCharacter();
         characterToAdd.setId(RandomUtils.insecure().randomLong(200, 300));
         characterToAdd.setName(RandomStringUtils.insecure().nextAlphabetic(17));

@@ -1,20 +1,9 @@
 package org.mumue.mumue.connection.states;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.components.character.CharacterBuilder;
 import org.mumue.mumue.components.character.CharacterDao;
 import org.mumue.mumue.components.character.GameCharacter;
@@ -31,7 +20,18 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class CharacterNameHandlerTest {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+class CharacterNameHandlerTest {
     private final TextMaker textMaker = mock(TextMaker.class);
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final CharacterDao characterDao = mock(CharacterDao.class);
@@ -48,8 +48,8 @@ public class CharacterNameHandlerTest {
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final CharacterNameHandler stage = new CharacterNameHandler(connectionStateProvider, characterDao, textMaker, universeRepository);
 
-    @Before
-    public void beforeEach() {
+    @BeforeEach
+    void beforeEach() {
         when(characterDao.getCharacter(name, connection.getCharacter().getUniverseId())).thenReturn(new GameCharacter());
         when(characterDao.getCharacter(name)).thenReturn(character);
         when(universeRepository.getUniverse(character.getUniverseId())).thenReturn(universe);
@@ -57,21 +57,21 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void neverReturnNull() {
+    void neverReturnNull() {
         ConnectionState next = stage.execute(connection, configuration);
 
-        assertNotNull(next);
+        assertThat(next, notNullValue());
     }
 
     @Test
-    public void continueWaitOnNoInput() {
+    void continueWaitOnNoInput() {
         ConnectionState next = stage.execute(connection, configuration);
 
         assertThat(next, sameInstance(stage));
     }
 
     @Test
-    public void nextStageOnValidName() {
+    void nextStageOnValidName() {
         connection.getInputQueue().push(name);
 
         ConnectionState next = stage.execute(connection, configuration);
@@ -80,7 +80,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void nextStageOnValidNameNoMatchingName() {
+    void nextStageOnValidNameNoMatchingName() {
         when(characterDao.getCharacter(name)).thenReturn(new GameCharacter());
         connection.getInputQueue().push(name);
 
@@ -90,7 +90,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void setCharacterName() {
+    void setCharacterName() {
         connection.getInputQueue().push(name);
 
         stage.execute(connection, configuration);
@@ -99,7 +99,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void setComponentId() {
+    void setComponentId() {
         connection.getInputQueue().push(name);
 
         stage.execute(connection, configuration);
@@ -108,7 +108,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void setPlayerId() {
+    void setPlayerId() {
         connection.getInputQueue().push(name);
 
         stage.execute(connection, configuration);
@@ -117,7 +117,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void setLocationId() {
+    void setLocationId() {
         connection.getInputQueue().push(name);
 
         stage.execute(connection, configuration);
@@ -126,7 +126,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void setHomeId() {
+    void setHomeId() {
         connection.getInputQueue().push(name);
 
         stage.execute(connection, configuration);
@@ -135,7 +135,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void addCharacterToDatabase() {
+    void addCharacterToDatabase() {
         connection.getInputQueue().push(name);
 
         stage.execute(connection, configuration);
@@ -144,7 +144,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void emptyNameDisplayMenu() {
+    void emptyNameDisplayMenu() {
         String name = "";
         connection.getInputQueue().push(name);
 
@@ -157,7 +157,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void whitespaceNameDisplayMenu() {
+    void whitespaceNameDisplayMenu() {
         String name = "   ";
         connection.getInputQueue().push(name);
 
@@ -170,7 +170,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void nameTakenInUniverseDisplayMessage() {
+    void nameTakenInUniverseDisplayMessage() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
         characterThatExists.setId(RandomUtils.insecure().randomLong(300, 400));
@@ -186,7 +186,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void nameTakenInUniverseRePrompt() {
+    void nameTakenInUniverseRePrompt() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new GameCharacter();
         characterThatExists.setId(RandomUtils.insecure().randomLong(300, 400));
@@ -202,7 +202,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void nameTakenByOtherPlayerDisplayMessage() {
+    void nameTakenByOtherPlayerDisplayMessage() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.insecure().randomLong(100, 200))
                 .withId(RandomUtils.insecure().randomLong(200, 300)).build();
@@ -218,7 +218,7 @@ public class CharacterNameHandlerTest {
     }
 
     @Test
-    public void nameTakenByOtherPlayerRePrompt() {
+    void nameTakenByOtherPlayerRePrompt() {
         String message = RandomStringUtils.insecure().nextAlphabetic(16);
         GameCharacter characterThatExists = new CharacterBuilder().withPlayerId(RandomUtils.insecure().randomLong(600, 700))
                 .withId(RandomUtils.insecure().randomLong(200, 300)).build();

@@ -14,21 +14,21 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.connection.Acceptor;
 import org.mumue.mumue.threading.InfiniteLoopRunner;
 
-public class AcceptorStarterTest {
+class AcceptorStarterTest {
     private final ExecutorService executorService = mock(ExecutorService.class);
     private final AcceptorStarter starter = new AcceptorStarter(executorService);
 
     @Test
-    public void neverReturnNull() {
+    void neverReturnNull() {
         assertThat(starter.start(new ArrayList<>()), notNullValue());
     }
 
     @Test
-    public void submitForEachAcceptor() {
+    void submitForEachAcceptor() {
         List<Acceptor> acceptors = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             acceptors.add(mock(Acceptor.class));

@@ -1,6 +1,6 @@
 package org.mumue.mumue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.configuration.PortConfiguration;
 import org.mumue.mumue.configuration.PortType;
 import org.mumue.mumue.connection.Acceptor;
@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.mock;
 
-public class AcceptorsBuilderTest {
+class AcceptorsBuilderTest {
     private static final Random RANDOM = new Random();
     private final ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
     private final ConnectionManager connectionManager = new ConnectionManager();
@@ -27,12 +27,12 @@ public class AcceptorsBuilderTest {
     private final AcceptorsBuilder acceptorsBuilder = new AcceptorsBuilder(connectionFactory, connectionManager, serverSocketFactory);
 
     @Test
-    public void neverReturnNull() {
+    void neverReturnNull() {
         assertThat(acceptorsBuilder.build(new ArrayList<>()), notNullValue());
     }
 
     @Test
-    public void makeAcceptorForEachPortConfiguration() {
+    void makeAcceptorForEachPortConfiguration() {
         List<PortConfiguration> portConfigurations = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
 
@@ -45,7 +45,7 @@ public class AcceptorsBuilderTest {
     }
 
     @Test
-    public void setPortConfigurationOnEachAcceptor() {
+    void setPortConfigurationOnEachAcceptor() {
         List<PortConfiguration> portConfigurations = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             PortConfiguration portConfiguration = new PortConfiguration();

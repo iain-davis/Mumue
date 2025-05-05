@@ -7,13 +7,13 @@ import java.time.Instant;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CharacterBuilderTest {
+class CharacterBuilderTest {
     private final CharacterBuilder builder = new CharacterBuilder();
 
     @Test
-    public void buildSetsId() {
+    void buildSetsId() {
         long id = RandomUtils.insecure().randomLong(100, 200);
 
         GameCharacter character = builder.withId(id).build();
@@ -22,7 +22,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsCreated() {
+    void buildSetsCreated() {
         Instant created = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         GameCharacter character = builder.withCreated(created).build();
@@ -31,7 +31,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsModified() {
+    void buildSetsModified() {
         Instant modified = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         GameCharacter character = builder.withLastModified(modified).build();
@@ -40,7 +40,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsUsed() {
+    void buildSetsUsed() {
         Instant lastUsed = Instant.now().minusSeconds(RandomUtils.insecure().randomLong(100, 200));
 
         GameCharacter character = builder.withLastUsed(lastUsed).build();
@@ -49,7 +49,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsUseCount() {
+    void buildSetsUseCount() {
         long useCount = RandomUtils.insecure().randomLong(100, 200);
 
         GameCharacter character = builder.withUseCount(useCount).build();
@@ -58,7 +58,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsName() {
+    void buildSetsName() {
         String name = RandomStringUtils.insecure().nextAlphabetic(17);
 
         GameCharacter character = builder.withName(name).build();
@@ -67,7 +67,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsDescription() {
+    void buildSetsDescription() {
         String description = RandomStringUtils.insecure().nextAlphabetic(17);
 
         GameCharacter character = builder.withDescription(description).build();
@@ -76,7 +76,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsLocationId() {
+    void buildSetsLocationId() {
         long locationId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withLocationId(locationId).build();
@@ -85,7 +85,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsHomeLocationId() {
+    void buildSetsHomeLocationId() {
         long locationId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withHomeLocationId(locationId).build();
@@ -94,7 +94,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsUniverseId() {
+    void buildSetsUniverseId() {
         long universeId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withUniverseId(universeId).build();
@@ -103,7 +103,7 @@ public class CharacterBuilderTest {
     }
 
     @Test
-    public void buildSetsPlayerId() {
+    void buildSetsPlayerId() {
         long playerId = RandomUtils.insecure().randomLong(300, 400);
 
         GameCharacter character = builder.withPlayerId(playerId).build();

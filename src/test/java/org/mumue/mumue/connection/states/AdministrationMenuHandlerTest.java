@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.configuration.ApplicationConfiguration;
 import org.mumue.mumue.configuration.ConfigurationDefaults;
 import org.mumue.mumue.connection.Connection;
@@ -15,14 +15,14 @@ import org.mumue.mumue.testobjectbuilder.Nimue;
 import org.mumue.mumue.text.TextMaker;
 import org.mumue.mumue.text.TextName;
 
-public class AdministrationMenuHandlerTest {
+class AdministrationMenuHandlerTest {
     private final ApplicationConfiguration configuration = Nimue.configuration();
     private final ConnectionStateProvider connectionStateProvider = Nimue.stateProvider();
     private final TextMaker textMaker = mock(TextMaker.class);
     private final AdministrationMenuHandler administrationMenuHandler = new AdministrationMenuHandler(connectionStateProvider, textMaker);
 
     @Test
-    public void rePromptOnInvalidOption() {
+    void rePromptOnInvalidOption() {
         String text = RandomStringUtils.insecure().nextAlphabetic(13);
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("@");
@@ -36,14 +36,14 @@ public class AdministrationMenuHandlerTest {
     }
 
     @Test
-    public void waitForInput() {
+    void waitForInput() {
         ConnectionState returned = administrationMenuHandler.execute(Nimue.connection(), configuration);
 
         assertThat(returned, instanceOf(AdministrationMenuHandler.class));
     }
 
     @Test
-    public void nextStateForImport() {
+    void nextStateForImport() {
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("I");
 
@@ -53,7 +53,7 @@ public class AdministrationMenuHandlerTest {
     }
 
     @Test
-    public void returnToPlayerMenu() {
+    void returnToPlayerMenu() {
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("E");
 
@@ -63,7 +63,7 @@ public class AdministrationMenuHandlerTest {
     }
 
     @Test
-    public void nextStateForImportLowerCase() {
+    void nextStateForImportLowerCase() {
         Connection connection = Nimue.connection();
         connection.getInputQueue().push("i");
 
