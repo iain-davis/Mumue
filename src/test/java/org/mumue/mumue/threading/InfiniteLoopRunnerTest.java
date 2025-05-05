@@ -1,97 +1,90 @@
 package org.mumue.mumue.threading;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mumue.mumue.configuration.ApplicationConfiguration;
+class InfiniteLoopRunnerTest {
+    private final InfiniteLoopBody runnable = mock(InfiniteLoopBody.class);
+    private final InfiniteLoopRunner infiniteLoopRunner = new InfiniteLoopRunner(runnable);
 
-@RunWith(MockitoJUnitRunner.class)
-public class InfiniteLoopRunnerTest {
-    @Mock InfiniteLoopBody runnable;
-    @Mock
-    ApplicationConfiguration configuration;
-    @InjectMocks InfiniteLoopRunner infiniteLoopRunner;
-
-    @Before
-    public void beforeEach() {
+    @BeforeEach
+    void beforeEach() {
         when(runnable.prepare()).thenReturn(true);
         when(runnable.execute()).thenReturn(false);
     }
 
     @Test
-    public void doNotRunForeverInTest() {
+    void doNotRunForeverInTest() {
         infiniteLoopRunner.run();
     }
 
     @Test
-    public void useRunnablePrepare() {
+    void useRunnablePrepare() {
         infiniteLoopRunner.run();
         verify(runnable).prepare();
     }
 
     @Test
-    public void executeGivenRunnable() {
+    void executeGivenRunnable() {
         infiniteLoopRunner.run();
         verify(runnable).execute();
     }
 
     @Test
-    public void doNotExecuteIfPrepareFails() {
+    void doNotExecuteIfPrepareFails() {
         when(runnable.prepare()).thenReturn(false);
         infiniteLoopRunner.run();
         verify(runnable, never()).execute();
     }
 
     @Test
-    public void setRunningFalseIfPrepareFails() {
+    void setRunningFalseIfPrepareFails() {
         when(runnable.prepare()).thenReturn(false);
         infiniteLoopRunner.run();
-        assertFalse(infiniteLoopRunner.isRunning());
+        assertThat(infiniteLoopRunner.isRunning(), equalTo(false));
     }
 
     @Test
-    public void useRunnableCleanup() {
+    void useRunnableCleanup() {
         infiniteLoopRunner.run();
         verify(runnable).cleanup();
     }
 
     @Test
-    public void doNotCleanupIfPrepareFails() {
+    void doNotCleanupIfPrepareFails() {
         when(runnable.prepare()).thenReturn(false);
         infiniteLoopRunner.run();
         verify(runnable, never()).cleanup();
     }
 
     @Test
-    public void setRunningFalseWhenDone() {
+    void setRunningFalseWhenDone() {
         infiniteLoopRunner.run();
-        assertFalse(infiniteLoopRunner.isRunning());
+        assertThat(infiniteLoopRunner.isRunning(), equalTo(false));
     }
 
     @Test
-    public void doNotRunRunnableIfStopped() {
+    void doNotRunRunnableIfStopped() {
         infiniteLoopRunner.stop();
         infiniteLoopRunner.run();
         verify(runnable, never()).execute();
     }
 
     @Test
-    public void isRunningReturnsTrue() {
-        assertTrue(infiniteLoopRunner.isRunning());
+    void isRunningReturnsTrue() {
+        assertThat(infiniteLoopRunner.isRunning(), equalTo(true));
     }
 
     @Test
-    public void isRunningReturnsFalse() {
+    void isRunningReturnsFalse() {
         infiniteLoopRunner.stop();
-        assertFalse(infiniteLoopRunner.isRunning());
+        assertThat(infiniteLoopRunner.isRunning(), equalTo(false));
     }
 }
