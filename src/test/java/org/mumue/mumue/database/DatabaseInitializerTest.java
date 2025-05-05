@@ -1,24 +1,20 @@
 package org.mumue.mumue.database;
 
+import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
+
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InOrder;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-
-@RunWith(MockitoJUnitRunner.class)
-public class DatabaseInitializerTest {
-    @Mock DatabaseInitializerDao dao;
-    @InjectMocks DatabaseInitializer databaseInitializer;
+class DatabaseInitializerTest {
+    private final DatabaseInitializerDao dao = mock(DatabaseInitializerDao.class);
+    private final DatabaseInitializer databaseInitializer = new DatabaseInitializer(dao);
 
     @Test
-    public void WithoutSchemaLoadSchemaAndDefaultData() {
+    void WithoutSchemaLoadSchemaAndDefaultData() {
         when(dao.hasSchema()).thenReturn(false);
         databaseInitializer.initialize();
 
@@ -28,14 +24,14 @@ public class DatabaseInitializerTest {
     }
 
     @Test
-    public void WithSchemaDoNotLoadSchema() {
+    void WithSchemaDoNotLoadSchema() {
         when(dao.hasSchema()).thenReturn(true);
         databaseInitializer.initialize();
         verify(dao, never()).loadSchema();
     }
 
     @Test
-    public void WithSchemaWithoutDataLoadDefaultData() {
+    void WithSchemaWithoutDataLoadDefaultData() {
         when(dao.hasSchema()).thenReturn(true);
         when(dao.hasData()).thenReturn(false);
         databaseInitializer.initialize();
@@ -43,7 +39,7 @@ public class DatabaseInitializerTest {
     }
 
     @Test
-    public void WithDataDoNotLoadDefaultData() {
+    void WithDataDoNotLoadDefaultData() {
         when(dao.hasSchema()).thenReturn(true);
         when(dao.hasData()).thenReturn(true);
         databaseInitializer.initialize();
