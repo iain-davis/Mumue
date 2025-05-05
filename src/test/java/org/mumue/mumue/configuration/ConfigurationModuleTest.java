@@ -44,7 +44,7 @@ class ConfigurationModuleTest {
         expected.setType(PortType.SSH);
         when(repository.getAll()).thenReturn(Collections.singletonList(expected));
 
-        Collection<PortConfiguration> configurations = injector.getInstance(new Key<Collection<PortConfiguration>>() {
+        Collection<PortConfiguration> configurations = injector.getInstance(new Key<>() {
         });
 
         assertThat(configurations.size(), equalTo(1));
@@ -54,7 +54,7 @@ class ConfigurationModuleTest {
         assertThat(configuration.getType(), equalTo(expected.getType()));
     }
 
-    private class RepositoryModule extends AbstractModule {
+    private static class RepositoryModule extends AbstractModule {
         @Override
         protected void configure() {
             bind(PortConfigurationRepository.class).toInstance(repository);
