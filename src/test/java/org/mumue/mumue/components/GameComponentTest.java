@@ -10,11 +10,15 @@ class GameComponentTest {
 
     @Test
     void componentHasEmptyNameByDefault() {
-        assertThat(component.getName(), equalTo(""));
+        String name = component.getName();
+
+        assertThat(name, equalTo(""));
     }
 
     @Test
     void componentHasEmptyDescriptionByDefault() {
-        assertThat(component.getDescription(), equalTo(""));
+        String description = component.getDescription();
+
+        assertThat(description, equalTo(""));
     }
 }
