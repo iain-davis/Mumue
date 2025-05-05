@@ -1,27 +1,25 @@
 package org.mumue.mumue.text;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TextQueueTest {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+class TextQueueTest {
     private final TextQueue textQueue = new TextQueue();
 
     @Test
-    public void pushAddsTextToQueue() {
+    void pushAddsTextToQueue() {
         String text = RandomStringUtils.insecure().nextAlphabetic(17);
 
         textQueue.push(text);
 
-        assertTrue(textQueue.hasAny());
         assertThat(textQueue.peek(), equalTo(text));
     }
 
     @Test
-    public void popReturnsText() {
+    void popReturnsText() {
         String text = RandomStringUtils.insecure().nextAlphabetic(17);
 
         textQueue.push(text);
@@ -30,17 +28,17 @@ public class TextQueueTest {
     }
 
     @Test
-    public void popRemovesText() {
+    void popRemovesText() {
         String text = RandomStringUtils.insecure().nextAlphabetic(17);
 
         textQueue.push(text);
 
         assertThat(textQueue.pop(), equalTo(text));
-        assertTrue(textQueue.isEmpty());
+        assertThat(textQueue.isEmpty(), equalTo(true));
     }
 
     @Test
-    public void pushAddsMultipleTextToQueue() {
+    void pushAddsMultipleTextToQueue() {
         String text1 = RandomStringUtils.insecure().nextAlphabetic(17);
         textQueue.push(text1);
         String text2 = RandomStringUtils.insecure().nextAlphabetic(17);

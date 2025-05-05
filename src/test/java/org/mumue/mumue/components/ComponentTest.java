@@ -1,38 +1,44 @@
 package org.mumue.mumue.components;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mumue.mumue.importer.GlobalConstants;
 
-public class ComponentTest {
-    private final Component component = new Component() {
-    };
+import java.time.Instant;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+
+class ComponentTest {
+    private final Component component = new Component() {};
 
     @Test
-    public void componentHasUnknownDefaultId() {
+    void componentHasUnknownDefaultId() {
         assertThat(component.getId(), equalTo(GlobalConstants.REFERENCE_UNKNOWN));
     }
 
     @Test
-    public void createdHasDefault() {
-        assertNotNull(component.getCreated());
+    void createdHasDefault() {
+        Instant created = component.getCreated();
+        assertThat(created, notNullValue());
     }
 
     @Test
-    public void modifiedHasDefault() {
-        assertNotNull(component.getLastModified());
+    void modifiedHasDefault() {
+        Instant lastModified = component.getLastModified();
+        assertThat(lastModified, notNullValue());
     }
 
     @Test
-    public void usedHasDefault() {
-        assertNotNull(component.getLastUsed());
+    void usedHasDefault() {
+        Instant lastUsed = component.getLastUsed();
+        assertThat(lastUsed, notNullValue());
     }
 
     @Test
-    public void useCountDefaultsToZero() {
-        assertThat(component.getUseCount(), equalTo(0L));
+    void useCountDefaultsToZero() {
+        long useCount = component.getUseCount();
+
+        assertThat(useCount, equalTo(0L));
     }
 }
