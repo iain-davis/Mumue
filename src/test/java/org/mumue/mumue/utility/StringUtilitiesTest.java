@@ -1,31 +1,29 @@
 package org.mumue.mumue.utility;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
-public class StringUtilitiesTest {
-    private final StringUtilities utility = new StringUtilities();
-
+class StringUtilitiesTest {
     @Test
-    public void returnEmptyStringForNullCollection() {
+    void returnEmptyStringForNullCollection() {
         assertThat(StringUtilities.commaIfy(null, ""), equalTo(""));
     }
 
     @Test
-    public void returnEmptyStringForEmptyCollection() {
+    void returnEmptyStringForEmptyCollection() {
         assertThat(StringUtilities.commaIfy(new ArrayList<>(), ""), equalTo(""));
     }
 
     @Test
-    public void returnOneString() {
+    void returnOneString() {
         String string = RandomStringUtils.insecure().nextAlphabetic(17);
         Collection<String> stringCollection = new ArrayList<>(Collections.singletonList(string));
 
@@ -33,7 +31,7 @@ public class StringUtilitiesTest {
     }
 
     @Test
-    public void returnTwoStrings() {
+    void returnTwoStrings() {
         String item1 = RandomStringUtils.insecure().nextAlphabetic(17);
         String item2 = RandomStringUtils.insecure().nextAlphabetic(18);
         String andString = RandomStringUtils.insecure().nextAlphabetic(3);
@@ -44,7 +42,7 @@ public class StringUtilitiesTest {
     }
 
     @Test
-    public void returnThreeStrings() {
+    void returnThreeStrings() {
         String item1 = RandomStringUtils.insecure().nextAlphabetic(17);
         String item2 = RandomStringUtils.insecure().nextAlphabetic(18);
         String item3 = RandomStringUtils.insecure().nextAlphabetic(19);

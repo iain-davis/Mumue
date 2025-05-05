@@ -1,31 +1,32 @@
 package org.mumue.mumue.interpreter;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Test;
+import org.mumue.mumue.database.DatabaseAccessor;
+import org.mumue.mumue.database.DatabaseHelper;
+
+import java.util.Collection;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
-import java.util.Collection;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.mumue.mumue.database.DatabaseAccessor;
-import org.mumue.mumue.database.DatabaseHelper;
-
-public class CommandEntryDaoTest {
+class CommandEntryDaoTest {
     private final DatabaseAccessor database = DatabaseHelper.setupTestDatabaseWithSchema();
-    private CommandEntryDao dao = new CommandEntryDao(database);
+    private final CommandEntryDao dao = new CommandEntryDao(database);
 
     @Test
-    public void getCommandsNeverReturnsNull() {
-        assertNotNull(dao.getCommands());
+    void getCommandsNeverReturnsNull() {
+        Collection<CommandEntry> commands = dao.getCommands();
+        assertThat(commands, notNullValue());
     }
 
     @Test
-    public void getCommandsReturnsOneCommand() {
+    void getCommandsReturnsOneCommand() {
         String display = RandomStringUtils.insecure().nextAlphabetic(17);
         insertCommand(display);
 
@@ -33,13 +34,13 @@ public class CommandEntryDaoTest {
 
         assertThat(commands, is(not(empty())));
 
-        CommandEntry commandEntry = commands.stream().findFirst().get();
+        @SuppressWarnings("OptionalGetWithoutIsPresent") CommandEntry commandEntry = commands.stream().findFirst().get();
         assertThat(commandEntry.getMinimumPartial(), equalTo(display));
         assertThat(commandEntry.getId(), greaterThanOrEqualTo(1L));
     }
 
     @Test
-    public void getCommandsReturnsThreeCommands() {
+    void getCommandsReturnsThreeCommands() {
         insertCommand(RandomStringUtils.insecure().nextAlphabetic(17));
         insertCommand(RandomStringUtils.insecure().nextAlphabetic(16));
         insertCommand(RandomStringUtils.insecure().nextAlphabetic(15));

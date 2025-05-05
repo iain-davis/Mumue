@@ -14,9 +14,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ConfigurationModuleTest {
+class ConfigurationModuleTest {
     private static final PortConfigurationRepository repository = mock(PortConfigurationRepository.class);
     private static final Random RANDOM = new Random();
     private final Injector injector = Guice.createInjector(
@@ -25,19 +25,19 @@ public class ConfigurationModuleTest {
     );
 
     @Test
-    public void providesAcceptorNeverReturnsNull() {
+    void providesAcceptorNeverReturnsNull() {
         ConfigurationModule module = new ConfigurationModule();
         assertThat(module.providesPortConfigurations(repository), notNullValue());
     }
 
     @Test
-    public void providesAcceptorListInstantiatesList() {
+    void providesAcceptorListInstantiatesList() {
         injector.getInstance(new Key<Collection<PortConfiguration>>() {
         });
     }
 
     @Test
-    public void providesAcceptorListIsPopulated() {
+    void providesAcceptorListIsPopulated() {
         PortConfiguration expected = new PortConfiguration();
         expected.setPort(RANDOM.nextInt(1000));
         expected.setSupportsMenus(RANDOM.nextBoolean());
