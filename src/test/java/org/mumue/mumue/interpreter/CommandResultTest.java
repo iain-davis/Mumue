@@ -1,15 +1,16 @@
 package org.mumue.mumue.interpreter;
 
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
 
-public class CommandResultTest {
+class CommandResultTest {
     private final CommandResult result = new CommandResult();
 
     @Test
-    public void statusDefaultsToUnknown() {
+    void statusDefaultsToUnknown() {
         assertThat(result.getStatus(), equalTo(CommandStatus.UNKNOWN_COMMAND));
     }
 }

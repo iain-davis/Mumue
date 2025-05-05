@@ -1,21 +1,20 @@
 package org.mumue.mumue.components;
 
-import static org.hamcrest.Matchers.equalTo;
+import org.junit.jupiter.api.Test;
+
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
-import org.junit.Test;
-import org.mumue.mumue.importer.GlobalConstants;
-
-public class GameComponentTest {
+class GameComponentTest {
     private final GameComponent component = new GameComponent() {};
 
     @Test
-    public void componentHasEmptyNameByDefault() {
+    void componentHasEmptyNameByDefault() {
         assertThat(component.getName(), equalTo(""));
     }
 
     @Test
-    public void componentHasEmptyDescriptionByDefault() {
+    void componentHasEmptyDescriptionByDefault() {
         assertThat(component.getDescription(), equalTo(""));
     }
 }
