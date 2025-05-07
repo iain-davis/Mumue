@@ -9,7 +9,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class DatabaseConfigurationTest {
-    private static final String JDBC_URL_SUFFIX = ";MV_STORE=FALSE;MVCC=FALSE;NON_KEYWORDS=value";
+    private static final String JDBC_URL_SUFFIX = "";
     public static final String JDBC_URL_PREFIX = "jdbc:h2:";
 
     @Test

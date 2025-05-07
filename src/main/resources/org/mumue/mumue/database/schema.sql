@@ -1,5 +1,5 @@
 create table configuration_ports(id int primary key auto_increment, port int unique, type varchar(25), supportsMenus boolean);
-create table configuration_options(id int primary key auto_increment, name varchar(255), value varchar(255));
+create table configuration_options(id int primary key auto_increment, name varchar(255), setting varchar(255));
 create table text(id int primary key auto_increment, locale varchar(15), name varchar(255), text varchar(255));
 create table commands(id int primary key auto_increment, display varchar(255), minimumPartial varchar(255), commandIdentifier varchar(255), token boolean);
 

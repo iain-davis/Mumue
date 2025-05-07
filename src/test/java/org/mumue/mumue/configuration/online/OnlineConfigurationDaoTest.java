@@ -45,6 +45,6 @@ class OnlineConfigurationDaoTest {
     }
 
     private void insertOption(String name, String value) {
-        database.update("insert into configuration_options (name, value) values (?, ?)", name, value);
+        database.update("insert into configuration_options (name, setting) values (?, ?)", name, value);
     }
 }
